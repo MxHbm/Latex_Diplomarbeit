@@ -1,0 +1,72 @@
+%################ Hilfreiche Pakete laden #######################
+
+\usepackage{settings/tudbwlimPackages}
+\usepackage{settings/tudbwlimStyle}
+\usepackage{scrhack}
+\usepackage{microtype}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=newest}
+\usepackage[chapter]{algorithm} % Falls das Paket floatrow geladen wird, muss dieses Paket danach geladen werden.
+\iflanguage{english}{\floatname{algorithm}{Algorithm}\renewcommand{\listalgorithmname}{List of Algorithms}}{\floatname{algorithm}{Algorithmus}\renewcommand{\listalgorithmname}{Algorithmenverzeichnis}} % Algorithm-Umgebung an die verwendete Sprache anpassen
+\usepackage{comment}
+\usepackage{subcaption}
+\usepackage{caption}
+\usetikzlibrary{positioning}
+\usetikzlibrary{mindmap}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{longtable}
+\usepackage{xparse} % for \NewDocumentCommand
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{makecell}
+\usepackage[justification=centering]{caption} % Für die Zentrierung der Bildunterschrift
+
+%################ Notwendige Pakete laden #######################
+
+
+\usepackage[bibencoding=auto,citestyle=authoryear-ibid,bibstyle=authoryear,maxcitenames=3,maxbibnames=10, backend = biber]{biblatex}% Vergessen Sie nicht in den Optionen das Bibliographieprogramm auf "biber" umzustellen! Um die Vorlage mit BibTeX nutzen zu können, muss die Option "backend=bibtex" übergeben werden. Es ist jedoch biber zu empfehlen, beachten Sie dazu die Hinweise der biblatex-Paketdokumentation im Abschnitt 3.15 "Using the fallback BibtTeX backend".
+\usepackage{settings/BiblatexSetup}
+
+\AfterPackage*{biblatex}%
+{
+    \RequirePackage[breaklinks=true, colorlinks=true, linktoc=section, linkcolor=blue, citecolor=black, hidelinks]{hyperref}
+    % Da hyperref allerhand Veränderungen an vielen Standardbefehlen vornimmt, sollte dieses als letztes in der Präambel eingebunden werden. Nur Pakete, bei denen in der Dokumentation explizit darauf hingewiesen wird, dass diese nach hyperref zu laden sind, sollten auch danach folgen.
+    \hypersetup{pdfprintscaling=None} % gleiches Verhalten, auch ohne hyperref, liefert: \pdfcatalog{/ViewerPreferences<</PrintScaling/None>>}
+    \usepackage{footnote} % https://tex.stackexchange.com/questions/207192/footcite-in-float-caption
+    \makesavenoteenv{figure}
+    \makesavenoteenv{table}
+    \makesavenoteenv{algorithm}
+}
+
+
+\AfterPackage*{hyperref}
+{
+    \RequirePackage[automake,acronym,symbols,nomain,translate=babel]{glossaries}
+    \usepackage{settings/GlossariesSetup}
+}
+%############## Own commands #####################´
+\newcommand{\parbreak}{\vspace{\baselineskip}\noindent}
+\newcommand{\gendreauDataSet}{Gendreau (2006)}
+\newcommand{\mouraDataSet}{Moura (2009)}
+\newcommand{\ceschiaDataSet}{Ceschia (2013)}
+\newcommand{\krebsADataSet}{Krebs (2021a)}
+\newcommand{\krebsBDataSet}{Krebs (2021b)}
+\newcommand{\gendreauDataSetText}{\gendreauDataSet\ }
+\newcommand{\mouraDataSetText}{\mouraDataSet\ }
+\newcommand{\ceschiaDataSetText}{\ceschiaDataSet\ }
+\newcommand{\krebsADataSetText}{\krebsADataSet\ }
+\newcommand{\krebsBDataSetText}{\krebsBDataSet\ }
+
+%############## Ideas for packages #####################´
+% Folgende auskommentierte Pakete sind als Vorschläge zu verstehen. Für Funktionsweise und Anwendungsfälle wird auf das Benutzerhandbuch "tudscr.pdf" (http://mirrors.ctan.org/macros/latex/contrib/tudscr/doc/tudscr.pdf) oder auf die entsprechende CTAN Dokumentation verwiesen.
+%\usepackage{listings} %For Visualization of programming source code 
+%\lstset{%
+%	inputencoding=utf8,extendedchars=true,
+%	literate=%
+%	{ä}{{\"a}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+%	{Ä}{{\"A}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+%	{~}{{\textasciitilde}}1 {ß}{{\ss}}1
+%	}
+
+%\usepackage{calc} % Can be used to calculate inline distances in .tex files

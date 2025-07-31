@@ -1,0 +1,13 @@
+#Ignore all files in the aux folder 
+aux/.*
+/aux/*
+
+Diplomarbeit.bib
+
+
+#Ignore all log files 
+*.log
+
+#Ignore all DS_store files 
+*.DS_Store
+.DS_Store

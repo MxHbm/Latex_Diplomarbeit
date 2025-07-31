@@ -1,0 +1,124 @@
+\documentclass[final, english, english, a4paper, 12pt, numbers=noenddot, % Bei Änderung der Sprache 2 x kompilieren!
+% tudscr spezifische Einstellungen
+cd=false,
+cdfont=false,cdfont=nohead,
+cdmath=false,
+cdhead=false,
+cdfoot=true,
+cdcover=monochrome,
+cdgeometry=asymmetric,
+declaration=heading,
+declaration=notoc,
+abstract=heading,
+]{tudscrreprt}
+
+%################ Hilfreiche Pakete laden #######################
+
+\input{settings/packages.tex}
+
+%################ Sonstige Einstellungen/Befehle #####################
+\onehalfspacing
+
+%################ Abkürzungen #######################
+\makeglossaries % Glossar, Abkürzungsverzeichnis und Symbolverzeichnis erstellen
+\input{src_files/abbrev_acros_symb.tex}
+
+%################ Bibliographie laden #######################
+\addbibresource{./Diplomarbeit.bib} % Pfad/Name der .bib-Datei
+
+%################ Ende Präambel #######################
+\pagenumbering{Roman}
+
+\begin{document}
+%################ Aufruf Deckblatt #######################
+% mögliche Optionen, für weitere Informationen, siehe S. 23 des Benutzerhandbuchs des tudscr-Paket (http://mirrors.ctan.org/macros/latex/contrib/tudscr/doc/tudscr.pdf):
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\thesis{\diplomathesisname}		% Diplomarbeit/Diploma-Thesis
+\graduation[Dipl.-Wirt. Ing.]{Diplom-Wirtschaftsingenieur} % [Dipl.-Kfm.]{Diplom-Kaufmann}
+%
+%\thesis{\masterthesisname}			% Master-Arbeit/Master Thesis
+%\graduation[M.Sc.]{Master of Science}
+%
+%\thesis{\bachelorthesisname}		% Bachelor-Arbeit/Bachelor Thesis
+%\graduation[B.Sc.]{Bachelor of Science}
+
+%\renewcommand{\seminarCategoryText}{As part of the Industrial Management research seminar}
+%\renewcommand{\seminarpapername}{Exposé}
+%\newsavebox\thesisbox
+%\savebox\thesisbox{\normalfont\large\sffamily \parbox{\textwidth}{\vspace{6pt} \raggedright \seminarCategoryText}}
+% https://github.com/tud-cd/tudscr/issues/85 %
+%
+%\thesis{\seminarpapername \seminarCategory{\\\usebox\thesisbox}}		% Seminararbeit/Seminar Paper
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{settings/titlepage}
+
+%################ Abstract ######################
+%\begin{abstract}
+%These will be the sentences i will be most remembered for
+%\end{abstract}
+
+%%% Danksagung
+%\danke{Danksagung}{Text}
+
+%####################### Verzeichnisse ################%
+%\microtypesetup{protrusion=false}
+% Inhaltsverzeichnis
+\tableofcontents
+
+% Abbildungsverzeichnis (falls nichts benötigt, einfach als Kommentar setzen)
+\listoffigures
+\addcontentsline{toc}{chapter}{\listfigurename}
+
+% Tabellenverzeichnis (falls nichts benötigt, einfach als Kommentar setzen)
+\listoftables
+\addcontentsline{toc}{chapter}{\listtablename}
+
+% Algorithmenverzeichnis (falls nichts benötigt, einfach als Kommentar setzen)
+%\listofalgorithms
+%\addcontentsline{toc}{chapter}{\listalgorithmname}
+
+\microtypesetup{protrusion=true}
+
+%Abkürzungsverzeichnis (falls nichts benötigt, einfach als Blockkommentar setzen)
+\printacronyms[style=bwlimsuper]
+\addcontentsline{toc}{chapter}{\acronymname}
+
+% Symbolverzeichnis (falls nichts benötigt, einfach als Blockkommentar setzen)
+% \printsymbols[style=symblong, title=\listsymbolname]
+% \addcontentsline{toc}{chapter}{\listsymbolname}
+
+
+
+%############### Einstellungen für Fließtext setzen ####################
+\clearpage
+\setcounter{page}{1}\pagenumbering{arabic}
+
+%####################### Fließtext ####################
+
+\input{src_files/0_introduction.tex}
+\input{src_files/1_literature_review.tex}
+\input{src_files/2_mathematical_formulation.tex}
+\input{src_files/3_binary_classifier.tex}
+\input{src_files/4_algorithm.tex}
+\input{src_files/5_computational_study.tex}
+\input{src_files/6_conclusion.tex}
+
+
+%####################### Appendix #########################
+%\include{src_files/appendix}
+\clearpage
+%####################### Literaturverzeichnis #########################
+\addcontentsline{toc}{chapter}{\bibname}
+\printbibliography
+%####################### Selbständigkeitserklärung ####################
+
+\newConfirmationEnglish{Dresden}
+
+%####################### Platzhalter - Abkürzungsverzeichnis muss erstellt werden####################
+
+%\printacronyms[style=bwlimsuper]
+
+%####################### End of Document ####################
+\end{document}

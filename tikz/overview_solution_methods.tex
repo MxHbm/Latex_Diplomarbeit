@@ -1,0 +1,36 @@
+\begin{figure}[htbp]
+    \centering
+    \resizebox{0.55\linewidth}{!}
+    {
+        \begin{tikzpicture}[grow cyclic, text width=2.7cm, align=flush center,
+                level 1/.style={level distance=3.5cm,sibling angle=120},
+                level 2/.style={level distance=3.5cm,sibling angle=55}
+            ]
+
+            \node {Solution Techniques \gls{CLP}}
+            child { node {Exact \\ Methods}
+                    child { node {\Gls{CP}}}
+                    child { node {\Gls{MIP}}}
+                    child { node {Branch-and-\\Cut}}
+                    child { node {Branch-and-\\Price}}
+                }
+            child { node {Metaheuristics}
+                    child { node[text width=3cm] {\Gls{GRASP}}}
+                    child { node {\Gls{SA}}}
+                    child { node {\Gls{TS}}}
+                    child { node {\Gls{GA}}}
+                }
+            child { node {Constructive Heuristics}
+                    child { node {Wall Building}}
+                    child { node {Layer Building}}
+                    child { node {Block based packing}}
+                    child { node {Tower based packing}}
+                }
+            ;
+
+        \end{tikzpicture}
+    }
+    \caption[Overview of solution methods for the CLP.]{Overview of solution methods for the CLP.}
+    \label{fig:solution_methods_overview}
+\end{figure}
+
