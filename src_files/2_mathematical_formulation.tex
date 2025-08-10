@@ -1,2 +1,85 @@
 \chapter{Mathematical formulation}
 \label{chap:mathematical_formulation}
+
+This two-index vehicle flow formulation is taken from \cite{tamke_branch-and-cut_2024} and
+models the \gls{VRP} part of the problem pretty decent and handy. \footcite[cf.][pp. 6-7]{tamke_branch-and-cut_2024}
+The advantage is that tours are marked as infeasible as consequence of
+the subproblem \gls{CLP} and are then excluded as route candidates
+for the \gls{VRP}.
+
+\subsection*{Sets}
+\begin{table}[h]
+    \begin{tabular}{llc}
+        \toprule
+        Symbol        & Description                                          & Range                         \\
+        \midrule
+        $N$           & Set of nodes                                         & $\{ 0, \dots, N \}$           \\
+        $C$           & Set of customers                                     & $\{ 1, \dots, N \} $          \\
+        $A$           & Set of directed arcs                                 & $\{(0,1), \dots, (n-1, n) \}$ \\
+        $\delta^+(i)$ & Set of arcs leaving node $i$                         & $\in A$                       \\
+        $\delta^-(i)$ & Set of arcs entering node $i$                        & $\in A$                       \\
+        $A(S)$        & Set of arcs with both ends in subset $S \subseteq C$ & $\in A$                       \\
+        $A(P)$        & Set of arcs in an infeasible path $P$                & $\in A$                       \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+\vspace{0.2em}
+
+A directed graph $G=(N,A)$ is defined  with $N$ is the set of nodes including
+the depot and $C$ only the set of customers excluding the depot. The arc set is
+defines as $A = \{ (i, j) \mid i, j \in N \}$. The Sets $\delta^+$ and $\delta^-$ define
+the arcs, which are leaving respective entering a node. For example, for node 3, $\delta^+ = \{(3,5)\}$ and $\delta^-= \{(2,3)\}$.
+The set $A(S)$ defines a sequence of arcs connecting nodes in a random set of customers $C$,
+which is a route in wider sense. For example the set $A(S)=\{(2,1),(1,5),(5,3)\}$ connects nodes
+2 and 3 via node 5. Every set $A(S)$ is defined by the total volume $q(S)$ and total weight $v(S)$
+demanded by all customers $i \in S$. Set $A(P)$ includes all infeasible sequences $P$ leading
+to an infeasible outcome.
+
+
+\bigskip
+
+\subsection*{Parameters}
+
+\begin{table}[h]
+    \begin{tabular}{ll}
+        \toprule
+        Symbol   & Description                                                 \\
+        \midrule
+        $c_{ij}$ & Cost or distance of traveling from node $i$ to node $j$     \\
+        $K$      & Number of available vehicles                                \\
+        $r(S)$   & Minimum number of routes required to cover customers in $S$ \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\bigskip
+
+\subsection*{Decision Variables}
+\begin{equation}
+    x_{ij} =
+    \begin{cases}
+        1 & \text{if arc } (i,j) \text{ is used in the solution} \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{equation}
+
+\bigskip
+
+\subsection*{Model}
+\textbf{Objective:}
+\begin{equation}
+    \label{eq:objective}
+    \min \sum_{(i,j)\in A} c_{ij}x_{ij}
+\end{equation}
+
+\textbf{Subject to:}
+\begin{align}
+    \sum_{(i,j)\in \delta^+(i)} x_{ij} & = 1                                                                                  &  & \forall i \in C                         \label{eq:flowout}     \\
+    \sum_{(i,j)\in \delta^-(i)} x_{ij} & = 1                                                                                  &  & \forall i \in C                         \label{eq:flowin}      \\
+    \sum_{(i,j)\in \delta^+(0)} x_{ij} & \leq K                                                       \label{eq:vehiclelimit}                                                                     \\
+    \sum_{(i,j)\in A(S)} x_{ij}        & \leq |S| - r(S)                                                                      &  & \forall S \subseteq C, S \neq \emptyset \label{eq:capacitycut} \\
+    \sum_{(i,j)\in A(P)} x_{ij}        & \leq |A(P)| - 1                                                                      &  & \forall \text{ infeasible paths } P     \label{eq:pathelim}
+\end{align}
+
+
+

@@ -1,0 +1,49 @@
+\begin{algorithm}[htb]
+    \caption{Random Routes Generation}\label{alg:rand_routes_generation}
+    \begin{algorithmic}[1]
+        \Procedure{RRG}{Multiplier $\alpha$, Attempts limit $\beta$, Success threshold $\gamma$, Instance set $\mathcal{I}$}
+        \For{$i \in \mathcal{I}$}
+        \State{$\text{ExitOuterLoop} = False$}
+        \State $\mathcal{G} \gets \emptyset$
+        \State $n_{\max} \gets \mathrm{MaxCustomers}(i)$
+        \For{$n=2$ \textbf{to} $n_{\max}$} \Comment{repeat for every customer count}
+        \If{\text{ExitOuterLoop}}
+        \State{\textbf{break}}
+        \EndIf
+        \State{$c \gets 0$} \Comment{Exit Outer Loop Counter}
+        \For{$1$ \textbf{to} $n \times \alpha$}
+        \State $k \gets 0$ \Comment{accepted routes so far}
+        \State $a \gets 0$ \Comment{attempts since last success}
+        \State $x \gets 0$ \Comment{Counter for breakups}
+        \State $\text{FoundSuccesfulTour} \gets False$ \Comment{Flag for each run}
+        \While{$k < \gamma$ \textbf}
+        \State $R \gets \mathrm{RandomTour}(i,n)$
+        \If{$R \in \mathcal{G}$} \Comment{duplicate}
+        \State $x \gets x + 1$ \Comment{Increment breakups}
+        \Else
+        \If{$\mathrm{Feasible}(R)$} \Comment{volume/weight limits}
+        \State $\mathcal{G} \gets \mathcal{G} \cup \{R\}$
+        \State $k \gets k + 1$
+        \State $a,\,x \gets 0$ \Comment{reset attempts after a success}
+        \State $\text{FoundSuccesfulTour} \gets True$
+        \Else
+        \State $a \gets a + 1$ \Comment{Increment Attempt}
+        \EndIf
+        \EndIf
+        \If{$ a \ge \beta$} \Comment{Attempts exceed limit}
+        \State{$a \gets 0,\,b \gets b + 1$}
+        \EndIf
+        \If{$ x \ge \gamma \textbf{and}$ \textbf{not} FoundSuccessfulTour}
+        \State{$c \gets c + 1$}
+        \State{\textbf{break}}
+        \EndIf
+        \EndWhile
+        \EndFor
+        \If{$c >= n * \alpha$} \Comment{Break generation, when no route was found!}
+        \State{$\text{ExitOuterLoop} = True$}
+        \EndIf
+        \EndFor
+        \EndFor
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}

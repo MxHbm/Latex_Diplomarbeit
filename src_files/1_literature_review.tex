@@ -102,7 +102,7 @@ container walls or to other items, preventing lateral movement. Vertical
 stability, on the other hand, is defined in various ways throughout the
 literature. A common approach to assessing vertical stability is through the concept of the \textit{support
     area}, the portion of an item's base that rests on the surface below. Stability is typically
-considered sufficient when the support area covers $70\%$ to $100\%$ of the item’s base. \footcite[cf.][p. 344]{gendreau_tabu_2006} However,
+considered sufficient when the support area covers $75\%$ to $100\%$ of the item’s base. \footcite[cf.][p. 344]{gendreau_tabu_2006} However,
 this may still result in unstable configurations if the center of gravity falls outside the
 support area of the underlying layers, potentially causing the cargo to tilt. To improve practical stability,
 a more reliable definition of vertical stability requires a minimum support area for all items below,
@@ -224,9 +224,40 @@ and the corresponding labels. If the features are poorly chosen, the model may f
 to capture the underlying patterns in the data. Additionally, if the training set
 is too small, the model might not generalize well, ultimately lacking the ability
 to accurately predict unseen data. Furthermore, it needs to be noted, that available
-\gls{ML} models are not by nature superior to others, but can significantly outperform
-others on specific application problem \footcite[cf.][pp. 250, 264]{kotsiantis_supervised_2007}.
+\gls{ML} models are not by nature superior to other models, but can significantly outperform
+other models on specific application problem \footcite[cf.][pp. 250, 264]{kotsiantis_supervised_2007}.
+
+
+\subsection{Objectices for \gls{ML} approaches}
+To compare different models and \gls{ML} approaches idetnical objectives are needed. The most common
+measures rely on the output of the confusion matrix, which sorts the output along
+their true and predicted labels.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+                                 & \textbf{Predicted Positive} & \textbf{Predicted Negative} \\
+        \midrule
+        \textbf{Actual Positive} & True Positive (TP)          & False Negative (FN)         \\
+        \textbf{Actual Negative} & False Positive (FP)         & True Negative (TN)          \\
+        \bottomrule
+    \end{tabular}
+    \caption{Confusion matrix (binary classification).}
+    \label{tab:confusion_matrix}
+\end{table}
+The output can be used to calculate the accurac and F1 scote of the classification, which
+helps to interpret the outcomes and compare different model types.
+
+\[
+    \text{Accuracy}=\frac{TP+TN}{TP+TN+FP+FN}
+    \qquad
+    \text{F1}=\frac{2\,TP}{2\,TP+FP+FN}
+\]
+
+
 The usage of classifiers is promising to complement exisiting algorithms, as shown in the following.
+
 
 \subsubsection{Feasibility Classifier of the \cgls{2L-CVRP}}
 A practical application of the \gls{CLP} is the integration in the \gls{VRP}, where
@@ -263,7 +294,7 @@ to a high extent, as the objectve values obtained by the branch-and-price algori
 \subsubsection{Pallet Size Classifier for the \gls{PLP}}
 Another use case for \gls{ML} in packing problems is presented by \textcite{aylak_application_2021},
 who focus on selecting the optimal pallet size in the context of the \gls{PLP}. Here a number of fixed items
-need to be placed on paletts with fixed weight, length and height dimensions, optimizing the volume utilization
+need to be placed on pallets with fixed weight, length and height dimensions, optimizing the volume utilization
 generating subsequently stability and minimizing the number of pallets needed. Based on real-life data
 three candidate pallet sizes were considered and the best packing pattern must be found for each packing
 configuration defined by the number of boxes and their uniform size. Therefore, multiple packing heuristics were applied to
