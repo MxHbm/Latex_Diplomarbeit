@@ -1,0 +1,36 @@
+
+\begin{figure}[htbp]
+    \centering
+    {
+        \begin{tikzpicture}[node distance=11mm and 16mm]
+            % local defs for THIS picture only
+            \begin{scope}
+                % Nodes
+                \node[dot] (start) {};
+                \node[decision, below=of start] (d1) {Found\\ Moves \\ $< K$};
+                \node[dot, left=20mm of d1] (leftdot) {};
+                \node[block,  below=of d1] (gen)   {Generate\\ random Move};
+                \node[block,  right=of gen] (apply){Apply Move};
+                \node[decisionY, below=12mm of apply] (d2){Loading\\ Feasible?};
+                \node[block,  below=of gen, left=18mm of d2] (undo) {Undo Move};
+
+                % Arrows
+                \draw[line] (start) -- (d1);
+                \draw[line] (d1.west) -- node[pos=.5,above]{\textbf{True}} (leftdot);
+                \draw[line] (d1.south) -- node[pos=.5,right]{\textbf{False}} (gen.north);
+                \draw[line] (gen) -- (apply);
+                \draw[line] (apply) -- (d2.north);
+                \draw[line] (d2.west) -- node[pos =.5,above]{\textbf{False}} (undo.east);
+                \draw[line] (undo.north) -- (gen.south);
+                \coordinate (bump) at ($(d2.east)+(12mm,0)$); % how far to go right
+                \draw[line]
+                (d2.east) -- node[pos=0.5,above]{\textbf{True}}(bump)
+                |- node[pos=.75,above]{\textbf{Found Moves ++}}
+                (d1.east);
+
+            \end{scope}
+        \end{tikzpicture}
+    }
+    \caption{Perturbation Procedure}
+    \label{fig:Perturbation}
+\end{figure}

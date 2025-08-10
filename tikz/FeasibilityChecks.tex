@@ -1,0 +1,109 @@
+
+
+\begin{figure}[h]
+    \centering
+
+    % First row
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tikzpicture}[node distance=11mm and 16mm,scale=0.85, transform shape]
+            \begin{scope}
+                % Nodes
+                \node[dot] (start) {};
+                \node[decisionY, below=of start] (d1) {Classifier\\Check};
+                \node[block,  below=of d1] (Reject){Reject Tour};
+                \node[dot, below=of Reject] (end) {};
+                % Arrows
+                \draw[line] (start) -- (d1);
+                \draw[line] (d1) -- node[pos=0.5,left]{\textbf{False}}(Reject);
+                \draw[line] (Reject) -- (end);
+                \coordinate (bump) at ($(d1.east)+(10mm,0)$); % how far to go right
+                \draw[line]
+                (d1.east) -- node[pos=0.5,above]{\textbf{True}}(bump)
+                |- (end.east);
+            \end{scope}
+        \end{tikzpicture}
+        \caption{SpeedUp Variant}
+        \label{alg:tikz_variant1}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tikzpicture}[node distance=7mm and 16mm,scale=0.85, transform shape]
+            \begin{scope}
+                % Nodes
+                \node[dot] (start) {};
+                \node[decisionY, below=of start] (d1) {Classifier\\Check};
+                \node[decisionCP, below=of d1] (d2) {CP\\Check};
+                \node[block,  left=of d2] (Reject){Reject Tour};
+                \node[dot, below=of d2] (end) {};
+                % Arrows
+                \draw[line] (start) -- (d1);
+                \draw[line] (start) -- (d1);
+                \draw[line] (d1) -- node[pos=0.5,left]{\textbf{True}}(d2);
+                \draw[line] (d1) -| node[pos=0.25,above]{\textbf{False}}(Reject);
+                \draw[line] (d2) -- node[pos=0.5,above]{\textbf{False}}(Reject);
+                \draw[line] (d2) -- node[pos=0.5,right]{\textbf{True}}(end);
+                \draw[line] (Reject) |- (end);
+                \coordinate (bump) at ($(d1.east)+(10mm,0)$); % how far to go right
+            \end{scope}
+        \end{tikzpicture}
+        \caption{Filter Variant}
+        \label{alg:tikz_variant2}
+    \end{minipage}
+
+    \vspace{2em} % space between rows
+
+    % Second row
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tikzpicture}[node distance=11mm and 2mm,scale=0.85, transform shape]
+            \begin{scope}
+                % Nodes
+                \node[dot] (start) {};
+                \node[decision, below=of start] (d1) {SpeedUp\\Neighbor-\\hood?};
+                \node[block,  below left=of d1] (Filter){Use Filter \\ Variant};
+                \node[block,  below right=of d1] (SpeedUp){Use SpeedUp \\ Variant};
+                % midpoint between the bottoms of Filter and SpeedUp
+                \coordinate (mid) at ($(Filter.south)!0.5!(SpeedUp.south)$);
+
+                % place the end dot some distance below that midpoint
+                \node[dot] (end) at ($(mid)+(0,-11mm)$) {}; % adjust 8mm as you like
+                % Arrows
+                \draw[line] (start) -- (d1);
+                \draw[line] (d1) -| node[pos=0.3,above]{\textbf{False}}(Filter);
+                \draw[line] (d1) -| node[pos=0.3,above]{\textbf{True}}(SpeedUp);
+                \draw[line] (Filter.south) |- (end.west);
+                \draw[line] (SpeedUp.south) |- (end.east);
+            \end{scope}
+        \end{tikzpicture}
+        \caption{Hybrid Variant}
+        \label{alg:tikz_variant3}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.45\textwidth}
+        \centering
+        \begin{tikzpicture}[node distance=11mm and 16mm,scale=0.85, transform shape]
+            \begin{scope}
+                % Nodes
+                \node[dot] (start) {};
+                \node[decisionCP, below=of start] (d1) {CP\\Check};
+                \node[block,  below=of d1] (Reject){Reject Tour};
+                \node[dot, below=of Reject] (end) {};
+                % Arrows
+                \draw[line] (start) -- (d1);
+                \draw[line] (d1) -- node[pos=0.5,left]{\textbf{False}}(Reject);
+                \draw[line] (Reject) -- (end);
+                \coordinate (bump) at ($(d1.east)+(10mm,0)$); % how far to go right
+                \draw[line]
+                (d1.east) -- node[pos=0.5,above]{\textbf{True}}(bump)
+                |- (end.east);
+            \end{scope}
+        \end{tikzpicture}
+        \caption{No Classifier Variant}
+        \label{alg:tikz_variant4}
+    \end{minipage}
+
+    \caption{All schematic differences how feasibility is checked!}
+    \label{fig:four_variants}
+\end{figure}
