@@ -1,18 +1,4 @@
-
-%Symbol macro: two stars
-\newcommand{\twosym}{\ \(\bigstar\clubsuit\)}
-%Symbol macro: two stars
-\newcommand{\classsifiersym}{\ \(\bigstar\)}
-%Symbol macro: two stars
-\newcommand{\cpsym}{\ \(\clubsuit\)}
-
-% Helper macro for algorithmic lines with symbols
-\newcommand{\BothState}[1]{\State #1\twosym}
-\newcommand{\CPState}[1]{\State #1\cpsym}
-\newcommand{\ClassifierState}[1]{\State #1\classsifiersym}
-
-
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
 
     % First row
@@ -25,12 +11,8 @@
             \ClassifierState{Perturbation}
             \ClassifierState{IntraLocalSearch}
             \ClassifierState{InterLocalSearch}
-            \State {CP Check}
             \EndWhile
         \end{algorithmic}
-        \captionsetup{type=algorithm,font=small}
-        \captionof{algorithm}{SpeedUp Variant}
-        \label{alg:variant1}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.45\textwidth}
@@ -44,9 +26,6 @@
             \BothState{InterLocalSearch}
             \EndWhile
         \end{algorithmic}
-        \captionsetup{type=algorithm,font=small}
-        \captionof{algorithm}{Filter Variant}
-        \label{alg:variant2}
     \end{minipage}
 
     \vspace{2em} % space between rows
@@ -61,12 +40,8 @@
             \ClassifierState{Perturbation}
             \ClassifierState{IntraLocalSearch}
             \CPState{InterLocalSearch}
-            \State {CP Check}
             \EndWhile
         \end{algorithmic}
-        \captionsetup{type=algorithm,font=small}
-        \captionof{algorithm}{Hybrid Variant}
-        \label{alg:variant3}
     \end{minipage}
     \hfill
     \begin{minipage}[t]{0.45\textwidth}
@@ -80,10 +55,9 @@
             \CPState{IntraLocalSearch}
             \EndWhile
         \end{algorithmic}
-        \captionsetup{type=algorithm,font=small}
-        \captionof{algorithm}{No Classifier Variant}
-        \label{alg:variant4}
     \end{minipage}
+
+    \vspace{1em}
 
     \caption{Four variants to implement classifier in the loading feasibility check ($\bigstar$
         does imply usage of classifier and $\clubsuit$ of the CP Solver).}

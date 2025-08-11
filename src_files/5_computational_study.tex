@@ -105,3 +105,32 @@ respectively.
 
 \section{Results Training}
 \label{sec:ResultsTraining}
+
+\subsection{Random Dataset Generation}
+With the algorithm \ref{alg:rand_routes_generation} the following random datasets were created with all
+instances from Gendreau.
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{c c cc c c c}
+        \hline
+        Multiplier $\alpha$ & Attempts limit $\beta$ & Success threshold $\gamma$ & Routes & Accuracy & F1-Score \\
+        \hline
+        2                   & 20                     & 20                         & 45733  &          &          \\
+        2                   & 20                     & 30                         & 70067  &          &          \\
+        2                   & 30                     & 20                         & 47350  &          &          \\
+        2                   & 30                     & 30                         & 72408  &          &          \\
+        3                   & 20                     & 20                         & 68506  &          &          \\
+        3                   & 20                     & 30                         & 104967 &          &          \\
+        3                   & 30                     & 20                         & 70843  &          &          \\
+        3                   & 30                     & 30                         & 108597 &          &          \\
+        4                   & 20                     & 20                         & 91000  &          &          \\
+        4                   & 20                     & 30                         & 139996 &          &          \\
+        4                   & 30                     & 20                         & 94666  &          &          \\
+        4                   & 30                     & 30                         & 144311 &          &          \\
+        5                   & 40                     & 40                         & 249762 &          &          \\
+        \hline
+    \end{tabular}
+    \caption{Created instances for different parameter combinations $(X, Y, Z)$}
+    \label{tab:created_instances_xyz}
+\end{table}
+

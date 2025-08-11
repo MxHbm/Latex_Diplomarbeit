@@ -1,6 +1,4 @@
-
-
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
 
     % First row
@@ -57,22 +55,23 @@
     % Second row
     \begin{minipage}[t]{0.45\textwidth}
         \centering
-        \begin{tikzpicture}[node distance=11mm and 2mm,scale=0.85, transform shape]
+        \begin{tikzpicture}[node distance=11mm and 0mm,scale=0.85, transform shape]
             \begin{scope}
                 % Nodes
                 \node[dot] (start) {};
                 \node[decision, below=of start] (d1) {SpeedUp\\Neighbor-\\hood?};
-                \node[block,  below left=of d1] (Filter){Use Filter \\ Variant};
-                \node[block,  below right=of d1] (SpeedUp){Use SpeedUp \\ Variant};
+                \coordinate (mid_up) at ($(d1.south)$);
+                \node[block] at ($(mid_up)+(-24mm,-8mm)$) (Filter){Use Filter \\ Variant};
+                \node[block] at ($(mid_up)+(24mm,-8mm)$)(SpeedUp){Use SpeedUp \\ Variant};
                 % midpoint between the bottoms of Filter and SpeedUp
                 \coordinate (mid) at ($(Filter.south)!0.5!(SpeedUp.south)$);
 
                 % place the end dot some distance below that midpoint
-                \node[dot] (end) at ($(mid)+(0,-11mm)$) {}; % adjust 8mm as you like
+                \node[dot] (end) at ($(mid)+(0,-11mm)$) {};
                 % Arrows
                 \draw[line] (start) -- (d1);
-                \draw[line] (d1) -| node[pos=0.3,above]{\textbf{False}}(Filter);
-                \draw[line] (d1) -| node[pos=0.3,above]{\textbf{True}}(SpeedUp);
+                \draw[line] (d1) -| node[pos=0.35,above]{\textbf{False}}(Filter);
+                \draw[line] (d1) -| node[pos=0.35,above]{\textbf{True}}(SpeedUp);
                 \draw[line] (Filter.south) |- (end.west);
                 \draw[line] (SpeedUp.south) |- (end.east);
             \end{scope}
@@ -105,5 +104,5 @@
     \end{minipage}
 
     \caption{All schematic differences how feasibility is checked!}
-    \label{fig:four_variants}
+    \label{fig:tikz_four_variants}
 \end{figure}
