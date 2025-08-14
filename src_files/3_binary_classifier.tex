@@ -1,8 +1,145 @@
 \chapter{Binary Classifier}
 \label{chap:classifier}
 
+A practical application of the \gls{CLP} is the integration in the \gls{VRP}, where
+a number of customers need to be served with a set of items by a fleet of vehicles that have
+to start from a depot and return. The goal is to minimize the total distance driven
+by the vehicles. When considering multidimensional items, the NP-hard problem itself,
+increases in complexity, as every tour is representing a \gls{CLP} itself. \footcite[cf.][pp. 1--2]{tamke_branch-and-cut_2024}
+
+The emphasis is placed primarily on \gls{ML}-based classifiers.
+These are supervised \gls{ML} algorithms predicting the
+value of a categorical or binary output column, called label, based on the
+values of other columns, called features. Classifiers learn from a labeled dataset,
+where the correct output values are known in advance, and then use this knowledge to
+make predictions on new, unseen data. The accuracy can be evaluated afterwards by comparing
+the predicted labels with the actual labels. \footcite[cf.][]{kotsiantis_supervised_2007}
+An exemplary train dataset is shown in Table~\ref{tab:classifier_label_data}.
+
+\input{tables/label_classifier}
+
+A classifier can be implemented using various \gls{ML} models such as \gls{LR},
+\gls{ANN}, support vector machine, or others. However, the most crucial aspect of any
+\gls{ML} model is the selection of data, particularly the choice of features and
+the size of the training set, since many models can be easily preselected from available
+libraries and be compared performance wise. The model attempts to learn correlations between the provided features
+and the corresponding labels. If the features are poorly chosen, the model may fail
+to capture the underlying patterns in the data. Additionally, if the training set
+is too small, the model might not generalize well, ultimately lacking the ability
+to accurately predict unseen data. Furthermore, it needs to be noted, that available
+\gls{ML} models are not by nature superior to other models, but can significantly outperform
+other models on specific application problem \footcite[cf.][pp. 250, 264]{kotsiantis_supervised_2007}.
+
+
+\subsubsection{Objectices for ML approaches}
+To compare different models and \gls{ML} approaches identical objectives are needed. The most common
+measures rely on the binary output of the confusion matrix, which sorts the output along
+their true and predicted labels.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{@{}lcc@{}}
+        \toprule
+                                 & \textbf{Predicted Positive} & \textbf{Predicted Negative} \\
+        \midrule
+        \textbf{Actual Positive} & True Positive (TP)          & False Negative (FN)         \\
+        \textbf{Actual Negative} & False Positive (FP)         & True Negative (TN)          \\
+        \bottomrule
+    \end{tabular}
+    \caption{Confusion matrix (binary classification).}
+    \label{tab:confusion_matrix}
+\end{table}
+The output can be used to calculate the accuracy and F1 score of the classification, which
+helps to interpret the outcomes and compare different model types.
+
+\[
+    \text{Accuracy}=\frac{TP+TN}{TP+TN+FP+FN}
+    \qquad
+    \text{F1}=\frac{2\,TP}{2\,TP+FP+FN}
+\]
+
+
 \section{Data Retrieval}
 \label{sec:DataRetrieval}
+Collecting the training data is one crucial step, for the model creation and two approaches exist.
+
+\subsubsection{Saving labeled routes from exact algorithms}
+The first one is to save all routes with exact loading label from an exisiting \gls{3L-CVRP}
+algorithm, as \cite{zhang_learning-based_2022} did in his paper. However, in his approach it
+had the advantage, that the binary model was supposed to be used in the same exact algorithm
+and the solution structure of routes in the train data is similar to the real data afterwards. \footcite[cf.][]{zhang_learning-based_2022}
+To follow this approach the exact branch-and-cut algorithm from \cite{tamke_branch-and-cut_2024} was
+used to save all routes, which are labeled and found in a certain timelimit from an instance.
+\footcites[Retrieved from][]{tamke_repository_2024}[cf.][]{tamke_branch-and-cut_2024} Every route
+is sorted into a set composed of the loading flag and loading status. The flag represents which
+subset of constraints was used for this tour and three flags were considered:
+\begin{itemize}
+    \item All Constraints $\mathcal{G}$
+    \item No Support $\mathcal{G}\setminus \{\text{SupportArea}\}$
+    \item No LIFO $\mathcal{G}\setminus \{\text{LIFO}\}$
+\end{itemize}
+
+The status defines the label for the loading retrived from the \gls{CP} Solver and can be either
+Feasible, Infeasible, or Unknown. If the solver could not find a concrete Feasible/ Infeasible
+label after a certain time limit the route will be classified as invalid. The following table
+represents, which subsets of the loading flags and status are used for the train dataset.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{@{}
+            P{0.20\textwidth} % AllConstraints
+            P{0.20\textwidth} % NoSupport
+            P{0.20\textwidth} % NoLIFO
+            @{}}
+        \toprule
+        \textbf{All Constraints}     & \textbf{NoSupport}           & \textbf{NoLIFO}              \\
+        \midrule
+        \cellcolor{green!20}Feasible & Feasible                     & Feasible                     \\
+        \cellcolor{red!20}Infeasible & \cellcolor{red!20}Infeasible & \cellcolor{red!20}Infeasible \\
+        \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:train_data_BC_routes}
+    \caption{Constrution of training data from branch-and-cut routes. All green cells are interpreted as feasible, and all
+        red cells as infeasible data}
+\end{table}
+
+As the trained classifier is used in an algorithm considering all loading constraints, feasible tours
+must fulfill all loading constraints, but infeasible tours from a subset of loading constraints
+will to a very high probability also be infeasible, when more loading constraints are considered.\footcite[cf.][p.7]{tamke_branch-and-cut_2024}
+As the same tour can occur in different infeasible / unknown sets it is important to delete
+duplicated tours with the same label before training the model.
+
+\subsubsection{Creating random routes}
+An alternative to the first approach, and is the only option when lacking a suiting complete algorithm, is to
+create random routes from the \gls{3L-CVRP} instances used. As these random routes lack
+a true label, if the corresponding loading of this route is feasible or infeasible, each random
+route needs to be labeled individually. One of the approaches presented in Section~\ref{sec:classical_solution_approaches} can be chosen
+for the \gls{CLP}, but the solution quality of heuristics must be high, or the best choice is to
+use an exact approach to determine, if all items fit into the container with the loading constraints.
+For this purpose, the exact \gls{CP} model was extracted from \cite{tamke_repository_2024} to create
+a \gls{CP} solver, which can be called for just one route.\footcite[Stolen with permission from][]{tamke_repository_2024}
+As there are no control mechanisms in comparison to the exact algorithm, the
+following Algorithm~\ref{alg:rand_routes_generation} was created to test different parameter
+combinations. As the pseudocode has a lot of details, the most important characteristics and
+functionalities are summarized in the following:
+
+\begin{itemize}
+    \item 4 Input Parameters
+          \begin{itemize}
+              \item Multiplier $\alpha$: Integer determining repetitions ($n\times\alpha$) for each route length $n$
+              \item  Attempts limit $\beta$: Integer determining max failures per repetition
+              \item  Success threshold $\gamma$: Integer determining success threshold per repetition
+              \item Instance set $\mathcal{I}$: Set of instances routes should be generated from
+          \end{itemize}
+    \item Route length is starting with two customers increasing until no routes can be found
+    \item Every new random route is checked, if the route is already contained in a route set
+    \item Algorithm stops when no random route could be drawn in $n \times \alpha$ rounds
+\end{itemize}
+
+Generally the higher the parameters $\alpha$, $\beta$ and $\gamma$ are set and the more instances
+are considered in the instance set $\mathcal{I}$, the more routes will be found. Different
+random training datasets are presented in the Chapter~\ref{chap:computational_study}.
 
 \input{algorithms/RRG.tex}
 

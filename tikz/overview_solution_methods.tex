@@ -9,22 +9,26 @@
 
             \node {Solution Techniques \gls{CLP}}
             child { node {Exact \\ Methods}
-                    child { node {\Gls{CP}}}
-                    child { node {\Gls{MIP}}}
+                    child { node {Constraint Programming}}
+                    child { node {Mixed-integer programming}}
                     child { node {Branch-and-\\Cut}}
                     child { node {Branch-and-\\Price}}
                 }
             child { node {Metaheuristics}
-                    child { node[text width=3cm] {\Gls{GRASP}}}
-                    child { node {\Gls{SA}}}
-                    child { node {\Gls{TS}}}
-                    child { node {\Gls{GA}}}
+                    child { node {Simulated Annealing}
+                            child{node{One Stage Local Search Solver}}}
+                    child { node {Tabu Search}}
+                    child { node {Evolutionary Algorithm}}
+                    child { node {Augmented extreme point-based heuristic}}
                 }
             child { node {Constructive Heuristics}
-                    child { node {Wall Building}}
-                    child { node {Layer Building}}
-                    child { node {Block based packing}}
-                    child { node {Tower based packing}}
+                    child { node {Layer/ Wall/ Tower Building}}
+                    child { node {Corner Point Algorithms}
+                            child{node{Minimize Waste Area}}}
+                    child { node {Bottom-Left-Fill}
+                            child{node{Deepest-Bottom-Left-Fill}}}
+                    child { node {Maximum Touching Perimeter}
+                            child{node{Maximum touching area}}}
                 }
             ;
 
