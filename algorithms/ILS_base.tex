@@ -1,0 +1,15 @@
+\begin{algorithm}[ht]
+    \caption{Base Iterated Local Search Algorithm}\label{alg:base_ILS}
+    \begin{algorithmic}[1]
+        \Procedure{ILS}{}
+        \State $s_0 = \text{GenerateInitialSolution()}$
+        \State $s^*,\,s^c = \text{LocalSearch}(s_0)$
+        \While{$ \text{stop condition not met}$} \Comment{Total run time}
+        \State $s'  = \text{Perturbation}(s^c, history)$
+        \State $s\sp{c}  = \text{LocalSearch}(s\sp{\prime})$
+        \State $s^c = \text{Acceptance Criterion}(s^*,\,s\sp{c}, history)$
+        \EndWhile
+        \State \textbf{return} $s^*$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}

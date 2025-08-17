@@ -119,8 +119,7 @@ for the \gls{CLP}, but the solution quality of heuristics must be high, or the b
 use an exact approach to determine, if all items fit into the container with the loading constraints.
 For this purpose, the exact \gls{CP} model was extracted from \cite{tamke_repository_2024} to create
 a \gls{CP} solver, which can be called for just one route.\footcite[Stolen with permission from][]{tamke_repository_2024}
-As there are no control mechanisms in comparison to the exact algorithm, the
-following Algorithm~\ref{alg:rand_routes_generation} was created to test different parameter
+As there are no control mechanisms in comparison to the exact algorithm, the Algorithm~\ref{alg:rand_routes_generation} was created to test different parameter
 combinations. As the pseudocode has a lot of details, the most important characteristics and
 functionalities are summarized in the following:
 
@@ -141,10 +140,10 @@ Generally the higher the parameters $\alpha$, $\beta$ and $\gamma$ are set and t
 are considered in the instance set $\mathcal{I}$, the more routes will be found. Different
 random training datasets are presented in the Chapter~\ref{chap:computational_study}.
 
-\input{algorithms/RRG.tex}
-
 \section{Model Training}
 \label{sec:ModelTraining}
+
+As the datasets are quite large, the mini-batch training approach was chosen for every model.
 
 \section{Features}
 \label{sec:Features}

@@ -1,13 +1,13 @@
 \chapter{Mathematical formulation}
 \label{chap:mathematical_formulation}
 
-This two-index vehicle flow formulation is taken from \cite{tamke_branch-and-cut_2024}.\footcite[cf.][pp. 6-7]{tamke_branch-and-cut_2024}
+This two-index vehicle flow formulation for the \gls{VRP} is taken from \cite{tamke_branch-and-cut_2024}.\footcite[cf.][pp. 6-7]{tamke_branch-and-cut_2024}
 The advantage is that infeasible tours of the subproblem \gls{CLP} are excluded
-as route candidates for the masterproblem \gls{VRP}.
+as route candidates for the masterproblem \gls{VRP} and no loading constraints are directly defined in the main model.
 
 \subsection*{Sets}
-A directed graph $G=(N,A)$ is defined  with $N$ is the set of nodes including
-the depot and $C$ only the set of customers excluding the depot. The arc set is
+A directed graph $G=(N,A)$ is defined with the set of nodes $N$ including
+the depot and the set of customers $C$ excluding the depot. The arc set is
 defines as $A = \{ (i, j) \mid i, j \in N \}$. The Sets $\delta^+$ and $\delta^-$ define
 the arcs, which are leaving respective entering a node. For example, for node 3, $\delta^+ = \{(3,5)\}$ and $\delta^-= \{(2,3)\}$.
 The set $A(S)$ defines a sequence of arcs connecting nodes in a random set of customers $C$,
@@ -35,7 +35,9 @@ to an infeasible route.
 \vspace{0.2em}
 
 \subsection*{Parameters}
-The parameters are the costs $c_{ij}$ for travelling from one node $i$ to another node $j$, and
+The parameters are divided in the two groups static and set-dependent
+
+the costs $c_{ij}$ for travelling from one node $i$ to another node $j$, and
 are symmetrical defined, stating $c_{ij} \overset{!}{=} c_{ji}$. Additionally the number of vehicles
 available for the fleet planning is given as constant $K$. No solution is allowed to have
 more routes than avalaible vehicles. $r(S)$ defines a \gls{LB} for the numbers of vehicles needed
@@ -108,7 +110,11 @@ $P$ from the solution, every path is defined by a subset of arcs $A(P)$ defining
 paths are labeled as such, when the corresponding \gls{CLP} to a route is not sufficient with loading
 constraints. The constraint determines, that at least one binary variable defining an arc
 from the set of arcs defining the infeasible path $|A(P)|$ has to have the value 0, that the left
-side of this constraint is smaller equal to the right side.
+side of this constraint is smaller equal to the right side. The set of infeasible paths is determined by
+solving the subproblem of the \gls{CLP}.
+
+The following chapter highlights insigts for training a binary classifier with all necessary components
+to lay the foundation for a new promising \gls{3L-CVRP} algorithm with \gls{ML} components.
 
 
 

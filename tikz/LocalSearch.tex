@@ -9,7 +9,7 @@
                 \node[block, below=of start] (find) {Find all moves \\ for neighborhood $j$};
                 \node[block, below=of find] (sort) {Sort moves due\\ to savings};
                 \node[decision, below=of sort] (d1) {Iterate\\ over \\ Moves};
-                \node[dot, left=20mm of d1] (leftdot) {};
+                \node[dot, left=30mm of d1] (leftdot) {};
                 \node[block,  below=of d1] (undo)   {Undo\\ Move};
                 \node[block,  right=of d1] (apply){Apply Move};
                 \node[decisionY, below=of apply] (d2){Loading\\ Feasible?};
@@ -18,14 +18,14 @@
                 \draw[line] (start) -- (find);
                 \draw[line] (find) -- (sort);
                 \draw[line] (sort) -- (d1);
-                \draw[line] (d1.west) -- node[pos=.5,above]{\textbf{True}} (leftdot);
+                \draw[line] (d1.west) -- node[pos=.45,above,text width=3cm,align=center]{\textbf{Termination}: No Moves left} (leftdot);
                 \draw[line] (d1) -- (apply);
                 \draw[line] (apply) -- (d2.north);
-                \draw[line] (d2.west) -- node[pos =.5,above]{\textbf{False}} (undo.east);
+                \draw[line] (d2.west) -- node[pos =.45,above,align=center]{\textbf{False}} (undo.east);
                 \draw[line] (undo.north) -- (d1.south);
                 \coordinate (bump) at ($(d2.east)+(12mm,0)$); % how far to go right
                 \draw[line]
-                (d2.east) -- node[pos=0.5,above]{\textbf{True}}(bump)
+                (d2.east) -- node[pos=0.5,above,align=center]{\textbf{True}}(bump)
                 |- (find.east);
 
             \end{scope}

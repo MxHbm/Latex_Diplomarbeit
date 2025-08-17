@@ -1,3 +1,17 @@
+%############## Own commands #####################´
+\newcommand{\parbreak}{\vspace{\baselineskip}\noindent}
+\newcommand{\gendreauDataSet}{Gendreau (2006)}
+\newcommand{\mouraDataSet}{Moura (2009)}
+\newcommand{\ceschiaDataSet}{Ceschia (2013)}
+\newcommand{\krebsADataSet}{Krebs (2021a)}
+\newcommand{\krebsBDataSet}{Krebs (2021b)}
+\newcommand{\gendreauDataSetText}{\gendreauDataSet\ }
+\newcommand{\mouraDataSetText}{\mouraDataSet\ }
+\newcommand{\ceschiaDataSetText}{\ceschiaDataSet\ }
+\newcommand{\krebsADataSetText}{\krebsADataSet\ }
+\newcommand{\krebsBDataSetText}{\krebsBDataSet\ }
+
+
 %Symbol macro: two stars
 \newcommand{\twosym}{\ \(\bigstar\clubsuit\)}
 %Symbol macro: two stars
@@ -11,3 +25,9 @@
 \newcommand{\ClassifierState}[1]{\State #1\classsifiersym}
 
 \newcolumntype{P}[1]{>{\centering\arraybackslash}m{#1}} % left-aligned p{} helper
+
+% --- Convenience wrappers (put after your tikzset) ---
+%\newcommand{\House}[3]{\pic {house={#1/#2/#3}};}                 % outlined house
+%\newcommand{\Person}[3]{\pic {person={#1/#2/#3}};}               % outlined person
+%\newcommand{\HouseFilled}[3]{\pic {house_filled={#1/#2/#3}};}    % filled house
+%\newcommand{\PersonFilled}[3]{\pic {person_filled={#1/#2/#3}};}  % filled person

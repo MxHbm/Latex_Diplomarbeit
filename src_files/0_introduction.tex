@@ -11,7 +11,7 @@ become very costly and optimization potential is huge. Two major challenges are 
 is the optimization of the routes driven by the delivery trucks, the \gls{VRP}, and the efficient arrangement of items
 of various shapes and sizes, the \gls{CLP}. When the \gls{VRP} and the \gls{CLP} are solved integrated,
 solutions are on average around $7\%$ better cost-wise, but are complex to solve as
-both problems are NP-hard. \footcite[cf.][p. 23]{cote_value_2016} Therefore, efficient heuristics are the practical
+both problems are $NP$-hard. \footcite[cf.][p. 23]{cote_value_2016} Therefore, efficient heuristics are the practical
 choice to find good solutions in a reasonable time, because exact solution methods are limited to
 small instances considering only few practical constaints, as orientation rules, stability, and load-bearing limits. \footcite[cf.][pp. 377--378]{bischoff_issues_1995}
 Recent research has shown that \gls{ML} techniques can be used to accelerate the exact solution process
@@ -19,9 +19,12 @@ of the \gls{2L-CVRP}.\footcite[cf.][]{zhang_learning-based_2022}
 Therefore this paper aims to provide an overview of the \gls{CLP} and explore how \gls{ML} can be used
 to enhance the solution process of \gls{CLP} algorithms focusing on the \gls{3L-CVRP}.
 The paper is structured as follows:
-Chapter~\ref{sec:clp_definition} introduces the \gls{CLP} and its common constraints.
-Chapter~\ref{sec:classical_solution_approaches} outlines exact and heuristic algorithms.
-Chapter~\ref{sec:motivation_feasibility_prediction} presents recent research on integrating \gls{ML}
-models to improve solution quality and speed. Chapter~\ref{sec:dataset_selection} compares suitable datasets
-for training a classifier for the constrained \gls{3L-CVRP}. Finally, Chapter~\ref{sec:conclusion}
-summarizes the insights and discusses future work in feasibility prediction for the \gls{3L-CVRP}.
+Chapter~\ref{chap:literature_review} introduces the \gls{CLP} and its common constraints, as well as classical
+solution approaches. Promising \gls{ML} approaches will be discussed and a complete overview of algorithms
+for \gls{3L-CVRP} algorithms will be conducted. The Chapter~\ref{chap:mathematical_formulation} introduces
+a mathematical formulation for the \gls{3L-CVRP} and in the next Chapter~\ref{chap:classifier} the required
+steps for developing a binary classifier are presented, ranging from data to modeling and the used features
+are presented. Chapter~\ref{chap:algorithm} explains the implemented \gls{3L-CVRP} algorithm leveraging
+the usage of the binary classifier and classical solution approaches. The computational results and the
+tuning of the used parameters are shown in \ref{chap:computational_study} and this thesis ends with the conclusion
+of the obtained results and the outlook fur further research steps in Chapter~\ref{chap:conclusion}.

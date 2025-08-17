@@ -16,16 +16,16 @@
 
                 % Arrows
                 \draw[line] (start) -- (d1);
-                \draw[line] (d1.west) -- node[pos=.5,above]{\textbf{True}} (leftdot);
-                \draw[line] (d1.south) -- node[pos=.5,right]{\textbf{False}} (gen.north);
+                \draw[line] (d1.west) -- node[pos=.45,above, align=center]{\textbf{True}} (leftdot);
+                \draw[line] (d1.south) -- node[pos=.45,right,align=center]{\textbf{False}} (gen.north);
                 \draw[line] (gen) -- (apply);
                 \draw[line] (apply) -- (d2.north);
-                \draw[line] (d2.west) -- node[pos =.5,above]{\textbf{False}} (undo.east);
+                \draw[line] (d2.west) -- node[pos =.45,above,align=center]{\textbf{False}} (undo.east);
                 \draw[line] (undo.north) -- (gen.south);
                 \coordinate (bump) at ($(d2.east)+(12mm,0)$); % how far to go right
                 \draw[line]
-                (d2.east) -- node[pos=0.5,above]{\textbf{True}}(bump)
-                |- node[pos=.75,above]{\textbf{Found Moves ++}}
+                (d2.east) -- node[pos=0.5,above,align=center]{\textbf{True}}(bump)
+                |- node[pos=.75,above,align=center]{\textbf{Found Moves ++}}
                 (d1.east);
 
             \end{scope}

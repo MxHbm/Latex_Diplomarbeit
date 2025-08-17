@@ -1,30 +1,28 @@
-\begin{algorithm}[htb]
-    \caption{Base Iterated Local Search Algorithm}\label{alg:base_ILS}
+\begin{algorithm}[ht]
+    \caption{Iterated Local Search Algorithm}\label{alg:principal_ILS}
     \begin{algorithmic}[1]
         \Procedure{ILS}{$\text{AttemptsLimit}\,a,\, \text{RoundLimit}\,b$}
-        \State $S_0 = ModifiedSavings()$ \Comment{After Zhang 2015}
-        \State $S^c = LocalSearch(S_0)$
-        \State $S^* = S^c $
+        \State $s_0 = \text{ModifiedSavings}()$ \Comment{After Zhang 2015}
+        \State $s^*,\,s^c = \text{LocalSearch}(s_0)$
         \State $NoImpr \leftarrow 0$
         \While{$ \text{stop condition not met}$}
         \If{$NoImpr > a \times b$}
-        \State $S^c  = BigPerturbation(S^c )$ \Comment{Include all Perturbationneighborhoods}
+        \State $s\sp{\prime} = \text{BigPerturbation}(s^c)$ \Comment{Include all Perturbationneighborhoods}
         \Else
-        \State $S^c  = Perturbation(S^c )$ \Comment{Include one Perturbationneighborhood}
+        \State $s\sp{\prime}  = \text{Perturbation}(s^c)$ \Comment{Include one Perturbationneighborhood}
         \EndIf
-        \State $S^c  = LocalSearch(S^c )$
+        \State $s\sp{c} = \text{LocalSearch}(s\sp{\prime})$
         \State{}
-        \If{$S^c $ is better than $S^*$}
-        \State $S^* \gets S^c $; $NoImpr \gets 0$
+        \If{$s\sp{c}$ is better than $s^*$} \Comment{Acceptance Criterion}
+        \State $s^* \gets s\sp{c}\,,\;NoImpr \gets 0$
         \Else
         \State $NoImpr \gets NoImpr + 1$
-        \EndIf
-        \State{}
         \If{$NoImpr > a$}
-        \State $S^c \gets S^* $; $NoImpr \gets 0$
+        \State $s^c \gets s\sp{*}\,,\;NoImpr \gets 0$ \Comment{Reset current solution}
+        \EndIf
         \EndIf
         \EndWhile
-        \State \textbf{return} $S^*$
+        \State \textbf{return} $s^*$
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}

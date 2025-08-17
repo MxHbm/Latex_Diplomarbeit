@@ -33,33 +33,20 @@
 
 \AfterPackage*{biblatex}%
 {
-    \RequirePackage[breaklinks=true, colorlinks=true, linktoc=section, linkcolor=blue, citecolor=black, hidelinks]{hyperref}
-    % Da hyperref allerhand Veränderungen an vielen Standardbefehlen vornimmt, sollte dieses als letztes in der Präambel eingebunden werden. Nur Pakete, bei denen in der Dokumentation explizit darauf hingewiesen wird, dass diese nach hyperref zu laden sind, sollten auch danach folgen.
-    \hypersetup{pdfprintscaling=None} % gleiches Verhalten, auch ohne hyperref, liefert: \pdfcatalog{/ViewerPreferences<</PrintScaling/None>>}
-    \usepackage{footnote} % https://tex.stackexchange.com/questions/207192/footcite-in-float-caption
-    \makesavenoteenv{figure}
-    \makesavenoteenv{table}
-    \makesavenoteenv{algorithm}
+        \RequirePackage[breaklinks=true, colorlinks=true, linktoc=section, linkcolor=blue, citecolor=black, hidelinks]{hyperref}
+        % Da hyperref allerhand Veränderungen an vielen Standardbefehlen vornimmt, sollte dieses als letztes in der Präambel eingebunden werden. Nur Pakete, bei denen in der Dokumentation explizit darauf hingewiesen wird, dass diese nach hyperref zu laden sind, sollten auch danach folgen.
+        \hypersetup{pdfprintscaling=None} % gleiches Verhalten, auch ohne hyperref, liefert: \pdfcatalog{/ViewerPreferences<</PrintScaling/None>>}
+        \usepackage{footnote} % https://tex.stackexchange.com/questions/207192/footcite-in-float-caption
+        \makesavenoteenv{figure}
+        \makesavenoteenv{table}
+        \makesavenoteenv{algorithm}
 }
-
 
 \AfterPackage*{hyperref}
 {
-    \RequirePackage[automake,acronym,symbols,nomain,translate=babel]{glossaries}
-    \usepackage{settings/GlossariesSetup}
+        \RequirePackage[automake,acronym,symbols,nomain,translate=babel]{glossaries}
+        \usepackage{settings/GlossariesSetup}
 }
-%############## Own commands #####################´
-\newcommand{\parbreak}{\vspace{\baselineskip}\noindent}
-\newcommand{\gendreauDataSet}{Gendreau (2006)}
-\newcommand{\mouraDataSet}{Moura (2009)}
-\newcommand{\ceschiaDataSet}{Ceschia (2013)}
-\newcommand{\krebsADataSet}{Krebs (2021a)}
-\newcommand{\krebsBDataSet}{Krebs (2021b)}
-\newcommand{\gendreauDataSetText}{\gendreauDataSet\ }
-\newcommand{\mouraDataSetText}{\mouraDataSet\ }
-\newcommand{\ceschiaDataSetText}{\ceschiaDataSet\ }
-\newcommand{\krebsADataSetText}{\krebsADataSet\ }
-\newcommand{\krebsBDataSetText}{\krebsBDataSet\ }
 
 %############## Ideas for packages #####################´
 % Folgende auskommentierte Pakete sind als Vorschläge zu verstehen. Für Funktionsweise und Anwendungsfälle wird auf das Benutzerhandbuch "tudscr.pdf" (http://mirrors.ctan.org/macros/latex/contrib/tudscr/doc/tudscr.pdf) oder auf die entsprechende CTAN Dokumentation verwiesen.
