@@ -69,7 +69,11 @@ algorithm, as \cite{zhang_learning-based_2022} did in his paper. However, in his
 had the advantage, that the binary model was supposed to be used in the same exact algorithm
 and the solution structure of routes in the train data is similar to the real data afterwards. \footcite[cf.][]{zhang_learning-based_2022}
 To follow this approach the exact branch-and-cut algorithm from \cite{tamke_branch-and-cut_2024} was
-used to save all routes, which are labeled and found in a certain timelimit from an instance.
+used to save all routes, which are labeled and found in a certain timelimit from an instance. During
+the algorithm labeled routes are sorted based on the loading status and loading flag, when all
+constraints are considered (loading flag = All Constraints), every labeled route has an underlying
+sequence, which is crucial for the label, as the \gls{LIFO} constraint is dominating. However,
+when the problem is relaxed constraint wise,
 \footcites[Retrieved from][]{tamke_repository_2024}[cf.][]{tamke_branch-and-cut_2024} Every route
 is sorted into a set composed of the loading flag and loading status. The flag represents which
 subset of constraints was used for this tour and three flags were considered:
@@ -143,7 +147,133 @@ random training datasets are presented in the Chapter~\ref{chap:computational_st
 \section{Model Training}
 \label{sec:ModelTraining}
 
-As the datasets are quite large, the mini-batch training approach was chosen for every model.
+Training is based on which model selected, XGBoost or /gls{FFNN} from pytorch library or others. Afterwards the Mini batch descent
+algorithm to train the model!
 
 \section{Features}
 \label{sec:Features}
+
+Features are the most important puzzle piece for training a \gls{ML} model, as they portray the reality in numerical values, trying to
+reduce the complexity without the loss of meaningfulness, in the presented case the laoding feasibility probability of single tours.
+The complete feature list spans 48 features, which can be divided in three groups to understand the underlying logic.
+
+\begin{enumerate}
+    \item 2 General Features: General information about each tour
+    \item 10 Loading Constraint Features: Featues concepted to depict loading constraint set $\mathcal{G}$
+    \item 36 Geometrical Ratio Features: Contain several geometrical ratio of items and container size to retrieve
+          statistical values of minimum, maximimum, mean and standard deviation
+\end{enumerate}
+
+All features are described more in detail in the following. Some additional definitions to Section~\ref{sec:mathematical_formulation}
+are necessary to define the features formally. Following the mathematical definition, every route consists of the customers
+from the subset $S \subseteq C$. From all customers $C$ the set of item types $M$ is requested, where each item type $m_j$ has its own
+dimension {$z_j$, $x_j$, $y_j$}, weight $q_j$ and fragility flag $f_j$. The loading flag contains binary values of either 0 (Nonfragile)
+or 1 (Fragile). Each customer $i$ demands $d_{ij}$ units of item type $j$.
+The total weight and volume requested by a customer $i$ is calculated then by:
+
+\[q(i) = \sum_{j \in M} q_j * d_{ij}\;\text{, resp. } v(i) = \sum_{j \in M} v_j * d_{ij}\]
+\[q(S) = \sum_{i\in S} q(i)\;\text{, resp. } v(S) = \sum_{i\in S} v(i)\]
+
+The quanitity of all items requested by one customer is $d_i = \sum_{j \in M} d_{ij}$ and in total for all customers,
+the demand is $D(S) = \sum_{i\in S} d_i$. Furthermore it is necessary to define the homogeneous fleet of vehicles
+further. Every vehicle $k$ has the same dimensions {$x_k$, $y_k$, $z_k$} resulting in the maximum volume limit per
+vehicle $Q = x_k *y_k*z_k$. As every used vehicle is identical, the indcies are obsolent, but are kept to distinguish more clearly
+from item properties.
+
+\subsubsection{General Features}
+These two feature contain the number of customers in the respective without the depot $|S|$, and the total number of items requested by
+this subset of customers $D(S)$.
+
+\subsubsection{Loading Constraint Features}
+
+To simplifiy the representation the constraints are given in a table with the formula calculating the feature as well as the set of
+loading constraints this feature is belonging to. The distinction, which loading constraints are described by one feature, is quite
+challenging as some measures are for almost all features important, as the Total Relative Length. The range of possible values is
+given with $h$ representing any number in $\mathbb{N}^{+}$.
+
+\begin{table}[ht!]
+    \centering
+    \renewcommand{\arraystretch}{2.0}
+    \begin{tabular}{@{}P{0.08\textwidth}P{0.16\textwidth}P{0.26\textwidth}P{0.28\textwidth}@{}P{0.1\textwidth}@{}}
+        \toprule
+        No & Name                                                                                            & Constraint(s)          & Calculation                                                               & Range   \\
+        \midrule
+        1  & Relative Volume                                                                                 & Loading Capacity       & $\displaystyle\frac{v(S)}{V}$                                             & [0,1]   \\
+        2  & Relative Weight                                                                                 & Loading Capacity       & $\displaystyle\frac{q(S)}{Q}$                                             & [0,1]   \\
+        3  & Total Relative Length Items\footcite[Feature is adapted from][p.21]{sarah_de_wolf_machine_2022} & Stability, Orientation & $\displaystyle\frac{1}{x_k} * \sum_{i \in S}\sum_{j \in M} d_{ij} * x_j$  & [0,$h$] \\
+        4  & Total Relative Width Items \footnotemark[\value{footnote}]                                      & Stability, Orientation & $\displaystyle\frac{1}{y_k} * \sum_{i \in S}\sum_{j \in M} d_{ij} * y_j$  & [0,$h$] \\
+        5  & Total Relative Height Items  \footnotemark[\value{footnote}]                                    & Stability, Capacity    & $\displaystyle\frac{1}{z_k} * \sum_{i \in S}\sum_{j \in M} d_{ij} * z_j$  & [0,$h$] \\
+        6  & Ratio Fragile Items                                                                             & Fragility              & $\displaystyle\frac{1}{D(S)} * \sum_{i \in S}\sum_{j \in M} d_{ij} * f_j$ & [0,1]   \\
+        7  & Fragile Sequence                                                                                & Fragility, \gls{LIFO}  & $\displaystyle\sum_{i \in S}p_i * \frac{1}{d_i}\sum_{j\in M} d_{ij}*f_j $ & [0,$h$] \\
+        8  & Volume Distribution                                                                             & Capacity, \gls{LIFO}   & $\frac{\sum_{i \in S}p_i * \frac{v(i)}{V}}{\sum_{i \in S}\frac{v(i)}{V}}$ & [0,$h$] \\
+        9  & Volume Balance                                                                                  & Capacity, \gls{LIFO}   & $\displaystyle\sum_{i \in S}p_i * \frac{q(i)}{Q}$                         & [0,$h$] \\
+        10 & Weight Distribution                                                                             & Capacity, \gls{LIFO}   & $\displaystyle\sum_{i \in S}p_i * \frac{q(i)}{Q}$                         & [0,$h$] \\
+        \bottomrule
+    \end{tabular}
+    \caption{Loading constraints related features}
+    \label{tab:loading_constraints_features}
+\end{table}
+
+All the features presented have only values to the instance specific dimensions and weight limit of the vehicle, as these values
+differ usually between different datasets, but also within the \gendreauDataSetText dataset. \footcite[cf.][p. 346]{gendreau_tabu_2006}
+Capuring the \gls{LIFO} constraint is the most challenging task as multidimensionality or order is complexer to describe with a single
+numeric value. Therefore certain customer specific values, as relative volume/ weight or the share of fragile items, is multiplied
+with the order in which the customers are driven to. \textit{Fragile Sequence} should depict the difficulty to load a lot of fragile items
+in the beginning as several other customer demands need to be likely placed upon the first items. The third and last feature group
+was partly used by \cite{zhang_learning-based_2022} and is expanded for useful geometrical ratios when considering three-dimensional
+instead of two-dimensional loading.\footcite[cf.][p. 14]{zhang_learning-based_2022}
+
+\subsubsection{Geometrical Ratio Features}
+
+All geometrical ratios express the relation between two dimensions of either one item or one item and the vehicle. In total 9 ratios
+are considered and for each ratio the min(), max(), meand() and std() values of the vector of values is oevrhanded as model feature.
+
+
+\begin{figure}
+    \centering
+
+    % ---- Row 1: ratios between item dims & against container (L/H, W/H, W/L, L/CL, H/CH) ----
+    \PanelItemDimDim{Width Height \\ \footnotesize{[0,$h$]}}{1}{2}
+    \PanelItemDimDim{Length Height\\ \footnotesize{[0,$h$]}}{3}{2}
+    \PanelItemDimDim{Width Length\footcite[Featues adapted from][p.14]{zhang_learning-based_2022}\\ \footnotesize{[0,$h$]}}{1}{3}
+    \vspace{25pt}
+    \PanelHeightOverArea{Height Area\\ \footnotesize{[0,1]}}
+    \vspace{25pt}
+    \PanelItemVsCont{Length Container Length\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}{3}
+    \PanelItemVsCont{Height Container Height\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}{2}
+    \PanelItemVsCont{Width Container Width\\ \footnotesize{[0,1]}}{1}
+    \PanelAreaOverContArea{ItemArea ContainerArea\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}
+    \PanelVolumeOverContVolume{ItemVolume ContainerVolume\\ \footnotesize{[0,1]}}
+    \caption[Nine geometric ratio feature icons.]{Nine geometric ratio feature icons. In each panel, the \textcolor{numC}{numerator is green}
+        and the \textcolor{denC}{denominator is red}.}
+\end{figure}
+
+All these nine geometrical features grasp the statistical description of the lot of all items and is shown in the following example:
+When we consider a route, where these three items, described by their three dimensions, are requested:
+\[
+    \mathcal{I} = \{(10,5,12),\,(6,3,10),\,(10,10,10)\}
+\]
+
+\[
+    \text{Width--Length Ratios: }
+    \frac{x_j}{y_j} = \{2,\,2,\,1\}
+\]
+
+\[
+    \begin{array}{c|c|c|c}
+        \text{Min} & \text{Max} & \text{Mean}               & \text{Std. Dev.} \\
+        \hline
+        1          & 2          & \tfrac{5}{3} \approx 1.67 & 0.471            \\
+    \end{array}
+\]
+
+For every geometrical ratio the four features are calculated with this simple approach and are added to the model.
+
+\parbreak
+
+As the number of 48 features is huge for describing a rather simple problem in comparison to picture detection, the next steps
+involve the analysis, which features have the greatest impact and which features can be dropped due to high correlation to other
+features or to irrelevance to the prediction accuracy of the binary classifier.
+
+\section{Feature Engineering}
+\label{sec:feature_engineering}

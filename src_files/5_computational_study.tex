@@ -1,15 +1,25 @@
 \chapter{Computational study}
 \label{chap:computational_study}
+This chapter will give the most insights into the functionality and efficiency of the usage of the presented binary classifier in
+\gls{3L-CVRP} algorithms. This chapter will begin with the selection of two different suiting \gls{3L-CVRP} datasets by comparing
+several datasets and presenting the most important specialities. Afterwards the results from training the model are presented, which
+is divided in three main parts, firstly the results of the retrieval of the data, secondly the feature selection, and finally presenting
+different strategies for comparing different models and selecting the best regarding accuracy on the test dataset as well as on collected
+tensor data. Afterwards a parameter study is conducted for the \gls{ILS}, starting with the \textit{NoClassifier} variant determining
+the best configurations for the base parameters, followed by a more intense comparisons of all the classifier parameters determining the
+other three variants. This chapter closes with a complete comparison of all four variants, comparing the version with tuned parameters.
+These insights lay the foundation for the following closing Chapter~\ref{chap:conclusion}.
 
 \section{Comparison of Available Datasets}
 \label{sec:dataset_selection}
 
 The \gls{3L-CVRP} is a well-studied problem and several datasets were published in the past, considering
 different constraints and characteristics. A selection of these datasets will be compared and evaluated
-in this chapter. The goal is to identify a suitable dataset for training a general \gls{CLP} classifier that can predict
+in this section. The goal is to identify a suitable dataset for training a general \gls{CLP} classifier that can predict
 the feasibility of the \gls{CLP} of single tours from different datasets. Therefore, the dataset needs
 heterogeneous characterists to represent numerous possible use-cases
-as shown in Chapter~\ref{sec:motivation_feasibility_prediction}. Five published \cgls{3L-CVRP} datasets are presented with respect to their overall characteristics.
+as shown in Chapter~\ref{sec:motivation_feasibility_prediction}. Five published
+\cgls{3L-CVRP} datasets are presented with respect to their overall characteristics.
 Each dataset gets an unique identfier to simplify the comparison and is shown in parenthesis
 after the following individual introduction. The first \cgls{3L-CVRP} dataset was published by \citeauthor{gendreau_tabu_2006} in
 \citeyear{gendreau_tabu_2006} and delivered the first \cgls{3L-CVRP} instances containing huge and heavy items (\gendreauDataSet).\footcite[cf.][]{gendreau_tabu_2006}
@@ -18,30 +28,41 @@ and combines the \gls{VRP} from \citeauthor{solomon_algorithms_1987} and the \gl
 \citeauthor{bischoff_issues_1995} defining the \gls{3L-VRPTW} considering
 many items of small size and weight (\mouraDataSet).\footcites[cf.][]{solomon_algorithms_1987,bischoff_issues_1995}[][]{moura_integrated_2009}
 The first dataset containing real-life data was published by \citeauthor{ceschia_local_2013} in \citeyear{ceschia_local_2013}
-and contains the instances with the most items considered (\ceschiaDataSet).\footcite[cf.][]{ceschia_local_2013}
+and contains the instances with the most items (\ceschiaDataSet).\footcite[cf.][]{ceschia_local_2013}
 Krebs published two different datasets in
 \citeyear{krebs_advanced_2021} with a focus on more realistic constraints. The first one contains a set
 of realistic constraints and offers a wide range of instance sizes (\krebsADataSet).\footcite[cf.][]{krebs_advanced_2021}
 The second one focuses on semi-trailer trucks and special requirements for axle weights (\krebsBDataSet).\footcite[cf.][]{krebs_axle_2021}
 The characteristics of the datasets are summarized in the following Table~\ref{tab:dataset_comparison},
-where the brackets [\,] indicate a range of possible values and the braces $\{\,\}$ symbolizes tuples of geometric dimensions.
-Here, \textit{relative} relates to the ratio of item properties to the vehicle capacity or dimensions,
-and a \textit{item type} is defined by its geometrical dimensions, the weight, and possible stability characteristics, such as fragility or \gls{LBS}.
-When the number of item types is smaller than the number of items, items with equal type occur multiple times.
+where the brackets [\,] indicate a range of possible values. All values considering mass and volume are
+\textit{relative} to the respective vehicle weight and volume limit to be comparable. A \textit{item type} is
+defined by its geometrical dimensions, the weight, and possible stability characteristics, such as fragility or \gls{LBS}.
+When the number of item types is smaller than the number of items, items with equal type occur multiple times. The item types
+depict the number of different item types per instance. Additionaly
+most features of the dataset are compared with \textit{aggregated}  values, referring to the aggregrated characteristics
+of all items requested by one customer, so the aggregated mass, volume and items shows the value what is requested by an
+average customer of this dataset.
 
 \input{tables/instance_comparison.tex}
 
+The values routes, route length and fragility show the average over all instances, and
+routes define the \gls{LB} for needed vehicles and route lenght the \gls{UB} for the customers in a route based on the average
+requested relative volume and mass. The averages are displayed to become a better understanding of the average
+statistics of each dataset, rather than looking at extreme values.
 The most important consideration, when selecting a suitable dataset for the training of a classifier,
 is how representative single tours from one dataset are for all other datasets. Therefore, the numeric characteristics
-should not contain outliers. The \gendreauDataSetText dataset has the most extreme values for the relative mass, minimum dimension of items,
-and the quantity of items per customers. The \mouraDataSetText dataset includes the highest number of lighweight items per customer,
-which can not represent the other datasets. \ceschiaDataSetText contains instances with the most items and the greatest range
-of item dimensions, but the relative mass per item is very low. The datasets published by Krebs
-reflect average characteristics overall. Between the two datasets, \krebsADataSetText shows the better performance,
-as the items in \krebsBDataSetText have very low mass.
+should not contain outliers. It is apparent, that the \gendreauDataSetText dataset has the least items per customer
+with huge relative volume and weight values, which leads with an average route length of 6.22 customers to very few items
+considered per route in comparison to the other datasets. This makes it easier to compute the feasibility of the laoding
+as the number of placing patterns is limited. The \mouraDataSetText has the most items per average per customer consisting
+of only 5 item types. The \ceschiaDataSetText dataset contains the fewest instances, but with the most maximum items of 8060,
+which lead to many routes on avrage with average length and many items per loading. The two datasets from Krebs, have similar
+boundaries and values, but \krebsBDataSetText has routes with twice as many customers as \krebsADataSetText on average due
+to the smaller average aggregated mass and volume requested by each customer. Both \krebsADataSetText and \gendreauDataSetText
+show a good variety of the features, without including too many items per route in comparison to the other datasets.
 The following Table~\ref{tab:constraint_matrix} provides an overview of the constraints considered
 in each dataset showcasing the realistic profile. The constraints are categorized in the five groups introduced
-in Chapter~\ref{sec:clp_definition}.
+in Section~\ref{sec:clp_definition}.
 \clearpage
 \input{tables/constraints_table.tex}
 
@@ -49,11 +70,11 @@ This comparison shows that all datasets include similar types of constraints, bu
 of complexity varies. \krebsADataSetText and \ceschiaDataSetText stand out by incorporating
 more advanced constraints such as robust stability, reachability, and \gls{LBS}, in comparison to
 basic ones like support area, \gls{LIFO} and fragility. To further investigate the differences
-between the datasets, Figure~\ref{fig:dataset_comparison} visualizes the relative mass and
-volume of all items requested by individual customers. This representation reflects the
-unconstrained lower bound on vehicle usage. For example, the \mouraDataSetText dataset includes 46
-instances with 25 customers each, resulting in $25 \cdot 46 = 1150$ dots in the plot.
+between the datasets, Figure~\ref{fig:dataset_comparison} visualizes the aggregated relative mass and
+volume of all items requested by individual customers.
 Additionally, the size of each scatter point indicates the total number of items requested.
+For example, the \mouraDataSetText dataset includes 46
+instances with 25 customers each, resulting in $25 \cdot 46 = 1150$ dots in the plot.
 
 \begin{figure}[ht]
     \centering
@@ -67,11 +88,29 @@ and mass dependency. A more balanced profile suggests that some customers tend t
 are either mass- or volume-intensive, which supports training the model on more heterogeneous data.
 Therefore, the dataset should cover a wide range of cases, varying in mass, volume, and item
 quantity per customer. The widest spread is observed in \krebsADataSetText and \gendreauDataSetText serving
-both as good dataset candidates for training a classifier. In the overall comparison the \krebsADataSetText dataset
-is selected as the most suitable and the properties of this dataset will be further investigated.
-The dataset \krebsADataSetText contains 18 different instance types resulting from the combinations
+both as good dataset candidates for training a classifier. Both datasets are investigated further in
+the next section.
+
+\section{Analsis of datasets}
+\label{sec:analysis_datasets}
+
+The two datasets, \krebsADataSetText and \gendreauDataSetText, have a good diverse profile for training
+a binary classifier and to be further analyzed. It must be noted, that it is very likely more complex
+to solve instances from the \krebsADataSetText as the number of customers in a route and the
+aggregated number of items is on average twice as high as from \gendreauDataSetText (see Table~\ref{tab:dataset_comparison}).
+As shown in Section~\ref{sec:literature_overview} several publications solved the Gendreau instance set
+with various heuristics and even exact approaches, whereas only one heuristic solution approach exists for the instances of Krebs.
+Both datasets are further analysed in this section to understand dataset specific properties, which could not
+be shown in the previous section.
+
+\subsubsection{\krebsADataSetText}
+
+The dataset contains 18 different instance types resulting from the combinations
 of number of customers, item types and items. The following Figure~\ref{fig:krebs_dataset_analysis_detailes} plots
-the relative mass and volume of all items requested by individual customers for each of the 18 instances.
+the relative mass and volume of all items requested by individual customers for each of the 18 instances. Every color
+represents one instance and the plots are divided by the number of respective customers in threee groups, presenting
+6 combinations each. There are three levels for the different item types per [3,10,100] and two levels for the total
+number of items, 200 and 400, per instance.
 
 \begin{figure}[ht]
     \centering
@@ -82,26 +121,39 @@ the relative mass and volume of all items requested by individual customers for 
 \end{figure}
 
 Several insights can be obtained from the analysis of this plot. Firstly, the aggregated relative
-volume and mass per customer is significantly lower than for the instances with 60 or 100 customers. Secondly,
-the distribution differs from each instance type, ranging from quite linear distributions in a narrow
-interval (e.g. instance 60-100-400) to quite broad distributions (e.g. instance 100-100-400). These two observations need to be considered, when selecting
-instances to generate training data for the classifier to avoid a homogenous training set, and
-as a consequence poor classifying results with a low accuracy.
+volume and mass per customer is significantly lower for the 20 customers group than for the groups with 60 or 100 customers.
+Secondly, the distribution differs from each instance type, ranging from quite linear distributions in a narrow
+interval (e.g. instance 60-100-400) to quite broad distributions (e.g. instance 100-100-400). These two observations need to be considered,
+when selecting instances to generate training data for the classifier to avoid a homogenous training set, and
+as a consequence poor classifying results with a low accuracy. The instance set should be drawn from every group equally and
+different distributions need to be considered per group, that the average route numeric route structure differs.
 
+\subsubsection{\gendreauDataSetText}
 
+This dataset consists of 27 instances, where the dispersion of the aggregated mass per customer is reaching very high values, up to
+0.91, but has modest volume levels, with a maximum of 0.4 approximately, as could be seen in Figure~\ref{fig:dataset_comparison}. The
+following Figure~\ref{fig:aggregated_gendreau_plots} show this dispersion per instance revealing an important insight about the dataset.
+As the relative volume is quite for all instances, the relative mass differs between the instances. As it was analyzed from \cite{tamke_branch-and-cut_2024}
+the complexity to solve the instances is far greater, when the items are more lightweight and the volume is the limiting factor
+for packing items in the container. Furthermore, the authors distinguished the instances in a group of heavy items ($\mathcal{H}$) and
+a group of lighweight items ($\mathcal{L}$) by dividing the two groups by the average weight utilization $\overline{\omega}$ of the found
+groups. If $\overline{\omega} \geq 0.7$ then an instance belongs to $\mathcal{H}$ and for values smaller than 0.7 to $\mathcal{L}$.\footcite[cf.][pp. 23-25]{tamke_branch-and-cut_2024}
+The obtained resutls for the Gendreau instances will be also differentiated in those two groups to investigate the effect of
+the average weight utilization $\overline{\omega}$ on the solution quality and process.
 
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[node distance=0mm and 0mm]
+        \node[anchor=south, inner sep=0] (A) at (0,0)
+        {\includegraphics[width=0.95\textwidth]{pictures/AggMassCustGendreau.png}};
+        \node[anchor=north, below=of A,inner sep=0] (B)
+        {\includegraphics[width=0.96\textwidth]{pictures/AggVolCustGendreau.png}};
+    \end{tikzpicture}
+    \caption{Aggregated relative mass and volume per customer distributed for each instance of the \gendreauDataSetText dataset.}
+    \label{fig:aggregated_gendreau_plots}
+\end{figure}
 
-%\section{Overview of Public Datasets}
-%\section{Evaluation Criteria: Diversity, Realism, Labeling, Size}
-%\section{Comparison of Selected Datasets}
-%\section{Justification for Dataset Selection}
-
-\begin{comment}
-The \gendreauDataSetText dataset contains the relative heaviest items, whereas the other datasets with the exception of
-\krebsADataSetText contains lightweight items. The quanitity of ordered items per customer differs the most between
-the \gendreauDataSetText and the \mouraDataSetText datasets, and represents the most lowest and the highest values
-respectively.
-\end{comment}
+In the following section the results from training the binary classifier are presented with diffferent datasets.
 
 \section{Results Training}
 \label{sec:ResultsTraining}
@@ -128,6 +180,28 @@ instances from Gendreau.
         4                   & 30                     & 20                         & 94666  &          &          \\
         4                   & 30                     & 30                         & 144311 &          &          \\
         5                   & 40                     & 40                         & 249762 &          &          \\
+        \hline
+    \end{tabular}
+    \caption{Created instances for different parameter combinations $(X, Y, Z)$}
+    \label{tab:created_instances_gendreau}
+\end{table}
+
+With a subset from krebs the following datasets were created!
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{c c cc c c c}
+        \hline
+        Multiplier $\alpha$ & Attempts limit $\beta$ & Success threshold $\gamma$ & Routes & Accuracy & F1-Score \\
+        \hline
+        1                   & 1                      & 1                          & 7616   &          &          \\
+        1                   & 1                      & 2                          & 15948  &          &          \\
+        1                   & 1                      & 3                          & 24573  &          &          \\
+        1                   & 2                      & 1                          & 8325   &          &          \\
+        1                   & 2                      & 2                          & 17217  &          &          \\
+        1                   & 2                      & 3                          & 26467  &          &          \\
+        1                   & 3                      & 1                          & 8683   &          &          \\
+        1                   & 3                      & 2                          & 18041  &          &          \\
+        1                   & 3                      & 3                          & 27535  &          &          \\
         \hline
     \end{tabular}
     \caption{Created instances for different parameter combinations $(X, Y, Z)$}

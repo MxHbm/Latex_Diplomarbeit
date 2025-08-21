@@ -19,12 +19,14 @@ The applicability in practical scenarios was further increased from \cite{gendre
 the \gls{3L-CVRP}, considering the stacking of items and all dimensions of items and the vehicles. The authors
 also conidered a set of practical loading constraints to further enhance the applicability. \footcite[cf.][]{gendreau_tabu_2006}
 The algorithms to solve the \gls{CLP} could already be taken from existing literature tackling the standalone
-problem.\footcite[cf.][]{pisinger_heuristics_2002} The following literature review will focus
+problem.\footcite[cf.][]{pisinger_heuristics_2002} Foremost, the following section defines
+a mathematical model formulation for the \gls{3L-CVRP} and the following literature review will focus
 on the \gls{CLP}, its possible constraints, algorihtms to solve it and the possibility to use solution
 methods beside the classical approaches. As the \gls{CLP} is considered as a subproblem of the \gls{VRP}
 in this thesis, the literature and examples refer to the \gls{3L-CVRP} and each problem should not be
 considered solely.
 
+\input{src_files/2_mathematical_formulation.tex}
 
 \section{Container Loading Problem}
 \label{sec:clp_definition}
@@ -371,6 +373,8 @@ requires careful consideration to ensure a favorable cost-benefit ratio. The nex
 on \gls{3L-CVRP} algorithms presenting for both \gls{CLP} and \gls{VRP} solution strateges and relevant work.
 
 \section{Literature Overview}
+\label{sec:literature_overview}
+
 The presented literature is grouped in three groups, namely metaheuristics, exact approaches and blended
 approaches, in Table~\ref{tab:literature overview}. As the emphasis is lying on the distinction
 if the loading of one route is feasible or not, the routing algorithms were not presented so far.
@@ -383,9 +387,9 @@ When analyzing the three approach groups it is apparent, that the metaheuristic 
 the most loading constraints. This is a consequence of the more complex definitions needed for
 exact methods or the \gls{ML} approaches and the computational time surplus. Furthermore, when
 the \gls{3L-CVRP} is tackled instead of the \gls{2L-CVRP}, more loading constraints, than just sequence,
-can be considered as the loading gets much more complex due to the added dimension. The following chapter
-presents a mathematical model formulation for the \gls{3L-CVRP} defining important notations and general
-constraints.
+can be considered as the loading gets much more complex due to the added dimension.The following chapter
+highlights insigts for training a binary classifier with all necessary components
+to lay the foundation for a new promising \gls{3L-CVRP} algorithm with \gls{ML} components.
 
 \begin{table}[ht]\footnotesize
     \centering

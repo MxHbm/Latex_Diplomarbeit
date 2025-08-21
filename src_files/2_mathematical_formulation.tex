@@ -1,5 +1,5 @@
-\chapter{Mathematical formulation}
-\label{chap:mathematical_formulation}
+\section{Mathematical formulation}
+\label{sec:mathematical_formulation}
 
 This two-index vehicle flow formulation for the \gls{VRP} is taken from \cite{tamke_branch-and-cut_2024}.\footcite[cf.][pp. 6-7]{tamke_branch-and-cut_2024}
 The advantage is that infeasible tours of the subproblem \gls{CLP} are excluded
@@ -112,9 +112,6 @@ constraints. The constraint determines, that at least one binary variable defini
 from the set of arcs defining the infeasible path $|A(P)|$ has to have the value 0, that the left
 side of this constraint is smaller equal to the right side. The set of infeasible paths is determined by
 solving the subproblem of the \gls{CLP}.
-
-The following chapter highlights insigts for training a binary classifier with all necessary components
-to lay the foundation for a new promising \gls{3L-CVRP} algorithm with \gls{ML} components.
 
 
 

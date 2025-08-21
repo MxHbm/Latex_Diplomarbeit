@@ -31,3 +31,198 @@
 %\newcommand{\Person}[3]{\pic {person={#1/#2/#3}};}               % outlined person
 %\newcommand{\HouseFilled}[3]{\pic {house_filled={#1/#2/#3}};}    % filled house
 %\newcommand{\PersonFilled}[3]{\pic {person_filled={#1/#2/#3}};}  % filled person
+
+
+% ---------- Global style knobs ----------
+\definecolor{numC}{RGB}{22,163,74} % green  (numerator)
+\definecolor{denC}{RGB}{239,68,68} % red    (denominator)
+
+% sizes (kept identical across all panels)
+\newcommand{\ItemW}{0.8}   % item width
+\newcommand{\ItemH}{0.6}   % item height
+\newcommand{\ItemD}{0.8}   % item "depth/length"
+\newcommand{\DistItemCont}{1.3}
+
+\newcommand{\ContW}{2.3}   % container width
+\newcommand{\ContH}{1.4}   % container height
+\newcommand{\ContD}{1.4}   % container "depth/length"
+
+% perspective offsets per unit depth (tweak once for the whole figure)
+\newcommand{\dx}{0.52} % x-offset per unit depth
+\newcommand{\dy}{0.35} % y-offset per unit depth
+
+% ---------- Core drawing helpers ----------
+% Draw a 2.5D cuboid from (x0,y0), with width w, height h, depth d.
+% Fills/toplines are subtle; edges get a crisp outline.
+\newcommand{\Cuboid}[7][]{% opts, x0, y0, w, h, d
+    \begin{scope}[#1]
+        \coordinate (A) at (#2,#3);
+        \coordinate (B) at ($(A)+(#4,0)$);
+        \coordinate (C) at ($(A)+(0,#5)$);
+        \coordinate (D) at ($(A)+(#4,#5)$);
+        \coordinate (S) at (\dx*#6,\dy*#6); % depth shift
+
+        % Back rectangle (top) — light fill
+        \fill[#7!3] ($(A)+(S)$) rectangle ($(D)+(S)$);
+
+        % Front rectangle — a bit darker
+        \fill[#7!6] (A) rectangle (D);
+
+        % Connectors (sides)
+        \fill[#7!10] (A) -- ($(A)+(S)$) -- ($(B)+(S)$) -- (B) -- cycle;       % bottom side
+        \fill[#7!10] (B) -- ($(B)+(S)$) -- ($(D)+(S)$) -- (D) -- cycle;       % right side
+        \fill[#7!10] (C) -- ($(C)+(S)$) -- ($(D)+(S)$) -- (D) -- cycle;       % top side
+
+        % Crisp outlines (visible edges)
+        \draw[black, line width=0.4pt] (A) rectangle (D);
+        \draw[black, line width=0.4pt] (A) -- ($(A)+(S)$);
+        \draw[black, line width=0.4pt] (B) -- ($(B)+(S)$);
+        \draw[black, line width=0.4pt] (C) -- ($(C)+(S)$);
+        \draw[black, line width=0.4pt] (D) -- ($(D)+(S)$);
+        \draw[black, line width=0.4pt] ($(A)+(S)$) rectangle ($(D)+(S)$);
+    \end{scope}
+}
+
+% Edge markers on one cuboid (placed on front-most edges).
+%   width  = bottom-front edge
+%   height = left-front vertical edge
+%   length = right-leaning depth edge on top-front-right
+\newcommand{\MarkWidth}[4]{% x0,y0,w,color
+    \draw[line width=2.2pt, #4, rounded corners=0.6pt]
+    (#1,#2) -- ++(#3,0);
+}
+\newcommand{\MarkHeight}[4]{% x0,y0,h,color
+    \draw[line width=2.2pt, #4, rounded corners=0.6pt]
+    (#1,#2) -- ++(0,#3);
+}
+% Mark the depth/length edge from top-right-front corner
+\newcommand{\MarkLength}[4]{% x0,y0,d,color
+    \coordinate (TRF) at (#1,0);%#2+\ItemH); % top-right-front
+    \draw[line width=2.2pt, #4, rounded corners=0.6pt]
+    (TRF) -- ++(\dx*#3,\dy*#3);
+}
+
+% Convenience wrappers that place item & container with consistent spacing
+% They also expose anchors (I0,C0) for subsequent marks.
+\newcommand{\PlaceItem}[2]{% x0,y0
+    \coordinate (I0) at (#1,#2);
+    \Cuboid{#1}{#2}{\ItemW}{\ItemH}{\ItemD}{black}
+}
+\newcommand{\PlaceContainer}[2]{% x0,y0
+    \coordinate (C0) at (#1,#2);
+    \Cuboid{#1}{#2}{\ContW}{\ContH}{\ContD}{black}
+}
+
+% ---------- Panel recipes ----------
+% 1) Ratios between ITEM dimensions
+\newcommand{\PanelItemDimDim}[3]{% cap, markA (W/H/L), markB (W/H/L), label
+    \begin{subfigure}[t]{0.22\linewidth}
+        \centering
+        \begin{tikzpicture}[>=latex]
+            \PlaceItem{0}{0}
+            % choose axes for numerator/denominator
+            % Numerator = green, Denominator = red
+            \ifnum#2=1 \MarkWidth{0}{0}{\ItemW}{numC}\fi
+            \ifnum#2=2 \MarkHeight{\ItemW}{0}{\ItemH}{numC}\fi
+            \ifnum#2=3 \MarkLength{\ItemW}{0}{\ItemD}{numC}\fi
+
+            \ifnum#3=1 \MarkWidth{0}{0}{\ItemW}{denC}\fi
+            \ifnum#3=2 \MarkHeight{\ItemW}{0}{\ItemH}{denC}\fi
+            \ifnum#3=3 \MarkLength{\ItemW}{0}{\ItemD}{denC}\fi
+        \end{tikzpicture}
+        \caption{#1}
+    \end{subfigure}
+}
+
+% 2) Item vs Container dimension
+\newcommand{\PanelItemVsCont}[2]{% caption, which axis: 1=W,2=H,3=L, label
+    \begin{subfigure}[t]{0.32\linewidth}
+        \centering
+        \begin{tikzpicture}[>=latex]
+            % place container slightly to the right
+            \PlaceContainer{\DistItemCont}{0}
+            \PlaceItem{0}{0}
+            % numerator (item) green
+            \ifnum#2=1 \MarkWidth{0}{0}{\ItemW}{numC}\fi
+            \ifnum#2=2 \MarkHeight{\ItemW}{0}{\ItemH}{numC}\fi
+            \ifnum#2=3 \MarkLength{\ItemW}{0}{\ItemD}{numC}\fi
+            % denominator (container) red — marks drawn on its front edges
+            \ifnum#2=1 \MarkWidth{\DistItemCont}{0}{\ContW}{denC}\fi
+            \ifnum#2=2 \MarkHeight{\DistItemCont+\ContW}{0}{\ContH}{denC}\fi
+            \ifnum#2=3 \MarkLength{\DistItemCont +\ContW}{0}{\ContD}{denC}\fi
+        \end{tikzpicture}
+        \caption{#1}
+    \end{subfigure}
+}
+
+% 3) Height / Area  (area = item footprint W×L on front face surrogate)
+\newcommand{\PanelHeightOverArea}[1]{%caption
+    \begin{subfigure}[t]{0.22\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \PlaceItem{0}{0}
+            % numerator: height (green)
+            \MarkHeight{0}{0}{\ItemH}{numC}
+            % denominator: area (red) -> outline the front face footprint
+            \fill[denC!25]
+            (0,0) --
+            (\ItemW,0) --
+            (\ItemW+\dx*\ItemD, \dy*\ItemD) --
+            (\dx*\ItemD,\dy*\ItemD) -- cycle;
+            \draw[denC, line width=0.5pt]
+            (0,0) --
+            (\ItemW,0) --
+            (\ItemW+\dx*\ItemD, \dy*\ItemD) --
+            (\dx*\ItemD,\dy*\ItemD) -- cycle;
+            % thin red frame on the front face
+            \draw[black, line width=0.4pt] (\ItemW,0) -- (\ItemW,\ItemH);
+            % thin red frame on the front face
+        \end{tikzpicture}
+        \caption{#1}
+    \end{subfigure}
+}
+
+% 4) Area / Container Area
+\newcommand{\PanelAreaOverContArea}[1]{%caption
+    \begin{subfigure}[t]{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \PlaceContainer{\DistItemCont}{0}
+            \PlaceItem{0}{0}
+            % numerator: item area (front face fill greenish)
+            \fill[numC!25]
+            (0,0) --
+            (\ItemW,0) --
+            (\ItemW+\dx*\ItemD, \dy*\ItemD) --
+            (\dx*\ItemD,\dy*\ItemD) -- cycle;
+            \draw[numC, line width=0.5pt]
+            (0,0) --
+            (\ItemW,0) --
+            (\ItemW+\dx*\ItemD, \dy*\ItemD) --
+            (\dx*\ItemD,\dy*\ItemD) -- cycle;
+            \draw[black, line width=0.4pt] (\ItemW,0) -- (\ItemW,\ItemH);
+            %Container  
+            \fill[denC!25]
+            (\DistItemCont,0) --
+            (\ContW +\DistItemCont,0) --
+            (\ContW+\DistItemCont+\dx*\ContD, \dy*\ContD) --
+            (\dx*\ContD + \DistItemCont,\dy*\ContD) -- cycle;
+            \draw[denC, line width=0.5pt]
+            (\DistItemCont,0) -- (\ContW +\DistItemCont,0) -- (\ContW+\DistItemCont+\dx*\ContD, \dy*\ContD) -- (\dx*\ContD + \DistItemCont,\dy*\ContD) -- cycle;
+            \draw[black, line width=0.4pt] (\ContW+\DistItemCont,0) -- (\ContW+\DistItemCont,\ItemH);
+        \end{tikzpicture}
+        \caption{#1}
+    \end{subfigure}
+}
+
+% 5) Volume / Container Volume
+\newcommand{\PanelVolumeOverContVolume}[1]{%caption
+    \begin{subfigure}[t]{0.35\linewidth}
+        \centering
+        \begin{tikzpicture}
+            \Cuboid{0}{0}{\ItemW}{\ItemH}{\ItemD}{numC}
+            \Cuboid{\DistItemCont}{0}{\ContW}{\ContH}{\ContD}{denC}
+        \end{tikzpicture}
+        \caption{#1}
+    \end{subfigure}
+}
