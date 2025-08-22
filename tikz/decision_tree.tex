@@ -1,0 +1,36 @@
+\begin{figure}
+    \centering
+    \begin{tikzpicture}[
+            >=Latex,
+            node distance=15mm and 0mm,
+            decision/.style={rectangle, rounded corners=2pt, draw, fill=blue!8, align=center, inner sep=3pt},
+            leafgood/.style={rectangle, rounded corners=2pt, draw, fill=green!10, align=center, inner sep=3pt},
+            leafbad/.style={rectangle, rounded corners=2pt, draw, fill=red!10, align=center, inner sep=3pt},
+            edge/.style={-Latex, thick}
+        ]
+        % Nodes
+        \node[decision] (root) {Relative volume\\$> 70\%$?};
+
+        \node[decision, below right=of root] (items) {Item count\\$> 30$?};
+        \node[decision, below left=of root] (weight){Relative weight\\$> 80\%$?};
+
+        \node[leafgood, below=of items, xshift=-14mm] (itemNo)  {Feasible};
+        \node[leafbad, below=of items, xshift= 14mm] (itemYes) {Infeasible};
+
+        \node[leafbad,  below=of weight, xshift=14mm] (wYes)   {Infeasible};
+        \node[leafgood, below=of weight, xshift=-14mm] (wNo)    {Feasible};
+
+        % Edges with labels
+        \draw[edge] (root) -- node[above, sloped]{Yes} (items);
+        \draw[edge] (root) -- node[above, sloped]{No}  (weight);
+
+        \draw[edge] (items) -- node[left]{No}  (itemNo);
+        \draw[edge] (items) -- node[right]{Yes} (itemYes);
+
+        \draw[edge] (weight) -- node[right]{Yes} (wYes);
+        \draw[edge] (weight) -- node[left]{No}  (wNo);
+
+    \end{tikzpicture}
+    \caption{Exemplary decision tree to understand classification.}
+    \label{fig:decision_tree}
+\end{figure}

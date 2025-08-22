@@ -32,9 +32,9 @@ other models on specific application problem \footcite[cf.][pp. 250, 264]{kotsia
 
 
 \subsubsection{Objectices for ML approaches}
-To compare different models and \gls{ML} approaches identical objectives are needed. The most common
+To compare different models and \gls{ML} approaches performance indicators are needed. The most common
 measures rely on the binary output of the confusion matrix, which sorts the output along
-their true and predicted labels.
+their true and predicted labels. The predicted labels of the \gls{ML} model is divided in two groups via a certain threshold, usually 0.5, with all predicted values above it, considered in the predictive postive column and below in the predicted negative column.
 
 \begin{table}[ht]
     \centering
@@ -57,6 +57,14 @@ helps to interpret the outcomes and compare different model types.
     \qquad
     \text{F1}=\frac{2\,TP}{2\,TP+FP+FN}
 \]
+However these classical indicators draw a too optimistic picture of the model performance, when the dataset is imbalanced, as one class is dominating the other. Imbalance is occurrent, when the classes representing each label, feasible and infeasible, have a huge size difference.
+Two alternatives are firstly the \gls{MCC}, which is robust against imbalance and needs a certain threshold to divide the classifier output in the positive and negative predicted.
+\[
+    \text{MCC}=\frac{TP*TN - FP*FN}{\sqrt{(TP+FP)*(TP*FN)*(TN+FP)*(TN+FN)}}
+\]
+Secondly the \gls{AUROC}, which is the integral below the
+receiver operating curve, where no threshold is needed. The latter indicates how
+well the classification does in general terms.\footcite[cf.][p.2f.]{chicco_advantages_2020}
 
 
 \section{Data Retrieval}
@@ -144,11 +152,109 @@ Generally the higher the parameters $\alpha$, $\beta$ and $\gamma$ are set and t
 are considered in the instance set $\mathcal{I}$, the more routes will be found. Different
 random training datasets are presented in the Chapter~\ref{chap:computational_study}.
 
+\section{Model Selection}
+\label{sec:modelselection}
+Every \gls{ML} model can predict the feasibility of a single loading, and the comparison between different models and
+could fill this whole thesis. Therefore only three different models will be explained in detail and compared in the computational
+study about their performance.
+
+\subsubsection{Logistic Regression}
+
+\gls{LR} is based on either one or multiple independent input features, which output the response varibable. The resulting
+varibable is the linear equation of one intercept with the y-axis $\beta_0$ and many gradient variables $\beta_i$.
+\begin{align}
+    \pi_i=\beta_0+\beta_0*X_i+\dots+\beta_n*X_n = \beta_0 + \bm{\beta} * \bm{X}
+    \label{eq:base_lr}
+\end{align}
+is a very simple modeling approach and serves as a benchmark for many problems. When multiple variables are concerned for
+fitting the curve the approach from single variable can be adapted. As the Formula~\ref{eq:base_lr} is able to depict continuous
+values as output, it is struggling for the needed binary classification. Therefore the response variable $\pi_i$ is transformated
+to output a continuous probability distribution. The transformation is done by a logistic function with the formula:
+\begin{align}
+    \sigma(Z)=\frac{1}{1+\exp^{-z}},\, \text{with } z = \beta_0 + \bm{\beta} * \bm{X}
+    \label{eq:logistic_func}
+\end{align}
+The resulting logistic function lookn like this and it is apparent, that when $z$ is 0, or all input variables are 0, the model
+outouts 0.5, which can be interpreted as random guess between both labels feasible and feasible.
+\begin{figure}
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                axis lines=middle,
+                xlabel={$z$},
+                ylabel={$\sigma(z)$},
+                samples=200,
+                domain=-6:6,
+                ymin=-0.2, ymax=1.2,
+                xtick={-6,-4,-2,0,2,4,6},
+                ytick={0,0.5,1},
+                width=10cm,
+                height=6cm,
+            ]
+            % Logistic function
+            \addplot[blue, thick] {1/(1+exp(-x))};
+
+            % Dotted lines for y=0 and y=1
+            \addplot[dashed, gray] coordinates {(-6,0) (6,0)};
+            \addplot[dashed, gray] coordinates {(-6,1) (6,1)};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Transformation for logistic regression to classify binary output.}
+\end{figure}
+
+By applying this transformation the \gls{LR} model can be pretrained to obtain the values for $\beta_0$ and $\bm{\beta}$ and
+the function $\sigma(z)$ can be applied to classify new unseen routes.\footcite[cf.][]{kirasich_random_2018}
+
+
+\subsubsection{Decision Trees}
+Decision trees classify samples by sorting them based on their features. Every decision tree
+is built up by three elements, one root node and several branches and leaves. The root node
+depicts the starting point of the classification and is a branch, classifying the sample
+regarding to one feature. At every level of the tree several branches are added, which can be followed
+by either branches or leafes. A leaf is the exit point declaring
+the label of the sample data. The following small decision tree (see Fig.~\ref{fig:decision_tree}) is an example, how the loading could be classified with numerical features.
+
+\input{tikz/decision_tree.tex}
+The  prominent advantage is, that the logic behind the classification can be understood completely all routes, with more than 30 items and $70\%$ volume utilization are infeasible classified, as well as those tours where the relative weight utilization is above $80\%$, but the volume utilization is lower. The complex
+$NP$-hard problem is to find the optimal binary decision tree and finding the optimal subset and order of
+features.
+When many levels of branches are added, and the decision tree grows in depth, the chance of
+overfitting the decision tree to the training data is more likely. Therefore several control mechanisms
+were developed to avoid this. The first one is to control the maximum depth (\textit{max\_depth})
+of the decision tree, second after the decision tree is created to prune it by removing leaves from
+the tree and testing with an identical descision tree, if this has lowered the overall performance
+and the third method is stopping the fitting algorithm before the data is perfectly fitted to. \footcite[cf.][p.252]{kotsiantis_supervised_2007}
+One advantage of decision trees is that the data does not need to to be scaled as every feature is
+tested on feature own thresholds.
+
+\subsubsection{Feed Forward Neural Networks}
+
+Neural networks are a collection of single perceptrons/ neuron, which all are internally connected and
+in the case of feed forward networks signals are only allowed to go straight from input to output. One neuron
+in the network is either defined as input, output or as hidden units. One neuron calculates its
+output similar to the \gls{LR} with $X_i$ feature values and $w_i$ weights, the output is defined
+as $\sum_{i \in \mathcal{n}} X_i * w_i$ and can be truncated by a threshold forcing all about above 1
+to be 1 and all negative values to be zero. Every unit signals its output calculated by an individual
+activation function to all the next units in the next layer of the network. All the signals are
+then interpreted at the output layer and a result is gained based on all signals. For binary classification tasks the presented sigmoid function from \gls{LR} is used. An exemplary neural network is shown in Figure~\ref{fig:ffnn}.\footcite[cf.][p.255]{kotsiantis_supervised_2007}
+
+\input{tikz/feed_forward_model.tex}
+
+The training of the single layers and deciding which layers should be used is a complex task
+and modern libraries as PyTorch are supporting with prebuil and analysis functions to choose a good setup. Generally a \gls{FFNN} could be considered as an advanced \gls{LR} model, which allows also nonlinear functions to be used for the sending of signals.
+
+\parbreak
+\cite{kotsiantis_supervised_2007} states, that no supervised \gls{ML} method is superior to another, but each has its own advantages and disadavantages, which need to be considered. Therefore all three different types are included in this work to compare performances, and to understand the complexity of the underlying classification problem. As \gls{FFNN} normally tend to need a large sample size and perform
+good with continuous data, decision trees can be trained on much smaller samples and perform good with mixed datatypes consisting of discrete/binary and continuous values.\footcite[cf.][pp. 262ff.]{kotsiantis_supervised_2007} \gls{LR} is a standard method and the easiest to implement and to train, and can dominate other approaches due to their simplicity and interoperability. \footcite[cf.][p.8]{kirasich_random_2018}
+In the following section the features used for training the single models are presented. In Chapter~\ref{chap:computational_study} the performance of the single models is compared.
+
+\begin{comment}
 \section{Model Training}
 \label{sec:ModelTraining}
 
 Training is based on which model selected, XGBoost or /gls{FFNN} from pytorch library or others. Afterwards the Mini batch descent
 algorithm to train the model!
+\end{comment}
 
 \section{Features}
 \label{sec:Features}
@@ -275,5 +381,13 @@ As the number of 48 features is huge for describing a rather simple problem in c
 involve the analysis, which features have the greatest impact and which features can be dropped due to high correlation to other
 features or to irrelevance to the prediction accuracy of the binary classifier.
 
-\section{Feature Engineering}
+\section{Feature Selection}
 \label{sec:feature_engineering}
+
+The selection of a subset of features presented in Section~\ref{sec:Features} helps to simplify the result and preserving the
+same performance. For this procedure several possibilities are available:
+\begin{enumerate}
+    \item Forward selection
+    \item Backward Selection
+    \item
+\end{enumerate}
