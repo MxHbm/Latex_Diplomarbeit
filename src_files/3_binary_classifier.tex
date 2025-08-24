@@ -10,7 +10,8 @@ increases in complexity, as every tour is representing a \gls{CLP} itself. \foot
 The emphasis is placed primarily on \gls{ML}-based classifiers.
 These are supervised \gls{ML} algorithms predicting the
 value of a categorical or binary output column, called label, based on the
-values of other columns, called features. Classifiers learn from a labeled dataset,
+values of other columns, called features. Classifiers are supervised learning models,
+which are trained on a labeled dataset,
 where the correct output values are known in advance, and then use this knowledge to
 make predictions on new, unseen data. The accuracy can be evaluated afterwards by comparing
 the predicted labels with the actual labels. \footcite[cf.][]{kotsiantis_supervised_2007}
@@ -18,10 +19,10 @@ An exemplary train dataset is shown in Table~\ref{tab:classifier_label_data}.
 
 \input{tables/label_classifier}
 
-A classifier can be implemented using various \gls{ML} models such as \gls{LR},
-\gls{ANN}, support vector machine, or others. However, the most crucial aspect of any
+A classifier can be trained using various \gls{ML} models such as \gls{LR},
+\gls{ANN}, support vector machines, or others. However, the most crucial aspect of any
 \gls{ML} model is the selection of data, particularly the choice of features and
-the size of the training set, since many models can be easily preselected from available
+the size of the training set, since many models can be implemented from available
 libraries and be compared performance wise. The model attempts to learn correlations between the provided features
 and the corresponding labels. If the features are poorly chosen, the model may fail
 to capture the underlying patterns in the data. Additionally, if the training set
@@ -31,10 +32,13 @@ to accurately predict unseen data. Furthermore, it needs to be noted, that avail
 other models on specific application problem \footcite[cf.][pp. 250, 264]{kotsiantis_supervised_2007}.
 
 
-\subsubsection{Objectices for ML approaches}
+\section{Objectices for ML approaches}
+\label{sec:classifier_objectives}
 To compare different models and \gls{ML} approaches performance indicators are needed. The most common
 measures rely on the binary output of the confusion matrix, which sorts the output along
-their true and predicted labels. The predicted labels of the \gls{ML} model is divided in two groups via a certain threshold, usually 0.5, with all predicted values above it, considered in the predictive postive column and below in the predicted negative column.
+their true and predicted labels. The predicted labels of the \gls{ML} model are
+divided in two groups via a certain threshold, usually 0.5, with all predicted values above it,
+considered in the predictive positive column and below in the predicted negative column.
 
 \begin{table}[ht]
     \centering
@@ -50,51 +54,102 @@ their true and predicted labels. The predicted labels of the \gls{ML} model is d
     \label{tab:confusion_matrix}
 \end{table}
 The output can be used to calculate the accuracy and F1 score of the classification, which
-helps to interpret the outcomes and compare different model types.
-
-\[
+helps to interpret the outcomes and compare different model types, which are defined below:
+\begin{align}
     \text{Accuracy}=\frac{TP+TN}{TP+TN+FP+FN}
     \qquad
     \text{F1}=\frac{2\,TP}{2\,TP+FP+FN}
-\]
-However these classical indicators draw a too optimistic picture of the model performance, when the dataset is imbalanced, as one class is dominating the other. Imbalance is occurrent, when the classes representing each label, feasible and infeasible, have a huge size difference.
-Two alternatives are firstly the \gls{MCC}, which is robust against imbalance and needs a certain threshold to divide the classifier output in the positive and negative predicted.
-\[
-    \text{MCC}=\frac{TP*TN - FP*FN}{\sqrt{(TP+FP)*(TP*FN)*(TN+FP)*(TN+FN)}}
-\]
+\end{align}
+The accuracy is the ratio between the true classified classes against the whole population
+of predictions. The F1-Score emphasis the TP labels and is therefore especially
+often used for classification purposes. Both indicators would have the perfect score with 1.
+However these classical indicators draw a too optimistic picture of the model performance,
+when the dataset is imbalanced, as one class is dominating the other. Imbalance is occurrent,
+when the classes representing each label, feasible and infeasible, have a huge size difference.\footcite[cf.][p. 2f.]{chicco_advantages_2020}
+Two alternatives are firstly the \gls{MCC}, which is robust against imbalance
+and needs a certain threshold to divide the classifier output in the positive
+and negative predicted. \gls{MCC} has the advantage to account the majority of the predictions
+relative to class size and is defined from -1 to 1. However, if one class of the confusion
+matrix has a population size of 0 \gls{MCC} is not defined.\footcite[cf.][p.5]{chicco_advantages_2020}
+\begin{align}
+    \text{MCC}=\frac{TP*TN - FP*FN}{\sqrt{(TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)}}
+\end{align}
 Secondly the \gls{AUROC}, which is the integral below the
-receiver operating curve, where no threshold is needed. The latter indicates how
-well the classification does in general terms.\footcite[cf.][p.2f.]{chicco_advantages_2020}
+receiver operating curve, where no threshold is needed, as several thresholds are used
+to calculate the \gls{TPR} and the \gls{FPR},
+which indicates how well the classification does in general terms.\footcite[cf.][p.2f.]{chicco_advantages_2020}
+The following small example demonstrate the difference of the first three indicators, when
+an imbalanced resp. balanced dataset is used.
 
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{@{}P{0.1\textwidth}P{0.38\textwidth}P{0.38\textwidth}@{}}
+        \toprule
+        Score  & Balanced Dataset $(n = 100)$                                     & Imbalanced Dataset $(n = 100)$                               \\
+        \midrule
+        Bal.   & Pos = 50; Neg = 50                                               & Pos = 91; Neg = 9                                            \\
+        \midrule
+        Distr. & TP = 47; FN = 3; TN = 5; FP = 45                                 & TP = 90; FN = 1; TN = 1; FP = 8                              \\
+        \midrule
+        Acc    & $\frac{47 + 5}{47 + 3  + 5 + 45} = 0.52$                         & $\frac{90 + 1}{90 + 1  + 1 +8} = 0.91$                       \\
+        \midrule
+        F1     & $\frac{2* 47}{2*47 + 3 + 45} = 0.66$                             & $\frac{2 * 90}{2 * 90 + 1 +8} = 0.95$                        \\
+        \midrule
+        MCC    & $\frac{47*5 -3*45*1}{\sqrt{(47+45)*(47+3)*(5+45)*(3+5)}} = 0.07$ & $\frac{90*1 - 8*1}{\sqrt{(90+8)*(90+1)*(1+8)*(1+1)}} = 0.21$ \\
+        \bottomrule
+    \end{tabular}
+    \caption[Comparison of Accuracy, F1-Score and MCC with an exemplary balanced and unbalanced
+        dataset.]{Comparison of Accuracy, F1-Score and MCC with an exemplary balanced and unbalanced
+        dataset.\footnote{Numbers and examples are inspired on \cite[p.9]{chicco_advantages_2020}}}
+    \label{tab:indicator_comparison}
+\end{table}
+In these two examples weaknesses of classical performance indicators are apparent. In the first
+example the positive and negative label classes are equal, and the distribution for the
+labels is more or less random, as the sum of the false predicted values is almost equal to
+the true predicted values. The accuracy and the \gls{MCC} indicate this random guessing
+behavior with values close to the middle of the respective indicator range.
+The accuracy is slightly positive as the rate of true predicted values of the positive class
+with $94\%$ is very high. As the dataset is balanced classic indicators can still grasp
+the poor performance of the classifier. However, when looking at the second example, both
+accuracy and F1-score have very high values indicating very good performance, but this is
+due to the imbalanced class distribution. In the negative class with 9 samples, only $11\%$
+are correctly classified, this poor performance is shown with a low \gls{MCC} score. It needs
+to be noted, that in every example it needs to be chosen, where the optimization focus should
+be laid to, if only the \gls{TPR} is from interest F1-Score serves well.\footcite[cf.][p.8f.]{chicco_advantages_2020}
+The next section will dive deeper how the route data can be retrieved to train the classifier on.
 
 \section{Data Retrieval}
 \label{sec:DataRetrieval}
 Collecting the training data is one crucial step, for the model creation and two approaches exist.
 
-\subsubsection{Saving labeled routes from exact algorithms}
+\subsubsection{Saving labeled routes from exact algorithms (Save strategy)}
 The first one is to save all routes with exact loading label from an exisiting \gls{3L-CVRP}
-algorithm, as \cite{zhang_learning-based_2022} did in his paper. However, in his approach it
-had the advantage, that the binary model was supposed to be used in the same exact algorithm
-and the solution structure of routes in the train data is similar to the real data afterwards. \footcite[cf.][]{zhang_learning-based_2022}
+algorithm, as \cite{zhang_learning-based_2022} did in their paper. However the binary classifier
+was integrated used in the same exact algorithm
+and therefore the solution structure of routes in the train data is similar to the real data afterwards. \footcite[cf.][]{zhang_learning-based_2022}
 To follow this approach the exact branch-and-cut algorithm from \cite{tamke_branch-and-cut_2024} was
-used to save all routes, which are labeled and found in a certain timelimit from an instance. During
-the algorithm labeled routes are sorted based on the loading status and loading flag, when all
-constraints are considered (loading flag = All Constraints), every labeled route has an underlying
-sequence, which is crucial for the label, as the \gls{LIFO} constraint is dominating. However,
-when the problem is relaxed constraint wise,
-\footcites[Retrieved from][]{tamke_repository_2024}[cf.][]{tamke_branch-and-cut_2024} Every route
-is sorted into a set composed of the loading flag and loading status. The flag represents which
-subset of constraints was used for this tour and three flags were considered:
+used to save all routes, which are labeled and found in an 8-hour timelimit from an instance. The routes
+are saved based on their respective \gls{LoadSt} and \gls{LoadFl}. The \gls{LoadSt} sorts the routes in the
+label categories feasible, infeasible, unknown and invalid and is determined by the exact \gls{CP} solver.
+If the solver could not find a concrete Feasible/ Infeasible label in the timelimit fot the solver the route
+will be classified as invalid or unknown, based on the resp. \gls{LoadFl}.
+The \gls{LoadFl} defines the subset of
+loading constraints used. Three \glspl{LoadFl} are considered in the orginal algorithm, which are shown
+in the following:
 \begin{itemize}
-    \item All Constraints $\mathcal{G}$
-    \item No Support $\mathcal{G}\setminus \{\text{SupportArea}\}$
-    \item No LIFO $\mathcal{G}\setminus \{\text{LIFO}\}$
+    \item All Constraints: $\mathcal{G}$
+    \item No Support Area: $\mathcal{G}\setminus \{\text{SupportArea}\}$
+    \item No Sequence: $\mathcal{G}\setminus \{\text{Sequence}\}$
 \end{itemize}
-
-The status defines the label for the loading retrived from the \gls{CP} Solver and can be either
-Feasible, Infeasible, or Unknown. If the solver could not find a concrete Feasible/ Infeasible
-label after a certain time limit the route will be classified as invalid. The following table
-represents, which subsets of the loading flags and status are used for the train dataset.
+During the algorithm labeled routes are saved based on these two categories. The concrete route sequence
+is only relevant for the first two \glspl{LoadFl}, and the routes are saved as sequences. For the third
+group \textit{No Sequence} the found routes are independent from their sequence and a respective set
+of the customer ids without a order is saved. \footcites[Retrieved from][]{tamke_repository_2024}[cf.][]{tamke_branch-and-cut_2024}
+After the branch-and-cut algorithme the routes are sorted into different sets composed of the \gls{LoadFl} and \gls{LoadSt}.
+All the route sequences found are resepcted for the train dataset. However, as the permutation number of all combinations
+of customer ids of the sets from the third \gls{LoadFl} \textit{No Sequence}, would dominate the train dataset number wise,
+three random permutations are considered from each set. The following table highlights, which routes depending on the
+\gls{LoadFl} and \gls{LoadSt} are considered for the final train dataset.
 
 \begin{table}[ht]
     \centering
@@ -111,28 +166,29 @@ represents, which subsets of the loading flags and status are used for the train
         \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    \\
         \bottomrule
     \end{tabular}
-    \label{tab:train_data_BC_routes}
-    \caption{Constrution of training data from branch-and-cut routes. All green cells are interpreted as feasible, and all
+    \caption{Construction of training data from branch-and-cut routes. All green cells are labeled as feasible, and all
         red cells as infeasible data}
+    \label{tab:train_data_BC_routes}
 \end{table}
 
 As the trained classifier is used in an algorithm considering all loading constraints, feasible tours
 must fulfill all loading constraints, but infeasible tours from a subset of loading constraints
-will to a very high probability also be infeasible, when more loading constraints are considered.\footcite[cf.][p.7]{tamke_branch-and-cut_2024}
-As the same tour can occur in different infeasible / unknown sets it is important to delete
-duplicated tours with the same label before training the model.
+will also be infeasible, when more loading constraints are considered.\footcite[cf.][p.7]{tamke_branch-and-cut_2024} therefore
+the distinction is made in Table~\ref{tab:train_data_BC_routes}.
+As the same tour can occur in different infeasible / unknown sets
+duplicated tours with the same label will be deleted before training the model. To distinguish this strategy, it will
+be called \textit{Save Strategy}.
 
-\subsubsection{Creating random routes}
-An alternative to the first approach, and is the only option when lacking a suiting complete algorithm, is to
-create random routes from the \gls{3L-CVRP} instances used. As these random routes lack
-a true label, if the corresponding loading of this route is feasible or infeasible, each random
-route needs to be labeled individually. One of the approaches presented in Section~\ref{sec:classical_solution_approaches} can be chosen
-for the \gls{CLP}, but the solution quality of heuristics must be high, or the best choice is to
-use an exact approach to determine, if all items fit into the container with the loading constraints.
+\subsubsection{Creating random routes (Random Strategy)}
+An alternative to the first approach is to create random routes from the \gls{3L-CVRP} instances used.
+These routes need to be labeled in feasible and infeasible routes regarding their loading.
+A \gls{CLP} algorithm with high solution quality is needed to ensure the correct labels. As the heuristic approaches
+presented in Section~\ref{sec:classical_solution_approaches} do not provide an optimal solution,
+the best choice is to use an exact approach to determine, if all items fit into the container with the loading constraints.
 For this purpose, the exact \gls{CP} model was extracted from \cite{tamke_repository_2024} to create
-a \gls{CP} solver, which can be called for just one route.\footcite[Stolen with permission from][]{tamke_repository_2024}
-As there are no control mechanisms in comparison to the exact algorithm, the Algorithm~\ref{alg:rand_routes_generation} was created to test different parameter
-combinations. As the pseudocode has a lot of details, the most important characteristics and
+a standalone \gls{CP} solver, which can be called for just one route.\footcite[Stolen with permission from][]{tamke_repository_2024}
+The random routes are created with the Algorithm~\ref{alg:rand_routes_generation}, and three parameters are introduced to
+control the number of random routes found. As the pseudocode has a lot of details, the parameters and
 functionalities are summarized in the following:
 
 \begin{itemize}
@@ -151,32 +207,45 @@ functionalities are summarized in the following:
 Generally the higher the parameters $\alpha$, $\beta$ and $\gamma$ are set and the more instances
 are considered in the instance set $\mathcal{I}$, the more routes will be found. Different
 random training datasets are presented in the Chapter~\ref{chap:computational_study}.
+This strategy will be called \textit{Random Strategy}. In the nexr section three model candidates
+are presented more in detail.
 
 \section{Model Selection}
 \label{sec:modelselection}
-Every \gls{ML} model can predict the feasibility of a single loading, and the comparison between different models and
-could fill this whole thesis. Therefore only three different models will be explained in detail and compared in the computational
-study about their performance.
+Every supervised learning method can predict the feasibility of a single loading, and the comparison
+between different models is a tidious job. Therefore only three different classification
+models will be explained in detail and compared in the computational study about their performance.
+Two different types of models will be compared, regression and pure classification models. Regression
+models are based on calculations and output a value between 0 and 1, which is then classified with
+an artifical threshold in two distinct classes, as feasible and infeasible loading. Pure classification
+models output directly the predicted label. \footcite[cf.][p.5]{nasteski_overview_2017}
 
 \subsubsection{Logistic Regression}
 
-\gls{LR} is based on either one or multiple independent input features, which output the response varibable. The resulting
-varibable is the linear equation of one intercept with the y-axis $\beta_0$ and many gradient variables $\beta_i$.
+The idea for \gls{LR} is based on linear regression, where either one or multiple independent explanatory
+variables $\beta_i$ are multipplied with the feature values $X_i$ to sum up to a continuous scalar $\pi_i$.
+The resulting variable is the linear equation of one intercept with the y-axis $\beta_0$
+and many gradient variables $\beta_i$.
+These explanatory variables are fitted to the population of samples by minimizing the mean sqared
+error, afterwards the model can be used to predict new data points.\footcite[cf.][pp. 6-7]{nasteski_overview_2017}
 \begin{align}
     \pi_i=\beta_0+\beta_0*X_i+\dots+\beta_n*X_n = \beta_0 + \bm{\beta} * \bm{X}
     \label{eq:base_lr}
 \end{align}
-is a very simple modeling approach and serves as a benchmark for many problems. When multiple variables are concerned for
-fitting the curve the approach from single variable can be adapted. As the Formula~\ref{eq:base_lr} is able to depict continuous
-values as output, it is struggling for the needed binary classification. Therefore the response variable $\pi_i$ is transformated
-to output a continuous probability distribution. The transformation is done by a logistic function with the formula:
+Linear regression is a very simple modeling approach and serves as a benchmark for many problems. As the Formula~\ref{eq:base_lr} is able to depict continuous
+values as output, it is not possible to classify binary values. Therefore the output variable $\pi_i$ is transformated via a logistic function
+to output a continuous probability distribution with the formula:
 \begin{align}
-    \sigma(Z)=\frac{1}{1+\exp^{-z}},\, \text{with } z = \beta_0 + \bm{\beta} * \bm{X}
+    \sigma(z)=\frac{1}{1+\exp^{-z}},\, \text{with } z = \beta_0 + \bm{\beta} * \bm{X}
     \label{eq:logistic_func}
 \end{align}
-The resulting logistic function lookn like this and it is apparent, that when $z$ is 0, or all input variables are 0, the model
-outouts 0.5, which can be interpreted as random guess between both labels feasible and feasible.
-\begin{figure}
+The resulting logistic function is bound to the range of 0 and 1, and results can be interpreted
+in two labels using an exemplary threshold of 0.5. An output of 0.5 can be interpreted as random
+guessing between both labels, as $z=0$. The curve of the logistic function is shown in Figure~\ref{fig:LR_plot}.
+The explanatory variables $\beta_i$, which serve as input
+of $z$, are fitted to describe the pattern of feasible and infeasible loadings best and to predict
+consecutively new unseen routes.\footcite[cf.][]{kirasich_random_2018}
+\begin{figure}[ht]
     \centering
     \begin{tikzpicture}
         \begin{axis}[
@@ -199,11 +268,10 @@ outouts 0.5, which can be interpreted as random guess between both labels feasib
             \addplot[dashed, gray] coordinates {(-6,1) (6,1)};
         \end{axis}
     \end{tikzpicture}
-    \caption{Transformation for logistic regression to classify binary output.}
+    \caption{Transformation of linear regression to logistic regression via the sigmoid function.}
+    \label{fig:LR_plot}
 \end{figure}
 
-By applying this transformation the \gls{LR} model can be pretrained to obtain the values for $\beta_0$ and $\bm{\beta}$ and
-the function $\sigma(z)$ can be applied to classify new unseen routes.\footcite[cf.][]{kirasich_random_2018}
 
 
 \subsubsection{Decision Trees}
@@ -211,42 +279,56 @@ Decision trees classify samples by sorting them based on their features. Every d
 is built up by three elements, one root node and several branches and leaves. The root node
 depicts the starting point of the classification and is a branch, classifying the sample
 regarding to one feature. At every level of the tree several branches are added, which can be followed
-by either branches or leafes. A leaf is the exit point declaring
-the label of the sample data. The following small decision tree (see Fig.~\ref{fig:decision_tree}) is an example, how the loading could be classified with numerical features.
+by either branches or leafes. Each branch splits the instance space into two or more sub-spaces
+according to a certain discrete function of the input values. A leaf is the exit point declaring
+the label of the sample data.\footcite[cf.][p.5-6]{nasteski_overview_2017} The following small decision tree (see Fig.~\ref{fig:decision_tree}) is an example, how the loading could be classified with numerical features.
 
 \input{tikz/decision_tree.tex}
-The  prominent advantage is, that the logic behind the classification can be understood completely all routes, with more than 30 items and $70\%$ volume utilization are infeasible classified, as well as those tours where the relative weight utilization is above $80\%$, but the volume utilization is lower. The complex
+The  prominent advantage is, that the logic behind the classification can be understood
+completely. In this example all routes, with more than 30 items and $70\%$ volume utilization are classified infeasible,
+as well as those tours where the relative weight utilization is above $80\%$, but the volume utilization is lower. The complex
 $NP$-hard problem is to find the optimal binary decision tree and finding the optimal subset and order of
 features.
 When many levels of branches are added, and the decision tree grows in depth, the chance of
 overfitting the decision tree to the training data is more likely. Therefore several control mechanisms
 were developed to avoid this. The first one is to control the maximum depth (\textit{max\_depth})
-of the decision tree, second after the decision tree is created to prune it by removing leaves from
-the tree and testing with an identical descision tree, if this has lowered the overall performance
+of the decision tree. Secondly, after the decision tree is created to prune it by removing leaves from
+the tree and comparing it with an identical descision tree, if this has lowered the overall performance
 and the third method is stopping the fitting algorithm before the data is perfectly fitted to. \footcite[cf.][p.252]{kotsiantis_supervised_2007}
-One advantage of decision trees is that the data does not need to to be scaled as every feature is
-tested on feature own thresholds.
+One further advantage of decision trees is that the data does not need to to be scaled as every feature is
+tested on feature own thresholds, in comparion of the other presented models.
 
 \subsubsection{Feed Forward Neural Networks}
 
 Neural networks are a collection of single perceptrons/ neuron, which all are internally connected and
 in the case of feed forward networks signals are only allowed to go straight from input to output. One neuron
-in the network is either defined as input, output or as hidden units. One neuron calculates its
+in the network is either defined as input, output or as hidden unit. One neuron calculates its
 output similar to the \gls{LR} with $X_i$ feature values and $w_i$ weights, the output is defined
 as $\sum_{i \in \mathcal{n}} X_i * w_i$ and can be truncated by a threshold forcing all about above 1
 to be 1 and all negative values to be zero. Every unit signals its output calculated by an individual
 activation function to all the next units in the next layer of the network. All the signals are
-then interpreted at the output layer and a result is gained based on all signals. For binary classification tasks the presented sigmoid function from \gls{LR} is used. An exemplary neural network is shown in Figure~\ref{fig:ffnn}.\footcite[cf.][p.255]{kotsiantis_supervised_2007}
+then interpreted at the output layer. For binary classification tasks the presented sigmoid function from \gls{LR} is used.
+An exemplary neural network is shown in Figure~\ref{fig:ffnn}.\footcite[cf.][p.255]{kotsiantis_supervised_2007}
 
 \input{tikz/feed_forward_model.tex}
 
 The training of the single layers and deciding which layers should be used is a complex task
-and modern libraries as PyTorch are supporting with prebuil and analysis functions to choose a good setup. Generally a \gls{FFNN} could be considered as an advanced \gls{LR} model, which allows also nonlinear functions to be used for the sending of signals.
+and modern libraries as PyTorch are supporting with prebuil and analysis functions to choose
+a good setup. Generally a \gls{FFNN} can be considered as an advanced \gls{LR} model,
+which allows also nonlinear functions to be used for the processing of signals.
 
 \parbreak
-\cite{kotsiantis_supervised_2007} states, that no supervised \gls{ML} method is superior to another, but each has its own advantages and disadavantages, which need to be considered. Therefore all three different types are included in this work to compare performances, and to understand the complexity of the underlying classification problem. As \gls{FFNN} normally tend to need a large sample size and perform
-good with continuous data, decision trees can be trained on much smaller samples and perform good with mixed datatypes consisting of discrete/binary and continuous values.\footcite[cf.][pp. 262ff.]{kotsiantis_supervised_2007} \gls{LR} is a standard method and the easiest to implement and to train, and can dominate other approaches due to their simplicity and interoperability. \footcite[cf.][p.8]{kirasich_random_2018}
-In the following section the features used for training the single models are presented. In Chapter~\ref{chap:computational_study} the performance of the single models is compared.
+\cite{kotsiantis_supervised_2007} states, that no supervised \gls{ML} method is superior to another,
+but each has its own advantages and disadavantages, which need to be considered.
+Therefore all three different types are included in this work to compare performances, and
+to understand the complexity of the underlying classification problem. As \gls{FFNN} normally
+tend to need a large sample size and perform good with continuous data, decision trees can be
+trained on much smaller samples and perform good with mixed datatypes consisting of discrete/binary
+and continuous values.\footcite[cf.][pp. 262ff.]{kotsiantis_supervised_2007}
+\gls{LR} is a standard method and the easiest to implement and to train, and can dominate
+other approaches due to their simplicity and interoperability. \footcite[cf.][p.8]{kirasich_random_2018}
+In the following section the features used for training the single models are presented.
+In Chapter~\ref{chap:computational_study} the performance of the single models is compared.
 
 \begin{comment}
 \section{Model Training}
@@ -384,10 +466,72 @@ features or to irrelevance to the prediction accuracy of the binary classifier.
 \section{Feature Selection}
 \label{sec:feature_engineering}
 
-The selection of a subset of features presented in Section~\ref{sec:Features} helps to simplify the result and preserving the
-same performance. For this procedure several possibilities are available:
-\begin{enumerate}
-    \item Forward selection
-    \item Backward Selection
-    \item
-\end{enumerate}
+The selection of a subset of features presented in Section~\ref{sec:Features} helps to simplify the model
+while preserving the same performance. For this procedure several frameworks are published. In this work
+the \gls{FSFS} is used. The procedure starts with a minimum number of features to start with, which are
+preselected based on the best performance of the whole set of features. Iteratively in the \gls{FSFS} a new
+feature is added to the model and it is tested, if the current fit of the model feaatures need to be adapted.
+This process is either repeated until no more features can be selected or a chosen bound for the maximum
+feature number is reached. The theoretical background for the feature selection is, that the performance
+of the model is optimal with the full feature set due to the noise and correlation between the features,
+but somewhere in the middle. The following Figure~\ref{fig:feature-performance} shows this ideal feature-performance curve.
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+                axis lines=middle,
+                xlabel={$No Features$},
+                ylabel={$Performance Indicator$},
+                samples=1000,
+                domain=1:50,
+                xmin=1, xmax=50,
+                ymin=-0.1, ymax=1.2,
+                xtick={5,10,15,20,25,30,35,40,45,50},
+                ytick={0,0.5,1},
+                width=10cm,
+                height=6cm,
+            ]
+            \pgfmathsetmacro{\kap}{1.8}
+            \pgfmathsetmacro{\lam}{0.04}
+
+            \addplot[blue, thick] { 0.5 + 14*( \lam*\kap*(\lam*x)^(\kap-1)*exp( -(\lam*x)^\kap ) ) };
+
+
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Ideal curve of model performance determined by number of features selected.}
+    \label{fig:feature-performance}
+\end{figure}
+
+The performance, e.g. the \gls{MCC} score, increases slowly until a maximum and then decresases slowly with
+increasing number of features respected. The real curve observed will be not this extreme as the core
+classfication system is always part, but should illustrate the benefits of feature selection.
+
+When only one dataset is available, then the feature selection is a quite simple process, however, when
+several datasets are available with different samples and retrieval methods it is very likely,
+that with every feature selection a different subsets of features is selected. Therefore the
+following procedure will be conducted:
+\begin{algorithm}[htb]
+    \caption{Feature and Dataset Selection}\label{alg:feature_dataset_selection}
+    \begin{algorithmic}[1]
+        \Procedure{Feature Dataset Selection}{Set of datasets $\mathcal{D}$}
+        \For{$d \in D$}
+        \State{Apply \gls{FSFS} to $d$ and determine optimal feature list $d_f$}
+        \State{Save model $d_m$ with feature list $d_f$}
+        \For{$d' \in D\setminus\{d\}$}
+        \State Label dataset $d'$ with model $d_m$ and features $d_f$
+        \State Calculate accuracy, F1-score, \gls{MCC} and \gls{AUROC}
+        \State Save results
+        \EndFor
+        \EndFor
+        \State{\textbf{return} Dataset $d$ with best performance over all datasets}
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+To select the best fitting dataset and corresponding feature list for every dataset is iteratively
+the optimal feature list selected with \gls{FSFS} and afterwards all other datasets are labeled
+with the pretrained model and the selected features. This procedure is repeated for every dataset
+and the dataset and the corresponding model and feature list is chosen, which has the best overall
+performance. The performance is compared in this order: \gls{MCC}, \gls{AUROC}, F1-score and accuracy.

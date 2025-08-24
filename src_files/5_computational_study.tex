@@ -157,54 +157,169 @@ In the following section the results from training the binary classifier are pre
 
 \section{Results Training}
 \label{sec:ResultsTraining}
+In this section the results from the feature dataset selection are discussed. The single best features
+with individual scores are shown in the Appendix~\ref{app:feature_selection}. For each model variant (see Section~\ref{sec:modelselection})
+the most suiting dataset is selected from both, the Random Retrieval and Save Strategy datasets. These selected
+models will then be used in the further steps of the computational study to compare the \gls{ILS} algorithm
+with and without the boost of the classifier. The tables where the single \gls{ML} variants are compared
+can also be found in the appendix and this section can be reduced to present the datasets for each
+retrieval strategy, as well as the final outcomes.
 
-\subsection{Random Dataset Generation}
+\subsection{Random Retrieval Strategy}
 With the algorithm \ref{alg:rand_routes_generation} the following random datasets were created with all
 instances from Gendreau.
 \begin{table}[h!]
     \centering
-    \begin{tabular}{c c cc c c c}
-        \hline
-        Multiplier $\alpha$ & Attempts limit $\beta$ & Success threshold $\gamma$ & Routes & Accuracy & F1-Score \\
-        \hline
-        2                   & 20                     & 20                         & 45733  &          &          \\
-        2                   & 20                     & 30                         & 70067  &          &          \\
-        2                   & 30                     & 20                         & 47350  &          &          \\
-        2                   & 30                     & 30                         & 72408  &          &          \\
-        3                   & 20                     & 20                         & 68506  &          &          \\
-        3                   & 20                     & 30                         & 104967 &          &          \\
-        3                   & 30                     & 20                         & 70843  &          &          \\
-        3                   & 30                     & 30                         & 108597 &          &          \\
-        4                   & 20                     & 20                         & 91000  &          &          \\
-        4                   & 20                     & 30                         & 139996 &          &          \\
-        4                   & 30                     & 20                         & 94666  &          &          \\
-        4                   & 30                     & 30                         & 144311 &          &          \\
-        5                   & 40                     & 40                         & 249762 &          &          \\
-        \hline
+    \begin{tabular}{@{}P{0.13\textwidth}P{0.08\textwidth}P{0.08\textwidth}P{0.08\textwidth}P{0.09\textwidth}P{0.10\textwidth}P{0.12\textwidth}P{0.12\textwidth}@{}}
+        \midrule
+        Name       & $\alpha$ & $\beta$ & $\gamma$ & Routes & Balance & Rel. Vol & Rel. Mass \\
+        \bottomrule
+        RD-2-20-20 & 2        & 20      & 20       & 45733  & 60/40   &          &           \\
+        RD-2-20-30 & 2        & 20      & 30       & 70067  & 60/40   &          &           \\
+        RD-2-30-20 & 2        & 30      & 20       & 47350  & 60/40   &          &           \\
+        RD-2-30-30 & 2        & 30      & 30       & 72408  & 60/40   &          &           \\
+        RD-3-20-20 & 3        & 20      & 20       & 68506  & 60/40   &          &           \\
+        RD-3-20-30 & 3        & 20      & 30       & 104967 & 60/40   &          &           \\
+        RD-3-30-20 & 3        & 30      & 20       & 70843  & 60/40   &          &           \\
+        RD-3-30-30 & 3        & 30      & 30       & 108597 & 60/40   &          &           \\
+        RD-4-20-20 & 4        & 20      & 20       & 91000  & 60/40   &          &           \\
+        RD-4-20-30 & 4        & 20      & 30       & 139996 & 60/40   &          &           \\
+        RD-4-30-20 & 4        & 30      & 20       & 94666  & 60/40   &          &           \\
+        RD-4-30-30 & 4        & 30      & 30       & 144311 & 60/40   &          &           \\
+        RD-5-40-40 & 5        & 40      & 40       & 249762 & 60/40   &          &           \\
+        \bottomrule
     \end{tabular}
-    \caption{Created instances for different parameter combinations $(X, Y, Z)$}
-    \label{tab:created_instances_gendreau}
+    \caption[Created instances for different parameter combinations $(\alpha, \beta, \gamma)$ for \gendreauDataSetText dataset.]{Created instances for different parameter combinations $(\alpha, \beta, \gamma)$ for \gendreauDataSetText dataset.
+        The values in the balance column stand for the share of positive and netative labels in the sample population. The relative volume
+        and mass refer to the average value for all routes in the respective dataset.}
+    \label{tab:created_instances_xyz_gendreau}
 \end{table}
 
-With a subset from krebs the following datasets were created!
-\begin{table}[h!]
+\subsubsection{Save Retrieval Strategy}
+The initial routes saved are from this and that dataset, it was tested if modificaions to reduce
+the number of routes with 2 customers, lead to better model results. Therefore it was tested
+to shrink all feasible routes with 2 customers with a similarity of $94\%$(Shrinked) or alternatively drop
+all feasible routes with 2 customers (Trimmed). The three resulting datasets have the following characterics:
+
+\begin{table}[ht]
     \centering
-    \begin{tabular}{c c cc c c c}
-        \hline
-        Multiplier $\alpha$ & Attempts limit $\beta$ & Success threshold $\gamma$ & Routes & Accuracy & F1-Score \\
-        \hline
-        1                   & 1                      & 1                          & 7616   &          &          \\
-        1                   & 1                      & 2                          & 15948  &          &          \\
-        1                   & 1                      & 3                          & 24573  &          &          \\
-        1                   & 2                      & 1                          & 8325   &          &          \\
-        1                   & 2                      & 2                          & 17217  &          &          \\
-        1                   & 2                      & 3                          & 26467  &          &          \\
-        1                   & 3                      & 1                          & 8683   &          &          \\
-        1                   & 3                      & 2                          & 18041  &          &          \\
-        1                   & 3                      & 3                          & 27535  &          &          \\
-        \hline
+    \begin{tabular}{c c c c c}
+        \toprule
+        Name     & Routes & Balance & Rel. Vol & Rel. Mass \\
+        \midrule
+        Complete & 7616   & 60/40   &          &           \\
+        Trimmed  & 15948  & 60/40   &          &           \\
+        Shrinked & 24573  & 60/40   &          &           \\
+        \bottomrule
     \end{tabular}
-    \caption{Created instances for different parameter combinations $(X, Y, Z)$}
-    \label{tab:created_instances_xyz}
+    \caption[Save strategy train datsets from \gendreauDataSetText.]{Save strategy train datsets from \gendreauDataSetText.
+        The values in the balance column stand for the share of positive and netative labels in the sample population. The relative volume
+        and mass refer to the average value for all routes in the respective dataset.}
+    \label{tab:saved_instances_gendreau}
 \end{table}
 
+For the upcoming parameter study the following datasets were selected for the corresponding models
+to analyse the performance of the classifier. It can be observed, that in general the ... datasets
+do have more influence.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c c c c c c c}
+        \toprule
+        Model                          & Strategy & Name       & \gls{MCC}-Score & \gls{AUROC} & F1-Score & Accuracy \\
+        \midrule
+        \multirow{2}{*}{\gls{LR}}      & Random   & RD-4-20-30 & 0.6             & 0.87        & 0.9      & 0.8      \\
+                                       & Save     & Complete   & 0.6             & 0.87        & 0.9      & 0.8      \\
+        \midrule
+        \multirow{2}{*}{Decision Tree} & Random   & RD-4-20-30 & 0.6             & 0.87        & 0.9      & 0.8      \\
+                                       & Save     & Complete   & 0.6             & 0.87        & 0.9      & 0.8      \\
+        \midrule
+        \multirow{2}{*}{\gls{FFNN}}    & Random   & RD-4-20-30 & 0.6             & 0.87        & 0.9      & 0.8      \\
+                                       & Save     & Complete   & 0.6             & 0.87        & 0.9      & 0.8      \\
+
+        \bottomrule
+    \end{tabular}
+    \caption{Presentatione of final datasets and feature selection}
+    \label{tab:final_dataset_features}
+\end{table}
+
+\section{Parameter Study}
+\label{sec:parameter_study}
+
+The parameter study is divided in four subsections following the variants of the algorithm
+presented in Section~\ref{sec:FeasibilityCheck}. This study follows a hierarchical procedure
+tuning the parameters, introduced for each variant, sequentially. The following subset of instances
+from the gendreau dataset is used:
+
+\begin{itemize}
+    \item E016-03m
+    \item E030-03g
+    \item ...
+\end{itemize}
+
+The division followed the following approach, first all instances were omitted, which found
+the optimal solution (see \cite{tamke_branch-and-cut_2024}\footcite[cf.][p.26]{tamke_branch-and-cut_2024})
+in a short time. Second, similar instances of size and complexity were reduced to only one.
+Every instance is run three times with different seeds and a timelimit of 10min. It will be investigated
+how different parameter combinations influence the RDP, the iteration number, the rejection rate and
+the average improvement per second after finding the initial solution.
+
+\subsection{NoClassifier Variant}
+\label{subsec_parameterStuy_noclassifier}
+For this variant all the basic \gls{ILS} paramters will be tested as this displays the base form
+for all the upcoming variants, but with the limitation, that the loading is only checked
+with the exact \gls{CP} solver.
+The following variations were tested and the resulting box plots are showed afterwards and
+will be analyed afterwards.
+
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c c }
+        \toprule
+        Parametertype      & Levels                             \\
+        \midrule
+        AttemptsLimit      & [3,5,8,12]                         \\
+        RoundLimit         & [1,5,8]                            \\
+        RandomMoves K      & [3,5,8]                            \\
+        BasePerturbation   & [K-RandomSwaps,K-RandomInsertions] \\
+        Neighborhood order & [IntraFirst, InterFirst]           \\
+        \bottomrule
+    \end{tabular}
+    \caption{Parameter levels for NoClassifier variant.}
+    \label{tab:parameters_noclassifier}
+\end{table}
+
+\subsection{SpeedUp Variant}
+\label{subsec_parameterStuy_speedup}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c c }
+        \toprule
+        Parametertype            & Levels     \\
+        \midrule
+        IterationsWithoutCPCheck & [1,3,5,10] \\
+        UseFilterStartSolution   & [1,0]      \\
+        \bottomrule
+    \end{tabular}
+    \caption{Parameter levels for SpeedUp variant.}
+    \label{tab:parameters_speedup}
+\end{table}
+
+\subsection{Hybrid Variant}
+\label{subsec_parameterStuy_hybrid}
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c c }
+        \toprule
+        Parametertype             & Levels                      \\
+        \midrule
+        Hybrid Usage Alternatives & \{[1,1,0],[1,0,1],[0,1,1]\} \\
+        UseFilterStartSolution    & [1,0]                       \\
+        \bottomrule
+    \end{tabular}
+    \caption{Parameter levels for hybrid variant.}
+    \label{tab:parameters_hybrid}
+\end{table}
