@@ -32,13 +32,13 @@ to accurately predict unseen data. Furthermore, it needs to be noted, that avail
 other models on specific application problem \footcite[cf.][pp. 250, 264]{kotsiantis_supervised_2007}.
 
 
-\section{Objectices for ML approaches}
+\section{Evaluation metrics for ML approaches}
 \label{sec:classifier_objectives}
 To compare different models and \gls{ML} approaches performance indicators are needed. The most common
 measures rely on the binary output of the confusion matrix, which sorts the output along
 their true and predicted labels. The predicted labels of the \gls{ML} model are
 divided in two groups via a certain threshold, usually 0.5, with all predicted values above it,
-considered in the predictive positive column and below in the predicted negative column.
+considered in the predictive positive column and below it, in the predicted negative column.
 
 \begin{table}[ht]
     \centering
@@ -46,46 +46,55 @@ considered in the predictive positive column and below in the predicted negative
         \toprule
                                  & \textbf{Predicted Positive} & \textbf{Predicted Negative} \\
         \midrule
-        \textbf{Actual Positive} & True Positive (TP)          & False Negative (FN)         \\
-        \textbf{Actual Negative} & False Positive (FP)         & True Negative (TN)          \\
+        \textbf{Actual Positive} & \Gls{TP}                    & \Gls{FN}                    \\
+        \textbf{Actual Negative} & \Gls{FP}                    & \Gls{TN}                    \\
         \bottomrule
     \end{tabular}
     \caption{Confusion matrix (binary classification).}
     \label{tab:confusion_matrix}
 \end{table}
-The output can be used to calculate the accuracy and F1 score of the classification, which
-helps to interpret the outcomes and compare different model types, which are defined below:
+The output can be used to calculate the accuracy and the F1-score of the classification, which
+helps to interpret the outcomes and compare different model types:
 \begin{align}
-    \text{Accuracy}=\frac{TP+TN}{TP+TN+FP+FN}
+    \text{Accuracy}=\frac{TP+TN}{TP+FN+TN+FP}
     \qquad
     \text{F1}=\frac{2\,TP}{2\,TP+FP+FN}
 \end{align}
 The accuracy is the ratio between the true classified classes against the whole population
-of predictions. The F1-Score emphasis the TP labels and is therefore especially
-often used for classification purposes. Both indicators would have the perfect score with 1.
-However these classical indicators draw a too optimistic picture of the model performance,
+of predictions. The F1-score emphasis the \gls{TP} labels and is therefore especially
+often used for classification purposes. Both metrics have the perfect score with 1, and the worst with 0.
+However, these evaluation metrics draw too optimistic a picture of the model performance,
 when the dataset is imbalanced, as one class is dominating the other. Imbalance is occurrent,
 when the classes representing each label, feasible and infeasible, have a huge size difference.\footcite[cf.][p. 2f.]{chicco_advantages_2020}
 Two alternatives are firstly the \gls{MCC}, which is robust against imbalance
-and needs a certain threshold to divide the classifier output in the positive
-and negative predicted. \gls{MCC} has the advantage to account the majority of the predictions
+and focuses on both prediction labels. \gls{MCC} has the advantage to account the majority of the predictions
 relative to class size and is defined from -1 to 1. However, if one class of the confusion
 matrix has a population size of 0 \gls{MCC} is not defined.\footcite[cf.][p.5]{chicco_advantages_2020}
 \begin{align}
     \text{MCC}=\frac{TP*TN - FP*FN}{\sqrt{(TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)}}
 \end{align}
-Secondly the \gls{AUROC}, which is the integral below the
-receiver operating curve, where no threshold is needed, as several thresholds are used
-to calculate the \gls{TPR} and the \gls{FPR},
-which indicates how well the classification does in general terms.\footcite[cf.][p.2f.]{chicco_advantages_2020}
-The following small example demonstrate the difference of the first three indicators, when
-an imbalanced resp. balanced dataset is used.
+Secondly, the \gls{AUROC},where several thresholds are used
+to calculate the \gls{TPR} and the \gls{FPR} for different acceptance steps,
+which indicates how well the classification does in general terms. \footcite[cf.][p.2f.]{chicco_advantages_2020}
+\begin{align}
+    \text{TPR}=\frac{TP}{TP+FN}
+    \qquad
+    \text{FPR}=\frac{TN}{FP+TN}
+\end{align}
+The following Plot~\ref{fig:AUROC_curve} shows several receiver operating curves and their corresponding \gls{AUROC} values, also shown
+in the legend. The baseline is the angle bisector indicating random guessing with an \gls{AUROC} value of 0.5. The bigger the area under the
+curve gets, the better is the fit. The perfect fit is displayed, when the full square is covered under the receiver operating curve.
+
+\input{tikz/auroc_plot.tex}
+
+To highlight the differences between an imbalanced and balances training dataset, two classifications and their respective
+evaluation metrics with exception of the \gls{AUROC} are compared.
 
 \begin{table}[ht]
     \centering
     \begin{tabular}{@{}P{0.1\textwidth}P{0.38\textwidth}P{0.38\textwidth}@{}}
         \toprule
-        Score  & Balanced Dataset $(n = 100)$                                     & Imbalanced Dataset $(n = 100)$                               \\
+        Score  & Balanced Dataset A $(n = 100)$                                   & Imbalanced Dataset B  $(n = 100)$                            \\
         \midrule
         Bal.   & Pos = 50; Neg = 50                                               & Pos = 91; Neg = 9                                            \\
         \midrule
@@ -98,25 +107,26 @@ an imbalanced resp. balanced dataset is used.
         MCC    & $\frac{47*5 -3*45*1}{\sqrt{(47+45)*(47+3)*(5+45)*(3+5)}} = 0.07$ & $\frac{90*1 - 8*1}{\sqrt{(90+8)*(90+1)*(1+8)*(1+1)}} = 0.21$ \\
         \bottomrule
     \end{tabular}
-    \caption[Comparison of Accuracy, F1-Score and MCC with an exemplary balanced and unbalanced
-        dataset.]{Comparison of Accuracy, F1-Score and MCC with an exemplary balanced and unbalanced
+    \caption[Comparison of Accuracy, F1-score and MCC with an exemplary balanced and unbalanced
+        dataset.]{Comparison of Accuracy, F1-score and MCC with an exemplary balanced and unbalanced
         dataset.\footnote{Numbers and examples are inspired on \cite[p.9]{chicco_advantages_2020}}}
     \label{tab:indicator_comparison}
 \end{table}
-In these two examples weaknesses of classical performance indicators are apparent. In the first
+In these two examples weaknesses of classical evaluation metrics are apparent. In the first
 example the positive and negative label classes are equal, and the distribution for the
 labels is more or less random, as the sum of the false predicted values is almost equal to
 the true predicted values. The accuracy and the \gls{MCC} indicate this random guessing
 behavior with values close to the middle of the respective indicator range.
 The accuracy is slightly positive as the rate of true predicted values of the positive class
-with $94\%$ is very high. As the dataset is balanced classic indicators can still grasp
+with $94\%$ is very high. As the dataset is balanced classic metrics can still grasp
 the poor performance of the classifier. However, when looking at the second example, both
 accuracy and F1-score have very high values indicating very good performance, but this is
 due to the imbalanced class distribution. In the negative class with 9 samples, only $11\%$
 are correctly classified, this poor performance is shown with a low \gls{MCC} score. It needs
 to be noted, that in every example it needs to be chosen, where the optimization focus should
-be laid to, if only the \gls{TPR} is from interest F1-Score serves well.\footcite[cf.][p.8f.]{chicco_advantages_2020}
-The next section will dive deeper how the route data can be retrieved to train the classifier on.
+be laid to, if only the \gls{TPR} is from interest F1-score serves well.\footcite[cf.][p.8f.]{chicco_advantages_2020}
+The next section will dive deeper how the routes for the training data are retrieved.
+
 
 \section{Data Retrieval}
 \label{sec:DataRetrieval}
@@ -214,37 +224,36 @@ are presented more in detail.
 \label{sec:modelselection}
 Every supervised learning method can predict the feasibility of a single loading, and the comparison
 between different models is a tidious job. Therefore only three different classification
-models will be explained in detail and compared in the computational study about their performance.
+models will be explained in detail and compared in the computational study.
 Two different types of models will be compared, regression and pure classification models. Regression
 models are based on calculations and output a value between 0 and 1, which is then classified with
 an artifical threshold in two distinct classes, as feasible and infeasible loading. Pure classification
-models output directly the predicted label. \footcite[cf.][p.5]{nasteski_overview_2017}
+models predict directly the label. \footcite[cf.][p.5]{nasteski_overview_2017}
 
 \subsubsection{Logistic Regression}
 
 The idea for \gls{LR} is based on linear regression, where either one or multiple independent explanatory
-variables $\beta_i$ are multipplied with the feature values $X_i$ to sum up to a continuous scalar $\pi_i$.
-The resulting variable is the linear equation of one intercept with the y-axis $\beta_0$
-and many gradient variables $\beta_i$.
-These explanatory variables are fitted to the population of samples by minimizing the mean sqared
-error, afterwards the model can be used to predict new data points.\footcite[cf.][pp. 6-7]{nasteski_overview_2017}
+variables $\beta_i$ are multiplied with the feature values $X_i$ to sum up to a continuous scalar $\pi_i$.
+The resulting model is the linear equation of the y-axis interception $\beta_0$
+and the gradient variables $\beta_i$.
+These explanatory variables are fitted to the population of samples by minimizing the mean squared
+error. Afterwards the model can be used to predict new data points.\footcite[cf.][pp. 6-7]{nasteski_overview_2017}
+The linear regression formula is depicted in the following, indicating the usage of vectors with bold font.
 \begin{align}
     \pi_i=\beta_0+\beta_0*X_i+\dots+\beta_n*X_n = \beta_0 + \bm{\beta} * \bm{X}
     \label{eq:base_lr}
 \end{align}
-Linear regression is a very simple modeling approach and serves as a benchmark for many problems. As the Formula~\ref{eq:base_lr} is able to depict continuous
-values as output, it is not possible to classify binary values. Therefore the output variable $\pi_i$ is transformated via a logistic function
-to output a continuous probability distribution with the formula:
+Linear regression is a very simple modeling approach and serves as a benchmark for many problems. As the Formula~\ref{eq:base_lr} is able to predict continuous
+values, it is not possible to classify binary values. Therefore the output variable $\pi_i$ is transformed via a logistic function, called sigmoid function,
+to model a continuous probability distribution with the formula:
 \begin{align}
     \sigma(z)=\frac{1}{1+\exp^{-z}},\, \text{with } z = \beta_0 + \bm{\beta} * \bm{X}
     \label{eq:logistic_func}
 \end{align}
 The resulting logistic function is bound to the range of 0 and 1, and results can be interpreted
-in two labels using an exemplary threshold of 0.5. An output of 0.5 can be interpreted as random
+in two labels using an threshold. An output of 0.5 can be interpreted as random
 guessing between both labels, as $z=0$. The curve of the logistic function is shown in Figure~\ref{fig:LR_plot}.
-The explanatory variables $\beta_i$, which serve as input
-of $z$, are fitted to describe the pattern of feasible and infeasible loadings best and to predict
-consecutively new unseen routes.\footcite[cf.][]{kirasich_random_2018}
+The model is fitted to predict feasible and infeasible loadings best.\footcite[cf.][]{kirasich_random_2018}
 \begin{figure}[ht]
     \centering
     \begin{tikzpicture}
@@ -253,18 +262,41 @@ consecutively new unseen routes.\footcite[cf.][]{kirasich_random_2018}
                 xlabel={$z$},
                 ylabel={$\sigma(z)$},
                 samples=200,
-                domain=-6:6,
+                domain=-6:0,
                 ymin=-0.2, ymax=1.2,
-                xtick={-6,-4,-2,0,2,4,6},
+                xtick={-6,-4,-2,0},
                 ytick={0,0.5,1},
                 width=10cm,
                 height=6cm,
             ]
             % Logistic function
-            \addplot[blue, thick] {1/(1+exp(-x))};
+            \addplot[red, thick] {1/(1+exp(-x))};
+
+            %Text
+            \node[rectangle,minimum width=24pt,align=center] (test)  at (-4,  0.5) {\footnotesize Classified \\ \footnotesize infeasible};
 
             % Dotted lines for y=0 and y=1
-            \addplot[dashed, gray] coordinates {(-6,0) (6,0)};
+            \addplot[dashed, gray] coordinates {(-6,1) (6,1)};
+        \end{axis}
+        \begin{axis}[
+                axis lines=middle,
+                xlabel={$z$},
+                ylabel={$\sigma(z)$},
+                samples=200,
+                domain=0:6,
+                ymin=-0.2, ymax=1.2,
+                xtick={2,4,6},
+                ytick={0,0.5,1},
+                width=10cm,
+                height=6cm,
+            ]
+            % Logistic function
+            \addplot[green, thick] {1/(1+exp(-x))};
+
+            %Text
+            \node[rectangle,minimum width=24pt,align=center] (test)  at (4,  0.5) {\footnotesize Classified \\ \footnotesize feasible};
+
+            % Dotted lines for y=0 and y=1
             \addplot[dashed, gray] coordinates {(-6,1) (6,1)};
         \end{axis}
     \end{tikzpicture}
@@ -280,8 +312,10 @@ is built up by three elements, one root node and several branches and leaves. Th
 depicts the starting point of the classification and is a branch, classifying the sample
 regarding to one feature. At every level of the tree several branches are added, which can be followed
 by either branches or leafes. Each branch splits the instance space into two or more sub-spaces
-according to a certain discrete function of the input values. A leaf is the exit point declaring
-the label of the sample data.\footcite[cf.][p.5-6]{nasteski_overview_2017} The following small decision tree (see Fig.~\ref{fig:decision_tree}) is an example, how the loading could be classified with numerical features.
+according to a certain threshold of the input values. A leaf is the exit point declaring
+the label of the sample data.\footcite[cf.][p.5-6]{nasteski_overview_2017}
+The following small decision tree (see Fig.~\ref{fig:decision_tree}) is an example,
+how the loading could be classified with numerical features.
 
 \input{tikz/decision_tree.tex}
 The  prominent advantage is, that the logic behind the classification can be understood
@@ -292,7 +326,7 @@ features.
 When many levels of branches are added, and the decision tree grows in depth, the chance of
 overfitting the decision tree to the training data is more likely. Therefore several control mechanisms
 were developed to avoid this. The first one is to control the maximum depth (\textit{max\_depth})
-of the decision tree. Secondly, after the decision tree is created to prune it by removing leaves from
+of the decision tree. Secondly, after the decision tree is created, to prune it by removing leaves from
 the tree and comparing it with an identical descision tree, if this has lowered the overall performance
 and the third method is stopping the fitting algorithm before the data is perfectly fitted to. \footcite[cf.][p.252]{kotsiantis_supervised_2007}
 One further advantage of decision trees is that the data does not need to to be scaled as every feature is
@@ -300,20 +334,20 @@ tested on feature own thresholds, in comparion of the other presented models.
 
 \subsubsection{Feed Forward Neural Networks}
 
-Neural networks are a collection of single perceptrons/ neuron, which all are internally connected and
-in the case of feed forward networks signals are only allowed to go straight from input to output. One neuron
+Neural networks are a collection of single perceptrons/ neuron, which are all internally connected and
+,in the case of feed forward networks, signals are only allowed to go straight from input to output. One neuron
 in the network is either defined as input, output or as hidden unit. One neuron calculates its
 output similar to the \gls{LR} with $X_i$ feature values and $w_i$ weights, the output is defined
 as $\sum_{i \in \mathcal{n}} X_i * w_i$ and can be truncated by a threshold forcing all about above 1
 to be 1 and all negative values to be zero. Every unit signals its output calculated by an individual
-activation function to all the next units in the next layer of the network. All the signals are
+activation function to all the next units of the next layer of the network. All the signals are
 then interpreted at the output layer. For binary classification tasks the presented sigmoid function from \gls{LR} is used.
 An exemplary neural network is shown in Figure~\ref{fig:ffnn}.\footcite[cf.][p.255]{kotsiantis_supervised_2007}
 
 \input{tikz/feed_forward_model.tex}
 
 The training of the single layers and deciding which layers should be used is a complex task
-and modern libraries as PyTorch are supporting with prebuil and analysis functions to choose
+and modern libraries as PyTorch are supporting with prebuilt models and analysis functions to choose
 a good setup. Generally a \gls{FFNN} can be considered as an advanced \gls{LR} model,
 which allows also nonlinear functions to be used for the processing of signals.
 
@@ -322,7 +356,7 @@ which allows also nonlinear functions to be used for the processing of signals.
 but each has its own advantages and disadavantages, which need to be considered.
 Therefore all three different types are included in this work to compare performances, and
 to understand the complexity of the underlying classification problem. As \gls{FFNN} normally
-tend to need a large sample size and perform good with continuous data, decision trees can be
+tend to need a large sample size and perform good with continuous data and  decision trees can be
 trained on much smaller samples and perform good with mixed datatypes consisting of discrete/binary
 and continuous values.\footcite[cf.][pp. 262ff.]{kotsiantis_supervised_2007}
 \gls{LR} is a standard method and the easiest to implement and to train, and can dominate
@@ -342,120 +376,122 @@ algorithm to train the model!
 \label{sec:Features}
 
 Features are the most important puzzle piece for training a \gls{ML} model, as they portray the reality in numerical values, trying to
-reduce the complexity without the loss of meaningfulness, in the presented case the laoding feasibility probability of single tours.
+reduce the complexity without the loss of meaningfulness. In the presented case the loading feasibility probability of single tours.
 The complete feature list spans 48 features, which can be divided in three groups to understand the underlying logic.
 
-\begin{enumerate}
+\begin{itemize}
     \item 2 General Features: General information about each tour
-    \item 10 Loading Constraint Features: Featues concepted to depict loading constraint set $\mathcal{G}$
+    \item 10 Loading Constraint Features: Concepted to depict the loading constraint set $\mathcal{G}$
     \item 36 Geometrical Ratio Features: Contain several geometrical ratio of items and container size to retrieve
           statistical values of minimum, maximimum, mean and standard deviation
-\end{enumerate}
+\end{itemize}
 
-All features are described more in detail in the following. Some additional definitions to Section~\ref{sec:mathematical_formulation}
+Some additional definitions to Section~\ref{sec:mathematical_formulation}
 are necessary to define the features formally. Following the mathematical definition, every route consists of the customers
-from the subset $S \subseteq C$. From all customers $C$ the set of item types $M$ is requested, where each item type $m_j$ has its own
-dimension {$z_j$, $x_j$, $y_j$}, weight $q_j$ and fragility flag $f_j$. The loading flag contains binary values of either 0 (Nonfragile)
-or 1 (Fragile). Each customer $i$ demands $d_{ij}$ units of item type $j$.
-The total weight and volume requested by a customer $i$ is calculated then by:
+from the subset $S \subseteq C$. Items of the set of item types $M$ is requested in different quantities by all customers $C$.
+Each item type $m_j$ has its own dimensions height $z_j$, length $x_j$, width $y_j$, weight $q_j$ and fragility flag $f_j$.
+The loading flag contains binary values of either 0 (nonfragile) or 1 (fragile).
+Each customer $i$ demands $d_{ij}$ units of item type $j$.
+The total weight, volume and quantity requested by a customer $i$ or the whole subset $S$ is calculated then by:
 
-\[q(i) = \sum_{j \in M} q_j * d_{ij}\;\text{, resp. } v(i) = \sum_{j \in M} v_j * d_{ij}\]
-\[q(S) = \sum_{i\in S} q(i)\;\text{, resp. } v(S) = \sum_{i\in S} v(i)\]
+\[q(i) = \sum_{j \in M} q_j * d_{ij}\;\text{, resp. } q(S) = \sum_{i\in S} q(i)\]
+\[v(i) = \sum_{j \in M} v_j * d_{ij}\;\text{, resp. } v(S) = \sum_{i\in S} v(i)\]
+\[d(i) = \sum_{j \in M} d_{ij}\;\text{, resp. } D(S) = \sum_{i\in S} d(i)\]
 
-The quanitity of all items requested by one customer is $d_i = \sum_{j \in M} d_{ij}$ and in total for all customers,
-the demand is $D(S) = \sum_{i\in S} d_i$. Furthermore it is necessary to define the homogeneous fleet of vehicles
-further. Every vehicle $k$ has the same dimensions {$x_k$, $y_k$, $z_k$} resulting in the maximum volume limit per
-vehicle $Q = x_k *y_k*z_k$. As every used vehicle is identical, the indcies are obsolent, but are kept to distinguish more clearly
-from item properties.
+Furthermore it is necessary to define the homogeneous fleet of vehicles
+further. Every vehicle $k$ has the same dimensions of height $z_k$, length $x_k$ and width $y_k$ resulting in the maximum volume limit per
+vehicle $Q = x_k *y_k*z_k$. As all vehicles are identical, the indices are obsolent, but are kept to distinguish clearer
+from the item properties.
 
 \subsubsection{General Features}
-These two feature contain the number of customers in the respective without the depot $|S|$, and the total number of items requested by
+These two feature contain the number of customers $|S|$ in the respective route without the depot, and the total number of items requested by
 this subset of customers $D(S)$.
 
 \subsubsection{Loading Constraint Features}
 
-To simplifiy the representation the constraints are given in a table with the formula calculating the feature as well as the set of
-loading constraints this feature is belonging to. The distinction, which loading constraints are described by one feature, is quite
-challenging as some measures are for almost all features important, as the Total Relative Length. The range of possible values is
-given with $h$ representing any number in $\mathbb{N}^{+}$.
+The constraints are given in the Table~\ref{tab:loading_constraints_features} with the formula calculating the feature as well as the set of
+loading constraints this feature is belonging to. The distinction, which loading constraints are described by which feature, is not
+unambiguously, as several features can be adressed. The range of values is given in the last column with $h$ representing any number in $\mathbb{N}^{+}$.
+All of the features presented have only values relative to the instance specific dimensions and weight limit of the vehicle, as these values
+differ between different datasets, but also within the \gendreauDataSetText dataset. \footcite[cf.][p. 346]{gendreau_tabu_2006}
+Capuring the \gls{LIFO} constraint is the most challenging task as multidimensionality and order is complex to be describe numerically
+with one value. Therefore certain customer specific values, as relative volume/ weight or the share of fragile items, is multiplied
+with the order in which the customers are driven to. \textit{Fragile Sequence} depicts the difficulty to load fragile items
+in the beginning as further items need to be likely placed upon the first items.
 
-\begin{table}[ht!]
+\begin{table}[ht]
     \centering
     \renewcommand{\arraystretch}{2.0}
     \begin{tabular}{@{}P{0.08\textwidth}P{0.16\textwidth}P{0.26\textwidth}P{0.28\textwidth}@{}P{0.1\textwidth}@{}}
         \toprule
-        No & Name                                                                                            & Constraint(s)          & Calculation                                                               & Range   \\
+        No & Name                                                                                            & Constraint(s)          & Calculation                                                                                       & Range   \\
         \midrule
-        1  & Relative Volume                                                                                 & Loading Capacity       & $\displaystyle\frac{v(S)}{V}$                                             & [0,1]   \\
-        2  & Relative Weight                                                                                 & Loading Capacity       & $\displaystyle\frac{q(S)}{Q}$                                             & [0,1]   \\
-        3  & Total Relative Length Items\footcite[Feature is adapted from][p.21]{sarah_de_wolf_machine_2022} & Stability, Orientation & $\displaystyle\frac{1}{x_k} * \sum_{i \in S}\sum_{j \in M} d_{ij} * x_j$  & [0,$h$] \\
-        4  & Total Relative Width Items \footnotemark[\value{footnote}]                                      & Stability, Orientation & $\displaystyle\frac{1}{y_k} * \sum_{i \in S}\sum_{j \in M} d_{ij} * y_j$  & [0,$h$] \\
-        5  & Total Relative Height Items  \footnotemark[\value{footnote}]                                    & Stability, Capacity    & $\displaystyle\frac{1}{z_k} * \sum_{i \in S}\sum_{j \in M} d_{ij} * z_j$  & [0,$h$] \\
-        6  & Ratio Fragile Items                                                                             & Fragility              & $\displaystyle\frac{1}{D(S)} * \sum_{i \in S}\sum_{j \in M} d_{ij} * f_j$ & [0,1]   \\
-        7  & Fragile Sequence                                                                                & Fragility, \gls{LIFO}  & $\displaystyle\sum_{i \in S}p_i * \frac{1}{d_i}\sum_{j\in M} d_{ij}*f_j $ & [0,$h$] \\
-        8  & Volume Distribution                                                                             & Capacity, \gls{LIFO}   & $\frac{\sum_{i \in S}p_i * \frac{v(i)}{V}}{\sum_{i \in S}\frac{v(i)}{V}}$ & [0,$h$] \\
-        9  & Volume Balance                                                                                  & Capacity, \gls{LIFO}   & $\displaystyle\sum_{i \in S}p_i * \frac{q(i)}{Q}$                         & [0,$h$] \\
-        10 & Weight Distribution                                                                             & Capacity, \gls{LIFO}   & $\displaystyle\sum_{i \in S}p_i * \frac{q(i)}{Q}$                         & [0,$h$] \\
+        1  & Relative Volume                                                                                 & Loading Capacity       & $\displaystyle\frac{v(S)}{V}$                                                                     & [0,1]   \\
+        2  & Relative Weight                                                                                 & Loading Capacity       & $\displaystyle\frac{q(S)}{Q}$                                                                     & [0,1]   \\
+        3  & Total Relative Length Items\footcite[Feature is adapted from][p.21]{sarah_de_wolf_machine_2022} & Stability, Orientation & $\displaystyle\frac{1}{x_k} * \sum_{i \in S}\sum_{j \in M} d_{ij} * x_j$                          & [0,$h$] \\
+        4  & Total Relative Width Items \footnotemark[\value{footnote}]                                      & Stability, Orientation & $\displaystyle\frac{1}{y_k} * \sum_{i \in S}\sum_{j \in M} d_{ij} * y_j$                          & [0,$h$] \\
+        5  & Total Relative Height Items  \footnotemark[\value{footnote}]                                    & Stability, Capacity    & $\displaystyle\frac{1}{z_k} * \sum_{i \in S}\sum_{j \in M} d_{ij} * z_j$                          & [0,$h$] \\
+        6  & Ratio Fragile Items                                                                             & Fragility              & $\displaystyle\frac{1}{D(S)} * \sum_{i \in S}\sum_{j \in M} d_{ij} * f_j$                         & [0,1]   \\
+        7  & Fragile Sequence                                                                                & Fragility, \gls{LIFO}  & $\displaystyle\sum_{i \in S}p_i * \frac{1}{d(i)}\sum_{j\in M} d_{ij}*f_j $                        & [0,$h$] \\
+        8  & Volume Balance                                                                                  & Capacity, \gls{LIFO}   & $\frac{\displaystyle\sum\nolimits_{i \in S}p_i * v(i)}{\displaystyle\sum\nolimits_{i \in S}v(i)}$ & [0,$h$] \\
+        9  & Volume Distribution                                                                             & Capacity, \gls{LIFO}   & $\displaystyle\frac{1}{V}*\sum_{i \in S}p_i * v(i)$                                               & [0,$h$] \\
+        10 & Weight Distribution                                                                             & Capacity, \gls{LIFO}   & $\displaystyle\frac{1}{Q}\sum_{i \in S}p_i * q(i)$                                                & [0,$h$] \\
         \bottomrule
     \end{tabular}
     \caption{Loading constraints related features}
     \label{tab:loading_constraints_features}
 \end{table}
 
-All the features presented have only values to the instance specific dimensions and weight limit of the vehicle, as these values
-differ usually between different datasets, but also within the \gendreauDataSetText dataset. \footcite[cf.][p. 346]{gendreau_tabu_2006}
-Capuring the \gls{LIFO} constraint is the most challenging task as multidimensionality or order is complexer to describe with a single
-numeric value. Therefore certain customer specific values, as relative volume/ weight or the share of fragile items, is multiplied
-with the order in which the customers are driven to. \textit{Fragile Sequence} should depict the difficulty to load a lot of fragile items
-in the beginning as several other customer demands need to be likely placed upon the first items. The third and last feature group
-was partly used by \cite{zhang_learning-based_2022} and is expanded for useful geometrical ratios when considering three-dimensional
-instead of two-dimensional loading.\footcite[cf.][p. 14]{zhang_learning-based_2022}
+\clearpage
 
 \subsubsection{Geometrical Ratio Features}
+The third and last feature group
+was partly used by \cite{zhang_learning-based_2022} and is expanded for additional geometrical ratios applicable to three-dimensional loading.\footcite[cf.][p. 14]{zhang_learning-based_2022}
+All geometrical ratios express the relation between two geometrical properties of either one item or one item to the vehicle. These ratios
+are calculated for each item demanded from $S$ and afterwards the minimum, maximum, meand and standard deviation is calculated
+from the $D(S)$ ratios, which are used as features. These ratios are expressed visually in the following Figure~\ref{fig:geometrical_ratio_features}.
 
-All geometrical ratios express the relation between two dimensions of either one item or one item and the vehicle. In total 9 ratios
-are considered and for each ratio the min(), max(), meand() and std() values of the vector of values is oevrhanded as model feature.
 
-
-\begin{figure}
+\begin{figure}[ht]
     \centering
 
     % ---- Row 1: ratios between item dims & against container (L/H, W/H, W/L, L/CL, H/CH) ----
-    \PanelItemDimDim{Width Height \\ \footnotesize{[0,$h$]}}{1}{2}
-    \PanelItemDimDim{Length Height\\ \footnotesize{[0,$h$]}}{3}{2}
-    \PanelItemDimDim{Width Length\footcite[Featues adapted from][p.14]{zhang_learning-based_2022}\\ \footnotesize{[0,$h$]}}{1}{3}
+    \PanelItemDimDim{Width Height \\ \footnotesize{[0,$h$]}}{3}{2}
+    \PanelItemDimDim{Length Height\\ \footnotesize{[0,$h$]}}{1}{2}
+    \PanelItemDimDim{Width Length\footcite[Featues adapted from][p.14]{zhang_learning-based_2022}\\ \footnotesize{[0,$h$]}}{2}{3}
     \vspace{25pt}
     \PanelHeightOverArea{Height Area\\ \footnotesize{[0,1]}}
     \vspace{25pt}
-    \PanelItemVsCont{Length Container Length\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}{3}
+    \PanelItemVsCont{Length Container Length\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}{1}
     \PanelItemVsCont{Height Container Height\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}{2}
-    \PanelItemVsCont{Width Container Width\\ \footnotesize{[0,1]}}{1}
+    \PanelItemVsCont{Width Container Width\\ \footnotesize{[0,1]}}{3}
     \PanelAreaOverContArea{ItemArea ContainerArea\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}
     \PanelVolumeOverContVolume{ItemVolume ContainerVolume\\ \footnotesize{[0,1]}}
     \caption[Nine geometric ratio feature icons.]{Nine geometric ratio feature icons. In each panel, the \textcolor{numC}{numerator is green}
-        and the \textcolor{denC}{denominator is red}.}
+        and the \textcolor{denC}{denominator is red}.
+        \label{fig:geometrical_ratio_features}}
 \end{figure}
 
-All these nine geometrical features grasp the statistical description of the lot of all items and is shown in the following example:
-When we consider a route, where these three items, described by their three dimensions, are requested:
+All these nine geometrical features grasp the geometrical description of all items and is further outlined in the following example:
+When we consider a route, where these three items are requested, described by their geometrical dimensions \{height, length, width\}:
 \[
-    \mathcal{I} = \{(10,5,12),\,(6,3,10),\,(10,10,10)\}
+    \mathcal{I} = \{(12,5,10),\,(10,3,6),\,(10,10,10)\}
 \]
 
 \[
     \text{Width--Length Ratios: }
-    \frac{x_j}{y_j} = \{2,\,2,\,1\}
+    \frac{y_j}{x_j} = \{2,\,2,\,1\}
 \]
 
 \[
     \begin{array}{c|c|c|c}
-        \text{Min} & \text{Max} & \text{Mean}               & \text{Std. Dev.} \\
+        \text{Min} & \text{Max} & \text{Mean} & \text{Std. Dev.} \\
         \hline
-        1          & 2          & \tfrac{5}{3} \approx 1.67 & 0.471            \\
+        1          & 2          & 1.67        & 0.471            \\
     \end{array}
 \]
 
-For every geometrical ratio the four features are calculated with this simple approach and are added to the model.
+For every geometrical ratio the four features are calculated with this approach and are added to the model.
 
 \parbreak
 
@@ -466,11 +502,11 @@ features or to irrelevance to the prediction accuracy of the binary classifier.
 \section{Feature Selection}
 \label{sec:feature_engineering}
 
-The selection of a subset of features presented in Section~\ref{sec:Features} helps to simplify the model
-while preserving the same performance. For this procedure several frameworks are published. In this work
+The selection of a subset of features helps to simplify the model
+while preserving the same performance. For this procedure several frameworks have been published. In this work
 the \gls{FSFS} is used. The procedure starts with a minimum number of features to start with, which are
 preselected based on the best performance of the whole set of features. Iteratively in the \gls{FSFS} a new
-feature is added to the model and it is tested, if the current fit of the model feaatures need to be adapted.
+feature is added to the model and it is tested, if the current fit of the model features need to be adapted.
 This process is either repeated until no more features can be selected or a chosen bound for the maximum
 feature number is reached. The theoretical background for the feature selection is, that the performance
 of the model is optimal with the full feature set due to the noise and correlation between the features,
