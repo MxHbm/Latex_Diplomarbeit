@@ -6,11 +6,9 @@
         \textbf{Variant 1: SpeedUp}\par\vspace{0.5ex}
         \begin{algorithmic}[1]
             \State {ModifiedSavings \(\clubsuit \backslash \bigstar\clubsuit\)}
-            \ClassifierState{InitialLocalSearch}
             \While{not stop condition}
             \ClassifierState{Perturbation}
-            \ClassifierState{IntraLocalSearch}
-            \ClassifierState{InterLocalSearch}
+            \ClassifierState{LocalSearch}
             \EndWhile
         \end{algorithmic}
     \end{minipage}
@@ -19,11 +17,9 @@
         \textbf{Variant 2: Filter}\par\vspace{0.5ex}
         \begin{algorithmic}[1]
             \BothState{ModifiedSavings}
-            \BothState{InitialLocalSearch}
             \While{not stop condition}
             \BothState{Perturbation}
-            \BothState{IntraLocalSearch}
-            \BothState{InterLocalSearch}
+            \BothState{LocalSearch}
             \EndWhile
         \end{algorithmic}
     \end{minipage}
@@ -35,11 +31,9 @@
         \textbf{Variant 3: Hybrid}\par\vspace{0.5ex}
         \begin{algorithmic}[1]
             \State {ModifiedSavings \(\clubsuit \backslash \bigstar\clubsuit\)}
-            \State {InitialLocalSearch \(\bigstar\backslash \clubsuit\)}
             \While{not stop condition}
-            \ClassifierState{Perturbation}
-            \ClassifierState{IntraLocalSearch}
-            \CPState{InterLocalSearch}
+            \State {Perturbation \(\bigstar\backslash \clubsuit\)}
+            \State {LocalSearch \(\bigstar\backslash \clubsuit\)}
             \EndWhile
         \end{algorithmic}
     \end{minipage}
@@ -48,11 +42,9 @@
         \textbf{Variant 4: NoClassifier}\par\vspace{0.5ex}
         \begin{algorithmic}[1]
             \CPState{ModifiedSavings}
-            \CPState{InitialLocalSearch}
             \While{not stop condition}
             \CPState{Perturbation}
-            \CPState{InterLocalSearch}
-            \CPState{IntraLocalSearch}
+            \CPState{LocalSearch}
             \EndWhile
         \end{algorithmic}
     \end{minipage}

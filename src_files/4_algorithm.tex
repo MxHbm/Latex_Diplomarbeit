@@ -1,85 +1,73 @@
 \chapter{Algorithm}
 \label{chap:algorithm}
 The focus for the algorithm was not to implement the best metaheuristic available for both routing and loading, but
-to use a simple and adaptable algorithm. The focus is primarily on presenting approaches, how a trained classifier can
-be integrated into exisiting \gls{3L-CVRP} algorithms and what are the impacts on the algorithm. Therefore the \Gls{ILS}
-algorithm was chosen, a moderate and simple algorithm used regularly in the \gls{VRP} literature. First, the principal
-algorithm and the neighborhoods will be explained. Second, the emphasis is set on the feasibility check for loading and
-on the single elements of the algorithm, where a check is necessary. Third, different strategies for the usage of the
+to use a simple and adaptable algorithm and instead lays on how a trained classifier can
+be integrated into exisiting \gls{3L-CVRP} algorithms and what are the impacts on the algorithm. Therefore the \gls{ILS}
+algorithm was chosen, a moderate and simple algorithm used regularly for the \gls{VRP}. First, the principal
+algorithm and the neighborhoods will be explained. Second, the emphasis is set on the feasibility check for the loading,
+both which options are present and where to include it. Third, different strategies for the usage of the
 classifier are presented.
 
 \section{Principal Algorithm}
 \label{sec:algorithm}
-The \gls{ILS} was proposed by \cite{lourenco_iterated_2003} and has the goal to incorporate simplicity and generality.
+The \gls{ILS} algorithm was proposed by \cite{lourenco_iterated_2003} and has the goal to incorporate simplicity and generality.
 As the authors say, metaheuristics became recently too sophisticated and problem specific and lack the purpose of
 being applied to different use cases. The main concept is based on iterations of the metaheuristic, in which the current
 solution is first perturbated (diversification) and afterwards improved by different sequential local search neighborhoods
 (intensification). The solution process restarts with the best solution after a number of iterations without improvement
-or continues with the current worse solution to explore new areas of the solution space.
+or continues with the current solution to explore new areas of the solution space.
 The proposed base algorithm is depicted in Algorithm~\ref{alg:base_ILS}. Here, $s^*$ stands for the best solution, $s\sp{\prime}$
 for a perturbated neighbor of $s^c$ and $s\sp{c}$ for the current solution. Note that the symbol $s^c$
 is used as a placeholder, and shows the current state of the solution after each step. So the current solution
-$s^c$ before the perturbation is usually different from $s^c$ after the local search, ss non-deterministic
+$s^c$ before the perturbation is usually different from $s^c$ after the local search, but, as the non-deterministic
 perturbation and local search can return to the same solution, ambiguity exists to a certain extent.
-\input{algorithms/ILS_base.tex}
-It must be noted, that the constructive heuristics, neighborhoods for perturbation and local search, need to be fitted for
-the use case. The acceptance criterion can have several different implementations. To name a few, the algorithm could always
+It must be noted, that the constructive heuristic and  the neighborhoods for perturbation and local search need to be adapted to
+each use case. The acceptance criterion can have several different implementations. To name a few, the algorithm could always
 generate a random restart after a certain number of iterations without improvement, set back to the actual best solution
-obtained or incorporating a \gls{SA} component accepting also more worse solutions during the runs. The major challenge is
+obtained or incorporating a \gls{SA} component accepting also worse solutions in the beginninng. The major challenge is
 to find a fitting perturbation mechanism, which allows to explore new solution space areas, without falling back to previous solutions
 after the local search. Therefore it should be guaranteed, that several iterations can be used for diversification and
 intensification before resetting the algorithm. History is refered in the algorithm to some knowledge base,
 to save the values of previos solution to skip already reached solutions or the iterations number without improvement since the
 last restart or solution improvement.\footcite[cf.][]{lourenco_iterated_2003}
-\parbreak
+\input{algorithms/ILS_base.tex}
+
 The presented base \gls{ILS} was adapted for this work to obtain good solutions for the \gls{3L-CVRP}, where for the \gls{VRP}
 the overall costs need to be minimized, and every single tour needs to represent a feasible packing of the \gls{CLP}.
-Therefore the following algorithm~\ref{alg:principal_ILS} was constructed which has the same symbols for solutions. The perturbation
-is of dual nature, perturbating the current solution with $K$ random moves of one neighborhood as standard, and after
-several iterations ($a\times b$) without an improvement of the best solution, with $K$ random moves each from all neihghboods. In the \gls{LS}
+Therefore the following algorithm~\ref{alg:principal_ILS} was constructed. The perturbation applies $R$ random moves
+to the current solution for each  neighborhood selected. In the \gls{LS}
 the selected neighborhoods are sequentially walked through updating the current solution for each feasible improvement on
 the current solution. The acceptance criterion controls the solution process updating the current solution, until a new overall
-best solution was found or the limit for iterations without improvement $a$ is reached, then the current solution is resetted
-to the best solution found. It needs to be investigated, if the random perturbation is able to leave this local optima,
-when no improvements can be found or if this acceptance criterion is insufficient. But as the feasibility check of the loading
-adds another CPU time demand, the algorithm should be kept simple.
+best solution was found or the limit for iterations without improvement (attempts limit $a$) is reached, then the current solution is resetted
+to the best solution found. It needs to be investigated, if the random perturbation is able to leave local optima
+when no improvements can be found or if this acceptance criterion is sufficient. But as the feasibility check of the loading
+generated the key CPU time demand, the routing algorithm is kept simple. The \gls{ILS} has a dual stop criterion, existing on a maximum time limit for the metaheuristic and a maximum number of
+iterations since the last improvement on the best solution was found. The second criterion needed to be added
+to avoid exponential cycling of solutions, after the best solution was found.\footnote{Results compared with
+    minimal costs due to \cite{tamke_branch-and-cut_2024}}
 
 \input{algorithms/ILS_principal.tex}
+\parbreak
 
-The \gls{ILS} has a dual stop criterion, existing on one
-time limit and a maximum number of iterations since the last improvement on the best solution was found. The second criterion
-needed to be added to avoid exponential cycling of solutions, after the best solution was found.\footnote{Results compared with
-    minimal costs due to \cite{tamke_branch-and-cut_2024}}. This results in four parameters to control the solution process:
-\begin{itemize}
-    \item Timelimit $t_{lim}$: Controls the total time of the algorithm including constructive and initial local search
-    \item Maximum iterations without improvement $I_{max}$: Controls iterations number allowed to be cycling
-    \item Attempts limit $a$: Controls how many iterations are proceeded, before resetting the current solution $s^c$
-    \item Round limit $b$: Controls how many rounds (one round = $a$ iterations) are executed before big perturbation is applied
-\end{itemize}
-
-These parameters are then tuned in the Chapter~\ref{chap:computational_study} and different characteristics are already now
-interpretable, if $a$ is large, then diversification is greater than the intensification, as the solutions is resetted less
-times. If $b$ is small, then the diversification increases as the solutions are often perturbated more intensively, leading
-to more potential improvements for the \gls{LS}. The two stop condition parameters have direct impact on the number of iterations
-to be runned, but it is necessary to analyse the convergence of the solutions and adapt those parameters possibly to the
-instance size.
+In Chapter~\ref{chap:computational_study} a parameter study od the base \gls{ILS} is conducted to test different
+levels for the attempts limit $a$, the random moves $R$ and the order of the \gls{LS} and perturbation neighborhoods.
 
 \subsubsection{Constructive}
 The initial solution is obtained by using the Savings Algorithm from \cite{clarke_scheduling_1964}. It is one of
 most applied constructive algorithms for the \gls{VRP}, and is described by the following procedure. In the beginning
 a single tour is created for every customer and the potential savings, when two customers are combined in one tour
 ($s_{ij} = d_{ij} - d_{0i} - d_{j0}$) are calculated.
-Afterwards tours are merged until no negative savings are available, and the
+Afterwards the tours are merged until no negative savings are available, and the
 procedure terminates with $K$ tours. \footcite[cf.][]{clarke_scheduling_1964} However, this constructive algorithm needs to be adapted
-as the minimmum distance solution can exceed the maximum numbers of vehicles $K_{max}$ allowed per instance.
+as the minimum distance solution can exceed the maximum numbers of vehicles $K_{max}$ allowed per instance.
 The modified savings approach was proposed by \cite{zhang_evolutionary_2015} to generate initial feasible solutions.
 The modification is based on two steps, if the number of routes of the solution is exceeding the vehicle limit. First,
-the merge procedure continue until $K = K_{max}$ or no feasible merges exist. Second, a repair procedure is invoked
+the merge procedure continues until $K = K_{max}$ or no feasible merges exist. Second, a repair procedure is invoked
 by removing the routes with the least volume utilization from the solution and sorting the unassigned customers by
 decreasing volume demand. Afterwards, the customers are tried to be reinserted at positions with the least
 cost surplus. If no position could be found, the customer is inserted in a random chosen route by removing
-other customers from this route before to create free capacity. This second procedure is repeated until the
-number of routes $K = K_{max}$.\footcite[cf.][p.24]{zhang_evolutionary_2015}
+other customers from this route to create free capacity. The second procedure is repeated until the
+number of routes is $K = K_{max}$.\footcite[cf.][p.24]{zhang_evolutionary_2015}
 
 \subsubsection{Neighborhoods}
 \label{sec:neighborhoods}
@@ -87,7 +75,7 @@ number of routes $K = K_{max}$.\footcite[cf.][p.24]{zhang_evolutionary_2015}
 The respected neighborhoods are divided in \textit{Intra}, changes on the customers within one tour, and \textit{Inter} neighborhoods,
 changes between single tours. The following neighborhoods are implemented for each group:\footcite[cf.][pp. 89-90]{toth_vehicle_2014}
 
-\begin{table}
+\begin{table}[ht]
     \centering
     \begin{tabular}{@{}P{0.3\textwidth}P{0.3\textwidth}@{}}
         \toprule
@@ -103,58 +91,53 @@ Hereby, is a swap move defined by changing the position of two customers and ins
 and replacing it in the same route (\textit{Intra}) or in another route (\textit{Inter}). A \textit{TwoOpt} move is characterized, when two arcs are deleted
 from one route and are reinserted by swapping the indices of the arcs leading to a inversion of all customers between these two arcs.
 For example, when the arcs $x_{12}$ are $x_{45}$ are selected the resulting arcs will be $x_{14}$ and $x_{25}$. To distinguish these
-neighborhoods in the following section, they will be always called with their respective group, e.g. Interswap. Additionaly, a sixth
+neighborhoods in the following section, they will be always called with their respective group, e.g. InterSwap. Additionally, a sixth
 neighborhood is implemented deleting empty tours with no customers and is called \textit{DeleteEmptyRoutes}.
 
 \parbreak
 
-The neighborhoods for the perturbation are built upon the \textit{Inter} neighborhoods, and are characterized by $K$ random moves of
-this respective neighborhood. Therefore they are called \textit{K\_RandomInterInsertions} and \textit{K\_RandomInterSwaps} in the
-following. The perturbation neighborhood only consists of inter neighborhoods as the diversification of the solution is then
+The neighborhoods for the perturbation are built upon the \textit{Inter} neighborhoods, and are characterized by $R$ random moves of
+this respective neighborhood. Therefore they are called \textit{R\_InterInsertions} and \textit{R\_InterSwaps} in the
+following. The perturbation neighborhood consists of inter neighborhoods as the diversification of the solution is
 greater as with intra random moves. Regarding to \cite{lourenco_iterated_2003}, it is important, that perturbation holds the potential
-to escape local optima and lays the foundation for a succesful \gls{LS}.\footcite[cf.][pp. 329f.]{lourenco_iterated_2003} The mechanism
-how these two essential parts of the \gls{ILS} work will be demonstrated in the following section.
+to escape local optima and lays the foundation for a succesful \gls{LS}.\footcite[cf.][pp. 329f.]{lourenco_iterated_2003}
 
 \section{Local Search and Perturbation}
 \label{sec:LSandPerturbation}
 
-In the \gls{LS} all selected neighborhoods are walked through sequentially. Every neighborhood is applied once and in the beginning
-all moves, which lower the total costs of the solution are found. For the inter neighborhoods all routes are considered at the same
-time and for intra neighborhoods each route is improved after each other.
-Note, that loading is only respected with bound checks of the maximum volume and weight allowed per container at this step.
-Afterwards all moves are sorted with decreasing savings for the route and is applied to the current solution. Now, it is tested
-if the new constructed route aligns to the three dimensional loading constraints. This feasibility check will be discussed in
-detail in the next section. If the new route is feasible, the \gls{LS} restarts for this solution resp. route, if it is infeasible
+In the \gls{LS} all selected neighborhoods are sequentially applied once. In the beginning all moves for the respective niehghborhood
+are found, which lower the routing cost of the current solution. A move is defined by the modification of the current solution to
+obtain a new solution. Note, that the loading is only respected with bound checks of the maximum volume and weight
+allowed per container at this step.
+Afterwards, all moves are sorted with decreasing savings and are applied to the current solution. Now, it is tested
+if the new solution aligns to the three dimensional loading constraints. This feasibility check will be discussed in
+detail in the next section. If the new route is feasible, the \gls{LS} restarts for this solution, if it is infeasible
 the move will be reverted and the next move will be applied. If there are no moves with negative savings left to apply, the search
-terminates and continues with the next neighborhood or with the next route for the intra neighborhoods. After all neighborhoods
-are walked through the resulting solution will be validated in the acceptance criterion. The procedure is visualized
-in Figure~\ref{fig:LocalSearch} for one \gls{LS} neighborhood.
+terminates and continues with the next neighborhood. The procedure is visualized in Figure~\ref{fig:LocalSearch} for one \gls{LS} neighborhood.
 \input{tikz/LocalSearch.tex}
 
-The perturbation buils upon a very similar approach. But in each neighborhood a certain number random moves $K$ must be found
-before the perturbation terminates. The random move creation respects all moves which can be found between two different routes
-and do not violate the maximum volume and weight limit of the vehicle. As shown in the \gls{ILS} Algorithm~\ref{alg:principal_ILS}
-it is distinguished between a big and a normal perturbation. In the normal perturbation only the \textit{K\_RandomInterInsertions}
-neighborhood is applied, and in the big additionally the \textit{K\_RandomInterSwaps} neighborhood. Other perturbation mechanism
-like FourOpt or BlockInsertion were not considered as the Feasibility check of the loading is the limiting factor even though
+The perturbation has a similar approach, here in each neighborhood a certain number of random moves $R$ must be found
+before the perturbation neighborhood terminates. The random move creation must not violate the maximum volume and weight limit of the vehicle.
+The perturbation can be further be controlled by the number of neighborhoods being applied and the order of the neighborhoods.
+Other perturbation mechanism like FourOpt or BlockInsertion were not considered as the Feasibility check of the loading is the limiting factor even though
 the perturbation has bigger impact in creating new structural solutions.\footcite[cf.][pp. 329-332]{lourenco_iterated_2003}
-Instead the presented algorithm holds two perturbation strategies with different strength.
-The procedure is again visualized in Figure~\ref{fig:Perturbation}.
+The perturbation procedure is visualized in the following Figure~\ref{fig:Perturbation}.
 
 \input{tikz/Perturbation.tex}
 
 \section{Loading Feasibility Check}
 \label{sec:FeasibilityCheck}
 So far the description of the algorithm was reduced in minimizing the costs of the \gls{VRP} masterproblem and in vague
-requirements, that new solutions or moves found need to be feasible regarding the three-dimensional loading constraints.
+requirements, that new solutions need to be feasible regarding the three-dimensional loading constraints.
 This check is time-consuming as every item need to placed accordingly in the container, testing all possible combinations.
-The \gls{CLP} is $NP$-hard and as shown in \ref{sec:classical_solution_approaches}, most heuristics rely on fast, but not
-optimal loading heuristics. The aim of the theses is to determine, if the usage of a binary classifier can bring cost and
-speed advantages in combination with an exact \gls{CP} solver, in comparison to the baseline of only using the exact solver.
-As this work is potential study, the combination with an exact solver is sufficient to derive insights for other use cases
+The \gls{CLP} is $NP$-hard and as shown in Section~\ref{sec:classical_solution_approaches} most approaches rely on fast, but not
+optimal heuristics. The aim of the thesis is to determine, if the usage of a binary classifier can bring quality and
+speed advantages in comparison to the baseline of only using the exact solver.
+As this work is a potential study, the combination with an exact solver is sufficient to derive insights for other use cases
 leveraging either exact \gls{3L-CVRP} algorithms or exisiting metaheuristics with a classifier.
-Before explaining how both tools can be integrated in the algorithm it is important to examine strengths and weaknesses of
-each in the following overview:
+Before explaining how both tools can be integrated in the algorithm, strengths and weaknesses of
+each approach are shown in the following overview:
+
 \begin{figure}[ht]
     \centering
     \begin{minipage}[centering]{0.45\textwidth}
@@ -173,36 +156,35 @@ each in the following overview:
             \item Adaptable acceptance threshold $y$
         \end{itemize}
     \end{minipage}
-    \caption{Comparison between CP solver and binary classifier}
-    \label{fig:comparison_classifier_cpSolver}
 \end{figure}
 
 The classifier has the potential to speed up the \gls{3L-CVRP} solution process, but accepted solutions need to be
-verified with the \gls{CP} solver in a certain pattern to avoid false positives solutions during the algorithm.
+verified with the \gls{CP} solver in a certain pattern to avoid false positive solutions during the algorithm.
 Therefore the following four strategies are introduced, which determine how the loading feasibility can be checked and are
 visualized in Figure~\ref{fig:tikz_four_variants}
+
 \input{tikz/FeasibilityChecks.tex}
-The first approach is the \textit{SpeedUp} strategy, where only the classifier is used for checks during perturbation and
-\gls{LS}. After $\omega$ iterations the current solution is checked with the exact solver and is either rejected or accepted.
+
+The first approach is the \textit{SpeedUp} strategy, where only the classifier is used for feasibility checks during perturbation and
+\gls{LS}. After $\omega$ /gls{ILS} iterations the current solution is verified with the exact \gls{CP} solver and is either rejected or accepted.
 The amount of false positive labeled routes is here crucial, as the probability to reject the solution grows likewise. It needs
 to be studied, how the parameter $\omega$ influences this procedure as the chance exist, that infeasible tours become feasible
-again during several iterations.
-The second strategy is called \textit{Filter}, here classifier and \gls{CP} solver are called iteratively for every loading
-feasibiliy check, the goal is to filter out infeasible routes before checking them exactly to save time in the exact check.
+again during several iterations without verification.
+The second strategy is called \textit{Filter}, here classifier and \gls{CP} solver are called sequentially for every
+feasibiliy check. The goal is to filter out infeasible routes before verifying them exactly to save time in the exact check.
 All false negative labeled routes represent a potential solution quality loss, as those tours will never be considered to be accepted.
 The third strategy is a hybrid form between the last two presented, where the chosen strategy, \textit{Filter} or \textit{SpeedUp},
 is dependent on the neighborhood structure (Perturbation, Intra- and Interneighborhood). The last and fourth strategy is the benchmark
 for the other strategies and here no classifier is used during the procedure. The goal is to beat this strategy with well tuned
-variations of the first ones. These variations are further shown in the Figure~\ref{fig:four_variants}. Here the $\bigstar$ symbol imply
-the usage of the classifier and the $\clubsuit$ symbol to the \gls{CP} solver. The symbol combination mean the following:
-\begin{itemize}
-    \item $\clubsuit$: \gls{CP} Solver
-    \item $\bigstar$: SpeedUp (Solely Binary Classifier)
-    \item $\bigstar\clubsuit$: Filter
-    \item \(\clubsuit \backslash \bigstar\clubsuit\): \gls{CP} Solver or Filter
-    \item \(\bigstar\backslash\clubsuit\): \gls{CP} Solver or SpeedUp dependent on neighborhood
-\end{itemize}
+variations of the first ones. These variations are further explained in the Figure~\ref{fig:four_variants} by highlighting, where
+in the algorithm, which kind of feasibility check is applied. The $\clubsuit$ represents the usage of the \gls{CP} Solver and
+$\bigstar$ the sole usage of the classifier (SpeedUp variant). The concatenation $\bigstar\clubsuit$ imply the usage of the Filter
+variant and \(\clubsuit \backslash \bigstar\clubsuit\) if the \gls{CP} Solver or Filter is applied. \(\bigstar\backslash\clubsuit\)
+indicates the Hybrid variant, and either the SpeedUp or the NoClassifier strategy is applied. In the initial \gls{LS} the same
+feasibility check is applied as in the \gls{LS}.
+
 \input{tikz/classifier_approaches.tex}
+
 During the construction the \textit{SpeedUp} strategy can hardly be applied, which has two reasons. Firstly, this strategy relies
 on rejecting solutions feasible with the classifier by the \gls{CP} Solver and resetting the solution to previous feasible solutions.
 Secondly, the procedure of the modified savings algorihm is deterministic and repetitions will lead to the same solutions. In these
@@ -211,7 +193,7 @@ great solution quality losses.
 
 \parbreak
 
-In the next chapter each strategy a computational study will be conducted for each strategy to compare them. To facilitate this approach,
+In the next chapter for each strategy a computational study will be conducted to compare them. To facilitate this approach,
 a comparison of various published \gls{3L-CVRP} datasets will be conducted to compare and identify the most appropriate
 dataset for training a binary feasibility classifier.
 

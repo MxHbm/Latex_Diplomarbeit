@@ -1,16 +1,12 @@
 \begin{algorithm}[ht]
     \caption{Iterated Local Search Algorithm}\label{alg:principal_ILS}
     \begin{algorithmic}[1]
-        \Procedure{ILS}{$\text{AttemptsLimit}\,a,\, \text{RoundLimit}\,b$}
+        \Procedure{ILS}{$\text{AttemptsLimit}\,a,\, \text{RandomMoves}\,R$}
         \State $s_0 = \text{ModifiedSavings}()$ \Comment{After Zhang 2015}
         \State $s^*,\,s^c = \text{LocalSearch}(s_0)$
         \State $NoImpr \leftarrow 0$
         \While{$ \text{stop condition not met}$}
-        \If{$NoImpr > a \times b$}
-        \State $s\sp{\prime} = \text{BigPerturbation}(s^c)$ \Comment{Include all Perturbationneighborhoods}
-        \Else
-        \State $s\sp{\prime}  = \text{Perturbation}(s^c)$ \Comment{Include one Perturbationneighborhood}
-        \EndIf
+        \State $s\sp{\prime}  = \text{Perturbation}(s^c,R)$ \Comment{All selected Perturbation Neighborhoods}
         \State $s\sp{c} = \text{LocalSearch}(s\sp{\prime})$
         \State{}
         \If{$s\sp{c}$ is better than $s^*$} \Comment{Acceptance Criterion}

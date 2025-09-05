@@ -248,48 +248,83 @@ do have more influence.
 
 The parameter study is divided in four subsections following the variants of the algorithm
 presented in Section~\ref{sec:FeasibilityCheck}. This study follows a hierarchical procedure
-tuning the parameters, introduced for each variant, sequentially. The following subset of instances
-from the gendreau dataset is used:
+tuning the parameters, introduced for each variant, sequentially. The following subset of 13
+instances from the gendreau dataset is used:
 
-\begin{itemize}
-    \item E016-03m
-    \item E030-03g
-    \item ...
-\end{itemize}
+
+\begin{table}[ht]
+    \centering
+    \setlength{\tabcolsep}{0.75em}
+    \def\arraystretch{1.5}
+    \begin{tabular}{lllllll}
+        E016-03m & E022-04g & E023-03g & E023-05s & E030-03g & E033-04g & E033-05s \\
+        E051-05e & E072-04f & E076-07s & E076-14s & E101-10c & E101-14s &          \\
+    \end{tabular}
+\end{table}
 
 The division followed the following approach, first all instances were omitted, which found
 the optimal solution (see \cite{tamke_branch-and-cut_2024}\footcite[cf.][p.26]{tamke_branch-and-cut_2024})
 in a short time. Second, similar instances of size and complexity were reduced to only one.
-Every instance is run three times with different seeds and a timelimit of 10min. It will be investigated
+Every instance is run three times with different seeds and a timelimit of 10 min. It will be investigated
 how different parameter combinations influence the RDP, the iteration number, the rejection rate and
 the average improvement per second after finding the initial solution.
 
 \subsection{NoClassifier Variant}
 \label{subsec_parameterStuy_noclassifier}
-For this variant all the basic \gls{ILS} paramters will be tested as this displays the base form
+For this variant all the basic \gls{ILS} parameters will be tested as this displays the base form
 for all the upcoming variants, but with the limitation, that the loading is only checked
-with the exact \gls{CP} solver.
-The following variations were tested and the resulting box plots are showed afterwards and
-will be analyed afterwards.
-
+with the exact \gls{CP} solver. The following variations were tested and the best level is highlighted
+in bold font. The BasePerturbation parameter declares, which perturbation type is selected, in the normal
+perturbation. The two parameters AttemptsLimit and RoundLimit have almost no influence on the algorithm performance, as
+can be seen in the Appendix in Figure~\ref{fig:aggregated_base_parameter_study_appendix}. Therefore the values were chosen
+on the slight differences.
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{c c }
+    \setlength{\tabcolsep}{2em}
+    \def\arraystretch{1.1}
+    \begin{tabular}{c c}
         \toprule
-        Parametertype      & Levels                             \\
+        Parametertype      & Levels                                      \\
         \midrule
-        AttemptsLimit      & [3,5,8,12]                         \\
-        RoundLimit         & [1,5,8]                            \\
-        RandomMoves K      & [3,5,8]                            \\
-        BasePerturbation   & [K-RandomSwaps,K-RandomInsertions] \\
-        Neighborhood order & [IntraFirst, InterFirst]           \\
+        AttemptsLimit      & [\textbf{3},5,8,12]                         \\
+        RoundLimit         & [1,\textbf{5},8]                            \\
+        RandomMoves K      & [\textbf{3},5,8]                            \\
+        BasePerturbation   & [\textbf{K-RandomSwaps},K-RandomInsertions] \\
+        Neighborhood order & [IntraFirst, \textbf{InterFirst}]           \\
         \bottomrule
     \end{tabular}
     \caption{Parameter levels for NoClassifier variant.}
     \label{tab:parameters_noclassifier}
 \end{table}
 
+The solution quality is highly dependent on the iterations number, which can be run within the time limit.
+As the \gls{CP} Solver is computationally demanding, the average number of iterations, especially for instances
+with many routes is low, as can be seen in the following Figure~\ref{fig:average_iterations_base_parameterstudy}.
+With two exceptions the maximum is 50 iterations in 10 min, which accounts to approx. 12 seconds per iteration.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.6\textwidth]{pictures/parameter_study/iterations_per_instance.png}
+    \caption[Visualized 3D packing with packing constraints.]{3D Packing with geometry, orthogonality and support area constraints.}.
+    \label{fig:average_iterations_base_parameterstudy}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[node distance=0mm and 0mm]
+        \node[anchor=south, inner sep=0] (A) at (0,0)
+        {\includegraphics[width=0.95\textwidth]{pictures/parameter_study/K_RandomMoves_base_parameter_study.png}};
+        \node[anchor=north, below=of A,inner sep=0] (B)
+        {\includegraphics[width=0.96\textwidth]{pictures/parameter_study/LocalSearchTypes_base_parameter_study.png}};
+        \node[anchor=north, below=of B,inner sep=0] (C)
+        {\includegraphics[width=0.96\textwidth]{pictures/parameter_study/PerturbationTypes_base_parameter_study.png}};
+    \end{tikzpicture}
+    \caption{Aggregated relative mass and volume per customer distributed for each instance of the \gendreauDataSetText dataset.}
+    \label{fig:aggregated_base_parameter_study}
+\end{figure}
+
+\clearpage
 \subsection{SpeedUp Variant}
 \label{subsec_parameterStuy_speedup}
 

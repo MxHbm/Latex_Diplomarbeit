@@ -111,3 +111,17 @@ With a subset from krebs the following datasets were created!
     \caption{Results}
     \label{tab:dataset_model_selection_randomStrategy}
 \end{table}
+
+\chapter{Parameterstudy}
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[node distance=0mm and 0mm]
+        \node[anchor=south, inner sep=0] (A) at (0,0)
+        {\includegraphics[width=0.95\textwidth]{pictures/parameter_study/LimitNoImpr_base_parameter_study.png}};
+        \node[anchor=north, below=of A,inner sep=0] (B)
+        {\includegraphics[width=0.96\textwidth]{pictures/parameter_study/RoundsWithNoImprovement_base_parameter_study.png}};
+    \end{tikzpicture}
+    \caption{Results of the parameterstudy for NoClassifier variant and different levels for the the maximum rounds and iterations without improvement.}
+    \label{fig:aggregated_base_parameter_study_appendix}
+\end{figure}
