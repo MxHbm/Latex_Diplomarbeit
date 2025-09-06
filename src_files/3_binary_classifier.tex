@@ -183,10 +183,10 @@ three random permutations are considered from each set. The following table high
 
 As the trained classifier is used in an algorithm considering all loading constraints, feasible tours
 must fulfill all loading constraints, but infeasible tours from a subset of loading constraints
-will also be infeasible, when more loading constraints are considered.\footcite[cf.][p.7]{tamke_branch-and-cut_2024} therefore
+will also be infeasible, when more loading constraints are considered.\footcite[cf.][p.7]{tamke_branch-and-cut_2024} Therefore
 the distinction is made in Table~\ref{tab:train_data_BC_routes}.
 As the same tour can occur in different infeasible / unknown sets
-duplicated tours with the same label will be deleted before training the model. To distinguish this strategy, it will
+duplicated tours will be deleted before training the model. To distinguish this strategy, it will
 be called \textit{Save Strategy}.
 
 \subsubsection{Creating random routes (Random Strategy)}
@@ -194,11 +194,11 @@ An alternative to the first approach is to create random routes from the \gls{3L
 These routes need to be labeled in feasible and infeasible routes regarding their loading.
 A \gls{CLP} algorithm with high solution quality is needed to ensure the correct labels. As the heuristic approaches
 presented in Section~\ref{sec:classical_solution_approaches} do not provide an optimal solution,
-the best choice is to use an exact approach to determine, if all items fit into the container with the loading constraints.
+the best choice is to use an exact approach to determine, if all items fit into the container considering the loading constraints.
 For this purpose, the exact \gls{CP} model was extracted from \cite{tamke_repository_2024} to create
-a standalone \gls{CP} solver, which can be called for just one route.\footcite[Stolen with permission from][]{tamke_repository_2024}
-The random routes are created with the Algorithm~\ref{alg:rand_routes_generation}, and three parameters are introduced to
-control the number of random routes found. As the pseudocode has a lot of details, the parameters and
+a standalone \gls{CLP} solver, which can be called for just one route.\footcite[Stolen with permission from][]{tamke_repository_2024}
+The random routes are created with the Algorithm~\ref{alg:rand_routes_generation}, and four parameters are introduced to
+control the number of random routes found and their characteristics. As the pseudocode has a lot of details, the parameters and
 functionalities are summarized in the following:
 
 \begin{itemize}
@@ -207,6 +207,7 @@ functionalities are summarized in the following:
               \item Multiplier $\alpha$: Integer determining repetitions ($n\times\alpha$) for each route length $n$
               \item  Attempts limit $\beta$: Integer determining max failures per repetition
               \item  Success threshold $\gamma$: Integer determining success threshold per repetition
+              \item  Lower threshold $\delta$: Float determining the range [$\delta$,1] to draw relative volume and weight capacity for one route
               \item Instance set $\mathcal{I}$: Set of instances routes should be generated from
           \end{itemize}
     \item Route length is starting with two customers increasing until no routes can be found
@@ -215,7 +216,8 @@ functionalities are summarized in the following:
 \end{itemize}
 
 Generally the higher the parameters $\alpha$, $\beta$ and $\gamma$ are set and the more instances
-are considered in the instance set $\mathcal{I}$, the more routes will be found. Different
+are considered in the instance set $\mathcal{I}$, the more routes will be found. When the threshold $\delta$
+is chosen smaller than 1, then shorter and fewer routes are selected. Different
 random training datasets are presented in the Chapter~\ref{chap:computational_study}.
 This strategy will be called \textit{Random Strategy}. In the nexr section three model candidates
 are presented more in detail.

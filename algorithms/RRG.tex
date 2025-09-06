@@ -1,49 +1,83 @@
-\begin{algorithm}[htb]\footnotesize
-    \caption{Random Routes Generation}\label{alg:rand_routes_generation}
-    \begin{algorithmic}[1]
-        \Procedure{RRG}{Multiplier $\alpha$, Attempts limit $\beta$, Success threshold $\gamma$, Instance set $\mathcal{I}$}
-        \For{$i \in \mathcal{I}$}
-        \State{$\text{ExitOuterLoop} = False$}
-        \State $\mathcal{G} \gets \emptyset$
-        \State $n_{\max} \gets \mathrm{MaxCustomers}(i)$
-        \For{$n=2$ \textbf{to} $n_{\max}$} \Comment{repeat for every customer count}
-        \If{\text{ExitOuterLoop}}
-        \State{\textbf{break}}
-        \EndIf
-        \State{$c \gets 0$} \Comment{Exit Outer Loop Counter}
-        \For{$1$ \textbf{to} $n \times \alpha$}
-        \State $k \gets 0$ \Comment{accepted routes so far}
-        \State $a \gets 0$ \Comment{attempts since last success}
-        \State $x \gets 0$ \Comment{Counter for breakups}
-        \State $\text{FoundSuccesfulTour} \gets False$ \Comment{Flag for each run}
-        \While{$k < \gamma$ \textbf}
-        \State $R \gets \mathrm{RandomTour}(i,n)$
-        \If{$R \in \mathcal{G}$} \Comment{duplicate}
-        \State $x \gets x + 1$ \Comment{Increment breakups}
-        \Else
-        \If{$\mathrm{Feasible}(R)$} \Comment{volume/weight limits}
-        \State $\mathcal{G} \gets \mathcal{G} \cup \{R\}$
-        \State $k \gets k + 1$
-        \State $a,\,x \gets 0$ \Comment{reset attempts after a success}
-        \State $\text{FoundSuccesfulTour} \gets True$
-        \Else
-        \State $a \gets a + 1$ \Comment{Increment Attempt}
-        \EndIf
-        \EndIf
-        \If{$ a \ge \beta$} \Comment{Attempts exceed limit}
-        \State{$a \gets 0,\,b \gets b + 1$}
-        \EndIf
-        \If{$ x \ge \gamma \textbf{and}$ \textbf{not} FoundSuccessfulTour}
-        \State{$c \gets c + 1$}
-        \State{\textbf{break}}
-        \EndIf
-        \EndWhile
-        \EndFor
-        \If{$c >= n * \alpha$} \Comment{Break generation, when no route was found!}
-        \State{$\text{ExitOuterLoop} = True$}
-        \EndIf
-        \EndFor
-        \EndFor
-        \EndProcedure
-    \end{algorithmic}
-\end{algorithm}
+\begin{figure}[ht]
+    \centering
+    \footnotesize
+    \begin{tikzpicture}[
+            node distance=7mm and 11mm,
+            >=Latex,
+            % Styles
+            startstop/.style   = {rectangle, draw, align=center, minimum width=22mm, minimum height=6mm},
+            process/.style     = {rectangle, draw, align=center, minimum width=30mm, minimum height=6mm},
+            decision/.style    = {diamond, draw, aspect=2, inner sep=1pt, align=center, minimum width=40mm,minimum height=20mm},
+            io/.style          = {trapezium, trapezium left angle=60, trapezium right angle=120, draw, align=center, minimum height=6mm},
+            connector/.style   = {circle, draw, inner sep=1pt},
+            line/.style        = {->}
+        ]
+
+        % Nodes
+        \node[startstop] (start) {Start RRG};
+        \node[decision, below=of start] (forI) {$i\in\mathcal{I}$ left?};
+        \node[process, left= of forI] (nextI) {Next $i$ \&\\ Save $\mathcal{G}$};
+        \node[process, below=of forI] (initI) {$\mathcal{G}\gets\emptyset$\\$n_{\max}\gets \mathrm{MaxCustomers}(i)$\\BreakBool$\gets$False};
+        \node[decision, below=5mm of initI] (forN) {$n=2\ \to\ n_{\max}$ left?};
+        \node[decision, below=of forN] (exitOuter) {BreakBool?};
+        \node[decision, right=of exitOuter] (breakDec) {$c \geq n \times \alpha$?};
+        \node[startstop] at ($(breakDec.north |- forI.east)$) (end) {End RRG};
+        \node[decision, below=of exitOuter] (forAlpha) {$t=1\ \to\ n\cdot\alpha$ left?};
+        \node[decision, below=of forAlpha] (whileK) {While\\$k<\gamma$?};
+        \node[decision, below=12 mm of whileK] (dup) {$R\in\mathcal{G}$?};
+        % \node[process, bel=of dup] (drawThresh) {$Q^*\gets Q\cdot \mathcal{U}_\delta^1$\\$V^*\gets V\cdot \mathcal{U}_\delta^1$};
+        \node[decision, right=of dup] (feasible) {$q(R)\le Q^*$\\\& $v(R)\le V^*$?};
+        \node[process, above=10mm of feasible] (accept) {$\mathcal{G}\gets \mathcal{G}\cup\{R\}$\\SuccessBool$\gets$True};
+        \node[decision, below= of feasible] (attemptCond) {$a\ge \beta$?};
+        \node[process] at ($(dup.south |- attemptCond.west)$) (incX) {$x\gets x+1$};
+        \node[process, left=of dup] (incC) {$c\gets c+1$};
+        \node[decision] at ($(incC.south |- incX.west)$)  (breakCond) {$x\ge \gamma$ \& \\$\overline{\text{SuccessBool}}$?};
+        \node[process] at ($(breakDec.north |- forN.east)$) (trueExit) {BreakBool$\gets$True};
+
+        % Edges
+        \draw[line] (start) -- (forI);
+        \draw[line] (forI) -- node[pos=0.5, right]{yes}(initI);
+        \draw[line] (forI) -- node[pos=0.5, above]{no}(end);
+        \draw[line] (initI) -- (forN);
+        \draw[line] (nextI.east)-- (forI.west);
+        \draw[line] (forAlpha.east) -| node[pos = 0.25,above]{no}(breakDec.south);
+        \draw[line] (breakDec) -- node[pos = 0.5,above right]{no}(forN);
+        \draw[line] (breakDec) -- node[pos = 0.5,right]{yes}(trueExit);
+        \draw[line] (trueExit) -- (forN);
+        \draw[line] (whileK.west) -- ($(whileK.west)-(10mm,0)$) coordinate (bend) node[pos = 0.5,above]{no} |- (forAlpha.west);
+
+        \draw[line] (forN.south) --  node[pos=0.5, right]{yes}(exitOuter.north);
+        \draw[line] (forN.west) -|  node[pos=0.25, above]{no}(nextI.south);
+        \draw[line] (exitOuter.west) -| node[pos=0.25, above]{yes} (nextI.south);
+
+        \draw[line] (exitOuter) -- node[pos=0.5, right, align=left]{no\\$c \gets 0$} (forAlpha);
+
+        \draw[line] (forAlpha) -- node[pos=0.5, right, align=left]{$k,a,x\gets 0$\\ SuccessBool$\gets$False} (whileK);
+        \draw[line] (whileK) --node[pos=0.5, right, align=left]{yes \\ $R\gets \mathrm{RandomTour}(i,n)$} (dup);
+        \draw[line] (dup) -- node[pos=0.5, below]{no}(feasible);
+        \draw[line] (dup) -- node[pos=0.5, right]{yes}(incX);
+        \draw[line] (incX) -- (breakCond);
+        \draw[line] (breakCond) -- node[pos=0.25, below right]{no}(whileK);
+        \draw[line] (breakCond) -- node[pos=0.5, left]{yes} (incC);
+        \draw[line] (incC) |- (forAlpha);
+
+        \draw[line] (feasible) -- node[pos=0.5, left]{yes}(accept);
+        \draw[line] (feasible) -- node[pos=0.5, right, align=left]{$a \gets 0$ \\ $k\gets k+1$}(accept);
+        \draw[line] (accept.north) |- (whileK.east);
+
+        \draw[line] (feasible) --node[pos=0.5, right, align=left]{no\\$a\gets a+1$} (attemptCond);
+        \draw[line] (attemptCond) --node[pos=0.5, above, align=center]{yes\\$a\gets 0$} (incX);
+        \draw[line] (attemptCond) -- ($(attemptCond.east)+(10mm,0)$) coordinate (bend) node[pos = 0.5,above]{no} |- (whileK);
+
+
+        % Finish conditions
+
+        % Labels for the for-loops (optional, visual clarity)
+        \node[above left=0mm and -3mm of forI] {\footnotesize For each $i\in\mathcal{I}$};
+        \node[above left=0mm and -3mm of forN] {\footnotesize For $n=2,\dots,n_{\max}$};
+        \node[above left=0mm and -1mm of forAlpha] {\footnotesize For $t=1,\dots,n\alpha$};
+
+    \end{tikzpicture}
+    \caption{Flowchart for Random Routes Generation (RRG).}
+    \label{fig:flowchart_randomRouteGeneration}
+\end{figure}
