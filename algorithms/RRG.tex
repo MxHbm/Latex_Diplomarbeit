@@ -1,3 +1,44 @@
+This appendix chapter helps understanding the algorithm used for the generation of random routes. The complete algorithm
+is depicted in Figure~\ref{fig:flowchart_randomRouteGeneration} and the following Algorithm~\ref{alg:appendix:check_single_tour}
+is used to check the volume and weight limit of one single tour.
+\begin{algorithm}[ht]
+    \caption{Check volume and weight limit}
+    \label{alg:appendix:check_single_tour}
+    \begin{algorithmic}[1]\onehalfspacing
+        \Require{Volume limit $V$, Weight limit $Q$, Uniform distribution $\mathcal{U}(a,b)$}
+        \Procedure{Feasible}{$\text{Route}\,R,\, \text{Lower Threshold}\,\delta$}
+        \State{Get subset of customers $S$ from route $R$}
+        \State{$V^* \gets V \times \mathcal{U}(\delta,\,1)$} \Comment{Individual bounds for each single route}
+        \State{$Q^* \gets Q \times \mathcal{U}(\delta,\,1)$}
+        \If{$q(S)\le Q^* \, \wedge \, v(S)\le V^*$} \Comment{Check feasibility}
+        \State{\textbf{return} true}
+        \Else
+        \State{\textbf{return} false}
+        \EndIf
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+As the following flowchart contains a lot of information and many different symbols the used terms are explained in
+the following. The parameters $\mathcal{I}$, $\alpha$, $\beta$, $\gamma$ and $\delta$ were alredady described in
+Section~\ref{sec:DataRetrieval}.
+
+\begin{itemize}\singlespacing
+    \item $\mathcal{G}$: Set of found routes
+    \item $i$: Current instance
+    \item $n$: Numbers of customers / Length of route
+    \item $n_{max}$: Maximum numbers of customers in instance $i$
+    \item $c$: Counter for inner loops finding no tour
+    \item $t$: Iteration counter for inner loop (no function!)
+    \item $k$: Counter for found tours in the inner loop
+    \item $a$: Counter for failed attempts to find a feasible tour
+    \item $x$: Counter for breakups
+    \item SuccessBool: Boolean, if at least one route was found in inner loop
+    \item BreakBool: Boolean for interrupting current instance $i$, when for one customer number $n$ no route could be found
+\end{itemize}
+
+
+
 \begin{figure}[ht]
     \centering
     \footnotesize
@@ -14,7 +55,7 @@
         ]
 
         % Nodes
-        \node[startstop] (start) {Start RRG};
+        \node[startstop] (start) {Start RRG ($\mathcal{I}$, $\alpha$, $\beta$, $\gamma$, $\delta$)};
         \node[decision, below=of start] (forI) {$i\in\mathcal{I}$ left?};
         \node[process, left= of forI] (nextI) {Next $i$ \&\\ Save $\mathcal{G}$};
         \node[process, below=of forI] (initI) {$\mathcal{G}\gets\emptyset$\\$n_{\max}\gets \mathrm{MaxCustomers}(i)$\\BreakBool$\gets$False};
@@ -26,7 +67,7 @@
         \node[decision, below=of forAlpha] (whileK) {While\\$k<\gamma$?};
         \node[decision, below=12 mm of whileK] (dup) {$R\in\mathcal{G}$?};
         % \node[process, bel=of dup] (drawThresh) {$Q^*\gets Q\cdot \mathcal{U}_\delta^1$\\$V^*\gets V\cdot \mathcal{U}_\delta^1$};
-        \node[decision, right=of dup] (feasible) {$q(R)\le Q^*$\\\& $v(R)\le V^*$?};
+        \node[decision, right=of dup] (feasible) {Feasible($R$, $\delta$)?\\(See Alg.~\ref{alg:appendix:check_single_tour})};
         \node[process, above=10mm of feasible] (accept) {$\mathcal{G}\gets \mathcal{G}\cup\{R\}$\\SuccessBool$\gets$True};
         \node[decision, below= of feasible] (attemptCond) {$a\ge \beta$?};
         \node[process] at ($(dup.south |- attemptCond.west)$) (incX) {$x\gets x+1$};
