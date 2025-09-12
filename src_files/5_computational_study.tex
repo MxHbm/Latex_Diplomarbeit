@@ -2,13 +2,13 @@
 \label{chap:computational_study}
 This chapter will give the most insights into the functionality and efficiency of the usage of the presented binary classifier in
 \gls{3L-CVRP} algorithms. This chapter will begin with the selection of two different suiting \gls{3L-CVRP} datasets by comparing
-several datasets and presenting the most important specialities. Afterwards the results from training the model are presented, which
+several datasets and presenting the most important specialities. Afterwards the results from the model training are presented, which
 is divided in three main parts, firstly the results of the retrieval of the data, secondly the feature selection, and finally presenting
-different strategies for comparing different models and selecting the best regarding accuracy on the test dataset as well as on collected
-tensor data. Afterwards a parameter study is conducted for the \gls{ILS}, starting with the \textit{NoClassifier} variant determining
-the best configurations for the base parameters, followed by a more intense comparisons of all the classifier parameters determining the
-other three variants. This chapter closes with a complete comparison of all four variants, comparing the version with tuned parameters.
-These insights lay the foundation for the following closing Chapter~\ref{chap:conclusion}.
+different strategies for comparing different models and selecting the best best fit performance wise on the test dataset as well as on other
+training datasets via cross validation. Afterwards a parameter study is conducted for the \gls{ILS}, starting with the \textit{NoClassifier} variant determining
+the best configurations for the base parameters, followed by a variant specific parameter study.
+This chapter closes with a computational study of all four variants, comparing the versions with tuned parameters.
+These insights are summarized in the concluding chapter.
 
 \section{Comparison of Available Datasets}
 \label{sec:dataset_selection}
@@ -166,32 +166,41 @@ can also be found in the appendix and this section can be reduced to present the
 retrieval strategy, as well as the final outcomes.
 
 \subsection{Random Retrieval Strategy}
-With the algorithm \ref{alg:rand_routes_generation} the following random datasets were created with all
-instances from Gendreau.
+With the Algorithm~\ref{fig:flowchart_randomRouteGeneration} the following random datasets were created with all
+instances from Gendreau. It must be noted, that the parameter attempts limit $\beta$ did not have a huge influence on
+the number of routes and the structure of the dataset. Therefore only the datasets with $\beta = 30$ have been preselected.
+The values in the balance column stand for the share of positive and netative labels in the sample population. The relative volume
+and mass refer to the average value for all routes in the respective dataset.
 \begin{table}[h!]
     \centering
-    \begin{tabular}{@{}P{0.13\textwidth}P{0.08\textwidth}P{0.08\textwidth}P{0.08\textwidth}P{0.09\textwidth}P{0.10\textwidth}P{0.12\textwidth}P{0.12\textwidth}@{}}
+    \begin{tabular}{@{}L{0.17\textwidth}P{0.04\textwidth}P{0.04\textwidth}P{0.04\textwidth}P{0.05\textwidth}P{0.09\textwidth}P{0.10\textwidth}P{0.12\textwidth}P{0.12\textwidth}@{}}
+        \toprule
+        Name          & $\alpha$ & $\beta$ & $\gamma$ & $\delta$ & Routes & Balance & Rel. Vol & Rel. Mass \\
         \midrule
-        Name       & $\alpha$ & $\beta$ & $\gamma$ & Routes & Balance & Rel. Vol & Rel. Mass \\
-        \bottomrule
-        RD-2-20-20 & 2        & 20      & 20       & 45733  & 60/40   &          &           \\
-        RD-2-20-30 & 2        & 20      & 30       & 70067  & 60/40   &          &           \\
-        RD-2-30-20 & 2        & 30      & 20       & 47350  & 60/40   &          &           \\
-        RD-2-30-30 & 2        & 30      & 30       & 72408  & 60/40   &          &           \\
-        RD-3-20-20 & 3        & 20      & 20       & 68506  & 60/40   &          &           \\
-        RD-3-20-30 & 3        & 20      & 30       & 104967 & 60/40   &          &           \\
-        RD-3-30-20 & 3        & 30      & 20       & 70843  & 60/40   &          &           \\
-        RD-3-30-30 & 3        & 30      & 30       & 108597 & 60/40   &          &           \\
-        RD-4-20-20 & 4        & 20      & 20       & 91000  & 60/40   &          &           \\
-        RD-4-20-30 & 4        & 20      & 30       & 139996 & 60/40   &          &           \\
-        RD-4-30-20 & 4        & 30      & 20       & 94666  & 60/40   &          &           \\
-        RD-4-30-30 & 4        & 30      & 30       & 144311 & 60/40   &          &           \\
-        RD-5-40-40 & 5        & 40      & 40       & 249762 & 60/40   &          &           \\
+        RD-2-30-20-6  & 2        & 30      & 20       & 0.6      & 47350  & 60/40   &          &           \\
+        RD-2-30-20-8  & 2        & 30      & 20       & 0.8      & 47350  & 60/40   &          &           \\
+        RD-2-30-20-10 & 2        & 30      & 20       & 1        & 47350  & 60/40   &          &           \\
+        RD-2-30-30-6  & 2        & 30      & 30       & 0.6      & 72408  & 60/40   &          &           \\
+        RD-2-30-30-8  & 2        & 30      & 30       & 0.8      & 72408  & 60/40   &          &           \\
+        RD-2-30-30-10 & 2        & 30      & 30       & 1        & 72408  & 60/40   &          &           \\
+        RD-3-30-20-6  & 3        & 30      & 20       & 0.6      & 70843  & 60/40   &          &           \\
+        RD-3-30-20-8  & 3        & 30      & 20       & 0.8      & 70843  & 60/40   &          &           \\
+        RD-3-30-20-10 & 3        & 30      & 20       & 1        & 70843  & 60/40   &          &           \\
+        RD-3-30-30-6  & 3        & 30      & 30       & 0.6      & 108597 & 60/40   &          &           \\
+        RD-3-30-30-8  & 3        & 30      & 30       & 0.8      & 108597 & 60/40   &          &           \\
+        RD-3-30-30-10 & 3        & 30      & 30       & 1        & 108597 & 60/40   &          &           \\
+        RD-4-30-20-6  & 4        & 30      & 20       & 0.6      & 94666  & 60/40   &          &           \\
+        RD-4-30-20-8  & 4        & 30      & 20       & 0.8      & 94666  & 60/40   &          &           \\
+        RD-4-30-20-10 & 4        & 30      & 20       & 1        & 94666  & 60/40   &          &           \\
+        RD-4-30-30-6  & 4        & 30      & 30       & 0.6      & 144311 & 60/40   &          &           \\
+        RD-4-30-30-8  & 4        & 30      & 30       & 0.8      & 144311 & 60/40   &          &           \\
+        RD-4-30-30-10 & 4        & 30      & 30       & 1        & 144311 & 60/40   &          &           \\
+        RD-5-40-40-6  & 5        & 40      & 40       & 0.6      & 249762 & 60/40   &          &           \\
+        RD-5-40-40-8  & 5        & 40      & 40       & 0.8      & 249762 & 60/40   &          &           \\
+        RD-5-40-40-10 & 5        & 40      & 40       & 1        & 249762 & 60/40   &          &           \\
         \bottomrule
     \end{tabular}
-    \caption[Created instances for different parameter combinations $(\alpha, \beta, \gamma)$ for \gendreauDataSetText dataset.]{Created instances for different parameter combinations $(\alpha, \beta, \gamma)$ for \gendreauDataSetText dataset.
-        The values in the balance column stand for the share of positive and netative labels in the sample population. The relative volume
-        and mass refer to the average value for all routes in the respective dataset.}
+    \caption{Created instances for different parameter combinations $(\alpha, \beta, \gamma, \delta)$ for \gendreauDataSetText dataset.}
     \label{tab:created_instances_xyz_gendreau}
 \end{table}
 
@@ -249,7 +258,7 @@ do have more influence.
 The parameter study is divided in four subsections following the variants of the algorithm
 presented in Section~\ref{sec:FeasibilityCheck}. This study follows a hierarchical procedure
 tuning the parameters, introduced for each variant, sequentially. The following subset of 13
-instances from the gendreau dataset is used:
+instances from \gendreauDataSetText is used:
 
 
 \begin{table}[ht]
@@ -263,66 +272,36 @@ instances from the gendreau dataset is used:
 \end{table}
 
 The division followed the following approach, first all instances were omitted, which found
-the optimal solution (see \cite{tamke_branch-and-cut_2024}\footcite[cf.][p.26]{tamke_branch-and-cut_2024})
-in a short time. Second, similar instances of size and complexity were reduced to only one.
+the optimal solution in a short time (see \cite{tamke_branch-and-cut_2024}\footcite[cf.][p.26]{tamke_branch-and-cut_2024}). Second, similar instances of size and complexity were reduced to only one.
 Every instance is run three times with different seeds and a timelimit of 10 min. It will be investigated
-how different parameter combinations influence the RDP, the iteration number, the rejection rate and
+how different parameter combinations influence the \gls{RDP}, the iteration number, the rejection rate and
 the average improvement per second after finding the initial solution.
 
 \subsection{NoClassifier Variant}
 \label{subsec_parameterStuy_noclassifier}
-For this variant all the basic \gls{ILS} parameters will be tested as this displays the base form
+For this variant all the base \gls{ILS} parameters will be tested as this displays the fundament
 for all the upcoming variants, but with the limitation, that the loading is only checked
 with the exact \gls{CP} solver. The following variations were tested and the best level is highlighted
-in bold font. The BasePerturbation parameter declares, which perturbation type is selected, in the normal
-perturbation. The two parameters AttemptsLimit and RoundLimit have almost no influence on the algorithm performance, as
-can be seen in the Appendix in Figure~\ref{fig:aggregated_base_parameter_study_appendix}. Therefore the values were chosen
-on the slight differences.
+in bold font.
 
 \begin{table}[ht]
     \centering
     \setlength{\tabcolsep}{2em}
     \def\arraystretch{1.1}
-    \begin{tabular}{c c}
+    \begin{tabular}{@{}P{4cm}P{8cm}@{}}
         \toprule
-        Parametertype      & Levels                                      \\
+        Parametertype      & Levels                                                                  \\
         \midrule
-        AttemptsLimit      & [\textbf{3},5,8,12]                         \\
-        RoundLimit         & [1,\textbf{5},8]                            \\
-        RandomMoves K      & [\textbf{3},5,8]                            \\
-        BasePerturbation   & [\textbf{K-RandomSwaps},K-RandomInsertions] \\
-        Neighborhood order & [IntraFirst, \textbf{InterFirst}]           \\
+        AttemptsLimit $a$  & \textbf{3}, 5, 8, 12                                                    \\
+        RandomMoves R      & \textbf{3}, 5, 8, 12                                                    \\
+        Perturbation       & \textbf{R-Swaps}, R-Insertions, Both-Insertions-First, Both-Swaps-First \\
+        Neighborhood order & IntraFirst, \textbf{InterFirst}                                         \\
         \bottomrule
     \end{tabular}
     \caption{Parameter levels for NoClassifier variant.}
     \label{tab:parameters_noclassifier}
 \end{table}
 
-The solution quality is highly dependent on the iterations number, which can be run within the time limit.
-As the \gls{CP} Solver is computationally demanding, the average number of iterations, especially for instances
-with many routes is low, as can be seen in the following Figure~\ref{fig:average_iterations_base_parameterstudy}.
-With two exceptions the maximum is 50 iterations in 10 min, which accounts to approx. 12 seconds per iteration.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.6\textwidth]{pictures/parameter_study/iterations_per_instance.png}
-    \caption[Visualized 3D packing with packing constraints.]{3D Packing with geometry, orthogonality and support area constraints.}.
-    \label{fig:average_iterations_base_parameterstudy}
-\end{figure}
-
-\begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}[node distance=0mm and 0mm]
-        \node[anchor=south, inner sep=0] (A) at (0,0)
-        {\includegraphics[width=0.95\textwidth]{pictures/parameter_study/K_RandomMoves_base_parameter_study.png}};
-        \node[anchor=north, below=of A,inner sep=0] (B)
-        {\includegraphics[width=0.96\textwidth]{pictures/parameter_study/LocalSearchTypes_base_parameter_study.png}};
-        \node[anchor=north, below=of B,inner sep=0] (C)
-        {\includegraphics[width=0.96\textwidth]{pictures/parameter_study/PerturbationTypes_base_parameter_study.png}};
-    \end{tikzpicture}
-    \caption{Aggregated relative mass and volume per customer distributed for each instance of the \gendreauDataSetText dataset.}
-    \label{fig:aggregated_base_parameter_study}
-\end{figure}
 
 \clearpage
 \subsection{SpeedUp Variant}

@@ -85,7 +85,7 @@ The following Plot~\ref{fig:AUROC_curve} shows several receiver operating curves
 in the legend. The baseline is the angle bisector indicating random guessing with an \gls{AUROC} value of 0.5. The bigger the area under the
 curve gets, the better is the fit. The perfect fit is displayed, when the full square is covered under the receiver operating curve.
 
-\input{tikz/auroc_plot.tex}
+\input{Plots/auroc_plot.tex}
 
 To highlight the differences between an imbalanced and balances training dataset, two classifications and their respective
 evaluation metrics with exception of the \gls{AUROC} are compared.
@@ -197,7 +197,7 @@ presented in Section~\ref{sec:classical_solution_approaches} do not provide an o
 the best choice is to use an exact approach to determine, if all items fit into the container considering the loading constraints.
 For this purpose, the exact \gls{CP} model was extracted from \cite{tamke_repository_2024} to create
 a standalone \gls{CLP} solver, which can be called for just one route.\footcite[Stolen with permission from][]{tamke_repository_2024}
-The random routes are created with the Algorithm~\ref{alg:rand_routes_generation}, and four parameters are introduced to
+The random routes are created with the Algorithm~\ref{fig:flowchart_randomRouteGeneration}, and four parameters are introduced to
 control the number of random routes found and their characteristics. As the pseudocode has a lot of details, the parameters and
 functionalities are summarized in the following:
 
@@ -207,7 +207,7 @@ functionalities are summarized in the following:
               \item Multiplier $\alpha$: Integer determining repetitions ($n\times\alpha$) for each route length $n$
               \item  Attempts limit $\beta$: Integer determining max failures per repetition
               \item  Success threshold $\gamma$: Integer determining success threshold per repetition
-              \item  Lower threshold $\delta$: Float determining the range [$\delta$,1] to draw relative volume and weight capacity for one route
+              \item  Lower threshold $\delta$: Float determining the range [$\delta$,1] to draw relative volume and weight capacity thresholds for one route
               \item Instance set $\mathcal{I}$: Set of instances routes should be generated from
           \end{itemize}
     \item Route length is starting with two customers increasing until no routes can be found
@@ -256,57 +256,8 @@ The resulting logistic function is bound to the range of 0 and 1, and results ca
 in two labels using an threshold. An output of 0.5 can be interpreted as random
 guessing between both labels, as $z=0$. The curve of the logistic function is shown in Figure~\ref{fig:LR_plot}.
 The model is fitted to predict feasible and infeasible loadings best.\footcite[cf.][]{kirasich_random_2018}
-\begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}
-        \begin{axis}[
-                axis lines=middle,
-                xlabel={$z$},
-                ylabel={$\sigma(z)$},
-                samples=200,
-                domain=-6:0,
-                ymin=-0.2, ymax=1.2,
-                xtick={-6,-4,-2,0},
-                ytick={0,0.5,1},
-                width=10cm,
-                height=6cm,
-            ]
-            % Logistic function
-            \addplot[red, thick] {1/(1+exp(-x))};
 
-            %Text
-            \node[rectangle,minimum width=24pt,align=center] (test)  at (-4,  0.5) {\footnotesize Classified \\ \footnotesize infeasible};
-
-            % Dotted lines for y=0 and y=1
-            \addplot[dashed, gray] coordinates {(-6,1) (6,1)};
-        \end{axis}
-        \begin{axis}[
-                axis lines=middle,
-                xlabel={$z$},
-                ylabel={$\sigma(z)$},
-                samples=200,
-                domain=0:6,
-                ymin=-0.2, ymax=1.2,
-                xtick={2,4,6},
-                ytick={0,0.5,1},
-                width=10cm,
-                height=6cm,
-            ]
-            % Logistic function
-            \addplot[green, thick] {1/(1+exp(-x))};
-
-            %Text
-            \node[rectangle,minimum width=24pt,align=center] (test)  at (4,  0.5) {\footnotesize Classified \\ \footnotesize feasible};
-
-            % Dotted lines for y=0 and y=1
-            \addplot[dashed, gray] coordinates {(-6,1) (6,1)};
-        \end{axis}
-    \end{tikzpicture}
-    \caption{Transformation of linear regression to logistic regression via the sigmoid function.}
-    \label{fig:LR_plot}
-\end{figure}
-
-
+\input{Plots/logistic_regression_sigmoid.tex}
 
 \subsubsection{Decision Trees}
 Decision trees classify samples by sorting them based on their features. Every decision tree
@@ -497,79 +448,52 @@ For every geometrical ratio the four features are calculated with this approach 
 
 \parbreak
 
-As the number of 48 features is huge for describing a rather simple problem in comparison to picture detection, the next steps
-involve the analysis, which features have the greatest impact and which features can be dropped due to high correlation to other
-features or to irrelevance to the prediction accuracy of the binary classifier.
+As the number of 48 features is huge for describing a rather simple problem in comparison to picture detection, the next section
+describes the feature reduction / selection.
 
 \section{Feature Selection}
 \label{sec:feature_engineering}
 
-The selection of a subset of features helps to simplify the model
-while preserving the same performance. For this procedure several frameworks have been published. In this work
-the \gls{FSFS} is used. The procedure starts with a minimum number of features to start with, which are
-preselected based on the best performance of the whole set of features. Iteratively in the \gls{FSFS} a new
-feature is added to the model and it is tested, if the current fit of the model features need to be adapted.
-This process is either repeated until no more features can be selected or a chosen bound for the maximum
-feature number is reached. The theoretical background for the feature selection is, that the performance
-of the model is optimal with the full feature set due to the noise and correlation between the features,
-but somewhere in the middle. The following Figure~\ref{fig:feature-performance} shows this ideal feature-performance curve.
+The selection of a subset of features helps to simplify the model by increasing the interpretability and the computation time
+for the features. Furthermore, \gls{ML} model types can be negatively affected by non-informative features, so features without
+an influence to the prediction outcome. This applies to all models, where all predicting values are combined in a statistical formula
+and are considered in the output value, as \gls{LR} and \gls{FFNN}. However all tree- and rule-based models, as decision trees, are resistant
+to the negative influence of non-informative features as not every feature is used for branching. \footcite[cf.][pp. 487-489]{kuhn_applied_2016}
+The following Figure~\ref{fig:feature-performance} visualizes how a performance metric, as accuracy, develops depending if the model is
+resistant to a high number of non-informative features.
+\input{Plots/feature_seletction.tex}
 
-\begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}
-        \begin{axis}[
-                axis lines=middle,
-                xlabel={$No Features$},
-                ylabel={$Performance Indicator$},
-                samples=1000,
-                domain=1:50,
-                xmin=1, xmax=50,
-                ymin=-0.1, ymax=1.2,
-                xtick={5,10,15,20,25,30,35,40,45,50},
-                ytick={0,0.5,1},
-                width=10cm,
-                height=6cm,
-            ]
-            \pgfmathsetmacro{\kap}{1.8}
-            \pgfmathsetmacro{\lam}{0.04}
+The feature selection approaches for supervised learning models can be divided in three groups, which are described further afterwards.
+\begin{enumerate}
+    \item Filter Methods
+    \item Wrapper Methods
+    \item Embedded approaches
+\end{enumerate}
+Filter methods are ranking techniques, which are used to filter a subset of features before the model is trained, by analyzing
+the correlation between the features and the output variables. By defining a threshold or an explicit number of features, the
+final features are selected. It needs to be noted, that inter feature correlation exists and several subsets of features can
+generate the same model performance, when high correlated features exist, which is not considered by filter methods.
+Furthermore, the type of data of the features and the
+output value determines significantly, which method can be applied and is capable of explaining the correlation. The risk
+of overfitting is reduced as the selection of features is conducted without respecting the model performance.
+Wrapper methods are evaluating the model performance with different subsets of features. As the possible number of combinations is growing
+exponentially, choosing the right subset is a $NP$-hard problem. Several heuristic methods are used to tackle this task.
+Sequential selection algorithms, which can be implemented either forward, starting with 0 features, or backwards, starting with the
+maximum number of features and adding resp. removing one feature after each other to find the best combination. Other methods involve
+\glspl{GA} or branch-and-bound algorithms. The main difference to filter methods is the focus on the classifiction performance with
+different feature subsets. Embedded approaches aim to reduce the computation time needed for the wrapper methods by integrating the
+feature selection in the training process. \footcites[cf.][pp.17-21]{chandrashekar_survey_2014}
 
-            \addplot[blue, thick] { 0.5 + 14*( \lam*\kap*(\lam*x)^(\kap-1)*exp( -(\lam*x)^\kap ) ) };
+As this thesis will analyse several different datasets and models, the number of combinations is large, when a perfect feature subset
+has to be selected for each dataset model tupel. Therefore, the same subset of features will be used for each model and dataset
+by using a filter method approach, to provide comparability. The following algothim flowchart visualizes how the final set
+of features is obtained by using several scoring methods as filters and several different train datasets.
 
 
-        \end{axis}
-    \end{tikzpicture}
-    \caption{Ideal curve of model performance determined by number of features selected.}
-    \label{fig:feature-performance}
-\end{figure}
 
-The performance, e.g. the \gls{MCC} score, increases slowly until a maximum and then decresases slowly with
-increasing number of features respected. The real curve observed will be not this extreme as the core
-classfication system is always part, but should illustrate the benefits of feature selection.
-
-When only one dataset is available, then the feature selection is a quite simple process, however, when
-several datasets are available with different samples and retrieval methods it is very likely,
-that with every feature selection a different subsets of features is selected. Therefore the
-following procedure will be conducted:
-\begin{algorithm}[htb]
-    \caption{Feature and Dataset Selection}\label{alg:feature_dataset_selection}
-    \begin{algorithmic}[1]
-        \Procedure{Feature Dataset Selection}{Set of datasets $\mathcal{D}$}
-        \For{$d \in D$}
-        \State{Apply \gls{FSFS} to $d$ and determine optimal feature list $d_f$}
-        \State{Save model $d_m$ with feature list $d_f$}
-        \For{$d' \in D\setminus\{d\}$}
-        \State Label dataset $d'$ with model $d_m$ and features $d_f$
-        \State Calculate accuracy, F1-score, \gls{MCC} and \gls{AUROC}
-        \State Save results
-        \EndFor
-        \EndFor
-        \State{\textbf{return} Dataset $d$ with best performance over all datasets}
-        \EndProcedure
-    \end{algorithmic}
-\end{algorithm}
 
 To select the best fitting dataset and corresponding feature list for every dataset is iteratively
-the optimal feature list selected with \gls{FSFS} and afterwards all other datasets are labeled
+the optimal feature list selected with FSFS and afterwards all other datasets are labeled
 with the pretrained model and the selected features. This procedure is repeated for every dataset
 and the dataset and the corresponding model and feature list is chosen, which has the best overall
 performance. The performance is compared in this order: \gls{MCC}, \gls{AUROC}, F1-score and accuracy.
