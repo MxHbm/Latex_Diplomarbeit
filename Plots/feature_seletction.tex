@@ -2,18 +2,19 @@
     \centering
     \begin{tikzpicture}
         \begin{axis}[
-                axis lines=middle,
-                xlabel={Number of features $n$},
-                ylabel={Performance Metric},
-                samples=1000, domain=1:50,
-                xmin=0, xmax=50, ymin=-0.1, ymax=1.2,
-                xtick={1,15.94,45},
-                xticklabels={\strut 1, \strut $n^*$, \strut $\infty$},
-                % extra x ticks={1,18,45},
-                %extra x tick labels={1, $n^*$, $n\to\infty$},
-                ytick={0,0.5,1},
-                width=10cm, height=6cm,
-                legend style={at={(1.05,0.5)},anchor=west},
+            axis lines=middle,
+            axis line style = {-Stealth[{length=6pt}]},
+            xlabel={Number of features $n$},
+            ylabel={Performance Metric},
+            samples=1000, domain=1:50,
+            xmin=0, xmax=50, ymin=-0.1, ymax=1.2,
+            xtick={1,15.94,45},
+            xticklabels={\strut 1, \strut $n^*$, \strut $\infty$},
+            % extra x ticks={1,18,45},
+            %extra x tick labels={1, $n^*$, $n\to\infty$},
+            ytick={0,0.5,1},
+            width=10cm, height=6cm,
+            legend style={at={(1.05,0.5)},anchor=west},
             ]
             \pgfmathsetmacro{\kap}{1.8}
             \pgfmathsetmacro{\lam}{0.04}

@@ -2,18 +2,25 @@
 %%%%%%%%%%%%%%%%%%%%%% LOADING FEASIBILITY CHECKS %%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \definecolor{myblue}{RGB}{10,40,75}
+\definecolor{myPetrol}{RGB}{11,136,140}
+
+\pgfplotsset{
+compat=1.9,% aktuell ist eigentlich 1.12 (bei overleaf 1.10)
+axis lines=middle,
+axis line style = {-Stealth[{length=8pt}]}
+}
 
 \tikzset{
-    line/.style   = {-Latex, very thick, draw=myblue, rounded corners=6pt},
-    block/.style  = {draw=myblue, very thick, fill=blue!20,
-            minimum width=3.5cm, minimum height=1.2cm,
-            align=center, rounded corners=2pt},
-    myDiamond/.style = {diamond, draw=myblue, very thick,
-            minimum width=3cm, minimum height=2.5cm,
-            aspect=1, align=center},
-    decision/.style  = {myDiamond, fill=blue!20},
-    decisionY/.style = {myDiamond, fill=yellow!80},
-    decisionCP/.style = {myDiamond, fill=orange!80},
-    dot/.style       = {circle, draw=myblue, very thick, fill=myblue,
-            minimum size=8mm, inner sep=0pt},
+        line/.style   = {-Latex, very thick, draw=myblue, rounded corners=6pt},
+        block/.style  = {draw=myblue, very thick, fill=blue!20,
+                        minimum width=3.5cm, minimum height=1.2cm,
+                        align=center, rounded corners=2pt},
+        myDiamond/.style = {diamond, draw=myblue, very thick,
+                        minimum width=3cm, minimum height=2.5cm,
+                        aspect=1, align=center},
+        decision/.style  = {myDiamond, fill=blue!20},
+        decisionY/.style = {myDiamond, fill=yellow!80},
+        decisionCP/.style = {myDiamond, fill=orange!80},
+        dot/.style       = {circle, draw=myblue, very thick, fill=myblue,
+                        minimum size=8mm, inner sep=0pt},
 }

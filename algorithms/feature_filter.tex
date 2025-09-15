@@ -1,0 +1,31 @@
+\begin{algorithm}[ht]
+    \footnotesize
+    \caption{Filter Algorithm}
+    \label{alg:filter_algorithm}
+    \begin{algorithmic}[1]
+        \Require{Counting dictionary $Q(f : 0 \,| \, \forall f \in \mathcal{F})$, Feature set $\mathcal{F}$, Datasets $\mathcal{D}$}
+        \Procedure{Filter}{Scoring method $\kappa$, Correlation thresholds $\Phi$, Quantile threshold $\epsilon$, Boundary $\mathcal{B}$}
+        \ForAll{datasets $d \in \mathcal{D}$}
+        \State{Compute filter score $\mathcal{R}_{d,\kappa}(\mathcal{F})$ and standardize with $\mathcal{N}(0,1)$}
+        \State{Compute mutual correlation matrix $\mathcal{C}_d(\mathcal{F},\mathcal{F})$}
+        \ForAll{thresholds $\phi \in \Phi$}
+        \ForAll{features $f \in \mathcal{F}$}
+        \ForAll{features $f' \in \mathcal{F}\,|\, f \neq f'$}
+        \If{$\mathcal{C}_d(f,f') > \phi$}
+        \If{$\mathcal{R}_{d,\kappa}(f)$ < $\mathcal{R}_{d,\kappa}(f')$}
+        \State{$Q(f) \gets Q(f) + 1$}
+        \Else
+        \State{$Q(f') \gets Q(f') + 1$}
+        \EndIf
+        \EndIf
+        \EndFor
+        \If{Score $\mathcal{R}(f)$ < $\epsilon$-quantile of $\mathcal{N}(0,1)$}\Comment{low-scoring tail}
+        \State{$Q(f) \gets Q(f) + 1$}
+        \EndIf
+        \EndFor
+        \EndFor
+        \EndFor
+        \State{\Return $\{\,f \in \mathcal{F} \mid Q(f) > \mathcal{B}\,\}$}
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}

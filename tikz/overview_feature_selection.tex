@@ -1,0 +1,35 @@
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}[
+            scale = 0.6,
+            transform shape,
+            level distance=20mm,
+            sibling distance=40mm,
+            node/.style={rectangle, draw, align=center, rounded corners, minimum width=20mm, minimum height=10mm},
+            selectedNode/.style={rectangle, draw,fill = myPetrol!30, align=center, rounded corners, minimum width=20mm, minimum height=10mm},
+            edge from parent path={(\tikzparentnode.south) --($(\tikzparentnode.south)-(0,5mm)$) -| (\tikzchildnode.north)}
+        ]
+
+        \node[selectedNode] {Feature Selection}
+        child {node[node](ch1) {Unsupervised \\ Learning}
+            }
+        child {node[selectedNode](ch2) {Supervised \\ Learning}
+                child {node[selectedNode] (c4) {Filter Methods}
+                        child {node[node] (c7) {Y:Numerical Data}}
+                        child {node[node] (c8) {Y:Ordinal Data}}
+                        child {node[selectedNode] (c9) {Y:Categorical Data}
+                                child {node[selectedNode] (c10) {X:Numerical Data}
+                                        child {node[selectedNode] (c13) {Fisher-Score}}
+                                        child {node[selectedNode] (c14) {Mutual Information}}}
+                                child {node[node] (c11) {X:Ordinal Data}}
+                                child {node[node] (c12) {X:Categorical Data}}
+                            }
+                    }
+                child {node[node] (c5) {Wrapper Methods}}
+                child {node[node] (c6) {Embedded Methods}}
+            };
+    \end{tikzpicture}
+    \caption{Feature selection with emphasis on filter methods.}
+    \label{fig:overview_Feature_selection}
+\end{figure}

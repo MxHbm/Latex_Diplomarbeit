@@ -335,8 +335,7 @@ The complete feature list spans 48 features, which can be divided in three group
 \begin{itemize}
     \item 2 General Features: General information about each tour
     \item 10 Loading Constraint Features: Concepted to depict the loading constraint set $\mathcal{G}$
-    \item 36 Geometrical Ratio Features: Contain several geometrical ratio of items and container size to retrieve
-          statistical values of minimum, maximimum, mean and standard deviation
+    \item 36 Geometrical Ratio Features: Contain several geometrical ratio of items and container size
 \end{itemize}
 
 Some additional definitions to Section~\ref{sec:mathematical_formulation}
@@ -401,7 +400,7 @@ in the beginning as further items need to be likely placed upon the first items.
 The third and last feature group
 was partly used by \cite{zhang_learning-based_2022} and is expanded for additional geometrical ratios applicable to three-dimensional loading.\footcite[cf.][p. 14]{zhang_learning-based_2022}
 All geometrical ratios express the relation between two geometrical properties of either one item or one item to the vehicle. These ratios
-are calculated for each item demanded from $S$ and afterwards the minimum, maximum, meand and standard deviation is calculated
+are calculated for each item demanded from $S$ and afterwards the minimum, maximum, mean and standard deviation is calculated
 from the $D(S)$ ratios, which are used as features. These ratios are expressed visually in the following Figure~\ref{fig:geometrical_ratio_features}.
 
 
@@ -411,7 +410,7 @@ from the $D(S)$ ratios, which are used as features. These ratios are expressed v
     % ---- Row 1: ratios between item dims & against container (L/H, W/H, W/L, L/CL, H/CH) ----
     \PanelItemDimDim{Width Height \\ \footnotesize{[0,$h$]}}{3}{2}
     \PanelItemDimDim{Length Height\\ \footnotesize{[0,$h$]}}{1}{2}
-    \PanelItemDimDim{Width Length\footcite[Featues adapted from][p.14]{zhang_learning-based_2022}\\ \footnotesize{[0,$h$]}}{2}{3}
+    \PanelItemDimDim{Width Length\footnote{Features adapted from \cite[p.14]{zhang_learning-based_2022}.}\\ \footnotesize{[0,$h$]}}{2}{3}
     \vspace{25pt}
     \PanelHeightOverArea{Height Area\\ \footnotesize{[0,1]}}
     \vspace{25pt}
@@ -455,45 +454,65 @@ describes the feature reduction / selection.
 \label{sec:feature_engineering}
 
 The selection of a subset of features helps to simplify the model by increasing the interpretability and the computation time
-for the features. Furthermore, \gls{ML} model types can be negatively affected by non-informative features, so features without
-an influence to the prediction outcome. This applies to all models, where all predicting values are combined in a statistical formula
+for the features. Furthermore, \gls{ML} model types can be negatively affected by non-informative features, which are not correlated
+to the prediction outcome. This applies to all models, where all predicting values are combined in a statistical formula
 and are considered in the output value, as \gls{LR} and \gls{FFNN}. However all tree- and rule-based models, as decision trees, are resistant
 to the negative influence of non-informative features as not every feature is used for branching. \footcite[cf.][pp. 487-489]{kuhn_applied_2016}
 The following Figure~\ref{fig:feature-performance} visualizes how a performance metric, as accuracy, develops depending if the model is
 resistant to a high number of non-informative features.
 \input{Plots/feature_seletction.tex}
 
-The feature selection approaches for supervised learning models can be divided in three groups, which are described further afterwards.
-\begin{enumerate}
-    \item Filter Methods
-    \item Wrapper Methods
-    \item Embedded approaches
-\end{enumerate}
-Filter methods are ranking techniques, which are used to filter a subset of features before the model is trained, by analyzing
-the correlation between the features and the output variables. By defining a threshold or an explicit number of features, the
-final features are selected. It needs to be noted, that inter feature correlation exists and several subsets of features can
-generate the same model performance, when high correlated features exist, which is not considered by filter methods.
-Furthermore, the type of data of the features and the
-output value determines significantly, which method can be applied and is capable of explaining the correlation. The risk
+The feature selection approaches for supervised learning models can be divided in three groups, filter, wrapper and embedded methods.
+Filter methods are ranking techniques, which are used to select a feature subset before the model is trained, by analyzing
+the dependency between the features and the output variables. By defining a threshold or an explicit number of features, the
+resulting subset is selected. Mutual correlation between features exists and is not considered by filter methods
+leading to redundany. Furthermore, the datatype of $X$ and $Y$ determines which filter method is applicable. The risk
 of overfitting is reduced as the selection of features is conducted without respecting the model performance.
 Wrapper methods are evaluating the model performance with different subsets of features. As the possible number of combinations is growing
-exponentially, choosing the right subset is a $NP$-hard problem. Several heuristic methods are used to tackle this task.
-Sequential selection algorithms, which can be implemented either forward, starting with 0 features, or backwards, starting with the
-maximum number of features and adding resp. removing one feature after each other to find the best combination. Other methods involve
-\glspl{GA} or branch-and-bound algorithms. The main difference to filter methods is the focus on the classifiction performance with
-different feature subsets. Embedded approaches aim to reduce the computation time needed for the wrapper methods by integrating the
-feature selection in the training process. \footcites[cf.][pp.17-21]{chandrashekar_survey_2014}
+exponentially, choosing the right subset is a $NP$-hard problem. Several heuristic methods are used to tackle this task, among them
+are sequential selection algorithms, adding resp. removing one feature after each other,
+\glspl{GA} or branch-and-bound algorithms. The main difference to filter methods is the focus on the model performance.
+Embedded approaches aim to reduce the computation time needed for the wrapper methods by integrating the
+feature selection in the training process. \footcites[cf.][pp.17-21]{chandrashekar_survey_2014} As this thesis will analyse several
+different datasets and models, the combinations of dataset model tuples for which a perfect feature subset
+has to be selected are numerous. Therefore, the same subset of features will be used for each model and dataset to provide comparability.
+An adapted filter method is therefore used with the goal to find a subset of features strongly dependent
+to the output label, but with low mutual correlation between the features. The following Figure~\ref{fig:overview_Feature_selection}
+gives an overview over the methods and narrows the possible applicable methods.
 
-As this thesis will analyse several different datasets and models, the number of combinations is large, when a perfect feature subset
-has to be selected for each dataset model tupel. Therefore, the same subset of features will be used for each model and dataset
-by using a filter method approach, to provide comparability. The following algothim flowchart visualizes how the final set
-of features is obtained by using several scoring methods as filters and several different train datasets.
+\input{tikz/overview_feature_selection.tex}
 
+A general approach was published by \cite{hall_feature_1997},
+where a joint numerator $G_s$ was constructed of the correlation between the features of the selected group $s$ and to the output variable.
+The optimization goal is to find the optimal group $s^*$ maximizing $G_{s^*}$ having high correlation to the output variable and low
+correlation among the features in the group $s^*$. The correlation was measured by calculating the conditional entropy, which is independent
+from the data type (numerical, ordinal, categorical) of features and output variables. Unfortunately, no heuristic for finding the optimal
+feature subset was given. \footcite[cf.][p.856]{hall_feature_1997} Another approach was presented from \cite{haindl_feature_2006},
+where features are discarded from the feature set based on the accumulated mutual correlation between features. However, the correlation between
+the features and the output variables is not respected and this approach could lead to non-informative features. \footcite[cf.][]{haindl_feature_2006}
+To avoid determining the maximum number of features beforehand, which is required for solely applied filter methods,
+a own feature selection Algorithm~\ref{alg:filter_algorithm} is presented, which follows the principle of the two previous approaches.
+The procedure filters all  high mutually correlated features, with a low dependency score,  as well as all features, which have a
+score below a certain quantile threshold $\epsilon$.
 
+\input{algorithms/feature_filter.tex}
 
+The dependency between the output variable $Y$ and the feature data $X$ $\mathcal{R}_{d,\kappa}(\mathcal{F})$ is computed either by the
+\gls{MI} or the \gls{F-Score}. Both scores explain the dependency of numerical feature data to a categorical output value (see Fig.~\ref{fig:overview_Feature_selection}),
+but have different scales. As \gls{MI} is defined in [0,1] and \gls{F-Score} in $\mathbb{R}_0^+$, the scores are standardized by $\mathcal{N}(0,1)$ to
+apply the same thresholds. \gls{MI} is defined as the impact of a feature $X$ to reduce the uncertainty of the output variable $Y$.
+The advantage over classical linear correlation techniques is that also nonlinear relations can be mapped.\footcite[cf.][pp.539-539]{battiti_using_1994}
+The \gls{F-Score} used is based on the \gls{ANOVA} and computes the linear dependency between the features and the output value.\footcite[cf.][p.2]{gu_generalized_2012}
+Both methods are used to distinguish, if linear or non-linear dependencies exists betweenn $X$ and $Y$. The mutual correlation between the variables
+is computed with the \textit{Pearson} correlation coefficient applicable to pure numerical data and is computed as following: \footcite[cf.][p.17]{chandrashekar_survey_2014}
+\begin{equation}
+    \text{Pearson Correlation Coefficient: }C(f,f') = \frac{Covariance(X_f,X_{f'})}{\sqrt{Variance(X_f)\times Variance(X_{f'})}}
+\end{equation}
+Several different filtered subsets can be obtained for varying the filter method $\kappa$, the correlation thresholds $\Phi$, the boundary $\mathcal{B}$ and
+different quantile thresholds $\epsilon$. Adding also a certain threshold for features with a low score has the motivation to trim non-informative features.
+The following Figure~\ref{fig:normal_distribution} highlights that all features, which have a scaled importance score below $z_{\epsilon}$ are added to the drop candidates.
 
-To select the best fitting dataset and corresponding feature list for every dataset is iteratively
-the optimal feature list selected with FSFS and afterwards all other datasets are labeled
-with the pretrained model and the selected features. This procedure is repeated for every dataset
-and the dataset and the corresponding model and feature list is chosen, which has the best overall
-performance. The performance is compared in this order: \gls{MCC}, \gls{AUROC}, F1-score and accuracy.
+\input{Plots/normal_dist.tex}
+
+Different subsets of features are presented in the Chapter~\ref{chap:computational_study}. In the following Chapter~\ref{chap:algorithm}
+the used metaheuristic is presented.

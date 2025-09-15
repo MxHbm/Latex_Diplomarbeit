@@ -2,22 +2,23 @@
     \centering
     \begin{tikzpicture}
         \begin{axis}[
-                axis lines=middle,
-                samples=200,
-                domain=0:1,
-                ymin=0, ymax=1,
-                xtick={0,0.2,0.4,0.6,0.8,1},
-                ytick={0,0.2,0.4,0.6,0.8,1},
-                width=10cm,
-                height=6cm,
-                legend style={at={(1.05,0.5)},anchor=west},
-                ylabel near ticks,
-                xlabel near ticks,
-                xlabel={$FPR$},
-                ylabel={$TPR$},
-                nodes near coords,
-                every node near coord/.append style={anchor=north}, % shift label to right
-                point meta=explicit symbolic
+            axis lines=middle,
+            axis line style = {-Stealth[{length=6pt}]},
+            samples=200,
+            domain=0:1,
+            ymin=0, ymax=1,
+            xtick={0,0.2,0.4,0.6,0.8,1},
+            ytick={0,0.2,0.4,0.6,0.8,1},
+            width=10cm,
+            height=6cm,
+            legend style={at={(1.05,0.5)},anchor=west},
+            ylabel near ticks,
+            xlabel near ticks,
+            xlabel={$FPR$},
+            ylabel={$TPR$},
+            nodes near coords,
+            every node near coord/.append style={anchor=north}, % shift label to right
+            point meta=explicit symbolic
             ]
             % LCurves
             \addplot[name path = xaxis, forget plot] coordinates {(0,0) (1,0)};

@@ -1,0 +1,50 @@
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \begin{axis}[
+            domain=-4:4.5,
+            samples=200,
+            axis lines=middle,
+            axis line style = {-Stealth[{length=6pt}]},
+            xlabel={$x$},
+            ylabel={$f(x)$},
+            width=12cm,
+            height=6cm,
+            ymin=0,
+            ymax=0.47,
+            xmin = -4,
+            xmax = 4.5,
+            xtick={-4,-2,0,2,4},
+            xticklabels={-4,-2,0,2,4},
+            extra x ticks={-1.28},
+            extra x tick labels={\textbf{$z_{\epsilon}$}},
+            ytick={0,0.1,0.2,0.3,0.4},
+            legend style={at={(1,1)}, anchor=north east}
+            ]
+            % Threshold for bottom 10%
+            \pgfmathsetmacro{\threshold}{-1.2816} % norm.isf(0.9)
+            % Shaded area
+            \addplot [
+                myPetrol,
+                thick,
+                domain=-4:\threshold,
+                samples=200,
+                fill=myPetrol,
+            ] {1/sqrt(2*pi) * exp(-x^2/2)} \closedcycle;
+            \addlegendentry{Bottom $10\%$}
+
+            % PDF of standard normal
+            \addplot[black, thick] {1/sqrt(2*pi) * exp(-x^2/2)};
+            \addlegendentry{$\mathcal{N}(0,1)$}
+
+            % Vertical line at threshold
+            \draw[myPetrol, dashed, thick] (axis cs:\threshold,0) -- (axis cs:\threshold,0.3)
+            node[pos=0.95, anchor=east, rotate=0, text=myPetrol] {$z_{0.10} \approx -1.28$};
+
+            \draw[black] (-4,0) -- (4,0);
+
+        \end{axis}
+    \end{tikzpicture}
+    \caption{Normal Distribution $N(0,1)$ with trimmed $\epsilon$-quantile.}
+    \label{fig:normal_distribution}
+\end{figure}
