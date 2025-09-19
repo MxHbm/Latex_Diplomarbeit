@@ -6,42 +6,31 @@
             axis line style = {-Stealth[{length=6pt}]},
             xlabel={$z$},
             ylabel={$\sigma(z)$},
-            samples=200,
-            domain=-6:0,
+            xmin=-6, xmax=6,
             ymin=-0.2, ymax=1.2,
-            xtick={-6,-4,-2,0},
+            samples=200,
+            xtick={-6,-4,-2,0,2,4,6},
             ytick={0,0.5,1},
             width=10cm,
             height=6cm,
             ]
-            % Logistic function
-            \addplot[red, thick] {1/(1+exp(-x))};
+            % left half: red
+            \addplot[red, thick, domain=-6:0] {1/(1+exp(-x))};
 
-            %Text
-            \node[rectangle,minimum width=24pt,align=center] (test)  at (-4,  0.5) {\footnotesize Classified \\ \footnotesize infeasible};
+            % right half: green
+            \addplot[green!70!black, thick, domain=0:6] {1/(1+exp(-x))};
 
-            % Dotted lines for y=0 and y=1
-            \addplot[dashed, gray] coordinates {(-6,1) (6,1)};
-        \end{axis}
-        \begin{axis}[
-                axis lines=middle,
-                xlabel={$z$},
-                ylabel={$\sigma(z)$},
-                samples=200,
-                domain=0:6,
-                ymin=-0.2, ymax=1.2,
-                xtick={2,4,6},
-                ytick={0,0.5,1},
-                width=10cm,
-                height=6cm,
-            ]
-            % Logistic function
-            \addplot[green, thick] {1/(1+exp(-x))};
+            % text (use axis coordinates)
+            \node[rectangle, minimum width=12pt, align=center]
+            at (axis cs:-4,0.5) {\footnotesize Classified\\\footnotesize infeasible};
 
-            %Text
-            \node[rectangle,minimum width=24pt,align=center] (test)  at (4,  0.5) {\footnotesize Classified \\ \footnotesize feasible};
+            % text (use axis coordinates)
+            \node[rectangle, minimum width=12pt, align=center]
+            at (axis cs:4,0.5) {\footnotesize Classified\\\footnotesize feasible};
 
-            % Dotted lines for y=0 and y=1
+
+
+            % dotted line y=1 (use axis coordinates)
             \addplot[dashed, gray] coordinates {(-6,1) (6,1)};
         \end{axis}
     \end{tikzpicture}

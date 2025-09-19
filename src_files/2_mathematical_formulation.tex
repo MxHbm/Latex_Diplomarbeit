@@ -1,19 +1,21 @@
 \section{Mathematical formulation}
 \label{sec:mathematical_formulation}
 
-This two-index vehicle flow formulation for the \gls{VRP} is taken from \cite{tamke_branch-and-cut_2024}.\footcite[cf.][pp. 6-7]{tamke_branch-and-cut_2024}
+This two-index vehicle flow formulation for the \gls{3L-CVRP} is taken from \cite{tamke_branch-and-cut_2024}.\footcite[cf.][pp. 6-7]{tamke_branch-and-cut_2024}
 The advantage is that infeasible tours of the subproblem \gls{CLP} are excluded
-as route candidates for the masterproblem \gls{VRP} and no loading constraints are directly defined in the main model.
+as route candidates for the masterproblem \gls{VRP} and no loading constraints are directly defined in the model, but in the rules
+to exclude routes from the solution process. First, the used sets and prameters are presented and afterwards the constraints with
+explainations.
 
 \subsection*{Sets}
-A directed graph $G=(N,A)$ is defined with the set of nodes $N$ including
-the depot and the set of customers $C$ excluding the depot. The arc set is
-defines as $A = \{ (i, j) \mid i, j \in N \}$. The Sets $\delta^+$ and $\delta^-$ define
-the arcs, which are leaving respective entering a node. For example, for node 3, $\delta^+ = \{(3,5)\}$ and $\delta^-= \{(2,3)\}$.
+A directed graph $G=(N,A)$ is defined by the set of nodes $N$ including the depot and the set of arcs
+$A = \{ (i, j) \mid i, j \in N \}$ between all nodes. The set of customer nodes $C$ is defined without the depot.
+The Sets $\delta^+$ and $\delta^-$ define the arcs, which are leaving respective entering a node.
+For example, for node 3, $\delta^+ = \{(3,5)\}$ and $\delta^-= \{(2,3)\}$.
 The set $A(S)$ defines a sequence of arcs connecting nodes in a random set of customers $C$,
 which is a route in wider sense. For example the set $A(S)=\{(2,1),(1,5),(5,3)\}$ connects nodes
 2 and 3 via node 5. Every set $A(S)$ is defined by the total volume $q(S)$ and total weight $v(S)$
-demanded by all customers $i \in S$, with $S \subseteq C$. Set $A(P)$ includes all infeasible sequences $P$ leading
+demanded by all customers $i \in S$, with $S \subseteq C$. The set $A(P)$ includes all infeasible sequences $P$ leading
 to an infeasible route.
 
 \begin{table}[ht]
@@ -35,13 +37,14 @@ to an infeasible route.
 \vspace{0.2em}
 
 \subsection*{Parameters}
-The parameters are divided in the two groups static and set-dependent
-
-the costs $c_{ij}$ for travelling from one node $i$ to another node $j$, and
-are symmetrical defined, stating $c_{ij} \overset{!}{=} c_{ji}$. Additionally the number of vehicles
+The parameters can be divided in the two groups, static and set-dependent
+The costs $c_{ij}$ for travelling from one node $i$ to another node $j$,
+are symmetrical defined, stating $c_{ij} \overset{!}{=} c_{ji}$. Furthermore, the triangle inequality
+$c_{ij} \leq c_{ih} + c_{hj}$ needs to be fulfilled, that the travel distance is always shorter travelling
+directly and not via any intermediate node $h$. Additionally the number of vehicles
 available for the fleet planning is given as constant $K$. No solution is allowed to have
 more routes than avalaible vehicles. $r(S)$ defines a \gls{LB} for the numbers of vehicles needed
-to include all customers in $S$. The \gls{LB} is calculated as the ceiling of the larger
+to include all customers in $S$. The \gls{LB} is calculated as the ceiling of the maximum
 value between the total weight $q(S)$ divided by the weight capacity $Q$, and the
 total volume $v(S)$ divided by the volume capacity $V$:
 \[r(S) = \max\left( \left\lceil \frac{q(S)}{Q} \right\rceil, \left\lceil \frac{v(S)}{V} \right\rceil \right)\]
@@ -66,7 +69,7 @@ total volume $v(S)$ divided by the volume capacity $V$:
 \bigskip
 
 \subsection*{Decision Variable}
-For the Two-Index-Flow model only one binary decision variable is necessary, which states, if the arc
+For the Two-Index-Flow model only one binary decision variable is necessary stating, if the arc
 between nodes $i$ and $j$ is included in the solution.
 \[
     x_{ij} =
@@ -94,20 +97,19 @@ between nodes $i$ and $j$ is included in the solution.
     \sum_{(i,j)\in A(P)} x_{ij}        & \leq |A(P)| - 1                                                                      &  & \forall \text{ infeasible paths } P     \label{eq:pathelim}
 \end{align}
 
-The objective function minimizes the total costs and the travelled distance incorporated
-by each arc distance between nodes (\ref{eq:objective}). The constraints \ref{eq:flowin}
-and \ref{eq:flowout} are restricting that every customer can only be visited once by defining the number
+The objective function minimizes the total costs and the travelled distance. The constraints \ref{eq:flowin}
+and \ref{eq:flowout} are restricting that every customer can and must only be visited once by defining the number
 of arcs leaving and entering a node $i$ to 1. These two constraints do not apply to the depot,
 which is included in every tour. Constraint~\ref{eq:vehiclelimit} limits the maximum number of
-tours/ vehicles to $K$ by limiting the number of arcs entering the depot ($(i,j)\in \delta^+(0)$).
+tours to $K$ by limiting the number of arcs entering the depot ($(i,j)\in \delta^+(0)$).
 The next constraint~\ref{eq:capacitycut} states, that the number of arcs within the subset $A(S)$
 must be smaller or equal to the number of customers minus the \gls{LB} for vehicles. This constraint
 ensures, that routes are connected to the depot and that each subset $S$ is not violating
 the volume and weight capacities. For example, if $S=\{1,2,3\}$ with $A(S)=\{(2,3),(3,1)\}$
-and $r(S) = 1$, then $2 \leq 3 - 1$ holds, but if the \gls{LB} would be instead 2 then, $2 \not\leq 3 - 1$
+and $r(S) = 1$, then $2 \leq 3 - 1$ holds, but if the \gls{LB} would be instead 2 then, $2 \not\leq 3 - 2$
 and two tours need to be constructed. The last constraint~\ref{eq:pathelim} excludes all infeasible paths
-$P$ from the solution, every path is defined by a subset of arcs $A(P)$ defining it. Infeasible
-paths are labeled as such, when the corresponding \gls{CLP} to a route is not sufficient with loading
+$P$ from the solution. Every path $P$ is defined by a subset of arcs $A(P)$ defining it. Infeasible
+paths are labeled as such, when the corresponding \gls{CLP} to a route is not fulfilling the loading
 constraints. The constraint determines, that at least one binary variable defining an arc
 from the set of arcs defining the infeasible path $|A(P)|$ has to have the value 0, that the left
 side of this constraint is smaller equal to the right side. The set of infeasible paths is determined by

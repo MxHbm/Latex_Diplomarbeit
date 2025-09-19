@@ -2,15 +2,59 @@
 \appendix
 %\chapter{Mathematischer Anhang}
 %\chapter{Programmcodes}
+\chapter{Appendix}
 
-\chapter{Random Route Generation}
+Write here small introduction to appendix!
+\clearpage
+\section{Random Route Generation}
 \label{chap:appendix:RRG}
 \input{algorithms/RRG.tex}
 
-\chapter{Feature Selection}
+\clearpage
+\section{Feature Filter Selection}
 \label{app:feature_selection}
 
-\chapter{Parking Lot}
+For the feature selection the presented Algorihm~\ref{alg:filter_algorithm} was used for several levels of the minimum importance threshold
+$\epsilon$ excluding low important features and for two different barriers. The aggregated results are shown in the following Figure~\ref{fig:feature_filter_parameters}.
+The stacked barplots represent the dictionary count, displaying in green colors the \gls{F-Score} and in blue colors the \gls{MI} score method.
+For each stacked feature bar above one of the barriers, the feature is respected in the feature sets, shown in the following Table~\ref{tab:feature_dropsets}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth,height=0.75\textheight,keepaspectratio]{pictures/feature_filter_facePlot.png}
+    \caption{Aggregated results from filter algorithm resulting in different drop sets.}
+    \label{fig:feature_filter_parameters}
+\end{figure}
+
+\begin{table}[ht]
+    \centering
+    %\renewcommand{\arraystretch}{1.2}
+    \rotatebox{90}{
+        \footnotesize
+        \begin{tabular}{@{}P{0.04\paperheight}P{0.04\paperheight}P{0.07\paperheight}P{0.05\paperheight}P{0.46\paperheight}@{}}
+            \toprule
+            Name         & Barrier $B$ & Importance Threshold $\epsilon$ & Number Features & Features                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      \\
+            \midrule
+            DropSet-50-2 & 0.50        & 0.2                             & 10              & NoCustomers, NoItems, Rel Total Height Items, Rel Total Length Items, Rel Total Width Items, Volume Balance, Volume Distribution, height-area-std, volume-WLH-std, width-length-std                                                                                                                                                                                                                                                                                                                                                                                                                                                                           \\
+            \midrule
+            DropSet-50-3 & 0.50        & 0.3                             & 18              & NoCustomers, NoItems, Rel Total Height Items, Rel Total Length Items, Rel Total Width Items, Volume Balance, Volume Distribution, area-AREA-std, height-area-mean, height-area-std, length-height-mean, length-height-std, volume-WLH-mean, volume-WLH-std, width-height-mean, width-height-std, width-length-mean, width-length-std                                                                                                                                                                                                                                                                                                                          \\
+            \midrule
+            DropSet-50-4 & 0.50        & 0.4                             & 38              & Fragile Ratio, NoCustomers, NoItems, Rel Total Height Items, Rel Total Length Items, Rel Total Width Items, Rel Weight, Volume Balance, Volume Distribution, area-AREA-min, area-AREA-std, height-H-max, height-H-mean, height-H-min, height-area-max, height-area-mean, height-area-std, length-L-max, length-L-mean, length-L-min, length-height-max, length-height-mean, length-height-min, length-height-std, volume-WLH-max, volume-WLH-mean, volume-WLH-min, volume-WLH-std, width-W-max, width-W-min, width-height-max, width-height-mean, width-height-min, width-height-std, width-length-max, width-length-mean, width-length-min, width-length-std \\
+            \midrule
+            DropSet-75-2 & 0.50        & 0.2                             & 7               & NoCustomers, NoItems, Rel Total Height Items, Rel Total Length Items, Rel Total Width Items, Volume Balance, Volume Distribution                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \\
+            \midrule
+            DropSet-75-3 & 0.50        & 0.3                             & 18              & NoCustomers, NoItems, Rel Total Height Items, Rel Total Length Items, Rel Total Width Items, Volume Balance, Volume Distribution, area-AREA-std, height-area-mean, height-area-std, length-height-mean, length-height-std, volume-WLH-mean, volume-WLH-std, width-height-mean, width-height-std, width-length-mean, width-length-std                                                                                                                                                                                                                                                                                                                          \\
+            \midrule
+            DropSet-75-4 & 0.50        & 0.4                             & 32              & NoCustomers, NoItems, Rel Total Height Items, Rel Total Length Items, Rel Total Width Items, Volume Balance, Volume Distribution, area-AREA-min, area-AREA-std, height-H-max, height-H-min, height-area-max, height-area-mean, height-area-std, length-L-min, length-height-max, length-height-mean, length-height-min, length-height-std, volume-WLH-max, volume-WLH-mean, volume-WLH-min, volume-WLH-std, width-W-min, width-height-max, width-height-mean, width-height-min, width-height-std, width-length-max, width-length-mean, width-length-min, width-length-std                                                                                     \\
+
+            \bottomrule
+        \end{tabular}}
+    \caption{Feature dropsets with different parameter combinations of $\epsilon$ and $B$.}
+    \label{tab:feature_dropsets}
+\end{table}
+
+\clearpage
+\section{Parking Lot}
 \label{app:trash}
 With a subset from krebs the following datasets were created!
 \begin{table}[ht]
@@ -113,4 +157,5 @@ With a subset from krebs the following datasets were created!
     \label{tab:dataset_model_selection_randomStrategy}
 \end{table}
 
-\chapter{Parameterstudy}
+\clearpage
+\section{Parameterstudy}

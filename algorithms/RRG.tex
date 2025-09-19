@@ -82,7 +82,7 @@ Section~\ref{sec:DataRetrieval}.
         \draw[line] (initI) -- (forN);
         \draw[line] (nextI.east)-- (forI.west);
         \draw[line] (forAlpha.east) -| node[pos = 0.25,above]{no}(breakDec.south);
-        \draw[line] (breakDec) -- node[pos = 0.5,above right]{no}(forN);
+        \draw[line] (breakDec.west) -- node[pos = 0.5,above]{no}($(breakDec.west)-(5mm,0)$) |- (forN.east);
         \draw[line] (breakDec) -- node[pos = 0.5,right]{yes}(trueExit);
         \draw[line] (trueExit) -- (forN);
         \draw[line] (whileK.west) -- ($(whileK.west)-(10mm,0)$) coordinate (bend) node[pos = 0.5,above]{no} |- (forAlpha.west);
@@ -98,7 +98,8 @@ Section~\ref{sec:DataRetrieval}.
         \draw[line] (dup) -- node[pos=0.5, below]{no}(feasible);
         \draw[line] (dup) -- node[pos=0.5, right]{yes}(incX);
         \draw[line] (incX) -- (breakCond);
-        \draw[line] (breakCond) -- node[pos=0.25, below right]{no}(whileK);
+        %\draw[line] (breakCond) -- node[pos=0.25, below right]{no}(whileK);
+        \draw[line] (breakCond) |- node[pos=0.5, left]{no}($(incX.south)-(0,10mm)$) -| ($(attemptCond.east)+(10mm,0)$) coordinate (bend)|- (whileK);
         \draw[line] (breakCond) -- node[pos=0.5, left]{yes} (incC);
         \draw[line] (incC) |- (forAlpha);
 

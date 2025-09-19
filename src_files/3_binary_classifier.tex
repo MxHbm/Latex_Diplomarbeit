@@ -6,12 +6,9 @@ a number of customers need to be served with a set of items by a fleet of vehicl
 to start from a depot and return. The goal is to minimize the total distance driven
 by the vehicles. When considering multidimensional items, the NP-hard problem itself,
 increases in complexity, as every tour is representing a \gls{CLP} itself. \footcite[cf.][pp. 1--2]{tamke_branch-and-cut_2024}
-
-The emphasis is placed primarily on \gls{ML}-based classifiers.
-These are supervised \gls{ML} algorithms predicting the
-value of a categorical or binary output column, called label, based on the
-values of other columns, called features. Classifiers are supervised learning models,
-which are trained on a labeled dataset,
+The packing of each route is either feasible or infeasible due to the loading constraints,
+opening the possibility for classifiers to predict to loading status of each tour.
+These classifiers are supervised learning models, which are trained on a labeled dataset,
 where the correct output values are known in advance, and then use this knowledge to
 make predictions on new, unseen data. The accuracy can be evaluated afterwards by comparing
 the predicted labels with the actual labels. \footcite[cf.][]{kotsiantis_supervised_2007}
@@ -34,11 +31,14 @@ other models on specific application problem \footcite[cf.][pp. 250, 264]{kotsia
 
 \section{Evaluation metrics for ML approaches}
 \label{sec:classifier_objectives}
-To compare different models and \gls{ML} approaches performance indicators are needed. The most common
+To compare different models and \gls{ML} approaches performance indicators are needed. The most
 measures rely on the binary output of the confusion matrix, which sorts the output along
-their true and predicted labels. The predicted labels of the \gls{ML} model are
+their true and predicted labels. The goal is to minimize the false predicted values.
+\begin{comment}
+The predicted labels of the \gls{ML} model are
 divided in two groups via a certain threshold, usually 0.5, with all predicted values above it,
 considered in the predictive positive column and below it, in the predicted negative column.
+\end{comment}
 
 \begin{table}[ht]
     \centering
@@ -53,8 +53,9 @@ considered in the predictive positive column and below it, in the predicted nega
     \caption{Confusion matrix (binary classification).}
     \label{tab:confusion_matrix}
 \end{table}
-The output can be used to calculate the accuracy and the F1-score of the classification, which
-helps to interpret the outcomes and compare different model types:
+
+The dispersion of the single groups can be used to calculate the accuracy and the F1-score of the classification,
+which are standard performance metrics assessing the model between 0 (worst) and 1 (best) characteristic:
 \begin{align}
     \text{Accuracy}=\frac{TP+TN}{TP+FN+TN+FP}
     \qquad
@@ -62,14 +63,13 @@ helps to interpret the outcomes and compare different model types:
 \end{align}
 The accuracy is the ratio between the true classified classes against the whole population
 of predictions. The F1-score emphasis the \gls{TP} labels and is therefore especially
-often used for classification purposes. Both metrics have the perfect score with 1, and the worst with 0.
+often used for classification purposes.
 However, these evaluation metrics draw too optimistic a picture of the model performance,
-when the dataset is imbalanced, as one class is dominating the other. Imbalance is occurrent,
-when the classes representing each label, feasible and infeasible, have a huge size difference.\footcite[cf.][p. 2f.]{chicco_advantages_2020}
-Two alternatives are firstly the \gls{MCC}, which is robust against imbalance
-and focuses on both prediction labels. \gls{MCC} has the advantage to account the majority of the predictions
-relative to class size and is defined from -1 to 1. However, if one class of the confusion
-matrix has a population size of 0 \gls{MCC} is not defined.\footcite[cf.][p.5]{chicco_advantages_2020}
+when the dataset is imbalanced. Imbalance is occurrent,
+when the classes representing each label, feasible and infeasible, have a huge size difference.\footcite[cf.][p.2f.]{chicco_advantages_2020}
+Two alternative metrics are firstly the \gls{MCC}, which is robust against imbalance
+and focuses on \gls{FP} and \gls{FN} values. \gls{MCC} has the advantage to account the majority of the predictions
+relative to class size and is defined from -1 to 1. \footcite[cf.][p.5]{chicco_advantages_2020}
 \begin{align}
     \text{MCC}=\frac{TP*TN - FP*FN}{\sqrt{(TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)}}
 \end{align}
@@ -82,8 +82,8 @@ which indicates how well the classification does in general terms. \footcite[cf.
     \text{FPR}=\frac{TN}{FP+TN}
 \end{align}
 The following Plot~\ref{fig:AUROC_curve} shows several receiver operating curves and their corresponding \gls{AUROC} values, also shown
-in the legend. The baseline is the angle bisector indicating random guessing with an \gls{AUROC} value of 0.5. The bigger the area under the
-curve gets, the better is the fit. The perfect fit is displayed, when the full square is covered under the receiver operating curve.
+in the legend. The baseline is the angle bisector indicating random guessing with an \gls{AUROC} value of 0.5. The fit gets better
+for an increasing area under the curve. The perfect fit is displayed, when the full square is covered under the receiver operating curve.
 
 \input{Plots/auroc_plot.tex}
 
@@ -92,7 +92,7 @@ evaluation metrics with exception of the \gls{AUROC} are compared.
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{@{}P{0.1\textwidth}P{0.38\textwidth}P{0.38\textwidth}@{}}
+    \begin{tabular}{@{}P{0.1\textwidth}P{0.42\textwidth}P{0.42\textwidth}@{}}
         \toprule
         Score  & Balanced Dataset A $(n = 100)$                                   & Imbalanced Dataset B  $(n = 100)$                            \\
         \midrule
@@ -135,14 +135,14 @@ Collecting the training data is one crucial step, for the model creation and two
 \subsubsection{Saving labeled routes from exact algorithms (Save strategy)}
 The first one is to save all routes with exact loading label from an exisiting \gls{3L-CVRP}
 algorithm, as \cite{zhang_learning-based_2022} did in their paper. However the binary classifier
-was integrated used in the same exact algorithm
+was integrated in the same exact algorithm
 and therefore the solution structure of routes in the train data is similar to the real data afterwards. \footcite[cf.][]{zhang_learning-based_2022}
 To follow this approach the exact branch-and-cut algorithm from \cite{tamke_branch-and-cut_2024} was
 used to save all routes, which are labeled and found in an 8-hour timelimit from an instance. The routes
 are saved based on their respective \gls{LoadSt} and \gls{LoadFl}. The \gls{LoadSt} sorts the routes in the
-label categories feasible, infeasible, unknown and invalid and is determined by the exact \gls{CP} solver.
-If the solver could not find a concrete Feasible/ Infeasible label in the timelimit fot the solver the route
-will be classified as invalid or unknown, based on the resp. \gls{LoadFl}.
+label categories feasible, infeasible and unknown and is determined by the exact \gls{CP} solver.
+If the solver could not find a deterministic feasible/ infeasible label in the timelimit fot the solver the route
+will be classified as unknown, based on the resp. \gls{LoadFl}.
 The \gls{LoadFl} defines the subset of
 loading constraints used. Three \glspl{LoadFl} are considered in the orginal algorithm, which are shown
 in the following:
@@ -194,7 +194,7 @@ An alternative to the first approach is to create random routes from the \gls{3L
 These routes need to be labeled in feasible and infeasible routes regarding their loading.
 A \gls{CLP} algorithm with high solution quality is needed to ensure the correct labels. As the heuristic approaches
 presented in Section~\ref{sec:classical_solution_approaches} do not provide an optimal solution,
-the best choice is to use an exact approach to determine, if all items fit into the container considering the loading constraints.
+the best choice is to use an exact approach to determine if all items fit into the container considering the loading constraints.
 For this purpose, the exact \gls{CP} model was extracted from \cite{tamke_repository_2024} to create
 a standalone \gls{CLP} solver, which can be called for just one route.\footcite[Stolen with permission from][]{tamke_repository_2024}
 The random routes are created with the Algorithm~\ref{fig:flowchart_randomRouteGeneration}, and four parameters are introduced to
@@ -211,7 +211,7 @@ functionalities are summarized in the following:
               \item Instance set $\mathcal{I}$: Set of instances routes should be generated from
           \end{itemize}
     \item Route length is starting with two customers increasing until no routes can be found
-    \item Every new random route is checked, if the route is already contained in a route set
+    \item Duplicates are discarded by checking every new route against a route
     \item Algorithm stops when no random route could be drawn in $n \times \alpha$ rounds
 \end{itemize}
 

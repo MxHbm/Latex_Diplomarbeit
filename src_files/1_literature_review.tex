@@ -5,21 +5,20 @@ The \gls{VRP} and the \gls{CVRP} belong to the most frequently studied combinato
 optimization problems, and are proven $NP$-hard. The goal is to minimize the total driven distance
 by a fleet of vehicles, which have to start and end each tour at a central depot driving to each
 customer exactly once.\footcite[cf.][p.1]{gendreau_tabu_2008} Some \gls{VRP}
-instances constructed from \citeauthor{solomon_algorithms_1987}
-in \citeyear{solomon_algorithms_1987} could not be solved optimally until now and the
+instances constructed from \cite{solomon_algorithms_1987} could not be solved optimally until now and the
 solvation leaded rallys to solve them.\footcite[cf.][]{solomon_algorithms_1987} However,
 in practical and real-world situations items can not be considered as integers of weight
 and volume to check the loading, but by considering the geometrical shape and characteristics.\footcite[cf.][p.1]{gendreau_tabu_2008}
 To attain a more realistic profile of routing and loading problems, \cite{iori_exact_2004} and \cite{gendreau_tabu_2008}
-solved the \gls{2L-CVRP} for the first time, considering the area of each items and allowing no stacking in
-the vehicles used for delivering the items.\footcites()()[cf.][]{iori_exact_2004}[cf.][]{gendreau_tabu_2008}
+solved the \gls{2L-CVRP} for the first time, considering the area of each in
+the vehicles used for delivery.\footcites()()[cf.][]{iori_exact_2004}[cf.][]{gendreau_tabu_2008}
 This lead consequently to a more complex problem, as every route needed to be checked seperately for
-a feasible loading without violating pyhsical and loading related constraints.
+a feasible loading without violating physical and loading related constraints.
 The applicability in practical scenarios was further increased from \cite{gendreau_tabu_2006} by defining
 the \gls{3L-CVRP}, considering the stacking of items and all dimensions of items and the vehicles. The authors
 also conidered a set of practical loading constraints to further enhance the applicability. \footcite[cf.][]{gendreau_tabu_2006}
-The algorithms to solve the \gls{CLP} could already be taken from existing literature tackling the standalone
-problem.\footcite[cf.][]{pisinger_heuristics_2002} Foremost, the following section defines
+The algorithms to solve the integrated could already be taken from existing literature tackling the standalone
+problems, \gls{CLP} and \gls{VRP}.\footcite[cf.][]{pisinger_heuristics_2002} Foremost, the following section defines
 a mathematical model formulation for the \gls{3L-CVRP} and the following literature review will focus
 on the \gls{CLP}, its possible constraints, algorihtms to solve it and the possibility to use solution
 methods beside the classical approaches. As the \gls{CLP} is considered as a subproblem of the \gls{VRP}
