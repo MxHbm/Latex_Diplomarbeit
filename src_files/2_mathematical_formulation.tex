@@ -56,6 +56,7 @@ total volume $v(S)$ divided by the volume capacity $V$:
         Symbol   & Description                                                   \\
         \midrule
         $c_{ij}$ & Cost or distance of traveling from node $i$ to node $j$       \\
+        $C$      & Total costs of the solution                                   \\
         $K$      & Number of available vehicles                                  \\
         $Q$      & Weight limit of vehicle                                       \\
         $V$      & Volume limit of vehicle                                       \\
@@ -85,7 +86,7 @@ between nodes $i$ and $j$ is included in the solution.
 \textbf{Objective:}
 \begin{equation}
     \label{eq:objective}
-    \min \sum_{(i,j)\in A} c_{ij}x_{ij}
+    \min \, C = \sum_{(i,j)\in A} c_{ij}x_{ij}
 \end{equation}
 
 \textbf{Subject to:}

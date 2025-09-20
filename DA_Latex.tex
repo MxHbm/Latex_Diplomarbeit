@@ -31,6 +31,20 @@ abstract=heading,
 %################ Ende Präambel #######################
 \pagenumbering{Roman}
 
+\makeatletter
+\newcommand{\URLDiagnostics}{%
+	\typeout{=== URL diagnostics ===}%
+	\@ifpackageloaded{xurl}{\typeout{* xurl loaded}}{\typeout{* xurl NOT loaded}}%
+	\@ifpackageloaded{url}{\typeout{* url loaded}}{\typeout{* url NOT loaded}}%
+	\@ifpackageloaded{hyperref}{\typeout{* hyperref loaded}}{\typeout{* hyperref NOT loaded}}%
+	\typeout{* breaklinks=\ifHy@breaklinks true\else false\fi}%
+	\typeout{* url penalties: num=\the\value{biburlnumpenalty}, uc=\the\value{biburlucpenalty}, lc=\the\value{biburllcpenalty}}%
+	\typeout{* Urlmuskip=\the\Urlmuskip}%
+	\typeout{=== end URL diagnostics ===}%
+}
+\makeatother
+\URLDiagnostics
+
 \begin{document}
 %################ Aufruf Deckblatt #######################
 % mögliche Optionen, für weitere Informationen, siehe S. 23 des Benutzerhandbuchs des tudscr-Paket (http://mirrors.ctan.org/macros/latex/contrib/tudscr/doc/tudscr.pdf):

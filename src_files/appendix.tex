@@ -4,7 +4,31 @@
 %\chapter{Programmcodes}
 \chapter{Appendix}
 
-Write here small introduction to appendix!
+Write here small introduction to appendix! %TODO
+\clearpage
+\section{Complete Feature List}
+\begin{table}[ht]
+    \centering
+    \small
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{@{}cccc@{}}
+        NoCustomers            & width-height-min   & width-W-min   & volume-WLH-min   \\
+        NoItems                & width-height-max   & width-W-max   & volume-WLH-max   \\
+        Rel Volume             & width-height-mean  & width-W-mean  & volume-WLH-mean  \\
+        Rel Weight             & width-height-std   & width-W-std   & volume-WLH-std   \\
+        Rel Total Length Items & length-height-min  & length-L-min  & height-area-min  \\
+        Rel Total Width Items  & length-height-max  & length-L-max  & height-area-max  \\
+        Rel Total Height Items & length-height-mean & length-L-mean & height-area-mean \\
+        Fragile Ratio          & length-height-std  & length-L-std  & height-area-std  \\
+        Fragile Sequence       & width-length-min   & height-H-min  & area-AREA-min    \\
+        Volume Balance         & width-length-max   & height-H-max  & area-AREA-max    \\
+        Volume Distribution    & width-length-mean  & height-H-mean & area-AREA-mean   \\
+        Weight Distribution    & width-length-std   & height-H-std  & area-AREA-std    \\
+    \end{tabular}
+    \caption{Complete feature list.}
+    \label{tab:complete_features_list}
+\end{table}
+
 \clearpage
 \section{Random Route Generation}
 \label{chap:appendix:RRG}
@@ -51,6 +75,33 @@ For each stacked feature bar above one of the barriers, the feature is respected
         \end{tabular}}
     \caption{Feature dropsets with different parameter combinations of $\epsilon$ and $B$.}
     \label{tab:feature_dropsets}
+\end{table}
+
+\begin{table}[ht]
+    \centering
+    \small
+    \caption{Model hyperparameters for feature selection.}
+    \label{tab:hyperparams_feature_selection}
+    \renewcommand{\arraystretch}{1.1}
+    \begin{tabular}{@{}c P{0.3\textwidth}P{0.3\textwidth}@{}}
+        \toprule
+        \textbf{LR}                  & \textbf{XGB}                    & \textbf{FFNN}                      \\
+        \midrule
+        \kv{penalty}{l2}             & \kv{objective}{binary:logistic} & \kv{hidden\_layers}{[128, 64, 32]} \\
+        \kv{C}{1.0}                  & \kv{eval\_metric}{logloss}      & \kv{dropout}{0.2}                  \\
+        \kv{solver}{lbfgs}           & \kv{max\_depth}{15}             & \kv{lr}{0.001}                     \\
+        \kv{max\_iter}{1000}         & \kv{n\_estimators}{500}         & \kv{batch\_size}{512}              \\
+        \kv{class\_weight}{balanced} & \kv{learning\_rate}{0.05}       & \kv{epochs}{50}                    \\
+        \kv{random\_state}{42}       & \kv{subsample}{0.8}             & \kv{pos\_weight}{null}             \\
+        \kv{n\_jobs}{23}             & \kv{colsample\_bytree}{0.8}     & \kv{weight\_decay}{0.0}            \\
+                                     & \kv{reg\_alpha}{0.0}            & \kv{batch\_size}{512}              \\
+                                     & \kv{reg\_lambda}{1.0}           & \kv{device}{cpu}                   \\
+                                     & \kv{enable\_categorical}{false} & \kv{random\_state}{42}             \\
+                                     & \kv{tree\_method}{hist}         & \kv{n\_jobs}{23}                   \\
+                                     & \kv{n\_jobs}{23}                &                                    \\
+                                     & \kv{random\_state}{42}          &                                    \\
+        \bottomrule
+    \end{tabular}
 \end{table}
 
 \clearpage
@@ -158,4 +209,41 @@ With a subset from krebs the following datasets were created!
 \end{table}
 
 \clearpage
+
+
 \section{Parameterstudy}
+
+\subsection{NoClasifier Variant}
+\label{app:subsec:parameterstudy_noclassifier}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{pictures/LimitNoImpr_base_parameter_study.png}
+    \caption{Parameterstudy of LimitNoImpr divided in two groups based on the average iterations.}
+    \label{fig:parameterstudy_NoClassifier_limitNoImpr}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{pictures/RandomMoves_base_parameter_study.png}
+    \caption{Parameterstudy of RandomMoves divided in two groups based on the average iterations.}
+    \label{fig:parameterstudy_NoClassifier_RandomMoves}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{pictures/LocalSearchTypes_base_parameter_study.png}
+    \caption{Parameterstudy of the order of local search neighborhoods divided in two groups based on the average iterations.}
+    \label{fig:parameterstudy_NoClassifier_localSearch}
+\end{figure}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=\textwidth]{pictures/PerturbationTypes_base_parameter_study.png}
+    \caption{Parameterstudy of the set and order of perturbation neighborhoods divided in two groups based on the average iterations.}
+    \label{fig:parameterstudy_NoClassifier_perturbation}
+\end{figure}
+
+\subsection{SpeedUp Variant}
+\label{app:subsec:parameterstudy_SpeedUp}
+

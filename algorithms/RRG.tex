@@ -111,9 +111,6 @@ Section~\ref{sec:DataRetrieval}.
         \draw[line] (attemptCond) --node[pos=0.5, above, align=center]{yes\\$a\gets 0$} (incX);
         \draw[line] (attemptCond) -- ($(attemptCond.east)+(10mm,0)$) coordinate (bend) node[pos = 0.5,above]{no} |- (whileK);
 
-
-        % Finish conditions
-
         % Labels for the for-loops (optional, visual clarity)
         \node[above left=0mm and -3mm of forI] {\footnotesize For each $i\in\mathcal{I}$};
         \node[above left=0mm and -3mm of forN] {\footnotesize For $n=2,\dots,n_{\max}$};
