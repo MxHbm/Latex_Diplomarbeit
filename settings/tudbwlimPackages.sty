@@ -2,12 +2,12 @@
 % https://tex.stackexchange.com/questions/2984/frequently-loaded-packages-differences-between-pdflatex-and-xelatex
 \RequirePackage{iftex}
 \ifxetex
-        \RequirePackage{fontspec}
-        \defaultfontfeatures{Ligatures=TeX}
+    \RequirePackage{fontspec}
+    \defaultfontfeatures{Ligatures=TeX}
 \else
-        \RequirePackage{selinput}\SelectInputMappings{adieresis={ä},germandbls={ß}}
-        \RequirePackage[T1]{fontenc}
-        \RequirePackage{hyphsubst} %[ngerman=ngerman-x-latest]
+    \RequirePackage{selinput}\SelectInputMappings{adieresis={ä},germandbls={ß}}
+    \RequirePackage[T1]{fontenc}
+    \RequirePackage{hyphsubst} %[ngerman=ngerman-x-latest]
 \fi
 
 \RequirePackage{lmodern}
@@ -20,7 +20,7 @@
 
 
 %###############################################
-\RequirePackage[labelfont=bf]{caption}
+\RequirePackage[labelfont=bf, justification = centering]{caption}
 \RequirePackage{xfrac}
 \RequirePackage{isodate}
 \RequirePackage{fnpct}

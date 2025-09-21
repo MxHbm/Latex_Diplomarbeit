@@ -11,3 +11,7 @@ Diplomarbeit.bib
 #Ignore all DS_store files 
 *.DS_Store
 .DS_Store
+
+# Windows Explorer thumbnail cache files
+Thumbs.db
+Thumbs.db:encryptable
