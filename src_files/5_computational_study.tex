@@ -137,7 +137,7 @@ the complexity to solve the instances is far greater, when the items are more li
 for packing items in the container. Furthermore, the authors distinguished the instances in a group of heavy items ($\mathcal{H}$) and
 a group of lighweight items ($\mathcal{L}$) by dividing the two groups by the average weight utilization $\overline{\omega}$ of the found
 groups. If $\overline{\omega} \geq 0.7$ then an instance belongs to $\mathcal{H}$ and for values smaller than 0.7 to $\mathcal{L}$.\footcite[cf.][pp. 23-25]{tamke_branch-and-cut_2024}
-The obtained resutls for the Gendreau instances will be also differentiated in those two groups to investigate the effect of
+The obtained results for the \gendreauDataSetText instances will be also differentiated in those two groups to investigate the effect of
 the average weight utilization $\overline{\omega}$ on the solution quality and process.
 
 \begin{figure}[ht]
@@ -152,7 +152,11 @@ the average weight utilization $\overline{\omega}$ on the solution quality and p
     \label{fig:aggregated_gendreau_plots}
 \end{figure}
 
-In the following section the results from training the binary classifier are presented with diffferent datasets.
+As the construction of train datasets with the \krebsADataSetText is much more computationally challenging as for \gendreauDataSetText,
+the following sections will focus only on the latter and the Section~\ref{sec:application_krebs} on solving the \krebsADataSet.
+Additionally, the Section~\ref{app:sec:krebs_computationally_challenges} in the appendix dives deeper in the challenges for creating a suiting training dataset from the
+\krebsADataSetText instances. In the following section the results from training the binary classifier
+are presented with diffferent datasets.
 
 \section{Results Training}
 \label{sec:ResultsTraining}
@@ -160,19 +164,18 @@ In this section the results from the feature dataset selection are discussed. Th
 with individual scores are shown in the Appendix~\ref{app:feature_selection}. For each model variant (see Section~\ref{sec:modelselection})
 the most suiting dataset is selected from both, the Random Retrieval and Save Strategy datasets. These selected
 models will then be used in the further steps of the computational study to compare the \gls{ILS} algorithm
-with and without the boost of the classifier. The tables where the single \gls{ML} variants are compared
-can also be found in the appendix and this section can be reduced to present the datasets for each
-retrieval strategy, as well as the final outcomes.
+with and without the boost of the classifier.
 
 \subsection{Random Retrieval Strategy}
-With the Algorithm~\ref{fig:flowchart_randomRouteGeneration} the following random datasets were created with all
-instances from Gendreau. It must be noted, that the parameter attempts limit $\beta$ did not have a huge influence on
+The following random datasets were created with the Algorithm~\ref{fig:flowchart_randomRouteGeneration}.All instances
+from \gendreauDataSetText were considered. It must be noted, that the parameter for attempts limit $\beta$ did not have a huge influence on
 the number of routes and the structure of the dataset. Therefore only the datasets with $\beta = 30$ have been preselected.
 The values in the balance column stand for the share of positive and netative labels in the sample population. The relative volume
 and mass refer to the average value for all routes in the respective dataset.
 
 \begin{table}[ht]
     \centering
+    \small
     \begin{tabular}{@{}L{0.20\textwidth}P{0.04\textwidth}P{0.04\textwidth}P{0.05\textwidth}P{0.10\textwidth}P{0.12\textwidth}P{0.12\textwidth}P{0.12\textwidth}@{}}
         \toprule
         Name          & $\alpha$           & $\gamma$            & $\delta$ & Routes & Balance   & Rel. Vol & Rel. Mass \\
@@ -209,6 +212,10 @@ and mass refer to the average value for all routes in the respective dataset.
     \caption{Created instances for different parameter combinations $(\alpha, \beta, \gamma, \delta)$ for \gendreauDataSetText dataset.}
     \label{tab:created_instances_xyz_gendreau}
 \end{table}
+The greatest impact on the route characteristics contained in the datasets has parameter $\delta$ as fewer and lighter packed routes
+are created. The route characteristics of balance and relative volume and weight are nearly identical for each other tuple combination
+of ($\alpha$,$\beta$,$\gamma$). This influence is visualized in the following Figure~\ref{fig:route-dists_randomdata}, where the distribution
+of the route length of each $\delta$ variant is shown for an exemplary random dataset.
 
 \begin{figure}[ht]
     \centering
@@ -230,45 +237,53 @@ and mass refer to the average value for all routes in the respective dataset.
         \caption{Threshold $\delta$ = 1.0}
         \label{fig:ds-c}
     \end{subfigure}
-    \caption{Distribution of route length for the two adapted save strategy datasets.}
-    \label{fig:route-dists}
+    \caption{Distribution of route length for the two adapted save strategy datasets. The red vertical line represents the average
+        number of customers.}
+    \label{fig:route-dists_randomdata}
 \end{figure}
+
+
 
 \subsubsection{Save Retrieval Strategy}
 
-In total, 286.858 diffferent routes were obtained by running the complete B\&C algorithm from \cite{tamke_branch-and-cut_2024}.
-The timelimit for the algorithm was set to 8 hours and the timelimit for the \gls{CP} solver to 10 min and all instances from
-\gendreauDataSetText were included. The length of the routes included in the
-train dataset has the following distribution. The number of routes with two customers have the biggest share,
+By running the complete B\&C algorithm from \cite{tamke_branch-and-cut_2024}, two train datasets were generated,
+one considering the infeasible routes from the \textit{NoSequence} sets and one only the sequences. The prior dataset is
+labeled with WS (= with sets). The length of the routes included in the
+train dataset are dominated by routes consisting of 2 customers,
 as in the beginning of the algorithm all combinations are checked to find infeasible customers tuple to
-fasten the feasibility loading check in the algorithm. \footcite[cf.][]{tamke_branch-and-cut_2024}
-
+fasten the feasibility loading check in the algorithm afterwards. \footcite[cf.][]{tamke_branch-and-cut_2024}
+The results of the branch-and-cut algorithm are summarized in Table~\ref{tab:bc_results_gendreau} in the appendix.
+This distribution is visualized in the following Figure:
 \begin{figure}[ht]
     \centering
-    \includegraphics[width = .7\textwidth]{pictures/dataset_structure/no_cust_plot_gendreau_28880_600_60_60.png}
+    \includegraphics[width = .7\textwidth]{pictures/dataset_structure/no_cust_plot_gendreau_28880_600_WS.png}
     \caption{Customer count per route for the complete save strategy dataset.}
     \label{fig:customer_count_bc}
 \end{figure}
-To reduce the number of routes with two customers, two altenative datasets are constructed to test if the reduction
-of number of routes with 2 customers, lead to better model results. Therefore it was tested
-to shrink all feasible routes with 2 customers with a similarity of $94\%$ (Shrinked) or alternatively drop
+
+To reduce the number of routes with two customers, two altenative datasets are constructed for each base dataset to test if the reduction
+of number of routes with 2 customers, lead to better model performance results. Therefore it was tested
+to shrink all feasible routes with 2 customers with a cosine similarity of $94\%$ (Shrinked) or alternatively drop
 all feasible routes with 2 customers (Trimmed).
-The three resulting datasets have the following characterics and it is apparent, that the average relative volume
+The resulting datasets have the following characterics and it is apparent, that the average relative volume
 and mass are higher for the two modified datasets, as short routes were dropped. Additionally the balance between
 feasible and infeasible is tilting to more to infeasible tours as only feasible routes with two customers were dropped.
+Additonally the WS datasets contain more infeasible routes and are therefore more imbalanced. As the modification
+of the dataset size only affects the routes with two customers, the column is shown, to
+highlight that for example for the Complete-WS dataset round 70.000 routes are dropped.
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{c c c c c c c }
+    \begin{tabular}{l c c c c c c }
         \toprule
-        Name     & Sets & Routes & Routes 2 Customers & Balance   & Rel. Vol & Rel. Mass \\
+        Name        & Sets                 & Routes & Routes Len = 2 & Balance   & Rel. Vol & Rel. Mass \\
         \midrule
-        Complete & Yes  & 286858 & 72832              & 37.6/62.4 & 0.62     & 0.46      \\
-        Trimmed  & Yes  & 216260 & 2234               & 17.2/82.8 & 0.74     & 0.54      \\
-        Shrinked & Yes  & 249564 & 35538              & 28.2/71.8 & 0.68     & 0.50      \\
-        Complete & No   & 220825 & 72832              & 48.8/51.2 & 0.55     & 0.43      \\
-        Trimmed  & No   & 150227 & 2234               & 24.7/75.3 & 0.69     & 0.53      \\
-        Shrinked & No   & 183531 & 35538              & 38.4/61.6 & 0.61     & 0.48      \\
+        Complete-WS & \multirow{3}{*}{Yes} & 286858 & 72832          & 37.6/62.4 & 0.62     & 0.46      \\
+        Trimmed-WS  &                      & 216260 & 2234           & 17.2/82.8 & 0.74     & 0.54      \\
+        Shrinked-WS &                      & 249564 & 35538          & 28.2/71.8 & 0.68     & 0.50      \\        \midrule
+        Complete    & \multirow{3}{*}{No}  & 220825 & 72832          & 48.8/51.2 & 0.55     & 0.43      \\
+        Trimmed     &                      & 150227 & 2234           & 24.7/75.3 & 0.69     & 0.53      \\
+        Shrinked    &                      & 183531 & 35538          & 38.4/61.6 & 0.61     & 0.48      \\
 
         \bottomrule
     \end{tabular}
@@ -276,10 +291,29 @@ feasible and infeasible is tilting to more to infeasible tours as only feasible 
     \label{tab:saved_instances_gendreau}
 \end{table}
 
-For the upcoming parameter study the following datasets were selected for the corresponding models
-to analyse the performance of the classifier. It can be observed, that in general the ... datasets
-do have more influence.
+\subsubsection{Differences between Random and save strategy datasets}
 
+As the creation method differs significantly between the random and the save strategy, differences are laid out in
+the following paragraph. The branch-and-cut algorithm does not follow any strict route generation procedure, but to
+find the optimal solution for each instance. The complexity to solve these is aligned with the number of routes found.
+Therefore only few routes from simple instances, belonging to $\mathcal{H}$, are considered in the train dataset
+in comparison to the random datasets.
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}[t]{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_RandomData_5_40_40_10.png}
+        \caption{Random data dataset RD-3-30-20-8.}
+    \end{subfigure}%
+    \begin{subfigure}[t]{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_gendreau_28880_600_WS.png}
+        \caption{Save strategy dataset Complete-WS.}
+    \end{subfigure}
+    \caption{Distribution of routes considered per instance for two exemplary datasets of random and save strategy.}
+    \label{fig:comparison_noroutes_perInstancce}
+\end{figure}
 
 \subsection{Feature Filter Results}
 \label{sec:feature_filter_results}
@@ -298,7 +332,7 @@ all 24 datasets, forming $\mathcal{D}$, presented in the previous subsection wer
         DropSet-50-4  & 0.5                   & 0.4                  & 38              \\
         DropSet-75-2  & 0.75                  & 0.2                  & 7               \\
         DropSet-75-3  & 0.75                  & 0.3                  & 18              \\
-        DropSet-75-4  & 0.75                  & 0.4                  & 32              \\\hline
+        DropSet-75-4  & 0.75                  & 0.4                  & 32              \\\midrule
         DropSet-0-0   & -                     & -                    & 0               \\
         \bottomrule
     \end{tabular}
@@ -356,7 +390,8 @@ instances from \gendreauDataSetText is used:
 \end{table}
 
 The division followed the following approach, first all instances were omitted, which found
-the optimal solution in a short time (see \cite{tamke_branch-and-cut_2024}\footcite[cf.][p.26]{tamke_branch-and-cut_2024}). Second, similar instances of size and complexity were reduced to only one.
+the optimal solution in a short time (see \cite{tamke_branch-and-cut_2024}\footcite[cf.][p.26]{tamke_branch-and-cut_2024}).
+Second, similar instances of size and complexity were reduced to only one.
 Every instance is run three times with different seeds and a timelimit of 10 min. It will be investigated
 how different parameter combinations influence the \gls{RDP}, the iteration number, the rejection rate and
 the average improvement per second after finding the initial solution. The \gls{RDP} is defined between the
@@ -365,6 +400,8 @@ total costs of the best solution $C^*$ and another solution with costs $C$.
     RPD = \frac{C - C^*}{C^*} \cdot 100\%
 \end{align}
 The rejection rate is the proportion of iterations rejected for infeasible loading in the CP check.
+All experiments were run on a AMD EPYC 7513 32-Core machine with 8 cores maximum available for the \gls{CP} solver
+and the heuristic is implemented in C++ and all models were pretrained in Python.
 
 \subsection{NoClassifier Variant}
 \label{subsec_parameterStuy_noclassifier}
@@ -465,3 +502,24 @@ configuration will be chosen for NoClassifier:
     \caption{Parameter levels for hybrid variant.}
     \label{tab:parameters_hybrid}
 \end{table}
+
+\section{Comparison of heuristic variants}
+\label{sec:comparison_ils_variants}
+
+The solution quality for all four variants (see Fig.~\ref{fig:four_variants}) is compared by running all 27 instances.
+The timelimit is in comparison to the parameterstudy now adapted by instance size. The following timelimits are identical
+to \cite{zhang_evolutionary_2015}.\footcite[cf.][p.28]{zhang_evolutionary_2015}
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{C{0.24\linewidth}C{0.18\linewidth}C{0.18\linewidth}C{0.18\linewidth}}
+        \toprule
+        Customer number $N$ & $N \leq 25$ & $N < 25 < 50 $ & $N \geq 50 $ \\
+        \midrule
+        Timelimit [sec]     & 900         & 1800           & 3600         \\
+        \bottomrule
+    \end{tabular}
+    \caption{Timelimit for the final heuristic comparisons.}
+\end{table}
+
+\section{Krebs will be cooked}
+\label{sec:application_krebs}

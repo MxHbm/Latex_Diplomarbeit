@@ -8,8 +8,8 @@ is used to check the volume and weight limit of one single tour.
         \Require{Volume limit $V$, Weight limit $Q$, Uniform distribution $\mathcal{U}(a,b)$}
         \Procedure{Feasible}{$\text{Route}\,R,\, \text{Lower Threshold}\,\delta$}
         \State{Get subset of customers $S$ from route $R$}
-        \State{$V^* \gets V \times \mathcal{U}(\delta,\,1)$} \Comment{Individual bounds for each single route}
-        \State{$Q^* \gets Q \times \mathcal{U}(\delta,\,1)$}
+        \State{$V^* \gets V \cdot \mathcal{U}(\delta,\,1)$} \Comment{Individual bounds for each single route}
+        \State{$Q^* \gets Q \cdot \mathcal{U}(\delta,\,1)$}
         \If{$q(S)\le Q^* \, \wedge \, v(S)\le V^*$} \Comment{Check feasibility}
         \State{\textbf{return} true}
         \Else
@@ -61,7 +61,7 @@ Section~\ref{sec:DataRetrieval}.
         \node[process, below=of forI] (initI) {$\mathcal{G}\gets\emptyset$\\$n_{\max}\gets \mathrm{MaxCustomers}(i)$\\BreakBool$\gets$False};
         \node[decision, below=5mm of initI] (forN) {$n=2\ \to\ n_{\max}$ left?};
         \node[decision, below=of forN] (exitOuter) {BreakBool?};
-        \node[decision, right=of exitOuter] (breakDec) {$c \geq n \times \alpha$?};
+        \node[decision, right=of exitOuter] (breakDec) {$c \geq n \cdot \alpha$?};
         \node[startstop] at ($(breakDec.north |- forI.east)$) (end) {End RRG};
         \node[decision, below=of exitOuter] (forAlpha) {$t=1\ \to\ n\cdot\alpha$ left?};
         \node[decision, below=of forAlpha] (whileK) {While\\$k<\gamma$?};

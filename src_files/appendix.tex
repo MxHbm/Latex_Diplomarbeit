@@ -218,28 +218,28 @@ With a subset from krebs the following datasets were created!
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\textwidth]{pictures/LimitNoImpr_base_parameter_study.png}
+    \includegraphics[width=\textwidth]{pictures/parameter_study/LimitNoImpr_base_parameter_study.png}
     \caption{Parameterstudy of LimitNoImpr divided in two groups based on the average iterations.}
     \label{fig:parameterstudy_NoClassifier_limitNoImpr}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\textwidth]{pictures/RandomMoves_base_parameter_study.png}
+    \includegraphics[width=\textwidth]{pictures/parameter_study/RandomMoves_base_parameter_study.png}
     \caption{Parameterstudy of RandomMoves divided in two groups based on the average iterations.}
     \label{fig:parameterstudy_NoClassifier_RandomMoves}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\textwidth]{pictures/LocalSearchTypes_base_parameter_study.png}
+    \includegraphics[width=\textwidth]{pictures/parameter_study/LocalSearchTypes_base_parameter_study.png}
     \caption{Parameterstudy of the order of local search neighborhoods divided in two groups based on the average iterations.}
     \label{fig:parameterstudy_NoClassifier_localSearch}
 \end{figure}
 
 \begin{figure}[!ht]
     \centering
-    \includegraphics[width=\textwidth]{pictures/PerturbationTypes_base_parameter_study.png}
+    \includegraphics[width=\textwidth]{pictures/parameter_study/PerturbationTypes_base_parameter_study.png}
     \caption{Parameterstudy of the set and order of perturbation neighborhoods divided in two groups based on the average iterations.}
     \label{fig:parameterstudy_NoClassifier_perturbation}
 \end{figure}
@@ -247,3 +247,86 @@ With a subset from krebs the following datasets were created!
 \subsection{SpeedUp Variant}
 \label{app:subsec:parameterstudy_SpeedUp}
 
+\section{Branch-and-Cut Results}
+
+\begin{table}
+    \centering
+    \begin{tabular}{lrrrrl}
+        \toprule
+        Instance & Costs   & Gap  & NumberRoutes & $N$     & Runtime \\
+        \midrule
+        E016-03m & 301.66  & 0.00 & 4            & 4290    & 21      \\
+        E016-05m & 334.96  & 0.00 & 5            & 53      & 1       \\
+        E021-04m & 385.53  & 0.00 & 4            & 84225   & 532     \\
+        E021-06m & 430.88  & 0.00 & 6            & 98      & 5       \\
+        E022-04g & 427.56  & 0.00 & 5            & 138703  & 1024    \\
+        E022-06m & 498.16  & 0.00 & 6            & 726     & 11      \\
+        E023-03g & 757.88  & 0.00 & 5            & 1434923 & 4226    \\
+        E023-05s & 798.65  & 0.01 & 6            & 2614340 & TL      \\
+        E026-08m & 630.13  & 0.00 & 8            & 4604    & 61      \\
+        E030-03g & 783.79  & 0.17 & 6            & 1153008 & TL      \\
+        E030-04s & 728.32  & 0.16 & 7            & 1176116 & TL      \\
+        E031-09h & 610.23  & 0.00 & 9            & 394216  & 10598   \\
+        E033-03n & 2649.00 & 0.14 & 6            & 564692  & TL      \\
+        E033-04g & 1337.17 & 0.25 & 7            & 432649  & TL      \\
+        E033-05s & 1327.09 & 0.25 & 7            & 298863  & TL      \\
+        E036-11h & 698.61  & 0.00 & 11           & 20025   & 325     \\
+        E041-14h & 871.63  & 0.03 & 14           & 420758  & TL      \\
+        E045-04f & 1204.07 & 0.18 & 10           & 306014  & TL      \\
+        E051-05e & 726.20  & 0.19 & 10           & 305879  & TL      \\
+        E072-04f & 567.64  & 0.24 & 15           & 162320  & TL      \\
+        E076-07s & 1040.77 & 0.25 & 15           & 197632  & TL      \\
+        E076-08s & 1134.70 & 0.26 & 16           & 222779  & TL      \\
+        E076-10e & 1170.51 & 0.31 & 17           & 199955  & TL      \\
+        E076-14s & 1121.85 & 0.13 & 16           & 168907  & TL      \\
+        E101-08e & 1375.07 & 0.29 & 20           & 162886  & TL      \\
+        E101-10c & 1544.02 & 0.28 & 22           & 229882  & TL      \\
+        E101-14s & 1576.76 & 0.33 & 23           & 135945  & TL      \\
+        \bottomrule
+    \end{tabular}
+    \caption{B\&C Results for obtaining save strategy dataset. Solution quality is presented by obj, gap (\%),
+        and solution process metrics, including the total run time (TL = time limit) and explored branch-and-bound nodes $N$}
+    \label{tab:bc_results_gendreau}
+\end{table}
+
+\clearpage
+\section{\krebsADataSetText computational challenges}
+\label{app:sec:krebs_computationally_challenges}
+
+As shown in Table~\ref{tab:dataset_comparison}, an average route of \krebsADataSetText cotains four times more items than
+in the \gendreauDataSet. This makes it much more computationally challenging to create a labeled train dataset with either
+the \gls{CP} solver (random strategy) or by applying the B\&C algorithm (save strategy). When the two random datasets, RD-1-1-1-10
+and RD-2-30-20-10, are compared. The difference bewteen the computation time for the \gls{CP} solver is huge. The average
+\gls{CP} time for the dataset constructed from \krebsADataSetText is 247 seconds, but for \gendreauDataSetText only 0.244 seconds,
+which is a factor of 1000. The following boxplot shows this dispersion of \gls{CP} times for each \gls{LST}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{pictures/comparison_krebs_gendreau/boxplot_cp_time.png}
+    \caption{Boxplot showing the different computation times for \krebsADataSetText and \gendreauDataSet.}
+    \label{fig:comparison_krebs_gendreau_boxplot}
+\end{figure}
+
+The time average difference is due to the group of routes labeled with \textit{Unknown} \gls{CP} status, which occurs, when
+feasibility or infeasibility could not be proven in the maximum runtime of 600 seconds. From all routes from RD-1-1-1-10
+33.6\% are classified as \textit{Unknown}. The distribution of \gls{LST} is shown in the following Figure~\ref{fig:comparison_krebs_gendreau_piechart}.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{pictures/comparison_krebs_gendreau/pie_chart_share_cp_status.png}
+    \caption{Big share of unknown labeled tours for the \krebsADataSet.}
+    \label{fig:comparison_krebs_gendreau_piechart}
+\end{figure}
+All routes classified as \textit{Unknown} will be consideres as \textit{Infeasible}, as outlined in Section~\ref{sec:DataRetrieval}. But
+as the true label is not used, the model performance is weakened as possibly feasible routes will be labeled as infeasible. The
+next Figure~\ref{fig:comparison_krebs_gendreau_numberItems} shows the effect of the number of items to the \gls{CP} time and the status.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{pictures/comparison_krebs_gendreau/number_items_cp_status.png}
+    \caption{Influence of number of items on the computational time.}
+    \label{fig:comparison_krebs_gendreau_numberItems}
+\end{figure}
+
+The computation time literally explodes when more than 50 items are considered in a route, leading to an undefined \gls{CP} status, and
+infeasible labels in the train dataset. So in the end, new long routes which improve the solution quality will always be classified as infeasible
+or the exact computation time with the \gls{CP} solver takes too long to be used in a heuristic.

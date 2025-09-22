@@ -133,18 +133,18 @@ The next section will dive deeper how the routes for the training data are retri
 Collecting the training data is one crucial step, for the model creation and two approaches exist.
 
 \subsubsection{Saving labeled routes from exact algorithms (Save strategy)}
-The first one is to save all routes with exact loading label from an exisiting \gls{3L-CVRP}
+The first approach is to save all routes with exact loading label from an exisiting \gls{3L-CVRP}
 algorithm, as \cite{zhang_learning-based_2022} did in their paper. However the binary classifier
 was integrated in the same exact algorithm
 and therefore the solution structure of routes in the train data is similar to the real data afterwards. \footcite[cf.][]{zhang_learning-based_2022}
 To follow this approach the exact branch-and-cut algorithm from \cite{tamke_branch-and-cut_2024} was
-used to save all routes, which are labeled and found in an 8-hour timelimit from an instance. The routes
-are saved based on their respective \gls{LoadSt} and \gls{LoadFl}. The \gls{LoadSt} sorts the routes in the
+used to save all routes, which are labeled and found in an 8-hour total timelimit and a timelimit for the \gls{CP} solver of 10 min for each instance.
+The routes are saved based on their respective \gls{LST} and \gls{LFL}. The \gls{LST} sorts the routes in the
 label categories feasible, infeasible and unknown and is determined by the exact \gls{CP} solver.
 If the solver could not find a deterministic feasible/ infeasible label in the timelimit fot the solver the route
-will be classified as unknown, based on the resp. \gls{LoadFl}.
-The \gls{LoadFl} defines the subset of
-loading constraints used. Three \glspl{LoadFl} are considered in the orginal algorithm, which are shown
+will be classified as unknown, based on the resp. \gls{LFL}.
+The \gls{LFL} defines the subset of
+loading constraints used. Three \glspl{LFL} are considered in the orginal algorithm, which are shown
 in the following:
 \begin{itemize}
     \item All Constraints: $\mathcal{G}$
@@ -152,14 +152,14 @@ in the following:
     \item No Sequence: $\mathcal{G}\setminus \{\text{Sequence}\}$
 \end{itemize}
 During the algorithm labeled routes are saved based on these two categories. The concrete route sequence
-is only relevant for the first two \glspl{LoadFl}, and the routes are saved as sequences. For the third
-group \textit{No Sequence} the found routes are independent from their sequence and a respective set
-of the customer ids without a order is saved. \footcites[Retrieved from][]{tamke_repository_2024}[cf.][]{tamke_branch-and-cut_2024}
-After the branch-and-cut algorithme the routes are sorted into different sets composed of the \gls{LoadFl} and \gls{LoadSt}.
-All the route sequences found are resepcted for the train dataset. However, as the permutation number of all combinations
-of customer ids of the sets from the third \gls{LoadFl} \textit{No Sequence}, would dominate the train dataset number wise,
-three random permutations are considered from each set. The following table highlights, which routes depending on the
-\gls{LoadFl} and \gls{LoadSt} are considered for the final train dataset.
+is only relevant for the first two \glspl{LFL}, and the routes are saved as sequences. For the third
+group \textit{No Sequence} the found routes are independent from their sequence and an ordered set
+of the respective customer ids is saved. \footcites[Retrieved from][]{tamke_repository_2024}[cf.][]{tamke_branch-and-cut_2024}
+After the branch-and-cut algorithm the routes are sorted into different sets composed of the \gls{LFL} and \gls{LST}.
+All the route sequences found are respected for the train dataset, but for the sets from the third \gls{LFL} group \textit{No Sequence},
+two alternative datasets are created, one with sets and one without. For the train dataset with sets, two random permutations are considered from each set
+to avoid that the permutations dominate the train dataset number wise. The following table highlights, which routes depending on the
+\gls{LFL} and \gls{LST} are considered for the final train datasets.
 
 \begin{table}[ht]
     \centering
@@ -505,9 +505,19 @@ The advantage over classical linear correlation techniques is that also nonlinea
 The \gls{F-Score} used is based on the \gls{ANOVA} and computes the linear dependency between the features and the output value.\footcite[cf.][p.2]{gu_generalized_2012}
 Both methods are used to distinguish, if linear or non-linear dependencies exists betweenn $X$ and $Y$. The mutual correlation between the variables
 is computed with the \textit{Pearson} correlation coefficient applicable to pure numerical data and is computed as following: \footcite[cf.][p.17]{chandrashekar_survey_2014}
-\begin{equation}
-    \text{Pearson Correlation Coefficient: }C(f,f') = \frac{Covariance(X_f,X_{f'})}{\sqrt{Variance(X_f)\times Variance(X_{f'})}}
-\end{equation}
+\begin{figure}
+    \centering
+    \begin{minipage}{.48\linewidth}
+        \begin{gather*}
+            \text{Pearson Correlation Coefficient: } \\\\C(f,f') = \\\\\frac{Covariance(X_f,X_{f'})}{\sqrt{Variance(X_f)\cdot Variance(X_{f'})}}
+        \end{gather*}
+    \end{minipage}%
+    \begin{minipage}{.48\linewidth}
+        \includegraphics[width=\linewidth]{pictures/exemplary_small_correlation_matrix.png}
+    \end{minipage}
+    \caption{Formula for pearson correlation coefficient and exemplary mutual correlation heatmap for features above correlation threshold of 0.9. }
+    \label{fig:pearson_correlation_example}
+\end{figure}
 Several different filtered subsets can be obtained for varying the filter method $\kappa$, the correlation thresholds $\Phi$, the boundary $\mathcal{B}$ and
 different quantile thresholds $\epsilon$. Adding also a certain threshold for features with a low score has the motivation to trim non-informative features.
 The following Figure~\ref{fig:normal_distribution} highlights that all features, which have a scaled importance score below $z_{\epsilon}$ are added to the drop candidates.
