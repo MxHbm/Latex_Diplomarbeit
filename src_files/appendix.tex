@@ -247,46 +247,140 @@ With a subset from krebs the following datasets were created!
 \subsection{SpeedUp Variant}
 \label{app:subsec:parameterstudy_SpeedUp}
 
+\clearpage
 \section{Branch-and-Cut Results}
+
+The following two tables summarize the results of the branch-and-cut algorithm used for the the retrieval of train datasets
+from save strategy. The following table explains each column header:
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{cc}
+        \toprule
+        Column Header & Description                                       \\
+        \midrule
+        $C^*$         & Best objective (Costs)                            \\
+        Gap           & Gap to \gls{LB} in B\&C procedure                 \\
+        $K^*$         & Final number of routes                            \\
+        $N$           & Number of explored branch-and-bound nodes         \\
+        $t$           & Runtime of algorithm; TL = Timelimit (28880 sec)  \\
+        $C_0$         & Objective of start solution                       \\
+        $K_0$         & Number of routes start solution                   \\
+        $\Delta BKS$  & Percentage wise difference to best known solution \\
+        \bottomrule
+    \end{tabular}
+    \caption{Column header description for B\&C results.}
+    \label{tab:column_header_description_bc}
+\end{table}
+
+The results for \gendreauDataSetText are shown in Table~\ref{tab:bc_results_gendreau} and for \krebsADataSetText in Table~\ref{tab:bc_results_krebs}.
+The solutions for \krebsADataSetText are categorized in three groups A, B and C classifying the solution process. Each label is shown
+with the instance name. The labels have the following meaning:
+\begin{itemize}
+    \item A : The solution process ran without complications.
+    \item B : The final solution could not be created, concrete number of vehicles $K^*$ is unknown, but Gap and $C^*$ could be retrieved from Gurobi logging file.
+    \item C : Only the start solution was created, leading to missing values for the main branch-and-cut algorithm. No concrete runtime $t$ could be determined.
+\end{itemize}
+
+Applying the exact algorithm from \cite{tamke_branch-and-cut_2024} to the \krebsADataSetText is the first time for this dataset and the
+average gap for this subset of instances is 3.14\%, leading to a many found optimal solutions.\footcite[cf.]{tamke_branch-and-cut_2024} Furthermore the solutions are on average
+21.57\% percent better than the initally published solutions from \cite{krebs_advanced_2021}.The solutions from set P1 "Basic" were
+conidered, tackling the same loading constraint set as \cite{gendreau_tabu_2006} ($\mathcal{G}$). However, the \gls{3L-CVRP} was solved and not
+the \gls{3L-VRPTW} as in the forementioned paper. \footcite[cf.][pp. 858-864]{krebs_advanced_2021}
 
 \begin{table}
     \centering
     \begin{tabular}{lrrrrl}
         \toprule
-        Instance & Costs   & Gap  & NumberRoutes & $N$     & Runtime \\
+        Instance & $C^*$   & Gap  & $K^*$ & $N$     & $t$   \\
         \midrule
-        E016-03m & 301.66  & 0.00 & 4            & 4290    & 21      \\
-        E016-05m & 334.96  & 0.00 & 5            & 53      & 1       \\
-        E021-04m & 385.53  & 0.00 & 4            & 84225   & 532     \\
-        E021-06m & 430.88  & 0.00 & 6            & 98      & 5       \\
-        E022-04g & 427.56  & 0.00 & 5            & 138703  & 1024    \\
-        E022-06m & 498.16  & 0.00 & 6            & 726     & 11      \\
-        E023-03g & 757.88  & 0.00 & 5            & 1434923 & 4226    \\
-        E023-05s & 798.65  & 0.01 & 6            & 2614340 & TL      \\
-        E026-08m & 630.13  & 0.00 & 8            & 4604    & 61      \\
-        E030-03g & 783.79  & 0.17 & 6            & 1153008 & TL      \\
-        E030-04s & 728.32  & 0.16 & 7            & 1176116 & TL      \\
-        E031-09h & 610.23  & 0.00 & 9            & 394216  & 10598   \\
-        E033-03n & 2649.00 & 0.14 & 6            & 564692  & TL      \\
-        E033-04g & 1337.17 & 0.25 & 7            & 432649  & TL      \\
-        E033-05s & 1327.09 & 0.25 & 7            & 298863  & TL      \\
-        E036-11h & 698.61  & 0.00 & 11           & 20025   & 325     \\
-        E041-14h & 871.63  & 0.03 & 14           & 420758  & TL      \\
-        E045-04f & 1204.07 & 0.18 & 10           & 306014  & TL      \\
-        E051-05e & 726.20  & 0.19 & 10           & 305879  & TL      \\
-        E072-04f & 567.64  & 0.24 & 15           & 162320  & TL      \\
-        E076-07s & 1040.77 & 0.25 & 15           & 197632  & TL      \\
-        E076-08s & 1134.70 & 0.26 & 16           & 222779  & TL      \\
-        E076-10e & 1170.51 & 0.31 & 17           & 199955  & TL      \\
-        E076-14s & 1121.85 & 0.13 & 16           & 168907  & TL      \\
-        E101-08e & 1375.07 & 0.29 & 20           & 162886  & TL      \\
-        E101-10c & 1544.02 & 0.28 & 22           & 229882  & TL      \\
-        E101-14s & 1576.76 & 0.33 & 23           & 135945  & TL      \\
+        E016-03m & 301.66  & 0.00 & 4     & 4290    & 21    \\
+        E016-05m & 334.96  & 0.00 & 5     & 53      & 1     \\
+        E021-04m & 385.53  & 0.00 & 4     & 84225   & 532   \\
+        E021-06m & 430.88  & 0.00 & 6     & 98      & 5     \\
+        E022-04g & 427.56  & 0.00 & 5     & 138703  & 1024  \\
+        E022-06m & 498.16  & 0.00 & 6     & 726     & 11    \\
+        E023-03g & 757.88  & 0.00 & 5     & 1434923 & 4226  \\
+        E023-05s & 798.65  & 0.01 & 6     & 2614340 & TL    \\
+        E026-08m & 630.13  & 0.00 & 8     & 4604    & 61    \\
+        E030-03g & 783.79  & 0.17 & 6     & 1153008 & TL    \\
+        E030-04s & 728.32  & 0.16 & 7     & 1176116 & TL    \\
+        E031-09h & 610.23  & 0.00 & 9     & 394216  & 10598 \\
+        E033-03n & 2649.00 & 0.14 & 6     & 564692  & TL    \\
+        E033-04g & 1337.17 & 0.25 & 7     & 432649  & TL    \\
+        E033-05s & 1327.09 & 0.25 & 7     & 298863  & TL    \\
+        E036-11h & 698.61  & 0.00 & 11    & 20025   & 325   \\
+        E041-14h & 871.63  & 0.03 & 14    & 420758  & TL    \\
+        E045-04f & 1204.07 & 0.18 & 10    & 306014  & TL    \\
+        E051-05e & 726.20  & 0.19 & 10    & 305879  & TL    \\
+        E072-04f & 567.64  & 0.24 & 15    & 162320  & TL    \\
+        E076-07s & 1040.77 & 0.25 & 15    & 197632  & TL    \\
+        E076-08s & 1134.70 & 0.26 & 16    & 222779  & TL    \\
+        E076-10e & 1170.51 & 0.31 & 17    & 199955  & TL    \\
+        E076-14s & 1121.85 & 0.13 & 16    & 168907  & TL    \\
+        E101-08e & 1375.07 & 0.29 & 20    & 162886  & TL    \\
+        E101-10c & 1544.02 & 0.28 & 22    & 229882  & TL    \\
+        E101-14s & 1576.76 & 0.33 & 23    & 135945  & TL    \\
         \bottomrule
     \end{tabular}
-    \caption{B\&C Results for obtaining save strategy dataset. Solution quality is presented by obj, gap (\%),
-        and solution process metrics, including the total run time (TL = time limit) and explored branch-and-bound nodes $N$}
+    \caption{B\&C Results for obtaining save strategy dataset from \gendreauDataSet.}
     \label{tab:bc_results_gendreau}
+\end{table}
+
+\begin{table}
+    \small
+    \centering
+    \begin{tabular}{lrrrrlrrr}
+        \toprule
+        Instance Name                  & $C^*$   & Gap  & $K^*$ & $N$    & $t$   & $C_0$   & $K_0$ & $\Delta BKS$ \\
+        \midrule
+        $\text{012-n020-m200-bt100}^A$ & 311.78  & 0.00 & 2     & 1      & 10753 & 467.39  & 5     & -0.21        \\
+        $\text{038-n020-m200-bt10}^A$  & 347.45  & 0.00 & 2     & 1      & 8019  & 543.34  & 6     & -0.13        \\
+        $\text{039-n020-m200-bt10}^A$  & 337.87  & 0.00 & 2     & 1      & 11757 & 488.54  & 5     & -0.09        \\
+        $\text{052-n020-m200-bt10}^A$  & 289.63  & 0.00 & 2     & 1      & 14972 & 502.17  & 6     & -0.15        \\
+        $\text{054-n020-m200-bt10}^A$  & 324.87  & 0.00 & 2     & 1      & 7881  & 551.42  & 5     & 0.00         \\
+        $\text{059-n020-m200-bt100}^A$ & 335.94  & 0.00 & 2     & 1      & 7884  & 514.88  & 6     & -0.10        \\
+        $\text{069-n060-m200-bt10}^B$  & 1152.87 & 0.22 & 15    & 84340  & TL    & 1169.69 & 15    & -0.04        \\
+        $\text{076-n060-m200-bt3}^C$   & NaN     & NaN  & NaN   & NaN    & -1    & 682.00  & 5     & -0.12        \\
+        $\text{081-n060-m200-bt10}^A$  & 565.54  & 0.00 & 3     & 3114   & 10180 & 666.61  & 4     & -0.49        \\
+        $\text{086-n060-m200-bt100}^A$ & 578.71  & 0.00 & 4     & 537    & 8518  & 651.16  & 5     & -0.39        \\
+        $\text{116-n060-m200-bt100}^A$ & 568.14  & 0.00 & 4     & 14     & 11053 & 630.05  & 5     & -0.26        \\
+        $\text{117-n060-m200-bt100}^A$ & 623.74  & 0.00 & 4     & 17208  & 26618 & 656.68  & 5     & -0.40        \\
+        $\text{126-n060-m200-bt10}^A$  & 1226.45 & 0.23 & 15    & 213408 & TL    & 1241.24 & 15    & -0.05        \\
+        $\text{137-n060-m200-bt3}^A$   & 538.62  & 0.00 & 3     & 6      & 11338 & 635.56  & 4     & -0.11        \\
+        $\text{141-n060-m200-bt10}^A$  & 619.35  & 0.00 & 4     & 4926   & 13948 & 693.73  & 5     & -0.25        \\
+        $\text{149-n060-m200-bt100}^B$ & 521.33  & 0.00 & NaN   & 321    & 22028 & 611.68  & 4     & -0.06        \\
+        $\text{156-n060-m200-bt10}^B$  & 1097.58 & 0.25 & 14    & 67164  & TL    & 1070.95 & 14    & -0.08        \\
+        $\text{161-n060-m200-bt100}^B$ & 1106.37 & 0.21 & 14    & 125245 & TL    & 1082.66 & 13    & -0.13        \\
+        $\text{172-n060-m200-bt10}^B$  & 563.26  & 0.00 & NaN   & 8661   & 22715 & 608.35  & 5     & -0.05        \\
+        $\text{204-n100-m200-bt10}^A$  & 733.05  & 0.00 & 4     & 25340  & 24701 & 787.06  & 5     & -0.49        \\
+        $\text{215-n100-m200-bt3}^B$   & 1238.86 & 0.10 & 14    & 87846  & TL    & 1287.75 & 13    & -0.10        \\
+        $\text{227-n100-m200-bt3}^A$   & 689.90  & 0.00 & 4     & 3079   & 2591  & 730.08  & 4     & -0.34        \\
+        $\text{228-n100-m200-bt3}^A$   & 704.05  & 0.00 & 5     & 24075  & 10046 & 750.65  & 5     & -0.32        \\
+        $\text{245-n100-m200-bt3}^B$   & 937.28  & 0.03 & NaN   & 83475  & TL    & 963.05  & 9     & -0.15        \\
+        $\text{272-n100-m200-bt3}^B$   & 959.23  & 0.05 & NaN   & 8420   & TL    & 1106.01 & 11    & -0.23        \\
+        $\text{276-n100-m200-bt10}^A$  & 1230.19 & 0.14 & 15    & 126965 & TL    & 1231.91 & 15    & -0.14        \\
+        $\text{294-n100-m200-bt10}^A$  & 678.06  & 0.00 & 3     & 15     & 22781 & 769.09  & 5     & -0.21        \\
+        $\text{297-n100-m200-bt100}^A$ & 746.40  & 0.00 & 4     & 22161  & 28286 & 783.66  & 5     & -0.12        \\
+        $\text{299-n100-m200-bt100}^B$ & 784.50  & 0.00 & NaN   & 31547  & 20498 & 831.21  & 5     & -0.01        \\
+        $\text{386-n060-m400-bt100}^A$ & 540.28  & 0.00 & 3     & 140    & 19854 & 936.23  & 10    & -0.29        \\
+        $\text{390-n060-m400-bt100}^B$ & 607.91  & 0.00 & NaN   & 1      & 12800 & 967.73  & 10    & -0.27        \\
+        $\text{415-n060-m400-bt10}^B$  & 577.24  & 0.00 & NaN   & 657    & 16734 & 873.01  & 9     & -0.33        \\
+        $\text{423-n060-m400-bt3}^B$   & 1014.38 & 0.00 & NaN   & 1      & 10191 & 1534.87 & 23    & -0.34        \\
+        $\text{438-n060-m400-bt3}^B$   & 639.95  & 0.00 & 5     & 5575   & 16971 & 809.97  & 7     & -0.06        \\
+        $\text{499-n100-m400-bt3}^B$   & 767.32  & 0.00 & 4     & 17961  & TL    & 945.93  & 7     & -0.51        \\
+        $\text{527-n100-m400-bt3}^A$   & 737.34  & 0.00 & 5     & 51     & 13601 & 982.10  & 8     & -0.52        \\
+        $\text{529-n100-m400-bt3}^C$   & NaN     & NaN  & NaN   & NaN    & -1    & 968.32  & 8     & -0.29        \\
+        $\text{542-n100-m400-bt3}^B$   & 1458.91 & 0.00 & NaN   & 13706  & 19764 & 1730.54 & 22    & -0.25        \\
+        $\text{568-n100-m400-bt100}^B$ & 811.87  & 0.00 & 7     & 396    & TL    & 1020.21 & 9     & -0.29        \\
+        $\text{578-n100-m400-bt10}^C$  & NaN     & NaN  & NaN   & NaN    & -1    & 1637.59 & 25    & -0.20        \\
+        $\text{595-n100-m400-bt10}^B$  & 789.97  & 0.00 & NaN   & 4954   & 27730 & 1030.88 & 10    & -0.29        \\
+        $\text{600-n100-m400-bt100}^B$ & 680.66  & 0.00 & NaN   & 1      & 27553 & 1027.87 & 9     & -0.21        \\
+        \bottomrule
+    \end{tabular}
+
+    \caption{B\&C Results for obtaining save strategy dataset from \krebsADataSet.}
+    \label{tab:bc_results_krebs}
 \end{table}
 
 \clearpage
