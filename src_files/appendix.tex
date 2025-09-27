@@ -7,6 +7,11 @@
 Write here small introduction to appendix! %TODO
 \clearpage
 \section{Complete Feature List}
+
+The geometrical features have shortened names, but everything in capital letters, refer to the container
+dimensions. For example, W,L and H refer to the width, length and height of the container. Consecutively,
+WLH is the multiplication of all container dimensions and displays the maximum container volume.
+
 \begin{table}[ht]
     \centering
     \small
@@ -102,6 +107,117 @@ For each stacked feature bar above one of the barriers, the feature is respected
                                      & \kv{random\_state}{42}          &                                    \\
         \bottomrule
     \end{tabular}
+\end{table}
+
+
+\clearpage
+\section{Further Feature Filter Results}
+\label{app:sec:further_feature_filter}
+
+The experiments conducted on the various dropsets, presented in Table~\ref{tab:drop_set_presentation_shortened}, were including
+all random and save strategy datasets as base datasets, as well as the same set of datasets as test/ prediction datasets. Also, all three
+kind of models were considered. This appendix section dives deeper in the results and to understand the feature filter performance differences.
+
+As mentioned in Section~\ref{sec:feature_filter_results}, the prediction from save strategy datasets to other save strategy datasets as
+GD-Complete-WS to GD-Complete were excluded from the results, as all routes considered in GD-Complete are also part of GD-Complete-WS leading to
+false results, as the model is basically evaluated on the train dataset. When only the cross prediction results from random to save strategy
+datasets and vice versa are considered. The performance of drop set DS-50-4 looks even better, as the performance is not resricted by the huge number
+of random datasets being predicted by other random datasets.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = .95\textwidth]{pictures/feature_filter/cross_performance_boxplot.png}
+    \caption{Box plots of MCC performance considering only the cross performance from random to save strategy datasets and vice versa.}
+    \label{fig:mcc_filter_results_cross}
+\end{figure}
+
+The mean performance metrics for this selection of feature filter results is shown in the following Table~\ref{tab:featurePerformance_OnlyCrossCorrelation}.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{lrrrrrrr}
+        \toprule
+        DropSet  & DS-0-0 & DS-50-2 & DS-50-3 & DS-50-4       & DS-75-2 & DS-75-3 & DS-75-4 \\
+        \midrule
+        MCC      & 0.60   & 0.62    & 0.61    & \textbf{0.80} & 0.61    & 0.61    & 0.62    \\
+        F1-Score & 0.68   & 0.70    & 0.70    & \textbf{0.86} & 0.70    & 0.70    & 0.71    \\
+        Accuracy & 0.81   & 0.81    & 0.81    & \textbf{0.92} & 0.81    & 0.81    & 0.81    \\
+        AUROC    & 0.92   & 0.91    & 0.91    & \textbf{0.97} & 0.90    & 0.91    & 0.91    \\
+        \bottomrule
+    \end{tabular}
+    \caption[Mean performance metrics on various different drop set considering only the performance from random to save strategy datasets and vice versa.]
+    {Mean performance metrics on various different drop set considering only the performance from random to save strategy datasets and vice versa.
+        Bold font shows the best results for each performance score.}
+    \label{tab:featurePerformance_OnlyCrossCorrelation}
+\end{table}
+
+When the mean performance for each base train dataset is plotted, the results are interesting as both XGB and \gls{LR}
+model have very constant performances. But the \gls{FFNN} model drops significantly, when based on a random dataset a save strategy dataset
+needs to be predicted. The XGB model got only two worse solutions for predicting any dataset, which are the two trimmed datasets. This
+is due to the missing feasible routes with 2 customers as only infeasible ones are considered leading to the exclusion of these two
+datasets for any further predicting task.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = .95\textwidth]{pictures/feature_filter/cross_performance_lineplot.png}
+    \caption{Box plots of MCC performance of different feature drop sets.}
+    \label{fig:mcc_filter_results_lineplot}
+\end{figure}
+
+Model life time = initial training and prediciton of datasets
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width = .6\textwidth]{pictures/feature_filter/life_time_models.png}
+    \caption{Box plots of MCC performance of different feature drop sets.}
+    \label{fig:lifetime_model}
+\end{figure}
+
+\clearpage
+
+\section{Validation Dataset Results}
+\label{app:se:validation_results}
+
+\begin{table}[ht]
+    \centering
+    \small
+    \begin{tabular}{llrrrr}
+        \toprule
+        Strategy                 & Base Dataset   & MCC            & F1-Score       & Accuracy       & AUROC          \\
+        \midrule
+        \multirow{6}{*}{B\&C}    & GD-Complete    & 0.731          & 0.849          & 0.865          & \textbf{0.949} \\
+                                 & GD-Complete-WS & 0.736          & 0.854          & 0.868          & \textbf{0.949} \\
+                                 & GD-Shrinked    & \textbf{0.737} & \textbf{0.855} & \textbf{0.869} & \textbf{0.949} \\
+                                 & GD-Shrinked-WS & \textbf{0.737} & \textbf{0.857} & \textbf{0.869} & \textbf{0.949} \\
+                                 & GD-Trimmed     & 0.730          & 0.854          & 0.865          & 0.947          \\
+                                 & GD-Trimmed-WS  & 0.725          & 0.850          & 0.861          & 0.947          \\
+        \midrule
+        \multirow{21}{*}{Random} & RD-2-30-20-10  & 0.718          & 0.844          & 0.858          & 0.944          \\
+                                 & RD-2-30-20-6   & 0.720          & 0.844          & 0.860          & 0.944          \\
+                                 & RD-2-30-20-8   & 0.721          & 0.846          & 0.860          & 0.944          \\
+                                 & RD-2-30-30-10  & 0.723          & \textbf{0.849} & 0.861          & 0.945          \\
+                                 & RD-2-30-30-6   & 0.720          & 0.844          & 0.860          & 0.945          \\
+                                 & RD-2-30-30-8   & 0.722          & 0.846          & 0.861          & 0.944          \\
+                                 & RD-3-30-20-10  & 0.723          & \textbf{0.849} & 0.861          & 0.944          \\
+                                 & RD-3-30-20-6   & 0.719          & 0.842          & 0.859          & 0.945          \\
+                                 & RD-3-30-20-8   & 0.721          & 0.844          & 0.860          & 0.945          \\
+                                 & RD-3-30-30-10  & 0.722          & 0.848          & 0.861          & 0.945          \\
+                                 & RD-3-30-30-6   & 0.722          & 0.846          & 0.861          & 0.945          \\
+                                 & RD-3-30-30-8   & 0.722          & 0.846          & 0.861          & 0.945          \\
+                                 & RD-4-30-20-10  & 0.720          & 0.845          & 0.859          & 0.944          \\
+                                 & RD-4-30-20-6   & 0.718          & 0.842          & 0.859          & 0.945          \\
+                                 & RD-4-30-20-8   & 0.719          & 0.845          & 0.859          & 0.944          \\
+                                 & RD-4-30-30-10  & 0.722          & 0.848          & 0.861          & 0.945          \\
+                                 & RD-4-30-30-6   & \textbf{0.725} & 0.848          & \textbf{0.863} & \textbf{0.946} \\
+                                 & RD-4-30-30-8   & \textbf{0.725} & 0.848          & \textbf{0.862} & \textbf{0.946} \\
+                                 & RD-5-40-40-10  & 0.723          & 0.848          & 0.861          & 0.945          \\
+                                 & RD-5-40-40-6   & \textbf{0.725} & 0.848          & \textbf{0.862} & \textbf{0.946} \\
+                                 & RD-5-40-40-8   & 0.724          & 0.848          & \textbf{0.862} & \textbf{0.946} \\
+        \bottomrule
+    \end{tabular}
+    \caption[Average performance metrics on the validation data set.]{Average performance metrics on the validation data set.
+        For each strategy group the metrics with the highest values are marked bold, if several columns have the same highest value
+        all of them marked.}
+    \label{tab:featurePerformance_validationDataset}
 \end{table}
 
 \clearpage
@@ -208,6 +324,27 @@ With a subset from krebs the following datasets were created!
     \label{tab:dataset_model_selection_randomStrategy}
 \end{table}
 
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{c c c c c c c}
+        \toprule
+        Model                          & Strategy & Name       & \gls{MCC}-Score & \gls{AUROC} & F1-Score & Accuracy \\
+        \midrule
+        \multirow{2}{*}{\gls{LR}}      & Random   & RD-4-20-30 & 0.6             & 0.87        & 0.9      & 0.8      \\
+                                       & Save     & Complete   & 0.6             & 0.87        & 0.9      & 0.8      \\
+        \midrule
+        \multirow{2}{*}{Decision Tree} & Random   & RD-4-20-30 & 0.6             & 0.87        & 0.9      & 0.8      \\
+                                       & Save     & Complete   & 0.6             & 0.87        & 0.9      & 0.8      \\
+        \midrule
+        \multirow{2}{*}{\gls{FFNN}}    & Random   & RD-4-20-30 & 0.6             & 0.87        & 0.9      & 0.8      \\
+                                       & Save     & Complete   & 0.6             & 0.87        & 0.9      & 0.8      \\
+
+        \bottomrule
+    \end{tabular}
+    \caption{Presentatione of final datasets and feature selection}
+    \label{tab:final_dataset_features}
+\end{table}
 \clearpage
 
 
@@ -255,18 +392,18 @@ from save strategy. The following table explains each column header:
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{cc}
+    \begin{tabular}{C{0.2\textwidth}C{0.75\textwidth}}
         \toprule
-        Column Header & Description                                       \\
+        Column Header & Description                                                    \\
         \midrule
-        $C^*$         & Best objective (Costs)                            \\
-        Gap           & Gap to \gls{LB} in B\&C procedure                 \\
-        $K^*$         & Final number of routes                            \\
-        $N$           & Number of explored branch-and-bound nodes         \\
-        $t$           & Runtime of algorithm; TL = Timelimit (28880 sec)  \\
-        $C_0$         & Objective of start solution                       \\
-        $K_0$         & Number of routes start solution                   \\
-        $\Delta BKS$  & Percentage wise difference to best known solution \\
+        $C^*$         & Best objective (Costs)                                         \\
+        Gap           & Gap to \gls{LB} in B\&C procedure                              \\
+        $K^*$         & Final number of routes                                         \\
+        $N$           & Number of explored branch-and-bound nodes                      \\
+        $t$           & Runtime of algorithm; TL = Timelimit (28880 sec)               \\
+        $C_0$         & Objective of start solution                                    \\
+        $K_0$         & Number of routes start solution                                \\
+        $\Delta BKS$  & Percentage difference of objective to best known solution (\%) \\
         \bottomrule
     \end{tabular}
     \caption{Column header description for B\&C results.}
@@ -274,139 +411,165 @@ from save strategy. The following table explains each column header:
 \end{table}
 
 The results for \gendreauDataSetText are shown in Table~\ref{tab:bc_results_gendreau} and for \krebsADataSetText in Table~\ref{tab:bc_results_krebs}.
+Both instances are sorted in the groups lightweigt (L) and heavyweight (H) labeled by the instance names, indicating if the average weight
+requested by a customer is above (H) or under (L) the average of all instances, indicating the complexity to solve the instances optimally.
+As weight is a one dimensional loading constraint factor, the feasbility check is fast. The results can be divided by this weight label
+pretty perfectly in instances being solved optimally (H), or which needed a long run time and/ or and not solved optimally (L).
 The solutions for \krebsADataSetText are categorized in three groups A, B and C classifying the solution process. Each label is shown
-with the instance name. The labels have the following meaning:
+by the best objective $C^*$. The labels have the following meaning:
 \begin{itemize}
     \item A : The solution process ran without complications.
     \item B : The final solution could not be created, concrete number of vehicles $K^*$ is unknown, but Gap and $C^*$ could be retrieved from Gurobi logging file.
     \item C : Only the start solution was created, leading to missing values for the main branch-and-cut algorithm. No concrete runtime $t$ could be determined.
 \end{itemize}
 
-Applying the exact algorithm from \cite{tamke_branch-and-cut_2024} to the \krebsADataSetText is the first time for this dataset and the
-average gap for this subset of instances is 3.14\%, leading to a many found optimal solutions.\footcite[cf.]{tamke_branch-and-cut_2024} Furthermore the solutions are on average
-21.57\% percent better than the initally published solutions from \cite{krebs_advanced_2021}.The solutions from set P1 "Basic" were
-conidered, tackling the same loading constraint set as \cite{gendreau_tabu_2006} ($\mathcal{G}$). However, the \gls{3L-CVRP} was solved and not
-the \gls{3L-VRPTW} as in the forementioned paper. \footcite[cf.][pp. 858-864]{krebs_advanced_2021}
+Applying the exact algorithm from \cite{tamke_branch-and-cut_2024} to the \krebsADataSetText dataset is novel for this dataset.
+The average gap across this subset of instances is 3.14\%, resulting in many optimal solutions being found.\footcite[cf.][]{tamke_branch-and-cut_2024}
+The objectives cant be compared to initially published results of \cite{krebs_advanced_2021}, as the \gls{3L-CVRP} was solved rather than the initial \gls{3L-VRPTW}.\footcite[cf.][pp. 858–864]{krebs_advanced_2021}
 
-\begin{table}
+\begin{table}[!h]
     \centering
-    \begin{tabular}{lrrrrl}
+    \small
+    \begin{tabular}{lrrrrll}
         \toprule
-        Instance & $C^*$   & Gap  & $K^*$ & $N$     & $t$   \\
+        Instance Name       & $C^*$   & Gap  & $K^*$ & $N$     & $t$   & $\Delta BKS$    \\
         \midrule
-        E016-03m & 301.66  & 0.00 & 4     & 4290    & 21    \\
-        E016-05m & 334.96  & 0.00 & 5     & 53      & 1     \\
-        E021-04m & 385.53  & 0.00 & 4     & 84225   & 532   \\
-        E021-06m & 430.88  & 0.00 & 6     & 98      & 5     \\
-        E022-04g & 427.56  & 0.00 & 5     & 138703  & 1024  \\
-        E022-06m & 498.16  & 0.00 & 6     & 726     & 11    \\
-        E023-03g & 757.88  & 0.00 & 5     & 1434923 & 4226  \\
-        E023-05s & 798.65  & 0.01 & 6     & 2614340 & TL    \\
-        E026-08m & 630.13  & 0.00 & 8     & 4604    & 61    \\
-        E030-03g & 783.79  & 0.17 & 6     & 1153008 & TL    \\
-        E030-04s & 728.32  & 0.16 & 7     & 1176116 & TL    \\
-        E031-09h & 610.23  & 0.00 & 9     & 394216  & 10598 \\
-        E033-03n & 2649.00 & 0.14 & 6     & 564692  & TL    \\
-        E033-04g & 1337.17 & 0.25 & 7     & 432649  & TL    \\
-        E033-05s & 1327.09 & 0.25 & 7     & 298863  & TL    \\
-        E036-11h & 698.61  & 0.00 & 11    & 20025   & 325   \\
-        E041-14h & 871.63  & 0.03 & 14    & 420758  & TL    \\
-        E045-04f & 1204.07 & 0.18 & 10    & 306014  & TL    \\
-        E051-05e & 726.20  & 0.19 & 10    & 305879  & TL    \\
-        E072-04f & 567.64  & 0.24 & 15    & 162320  & TL    \\
-        E076-07s & 1040.77 & 0.25 & 15    & 197632  & TL    \\
-        E076-08s & 1134.70 & 0.26 & 16    & 222779  & TL    \\
-        E076-10e & 1170.51 & 0.31 & 17    & 199955  & TL    \\
-        E076-14s & 1121.85 & 0.13 & 16    & 168907  & TL    \\
-        E101-08e & 1375.07 & 0.29 & 20    & 162886  & TL    \\
-        E101-10c & 1544.02 & 0.28 & 22    & 229882  & TL    \\
-        E101-14s & 1576.76 & 0.33 & 23    & 135945  & TL    \\
+        $\text{E016-03m}^H$ & 301.66  & 0.00 & 4     & 4290    & 21    & $\text{0.0}^e$  \\
+        $\text{E016-05m}^H$ & 334.96  & 0.00 & 5     & 53      & 1     & $\text{0.0}^a$  \\
+        $\text{E021-04m}^H$ & 385.53  & 0.00 & 4     & 84225   & 532   & $\text{0.0}^d$  \\
+        $\text{E021-06m}^H$ & 430.88  & 0.00 & 6     & 98      & 5     & $\text{0.0}^e$  \\
+        $\text{E022-04g}^H$ & 427.56  & 0.00 & 5     & 138703  & 1024  & $\text{0.0}^e$  \\
+        $\text{E022-06m}^H$ & 498.16  & 0.00 & 6     & 726     & 11    & $\text{0.0}^c$  \\
+        $\text{E023-03g}^L$ & 757.88  & 0.00 & 5     & 1434923 & 4226  & $\text{0.0}^e$  \\
+        $\text{E023-05s}^L$ & 798.65  & 0.01 & 6     & 2614340 & TL    & $\text{0.0}^e$  \\
+        $\text{E026-08m}^H$ & 630.13  & 0.00 & 8     & 4604    & 61    & $\text{0.0}^b$  \\
+        $\text{E030-03g}^L$ & 783.79  & 0.17 & 6     & 1153008 & TL    & $\text{1.88}^e$ \\
+        $\text{E030-04s}^L$ & 728.32  & 0.16 & 7     & 1176116 & TL    & $\text{0.0}^e$  \\
+        $\text{E031-09h}^H$ & 610.23  & 0.00 & 9     & 394216  & 10598 & $\text{0.0}^b$  \\
+        $\text{E033-03n}^L$ & 2649.00 & 0.14 & 6     & 564692  & TL    & $\text{1.22}^e$ \\
+        $\text{E033-04g}^L$ & 1337.17 & 0.25 & 7     & 432649  & TL    & $\text{1.24}^e$ \\
+        $\text{E033-05s}^L$ & 1327.09 & 0.25 & 7     & 298863  & TL    & $\text{6.13}^e$ \\
+        $\text{E036-11h}^H$ & 698.61  & 0.00 & 11    & 20025   & 325   & $\text{0.0}^a$  \\
+        $\text{E041-14h}^H$ & 871.63  & 0.03 & 14    & 420758  & TL    & $\text{0.6}^c$  \\
+        $\text{E045-04f}^L$ & 1204.07 & 0.18 & 10    & 306014  & TL    & $\text{0.18}^d$ \\
+        $\text{E051-05e}^L$ & 726.20  & 0.19 & 10    & 305879  & TL    & $\text{1.27}^e$ \\
+        $\text{E072-04f}^L$ & 567.64  & 0.24 & 15    & 162320  & TL    & $\text{0.0}^d$  \\
+        $\text{E076-07s}^L$ & 1040.77 & 0.25 & 15    & 197632  & TL    & $\text{0.0}^d$  \\
+        $\text{E076-08s}^L$ & 1134.70 & 0.26 & 16    & 222779  & TL    & $\text{0.14}^d$ \\
+        $\text{E076-10e}^L$ & 1170.51 & 0.31 & 17    & 199955  & TL    & $\text{7.96}^d$ \\
+        $\text{E076-14s}^H$ & 1121.85 & 0.13 & 16    & 168907  & TL    & $\text{2.69}^d$ \\
+        $\text{E101-08e}^L$ & 1375.07 & 0.29 & 20    & 162886  & TL    & $\text{2.74}^d$ \\
+        $\text{E101-10c}^L$ & 1544.02 & 0.28 & 22    & 229882  & TL    & $\text{0.91}^d$ \\
+        $\text{E101-14s}^L$ & 1576.76 & 0.33 & 23    & 135945  & TL    & $\text{7.11}^d$ \\
         \bottomrule
     \end{tabular}
     \caption{B\&C Results for obtaining save strategy dataset from \gendreauDataSet.}
     \label{tab:bc_results_gendreau}
 \end{table}
 
-\begin{table}
+The publisher for best known solution(BKS) for the \gendreauDataSetText is indicated by the small letter
+next to the instance name. In this comparison all published papers were considered, which use the same loading constraint set $\mathcal{G}$.
+
+\newcommand{\datasetPos}[2]{%
+{#1} : {#2}
+}
+\begin{table}[ht]
+    \centering
+    \renewcommand{\arraystretch}{1.05}
+    \begin{tabular}{@{}lll@{}}
+        \multicolumn{2}{c}{\datasetPos{a}{\cite{tarantilis_hybrid_2009}}} & \datasetPos{b}{\cite{wang_two_2010}}                                                              \\
+        \datasetPos{c}{\cite{bortfeldt_hybrid_2012}}                      & \datasetPos{d}{\cite{zhang_evolutionary_2015}} & \datasetPos{e}{\cite{tamke_branch-and-cut_2024}} \\
+    \end{tabular}
+\end{table}
+
+\begin{table}[ht]
     \small
     \centering
-    \begin{tabular}{lrrrrlrrr}
+    \begin{tabular}{llrrrlrr}
         \toprule
-        Instance Name                  & $C^*$   & Gap  & $K^*$ & $N$    & $t$   & $C_0$   & $K_0$ & $\Delta BKS$ \\
+        Instance Name                  & $C^*$              & Gap  & $K^*$ & $N$    & $t$   & $C_0$   & $K_0$ \\
         \midrule
-        $\text{012-n020-m200-bt100}^A$ & 311.78  & 0.00 & 2     & 1      & 10753 & 467.39  & 5     & -0.21        \\
-        $\text{038-n020-m200-bt10}^A$  & 347.45  & 0.00 & 2     & 1      & 8019  & 543.34  & 6     & -0.13        \\
-        $\text{039-n020-m200-bt10}^A$  & 337.87  & 0.00 & 2     & 1      & 11757 & 488.54  & 5     & -0.09        \\
-        $\text{052-n020-m200-bt10}^A$  & 289.63  & 0.00 & 2     & 1      & 14972 & 502.17  & 6     & -0.15        \\
-        $\text{054-n020-m200-bt10}^A$  & 324.87  & 0.00 & 2     & 1      & 7881  & 551.42  & 5     & 0.00         \\
-        $\text{059-n020-m200-bt100}^A$ & 335.94  & 0.00 & 2     & 1      & 7884  & 514.88  & 6     & -0.10        \\
-        $\text{069-n060-m200-bt10}^B$  & 1152.87 & 0.22 & 15    & 84340  & TL    & 1169.69 & 15    & -0.04        \\
-        $\text{076-n060-m200-bt3}^C$   & NaN     & NaN  & NaN   & NaN    & -1    & 682.00  & 5     & -0.12        \\
-        $\text{081-n060-m200-bt10}^A$  & 565.54  & 0.00 & 3     & 3114   & 10180 & 666.61  & 4     & -0.49        \\
-        $\text{086-n060-m200-bt100}^A$ & 578.71  & 0.00 & 4     & 537    & 8518  & 651.16  & 5     & -0.39        \\
-        $\text{116-n060-m200-bt100}^A$ & 568.14  & 0.00 & 4     & 14     & 11053 & 630.05  & 5     & -0.26        \\
-        $\text{117-n060-m200-bt100}^A$ & 623.74  & 0.00 & 4     & 17208  & 26618 & 656.68  & 5     & -0.40        \\
-        $\text{126-n060-m200-bt10}^A$  & 1226.45 & 0.23 & 15    & 213408 & TL    & 1241.24 & 15    & -0.05        \\
-        $\text{137-n060-m200-bt3}^A$   & 538.62  & 0.00 & 3     & 6      & 11338 & 635.56  & 4     & -0.11        \\
-        $\text{141-n060-m200-bt10}^A$  & 619.35  & 0.00 & 4     & 4926   & 13948 & 693.73  & 5     & -0.25        \\
-        $\text{149-n060-m200-bt100}^B$ & 521.33  & 0.00 & NaN   & 321    & 22028 & 611.68  & 4     & -0.06        \\
-        $\text{156-n060-m200-bt10}^B$  & 1097.58 & 0.25 & 14    & 67164  & TL    & 1070.95 & 14    & -0.08        \\
-        $\text{161-n060-m200-bt100}^B$ & 1106.37 & 0.21 & 14    & 125245 & TL    & 1082.66 & 13    & -0.13        \\
-        $\text{172-n060-m200-bt10}^B$  & 563.26  & 0.00 & NaN   & 8661   & 22715 & 608.35  & 5     & -0.05        \\
-        $\text{204-n100-m200-bt10}^A$  & 733.05  & 0.00 & 4     & 25340  & 24701 & 787.06  & 5     & -0.49        \\
-        $\text{215-n100-m200-bt3}^B$   & 1238.86 & 0.10 & 14    & 87846  & TL    & 1287.75 & 13    & -0.10        \\
-        $\text{227-n100-m200-bt3}^A$   & 689.90  & 0.00 & 4     & 3079   & 2591  & 730.08  & 4     & -0.34        \\
-        $\text{228-n100-m200-bt3}^A$   & 704.05  & 0.00 & 5     & 24075  & 10046 & 750.65  & 5     & -0.32        \\
-        $\text{245-n100-m200-bt3}^B$   & 937.28  & 0.03 & NaN   & 83475  & TL    & 963.05  & 9     & -0.15        \\
-        $\text{272-n100-m200-bt3}^B$   & 959.23  & 0.05 & NaN   & 8420   & TL    & 1106.01 & 11    & -0.23        \\
-        $\text{276-n100-m200-bt10}^A$  & 1230.19 & 0.14 & 15    & 126965 & TL    & 1231.91 & 15    & -0.14        \\
-        $\text{294-n100-m200-bt10}^A$  & 678.06  & 0.00 & 3     & 15     & 22781 & 769.09  & 5     & -0.21        \\
-        $\text{297-n100-m200-bt100}^A$ & 746.40  & 0.00 & 4     & 22161  & 28286 & 783.66  & 5     & -0.12        \\
-        $\text{299-n100-m200-bt100}^B$ & 784.50  & 0.00 & NaN   & 31547  & 20498 & 831.21  & 5     & -0.01        \\
-        $\text{386-n060-m400-bt100}^A$ & 540.28  & 0.00 & 3     & 140    & 19854 & 936.23  & 10    & -0.29        \\
-        $\text{390-n060-m400-bt100}^B$ & 607.91  & 0.00 & NaN   & 1      & 12800 & 967.73  & 10    & -0.27        \\
-        $\text{415-n060-m400-bt10}^B$  & 577.24  & 0.00 & NaN   & 657    & 16734 & 873.01  & 9     & -0.33        \\
-        $\text{423-n060-m400-bt3}^B$   & 1014.38 & 0.00 & NaN   & 1      & 10191 & 1534.87 & 23    & -0.34        \\
-        $\text{438-n060-m400-bt3}^B$   & 639.95  & 0.00 & 5     & 5575   & 16971 & 809.97  & 7     & -0.06        \\
-        $\text{499-n100-m400-bt3}^B$   & 767.32  & 0.00 & 4     & 17961  & TL    & 945.93  & 7     & -0.51        \\
-        $\text{527-n100-m400-bt3}^A$   & 737.34  & 0.00 & 5     & 51     & 13601 & 982.10  & 8     & -0.52        \\
-        $\text{529-n100-m400-bt3}^C$   & NaN     & NaN  & NaN   & NaN    & -1    & 968.32  & 8     & -0.29        \\
-        $\text{542-n100-m400-bt3}^B$   & 1458.91 & 0.00 & NaN   & 13706  & 19764 & 1730.54 & 22    & -0.25        \\
-        $\text{568-n100-m400-bt100}^B$ & 811.87  & 0.00 & 7     & 396    & TL    & 1020.21 & 9     & -0.29        \\
-        $\text{578-n100-m400-bt10}^C$  & NaN     & NaN  & NaN   & NaN    & -1    & 1637.59 & 25    & -0.20        \\
-        $\text{595-n100-m400-bt10}^B$  & 789.97  & 0.00 & NaN   & 4954   & 27730 & 1030.88 & 10    & -0.29        \\
-        $\text{600-n100-m400-bt100}^B$ & 680.66  & 0.00 & NaN   & 1      & 27553 & 1027.87 & 9     & -0.21        \\
+        $\text{012-n020-m200-bt100}^L$ & $\text{311.78}^A$  & 0.00 & 2     & 1      & 10753 & 467.39  & 5     \\
+        $\text{038-n020-m200-bt10}^L$  & $\text{347.45}^A$  & 0.00 & 2     & 1      & 8019  & 543.34  & 6     \\
+        $\text{039-n020-m200-bt10}^L$  & $\text{337.87}^A$  & 0.00 & 2     & 1      & 11757 & 488.54  & 5     \\
+        $\text{052-n020-m200-bt10}^L$  & $\text{289.63}^A$  & 0.00 & 2     & 1      & 14972 & 502.17  & 6     \\
+        $\text{054-n020-m200-bt10}^L$  & $\text{324.87}^A$  & 0.00 & 2     & 1      & 7881  & 551.42  & 5     \\
+        $\text{059-n020-m200-bt100}^L$ & $\text{335.94}^A$  & 0.00 & 2     & 1      & 7884  & 514.88  & 6     \\
+        $\text{069-n060-m200-bt10}^H$  & $\text{1152.87}^B$ & 0.22 & 15    & 84340  & TL    & 1169.69 & 15    \\
+        $\text{076-n060-m200-bt3}^L$   & $\text{nan}^C$     & NaN  & NaN   & NaN    & -1    & 682.00  & 5     \\
+        $\text{081-n060-m200-bt10}^L$  & $\text{565.54}^A$  & 0.00 & 3     & 3114   & 10180 & 666.61  & 4     \\
+        $\text{086-n060-m200-bt100}^L$ & $\text{578.71}^A$  & 0.00 & 4     & 537    & 8518  & 651.16  & 5     \\
+        $\text{116-n060-m200-bt100}^L$ & $\text{568.14}^A$  & 0.00 & 4     & 14     & 11053 & 630.05  & 5     \\
+        $\text{117-n060-m200-bt100}^L$ & $\text{623.74}^A$  & 0.00 & 4     & 17208  & 26618 & 656.68  & 5     \\
+        $\text{126-n060-m200-bt10}^H$  & $\text{1226.45}^A$ & 0.23 & 15    & 213408 & TL    & 1241.24 & 15    \\
+        $\text{137-n060-m200-bt3}^L$   & $\text{538.62}^A$  & 0.00 & 3     & 6      & 11338 & 635.56  & 4     \\
+        $\text{141-n060-m200-bt10}^L$  & $\text{619.35}^A$  & 0.00 & 4     & 4926   & 13948 & 693.73  & 5     \\
+        $\text{149-n060-m200-bt100}^L$ & $\text{521.33}^B$  & 0.00 & NaN   & 321    & 22028 & 611.68  & 4     \\
+        $\text{156-n060-m200-bt10}^H$  & $\text{1097.58}^B$ & 0.25 & 14    & 67164  & TL    & 1070.95 & 14    \\
+        $\text{161-n060-m200-bt100}^H$ & $\text{1106.37}^B$ & 0.21 & 14    & 125245 & TL    & 1082.66 & 13    \\
+        $\text{172-n060-m200-bt10}^L$  & $\text{563.26}^B$  & 0.00 & NaN   & 8661   & 22715 & 608.35  & 5     \\
+        $\text{204-n100-m200-bt10}^L$  & $\text{733.05}^A$  & 0.00 & 4     & 25340  & 24701 & 787.06  & 5     \\
+        $\text{215-n100-m200-bt3}^H$   & $\text{1238.86}^B$ & 0.10 & 14    & 87846  & TL    & 1287.75 & 13    \\
+        $\text{227-n100-m200-bt3}^L$   & $\text{689.9}^A$   & 0.00 & 4     & 3079   & 2591  & 730.08  & 4     \\
+        $\text{228-n100-m200-bt3}^L$   & $\text{704.05}^A$  & 0.00 & 5     & 24075  & 10046 & 750.65  & 5     \\
+        $\text{245-n100-m200-bt3}^L$   & $\text{937.28}^B$  & 0.03 & NaN   & 83475  & TL    & 963.05  & 9     \\
+        $\text{272-n100-m200-bt3}^L$   & $\text{959.23}^B$  & 0.05 & NaN   & 8420   & TL    & 1106.01 & 11    \\
+        $\text{276-n100-m200-bt10}^H$  & $\text{1230.19}^A$ & 0.14 & 15    & 126965 & TL    & 1231.91 & 15    \\
+        $\text{294-n100-m200-bt10}^L$  & $\text{678.06}^A$  & 0.00 & 3     & 15     & 22781 & 769.09  & 5     \\
+        $\text{297-n100-m200-bt100}^L$ & $\text{746.4}^A$   & 0.00 & 4     & 22161  & 28286 & 783.66  & 5     \\
+        $\text{299-n100-m200-bt100}^L$ & $\text{784.5}^B$   & 0.00 & NaN   & 31547  & 20498 & 831.21  & 5     \\
+        $\text{386-n060-m400-bt100}^L$ & $\text{540.28}^A$  & 0.00 & 3     & 140    & 19854 & 936.23  & 10    \\
+        $\text{390-n060-m400-bt100}^L$ & $\text{607.91}^B$  & 0.00 & NaN   & 1      & 12800 & 967.73  & 10    \\
+        $\text{415-n060-m400-bt10}^L$  & $\text{577.24}^B$  & 0.00 & NaN   & 657    & 16734 & 873.01  & 9     \\
+        $\text{423-n060-m400-bt3}^H$   & $\text{1014.38}^B$ & 0.00 & NaN   & 1      & 10191 & 1534.87 & 23    \\
+        $\text{438-n060-m400-bt3}^L$   & $\text{639.95}^B$  & 0.00 & 5     & 5575   & 16971 & 809.97  & 7     \\
+        $\text{499-n100-m400-bt3}^L$   & $\text{767.32}^B$  & 0.00 & 4     & 17961  & TL    & 945.93  & 7     \\
+        $\text{527-n100-m400-bt3}^L$   & $\text{737.34}^A$  & 0.00 & 5     & 51     & 13601 & 982.10  & 8     \\
+        $\text{529-n100-m400-bt3}^L$   & $\text{nan}^C$     & NaN  & NaN   & NaN    & -1    & 968.32  & 8     \\
+        $\text{542-n100-m400-bt3}^H$   & $\text{1458.91}^B$ & 0.00 & NaN   & 13706  & 19764 & 1730.54 & 22    \\
+        $\text{568-n100-m400-bt100}^L$ & $\text{811.87}^B$  & 0.00 & 7     & 396    & TL    & 1020.21 & 9     \\
+        $\text{578-n100-m400-bt10}^H$  & $\text{nan}^C$     & NaN  & NaN   & NaN    & -1    & 1637.59 & 25    \\
+        $\text{595-n100-m400-bt10}^L$  & $\text{789.97}^B$  & 0.00 & NaN   & 4954   & 27730 & 1030.88 & 10    \\
+        $\text{600-n100-m400-bt100}^L$ & $\text{680.66}^B$  & 0.00 & NaN   & 1      & 27553 & 1027.87 & 9     \\
         \bottomrule
     \end{tabular}
+
 
     \caption{B\&C Results for obtaining save strategy dataset from \krebsADataSet.}
     \label{tab:bc_results_krebs}
 \end{table}
 
 \clearpage
+
 \section{\krebsADataSetText computational challenges}
 \label{app:sec:krebs_computationally_challenges}
 
 As shown in Table~\ref{tab:dataset_comparison}, an average route of \krebsADataSetText cotains four times more items than
-in the \gendreauDataSet. This makes it much more computationally challenging to create a labeled train dataset with either
-the \gls{CP} solver (random strategy) or by applying the B\&C algorithm (save strategy). When the two random datasets, RD-1-1-1-10
-and RD-2-30-20-10, are compared. The difference bewteen the computation time for the \gls{CP} solver is huge. The average
+in the \gendreauDataSet dataset. This makes it much more computationally challenging to create a labeled train dataset with either
+the \gls{CP} solver (random strategy) or by applying the B\&C algorithm (save strategy). This appendix section dives deeper in
+the construction of each retrieval strategy to highlight difficulties.
+
+\subsection{Random strategy}
+\label{subsec:challenges_krebs_random}
+
+The two random datasets, RD-1-1-1-10 and RD-2-30-20-10, are compared, which are the smallestr random dataset from each group and
+where $\delta = 1.0$ for both datasets. The difference between the computation time for the \gls{CP} solver is huge. The average
 \gls{CP} time for the dataset constructed from \krebsADataSetText is 247 seconds, but for \gendreauDataSetText only 0.244 seconds,
 which is a factor of 1000. The following boxplot shows this dispersion of \gls{CP} times for each \gls{LST}.
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{pictures/comparison_krebs_gendreau/boxplot_cp_time.png}
+    \includegraphics[width=\textwidth]{pictures/comparison_krebs_gendreau/boxplot_cp_time.png}
     \caption{Boxplot showing the different computation times for \krebsADataSetText and \gendreauDataSet.}
     \label{fig:comparison_krebs_gendreau_boxplot}
 \end{figure}
 
-The time average difference is due to the group of routes labeled with \textit{Unknown} \gls{CP} status, which occurs, when
+The time average difference is caused by the group of routes labeled with \textit{Unknown} \gls{CP} status, which occurs, when
 feasibility or infeasibility could not be proven in the maximum runtime of 600 seconds. From all routes from RD-1-1-1-10
 33.6\% are classified as \textit{Unknown}. The distribution of \gls{LST} is shown in the following Figure~\ref{fig:comparison_krebs_gendreau_piechart}.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{pictures/comparison_krebs_gendreau/pie_chart_share_cp_status.png}
+    \includegraphics[width=\textwidth]{pictures/comparison_krebs_gendreau/pie_chart_share_cp_status.png}
     \caption{Big share of unknown labeled tours for the \krebsADataSet.}
     \label{fig:comparison_krebs_gendreau_piechart}
 \end{figure}
@@ -416,11 +579,90 @@ next Figure~\ref{fig:comparison_krebs_gendreau_numberItems} shows the effect of 
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.8\textwidth]{pictures/comparison_krebs_gendreau/number_items_cp_status.png}
+    \includegraphics[width=0.9\textwidth]{pictures/comparison_krebs_gendreau/number_items_cp_status.png}
     \caption{Influence of number of items on the computational time.}
     \label{fig:comparison_krebs_gendreau_numberItems}
 \end{figure}
 
-The computation time literally explodes when more than 50 items are considered in a route, leading to an undefined \gls{CP} status, and
+The computation time literally explodes when more than 50 items are considered in a route, leading to an \textit{Unknown} \gls{CP} status, and
 infeasible labels in the train dataset. So in the end, new long routes which improve the solution quality will always be classified as infeasible
-or the exact computation time with the \gls{CP} solver takes too long to be used in a heuristic.
+or the exact computation time with the \gls{CP} solver takes too long to be used in a heuristic. As fewer items are considered in the dataset
+RD-2-30-20-10 the \gls{CP} time increases only minimal, when the maximum number of 25 items is reached.
+
+\subsection{Save strategy}
+\label{subsec:challenges_krebs_save}
+
+The results obtained by the B\&C algorithm from \cite{tamke_branch-and-cut_2024} are with an average gap of 3.14\%. However, some limitations
+of the branch-and-algorithm caused issues solving instances from \krebsADataSetText. As shown before the labeling of one route takes approximately
+1000 times longer than for the \gendreauDataSetText, causing the dilemma, if either the time limit for the \gls{CP} solver within the B\%C solver
+must be limited causing a lot of \textit{Unknown} and \textit{Invalid} labeled tours and the interrupting of the B\%C solver or choosing
+a high time limit, which restricts the B\%C solver in testing many solutions as the feasibility check is time intensive. The first option
+was chosen and the B\%C was modified to avert some interruptions, but not all. Therefore some runs creating the train datasets are labeled with
+B and C in Table~\ref{tab:bc_results_krebs}. The obtained datasets of the save strategy are shown in Table~\ref{tab:saved_instances_krebs}
+and the most suiting dataframe can already be identified by looking at the datasets characteristics. The number of routes with two customers
+are dominating the total number of routes, if the datasets are not shrinked or trimmed. Furthermore, the average relative mass and volume and
+is very low due to the imbalance of the route length. The route length dispersion is also shown in the following Figure~\ref{fig:route-dists_save_krebs}.
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}[t]{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_krebs_28880_600_WS.png}
+        \caption{Dataset KS-Complete-WS}
+        \label{fig:ds-a-krebs}
+    \end{subfigure}%
+    \begin{subfigure}[t]{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_krebs_28880_600_WS_shrinked094.png}
+        \caption{Dataset KS-Shrinked-WS}
+        \label{fig:ds-b-krebs}
+    \end{subfigure}
+    \caption{Distribution of route length for the two adapted save strategy datasets. The red vertical line represents the average
+        number of customers.}
+    \label{fig:route-dists_save_krebs}
+\end{figure}
+
+The prevaillance of routes with 2 customers is also shown in the following Figure~\ref{fig:route-feasibility_save_krebs}, displaying the number of routes per instance found and
+the balance of feasible and infeasible routes. The number of routes found is dropping by a delta of 205.027 routes in total, and therefore
+also the prevailing share of feasible routes with 2 customers.
+
+\begin{figure}[ht]
+    \centering
+    \begin{subfigure}[t]{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_krebs_28880_600_WS.png}
+        \caption{Dataset KS-Complete-WS}
+        \label{fig:ds-a-krebs_x}
+    \end{subfigure}%
+    \begin{subfigure}[t]{.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_krebs_28880_600_WS_shrinked094.png}
+        \caption{Dataset KS-Shrinked-WS}
+        \label{fig:ds-b-krebs_l}
+    \end{subfigure}
+    \caption{Distribution of route length for the two adapted save strategy datasets. The red vertical line represents the average
+        number of customers.}
+    \label{fig:route-feasibility_save_krebs}
+\end{figure}
+
+The trimmed dataset will not be used further, as this datasets lacks the data to predict feasible routes with two customers as only
+infeasible tours for this route length are present in the dataset.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{l c c c c c c }
+        \toprule
+        Name           & Sets                 & Routes & Routes Len = 2 & Balance   & Rel. Vol & Rel. Mass \\
+        \midrule
+        KS-Complete-WS & \multirow{3}{*}{Yes} & 261989 & 220860         & 92.4/7.6  & 0.18     & 0.20      \\
+        KS-Trimmed-WS  &                      & 41337  & 208            & 52.1/47.9 & 0.58     & 0.63      \\
+        KS-Shrinked-WS &                      & 56962  & 15833          & 65.3/34.7 & 0.43     & 0.48      \\        \midrule
+        KS-Complete    & \multirow{3}{*}{No}  & 256786 & 220860         & 94.3/5.7  & 0.16     & 0.19      \\
+        KS-Trimmed     &                      & 36134  & 208            & 59.6/40.4 & 0.54     & 0.61      \\
+        KS-Shrinked    &                      & 51759  & 15833          & 71.8/28.2 & 0.39     & 0.46      \\
+
+        \bottomrule
+    \end{tabular}
+    \caption{Save strategy train datsets from \krebsADataSet.}
+    \label{tab:saved_instances_krebs}
+\end{table}

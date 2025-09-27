@@ -7,7 +7,7 @@ to start from a depot and return. The goal is to minimize the total distance dri
 by the vehicles. When considering multidimensional items, the NP-hard problem itself,
 increases in complexity, as every tour is representing a \gls{CLP} itself. \footcite[cf.][pp. 1--2]{tamke_branch-and-cut_2024}
 The packing of each route is either feasible or infeasible due to the loading constraints,
-opening the possibility for classifiers to predict to loading status of each tour.
+creating the possibility to predict the loading status of each tour with a classifier.
 These classifiers are supervised learning models, which are trained on a labeled dataset,
 where the correct output values are known in advance, and then use this knowledge to
 make predictions on new, unseen data. The accuracy can be evaluated afterwards by comparing
@@ -17,7 +17,7 @@ An exemplary train dataset is shown in Table~\ref{tab:classifier_label_data}.
 \input{tables/label_classifier}
 
 A classifier can be trained using various \gls{ML} models such as \gls{LR},
-\gls{ANN}, support vector machines, or others. However, the most crucial aspect of any
+\gls{ANN}, support vector machines, etc. However, the most crucial aspect of any
 \gls{ML} model is the selection of data, particularly the choice of features and
 the size of the training set, since many models can be implemented from available
 libraries and be compared performance wise. The model attempts to learn correlations between the provided features
@@ -26,7 +26,7 @@ to capture the underlying patterns in the data. Additionally, if the training se
 is too small, the model might not generalize well, ultimately lacking the ability
 to accurately predict unseen data. Furthermore, it needs to be noted, that available
 \gls{ML} models are not by nature superior to other models, but can significantly outperform
-other models on specific application problem \footcite[cf.][pp. 250, 264]{kotsiantis_supervised_2007}.
+other models on specific application problems. \footcite[cf.][pp. 250, 264]{kotsiantis_supervised_2007}
 
 
 \section{Evaluation metrics for ML approaches}
@@ -71,7 +71,7 @@ Two alternative metrics are firstly the \gls{MCC}, which is robust against imbal
 and focuses on \gls{FP} and \gls{FN} values. \gls{MCC} has the advantage to account the majority of the predictions
 relative to class size and is defined from -1 to 1. \footcite[cf.][p.5]{chicco_advantages_2020}
 \begin{align}
-    \text{MCC}=\frac{TP*TN - FP*FN}{\sqrt{(TP+FP)*(TP+FN)*(TN+FP)*(TN+FN)}}
+    \text{MCC}=\frac{TP \cdot TN - FP x\cdot FN}{\sqrt{(TP+FP)\cdot(TP+FN)\cdot(TN+FP)\cdot(TN+FN)}}
 \end{align}
 Secondly, the \gls{AUROC},where several thresholds are used
 to calculate the \gls{TPR} and the \gls{FPR} for different acceptance steps,
@@ -87,33 +87,33 @@ for an increasing area under the curve. The perfect fit is displayed, when the f
 
 \input{Plots/auroc_plot.tex}
 
-To highlight the differences between an imbalanced and balances training dataset, two classifications and their respective
+To highlight the differences between an imbalanced and balanced training dataset, two classifications and their respective
 evaluation metrics with exception of the \gls{AUROC} are compared.
 
 \begin{table}[ht]
     \centering
     \begin{tabular}{@{}P{0.1\textwidth}P{0.42\textwidth}P{0.42\textwidth}@{}}
         \toprule
-        Score  & Balanced Dataset A $(n = 100)$                                   & Imbalanced Dataset B  $(n = 100)$                            \\
+        Score  & Balanced Dataset A $(n = 100)$                                                           & Imbalanced Dataset B  $(n = 100)$                                                \\
         \midrule
-        Bal.   & Pos = 50; Neg = 50                                               & Pos = 91; Neg = 9                                            \\
+        Bal.   & Pos = 50; Neg = 50                                                                       & Pos = 91; Neg = 9                                                                \\
         \midrule
-        Distr. & TP = 47; FN = 3; TN = 5; FP = 45                                 & TP = 90; FN = 1; TN = 1; FP = 8                              \\
+        Distr. & TP = 47; FN = 3; TN = 5; FP = 45                                                         & TP = 90; FN = 1; TN = 1; FP = 8                                                  \\
         \midrule
-        Acc    & $\frac{47 + 5}{47 + 3  + 5 + 45} = 0.52$                         & $\frac{90 + 1}{90 + 1  + 1 +8} = 0.91$                       \\
+        Acc    & $\frac{47 + 5}{47 + 3  + 5 + 45} = 0.52$                                                 & $\frac{90 + 1}{90 + 1  + 1 +8} = 0.91$                                           \\
         \midrule
-        F1     & $\frac{2* 47}{2*47 + 3 + 45} = 0.66$                             & $\frac{2 * 90}{2 * 90 + 1 +8} = 0.95$                        \\
+        F1     & $\frac{2\cdot 47}{2\cdot47 + 3 + 45} = 0.66$                                             & $\frac{2 \cdot 90}{2 \cdot 90 + 1 +8} = 0.95$                                    \\
         \midrule
-        MCC    & $\frac{47*5 -3*45*1}{\sqrt{(47+45)*(47+3)*(5+45)*(3+5)}} = 0.07$ & $\frac{90*1 - 8*1}{\sqrt{(90+8)*(90+1)*(1+8)*(1+1)}} = 0.21$ \\
+        MCC    & $\frac{47\cdot5 -3\cdot45\cdot1}{\sqrt{(47+45)\cdot(47+3)\cdot(5+45)\cdot(3+5)}} = 0.07$ & $\frac{90\cdot1 - 8\cdot1}{\sqrt{(90+8)\cdot(90+1)\cdot(1+8)\cdot(1+1)}} = 0.21$ \\
         \bottomrule
     \end{tabular}
     \caption[Comparison of Accuracy, F1-score and MCC with an exemplary balanced and unbalanced
-        dataset.]{Comparison of Accuracy, F1-score and MCC with an exemplary balanced and unbalanced
+        dataset.]{Comparison of accuracy, F1-score and MCC with an exemplary balanced and unbalanced
         dataset.\footnote{Numbers and examples are inspired on \cite[p.9]{chicco_advantages_2020}}}
     \label{tab:indicator_comparison}
 \end{table}
-In these two examples weaknesses of classical evaluation metrics are apparent. In the first
-example the positive and negative label classes are equal, and the distribution for the
+
+In the first example the positive and negative label classes are equal, and the distribution for the
 labels is more or less random, as the sum of the false predicted values is almost equal to
 the true predicted values. The accuracy and the \gls{MCC} indicate this random guessing
 behavior with values close to the middle of the respective indicator range.
@@ -122,58 +122,57 @@ with $94\%$ is very high. As the dataset is balanced classic metrics can still g
 the poor performance of the classifier. However, when looking at the second example, both
 accuracy and F1-score have very high values indicating very good performance, but this is
 due to the imbalanced class distribution. In the negative class with 9 samples, only $11\%$
-are correctly classified, this poor performance is shown with a low \gls{MCC} score. It needs
-to be noted, that in every example it needs to be chosen, where the optimization focus should
-be laid to, if only the \gls{TPR} is from interest F1-score serves well.\footcite[cf.][p.8f.]{chicco_advantages_2020}
+are correctly classified, this poor performance is shown with a low \gls{MCC} score.
+It should be noted that, in every example, one must decide where the optimization focus lies.
+If only the \gls{TPR} is of interest, the F1-score serves well.\footcite[cf.][p.8f.]{chicco_advantages_2020}
 The next section will dive deeper how the routes for the training data are retrieved.
 
 
 \section{Data Retrieval}
 \label{sec:DataRetrieval}
-Collecting the training data is one crucial step, for the model creation and two approaches exist.
+
+Collecting the training data is a crucial step for the model creation and two approaches exist, which will be
+introduced in this section.
 
 \subsubsection{Saving labeled routes from exact algorithms (Save strategy)}
-The first approach is to save all routes with exact loading label from an exisiting \gls{3L-CVRP}
-algorithm, as \cite{zhang_learning-based_2022} did in their paper. However the binary classifier
-was integrated in the same exact algorithm
-and therefore the solution structure of routes in the train data is similar to the real data afterwards. \footcite[cf.][]{zhang_learning-based_2022}
+The first approach is to save all routes with exact loading labels from an exisiting \gls{3L-CVRP}
+algorithm, as \cite{zhang_learning-based_2022} did in their paper.\footcite[cf.][]{zhang_learning-based_2022}
 To follow this approach the exact branch-and-cut algorithm from \cite{tamke_branch-and-cut_2024} was
-used to save all routes, which are labeled and found in an 8-hour total timelimit and a timelimit for the \gls{CP} solver of 10 min for each instance.
+used to save all routes, which are labeled and found in an 8-hour timelimit and with a maximum run time of 10 min for the \gls{CP} solver.
 The routes are saved based on their respective \gls{LST} and \gls{LFL}. The \gls{LST} sorts the routes in the
 label categories feasible, infeasible and unknown and is determined by the exact \gls{CP} solver.
-If the solver could not find a deterministic feasible/ infeasible label in the timelimit fot the solver the route
-will be classified as unknown, based on the resp. \gls{LFL}.
-The \gls{LFL} defines the subset of
-loading constraints used. Three \glspl{LFL} are considered in the orginal algorithm, which are shown
+If the \gls{CP} solver could not find a deterministic feasible/ infeasible label within the maximum run time the route
+will be classified as unknown. The \gls{LFL} defines the subset of
+loading constraints used. Three \glspl{LFL} are considered in the original algorithm, which are shown
 in the following:
 \begin{itemize}
     \item All Constraints: $\mathcal{G}$
     \item No Support Area: $\mathcal{G}\setminus \{\text{SupportArea}\}$
     \item No Sequence: $\mathcal{G}\setminus \{\text{Sequence}\}$
 \end{itemize}
-During the algorithm labeled routes are saved based on these two categories. The concrete route sequence
-is only relevant for the first two \glspl{LFL}, and the routes are saved as sequences. For the third
-group \textit{No Sequence} the found routes are independent from their sequence and an ordered set
-of the respective customer ids is saved. \footcites[Retrieved from][]{tamke_repository_2024}[cf.][]{tamke_branch-and-cut_2024}
-After the branch-and-cut algorithm the routes are sorted into different sets composed of the \gls{LFL} and \gls{LST}.
-All the route sequences found are respected for the train dataset, but for the sets from the third \gls{LFL} group \textit{No Sequence},
-two alternative datasets are created, one with sets and one without. For the train dataset with sets, two random permutations are considered from each set
-to avoid that the permutations dominate the train dataset number wise. The following table highlights, which routes depending on the
-\gls{LFL} and \gls{LST} are considered for the final train datasets.
+All routes found with \gls{LFL} \textit{NoSequence} are independent from an exact sequence / order of the customers,
+and the customers are saved without an order. Routes for the other two \glspl{LFL} are saved as one concrete route with sequence.
+As every permutation from the first \gls{LFL} \textit{NoSequence} has the specified \gls{LST}, adding all permutations to
+the train dataset would be dominating the other routes. Therefore only two random permutations are considered per \textit{NoSequence}
+route. Furthermore two train datasets are constructed, either if the routes from this third \gls{LFL} are included or not, determined
+by the suffix WS = with sets.\footcites[Retrieved from][]{tamke_repository_2024}[cf.][]{tamke_branch-and-cut_2024}
+The following table shows every combination of \gls{LFL} and \gls{LST} and shows, how these routes are considered in the final train
+datasets.
 
 \begin{table}[ht]
     \centering
     \begin{tabular}{@{}
+            P{0.20\textwidth}
             P{0.20\textwidth} % AllConstraints
             P{0.20\textwidth} % NoSupport
             P{0.20\textwidth} % NoLIFO
             @{}}
         \toprule
-        \textbf{All Constraints}     & \textbf{NoSupport}           & \textbf{NoLIFO}              \\
+        Loading Flag                    & \textbf{All Constraints}     & \textbf{NoSupport}           & \textbf{NoSequence}          \\
         \midrule
-        \cellcolor{green!20}Feasible & Feasible                     & Feasible                     \\
-        \cellcolor{red!20}Infeasible & \cellcolor{red!20}Infeasible & \cellcolor{red!20}Infeasible \\
-        \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    \\
+        \multirow{3}{*}{Loading Status} & \cellcolor{green!20}Feasible & Feasible                     & Feasible                     \\
+                                        & \cellcolor{red!20}Infeasible & \cellcolor{red!20}Infeasible & \cellcolor{red!20}Infeasible \\
+                                        & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    \\
         \bottomrule
     \end{tabular}
     \caption{Construction of training data from branch-and-cut routes. All green cells are labeled as feasible, and all
@@ -185,9 +184,12 @@ As the trained classifier is used in an algorithm considering all loading constr
 must fulfill all loading constraints, but infeasible tours from a subset of loading constraints
 will also be infeasible, when more loading constraints are considered.\footcite[cf.][p.7]{tamke_branch-and-cut_2024} Therefore
 the distinction is made in Table~\ref{tab:train_data_BC_routes}.
-As the same tour can occur in different infeasible / unknown sets
+As the same route can occur within different groups, for example an route being infeasible for \textit{AllConstraints} and \textit{NoSupport},
 duplicated tours will be deleted before training the model. To distinguish this strategy, it will
-be called \textit{Save Strategy}.
+be called \textit{Save Strategy} or B\&C data. In the paper from \cite{zhang_learning-based_2022} the dataset constructed
+from the exact algorithm, was used to train a classifier for the same algorithm. However in this thesis
+the dataset will be used in another algorithm and in Chapter~\ref{chap:computational_study} it needs to be analyzed
+if this is a crucial disadvantage. \footcite[cf.][p. 14]{zhang_learning-based_2022}
 
 \subsubsection{Creating random routes (Random Strategy)}
 An alternative to the first approach is to create random routes from the \gls{3L-CVRP} instances used.
@@ -197,9 +199,10 @@ presented in Section~\ref{sec:classical_solution_approaches} do not provide an o
 the best choice is to use an exact approach to determine if all items fit into the container considering the loading constraints.
 For this purpose, the exact \gls{CP} model was extracted from \cite{tamke_repository_2024} to create
 a standalone \gls{CLP} solver, which can be called for just one route.\footcite[Stolen with permission from][]{tamke_repository_2024}
-The random routes are created with the Algorithm~\ref{fig:flowchart_randomRouteGeneration}, and four parameters are introduced to
-control the number of random routes found and their characteristics. As the pseudocode has a lot of details, the parameters and
-functionalities are summarized in the following:
+The random routes are created with Algorixthm~\ref{fig:flowchart_randomRouteGeneration}, and four parameters are introduced to
+control the number of random routes found and their characteristics. As the flowchart has a lot of details, the parameters and
+functionalities are summarized in the following, but Section~\ref{chap:appendix:RRG} in the appendix provides more information about
+the functionality.
 
 \begin{itemize}
     \item 4 Input Parameters
@@ -219,7 +222,7 @@ Generally the higher the parameters $\alpha$, $\beta$ and $\gamma$ are set and t
 are considered in the instance set $\mathcal{I}$, the more routes will be found. When the threshold $\delta$
 is chosen smaller than 1, then shorter and fewer routes are selected. Different
 random training datasets are presented in the Chapter~\ref{chap:computational_study}.
-This strategy will be called \textit{Random Strategy}. In the nexr section three model candidates
+This strategy will be called \textit{random strategy}. In the next section three model candidates
 are presented more in detail.
 
 \section{Model Selection}
@@ -242,14 +245,14 @@ These explanatory variables are fitted to the population of samples by minimizin
 error. Afterwards the model can be used to predict new data points.\footcite[cf.][pp. 6-7]{nasteski_overview_2017}
 The linear regression formula is depicted in the following, indicating the usage of vectors with bold font.
 \begin{align}
-    \pi_i=\beta_0+\beta_0*X_i+\dots+\beta_n*X_n = \beta_0 + \bm{\beta} * \bm{X}
+    \pi_i=\beta_0+\beta_0 \cdot X_i+\dots+\beta_n \cdot X_n = \beta_0 + \bm{\beta} \times \bm{X}
     \label{eq:base_lr}
 \end{align}
-Linear regression is a very simple modeling approach and serves as a benchmark for many problems. As the Formula~\ref{eq:base_lr} is able to predict continuous
+Linear regression is a very simple modeling approach and serves as a benchmark for many problems. As the Formula~\ref{eq:base_lr} is only able to predict continuous
 values, it is not possible to classify binary values. Therefore the output variable $\pi_i$ is transformed via a logistic function, called sigmoid function,
 to model a continuous probability distribution with the formula:
 \begin{align}
-    \sigma(z)=\frac{1}{1+\exp^{-z}},\, \text{with } z = \beta_0 + \bm{\beta} * \bm{X}
+    \sigma(z)=\frac{1}{1+\exp^{-z}},\, \text{with } z = \beta_0 + \bm{\beta} \cdot \bm{X}
     \label{eq:logistic_func}
 \end{align}
 The resulting logistic function is bound to the range of 0 and 1, and results can be interpreted
@@ -283,19 +286,21 @@ of the decision tree. Secondly, after the decision tree is created, to prune it 
 the tree and comparing it with an identical descision tree, if this has lowered the overall performance
 and the third method is stopping the fitting algorithm before the data is perfectly fitted to. \footcite[cf.][p.252]{kotsiantis_supervised_2007}
 One further advantage of decision trees is that the data does not need to to be scaled as every feature is
-tested on feature own thresholds, in comparion of the other presented models.
+tested on feature own thresholds, in comparion of the other presented models. In this thesis the \gls{XGB} is used,
+which is an advanced \gls{ML} model based on decision trees, where several decision trees are created and in each iteration
+the wrongly predicted labels from the iteration before get more important to reduce the error.
 
 \subsubsection{Feed Forward Neural Networks}
 
-Neural networks are a collection of single perceptrons/ neuron, which are all internally connected and
-,in the case of feed forward networks, signals are only allowed to go straight from input to output. One neuron
+Neural networks are a collection of single perceptrons/ neurons, which are internally connected and
+in the case of \gls{FFNN}, signals are only allowed to go straight from input to output. One neuron
 in the network is either defined as input, output or as hidden unit. One neuron calculates its
 output similar to the \gls{LR} with $X_i$ feature values and $w_i$ weights, the output is defined
-as $\sum_{i \in \mathcal{n}} X_i * w_i$ and can be truncated by a threshold forcing all about above 1
+as $\sum_{i \in n} X_i \cdot w_i$ and can be truncated by a threshold forcing all about above 1
 to be 1 and all negative values to be zero. Every unit signals its output calculated by an individual
 activation function to all the next units of the next layer of the network. All the signals are
 then interpreted at the output layer. For binary classification tasks the presented sigmoid function from \gls{LR} is used.
-An exemplary neural network is shown in Figure~\ref{fig:ffnn}.\footcite[cf.][p.255]{kotsiantis_supervised_2007}
+An exemplary \gls{FFNN} is shown in Figure~\ref{fig:ffnn}.\footcite[cf.][p.255]{kotsiantis_supervised_2007}
 
 \input{tikz/feed_forward_model.tex}
 
@@ -314,16 +319,16 @@ trained on much smaller samples and perform good with mixed datatypes consisting
 and continuous values.\footcite[cf.][pp. 262ff.]{kotsiantis_supervised_2007}
 \gls{LR} is a standard method and the easiest to implement and to train, and can dominate
 other approaches due to their simplicity and interoperability. \footcite[cf.][p.8]{kirasich_random_2018}
-In the following section the features used for training the single models are presented.
-In Chapter~\ref{chap:computational_study} the performance of the single models is compared.
+However, the training procedure is identical across models, except that the training data for the \gls{LR} and \gls{FFNN}
+models must be standardized to follow a normal distribution $\mathcal{N}(0,1)$. The mean and standard deviation used
+for this scaling must be stored, since any new, unseen dataset must first be transformed
+using these parameters before it can be processed. Every model type is trained by applying 5-fold cross validation.
+Resampling methods, like k-fold cross validation, help reducing the bias in modeling, by using at least more than one train testsplit of the data.
+The data is split in k similar sized data folds, every fold will be tested with the model trained on the other folds.
+This ensures, that the choice of the train test split is not random and results are more rigorous. \footcite[cf.][pp.69-72]{kuhn_applied_2016}
+In the following section the features used for training
+the single models are presented. In Chapter~\ref{chap:computational_study} the performance of the single models is compared.
 
-\begin{comment}
-\section{Model Training}
-\label{sec:ModelTraining}
-
-Training is based on which model selected, XGBoost or /gls{FFNN} from pytorch library or others. Afterwards the Mini batch descent
-algorithm to train the model!
-\end{comment}
 
 \section{Features}
 \label{sec:Features}
@@ -333,9 +338,9 @@ reduce the complexity without the loss of meaningfulness. In the presented case 
 The complete feature list spans 48 features, which can be divided in three groups to understand the underlying logic.
 
 \begin{itemize}
-    \item 2 General Features: General information about each tour
-    \item 10 Loading Constraint Features: Concepted to depict the loading constraint set $\mathcal{G}$
-    \item 36 Geometrical Ratio Features: Contain several geometrical ratio of items and container size
+    \item 2 General features: General information about each tour
+    \item 10 Loading constraint features: Concepted to depict the loading constraint set $\mathcal{G}$
+    \item 36 Geometrical ratio features: Contain several geometrical ratio of items and container size
 \end{itemize}
 
 Some additional definitions to Section~\ref{sec:mathematical_formulation}
@@ -346,13 +351,13 @@ The loading flag contains binary values of either 0 (nonfragile) or 1 (fragile).
 Each customer $i$ demands $d_{ij}$ units of item type $j$.
 The total weight, volume and quantity requested by a customer $i$ or the whole subset $S$ is calculated then by:
 
-\[q(i) = \sum_{j \in M} q_j * d_{ij}\;\text{, resp. } q(S) = \sum_{i\in S} q(i)\]
-\[v(i) = \sum_{j \in M} v_j * d_{ij}\;\text{, resp. } v(S) = \sum_{i\in S} v(i)\]
+\[q(i) = \sum_{j \in M} q_j \cdot d_{ij}\;\text{, resp. } q(S) = \sum_{i\in S} q(i)\]
+\[v(i) = \sum_{j \in M} v_j \cdot d_{ij}\;\text{, resp. } v(S) = \sum_{i\in S} v(i)\]
 \[d(i) = \sum_{j \in M} d_{ij}\;\text{, resp. } D(S) = \sum_{i\in S} d(i)\]
 
 Furthermore it is necessary to define the homogeneous fleet of vehicles
 further. Every vehicle $k$ has the same dimensions of height $z_k$, length $x_k$ and width $y_k$ resulting in the maximum volume limit per
-vehicle $Q = x_k *y_k*z_k$. As all vehicles are identical, the indices are obsolent, but are kept to distinguish clearer
+vehicle $Q = x_k \cdot y_k\cdot z_k$. As all vehicles are identical, the indices are obsolent, but are kept to distinguish clearer
 from the item properties.
 
 \subsubsection{General Features}
@@ -369,32 +374,34 @@ differ between different datasets, but also within the \gendreauDataSetText data
 Capuring the \gls{LIFO} constraint is the most challenging task as multidimensionality and order is complex to be describe numerically
 with one value. Therefore certain customer specific values, as relative volume/ weight or the share of fragile items, is multiplied
 with the order in which the customers are driven to. \textit{Fragile Sequence} depicts the difficulty to load fragile items
-in the beginning as further items need to be likely placed upon the first items.
-
-\begin{table}[ht]
+in the beginning as further items need to be likely placed upon the first items. The three sequence-dependent features—volume balance,
+weight distribution, and volume distribution—combine each customer’s requested volume and weight with that stop’s position on
+the route to capture the incremental load added at each step. For each axis (length, width, height), item dimensions are
+summed and normalized by the container dimension to provide another measure of packing fit.
+\begin{table}[!h]
     \centering
+    \small
     \renewcommand{\arraystretch}{2.0}
     \begin{tabular}{@{}P{0.08\textwidth}P{0.16\textwidth}P{0.26\textwidth}P{0.28\textwidth}@{}P{0.1\textwidth}@{}}
         \toprule
-        No & Name                                                                                            & Constraint(s)          & Calculation                                                                                       & Range   \\
+        No & Name                                                                                            & Constraint(s)          & Calculation                                                                                           & Range   \\
         \midrule
-        1  & Relative Volume                                                                                 & Loading Capacity       & $\displaystyle\frac{v(S)}{V}$                                                                     & [0,1]   \\
-        2  & Relative Weight                                                                                 & Loading Capacity       & $\displaystyle\frac{q(S)}{Q}$                                                                     & [0,1]   \\
-        3  & Total Relative Length Items\footcite[Feature is adapted from][p.21]{sarah_de_wolf_machine_2022} & Stability, Orientation & $\displaystyle\frac{1}{x_k} * \sum_{i \in S}\sum_{j \in M} d_{ij} * x_j$                          & [0,$h$] \\
-        4  & Total Relative Width Items \footnotemark[\value{footnote}]                                      & Stability, Orientation & $\displaystyle\frac{1}{y_k} * \sum_{i \in S}\sum_{j \in M} d_{ij} * y_j$                          & [0,$h$] \\
-        5  & Total Relative Height Items  \footnotemark[\value{footnote}]                                    & Stability, Capacity    & $\displaystyle\frac{1}{z_k} * \sum_{i \in S}\sum_{j \in M} d_{ij} * z_j$                          & [0,$h$] \\
-        6  & Ratio Fragile Items                                                                             & Fragility              & $\displaystyle\frac{1}{D(S)} * \sum_{i \in S}\sum_{j \in M} d_{ij} * f_j$                         & [0,1]   \\
-        7  & Fragile Sequence                                                                                & Fragility, \gls{LIFO}  & $\displaystyle\sum_{i \in S}p_i * \frac{1}{d(i)}\sum_{j\in M} d_{ij}*f_j $                        & [0,$h$] \\
-        8  & Volume Balance                                                                                  & Capacity, \gls{LIFO}   & $\frac{\displaystyle\sum\nolimits_{i \in S}p_i * v(i)}{\displaystyle\sum\nolimits_{i \in S}v(i)}$ & [0,$h$] \\
-        9  & Volume Distribution                                                                             & Capacity, \gls{LIFO}   & $\displaystyle\frac{1}{V}*\sum_{i \in S}p_i * v(i)$                                               & [0,$h$] \\
-        10 & Weight Distribution                                                                             & Capacity, \gls{LIFO}   & $\displaystyle\frac{1}{Q}\sum_{i \in S}p_i * q(i)$                                                & [0,$h$] \\
+        1  & Relative Volume                                                                                 & Loading Capacity       & $\displaystyle\frac{v(S)}{V}$                                                                         & [0,1]   \\
+        2  & Relative Weight                                                                                 & Loading Capacity       & $\displaystyle\frac{q(S)}{Q}$                                                                         & [0,1]   \\
+        3  & Total Relative Length Items\footcite[Feature is adapted from][p.21]{sarah_de_wolf_machine_2022} & Stability, Orientation & $\displaystyle\frac{1}{x_k} \cdot \sum_{i \in S}\sum_{j \in M} d_{ij} \cdot x_j$                      & [0,$h$] \\
+        4  & Total Relative Width Items \footnotemark[\value{footnote}]                                      & Stability, Orientation & $\displaystyle\frac{1}{y_k} \cdot \sum_{i \in S}\sum_{j \in M} d_{ij} \cdot y_j$                      & [0,$h$] \\
+        5  & Total Relative Height Items  \footnotemark[\value{footnote}]                                    & Stability, Capacity    & $\displaystyle\frac{1}{z_k} \cdot \sum_{i \in S}\sum_{j \in M} d_{ij} \cdot z_j$                      & [0,$h$] \\
+        6  & Ratio Fragile Items                                                                             & Fragility              & $\displaystyle\frac{1}{D(S)} \cdot \sum_{i \in S}\sum_{j \in M} d_{ij} \cdot f_j$                     & [0,1]   \\
+        7  & Fragile Sequence                                                                                & Fragility, \gls{LIFO}  & $\displaystyle\sum_{i \in S}p_i \cdot \frac{1}{d(i)}\sum_{j\in M} d_{ij}\cdot f_j $                   & [0,$h$] \\
+        8  & Volume Balance                                                                                  & Capacity, \gls{LIFO}   & $\frac{\displaystyle\sum\nolimits_{i \in S}p_i \cdot v(i)}{\displaystyle\sum\nolimits_{i \in S}v(i)}$ & [0,$h$] \\
+        9  & Volume Distribution                                                                             & Capacity, \gls{LIFO}   & $\displaystyle\frac{1}{V}\cdot\sum_{i \in S}p_i \cdot v(i)$                                           & [0,$h$] \\
+        10 & Weight Distribution                                                                             & Capacity, \gls{LIFO}   & $\displaystyle\frac{1}{Q}\sum_{i \in S}p_i \cdot q(i)$                                                & [0,$h$] \\
         \bottomrule
     \end{tabular}
-    \caption{Loading constraints related features}
+    \caption{Loading constraints related features.}
     \label{tab:loading_constraints_features}
 \end{table}
 
-\clearpage
 
 \subsubsection{Geometrical Ratio Features}
 The third and last feature group
@@ -466,7 +473,7 @@ The feature selection approaches for supervised learning models can be divided i
 Filter methods are ranking techniques, which are used to select a feature subset before the model is trained, by analyzing
 the dependency between the features and the output variables. By defining a threshold or an explicit number of features, the
 resulting subset is selected. Mutual correlation between features exists and is not considered by filter methods
-leading to redundany. Furthermore, the datatype of $X$ and $Y$ determines which filter method is applicable. The risk
+leading to redundany. Furthermore, the datatype of $X$(input data) and $Y$(output data) determines which filter method is applicable. The risk
 of overfitting is reduced as the selection of features is conducted without respecting the model performance.
 Wrapper methods are evaluating the model performance with different subsets of features. As the possible number of combinations is growing
 exponentially, choosing the right subset is a $NP$-hard problem. Several heuristic methods are used to tackle this task, among them
@@ -483,29 +490,30 @@ gives an overview over the methods and narrows the possible applicable methods.
 \input{tikz/overview_feature_selection.tex}
 
 A general approach was published by \cite{hall_feature_1997},
-where a joint numerator $G_s$ was constructed of the correlation between the features of the selected group $s$ and to the output variable.
-The optimization goal is to find the optimal group $s^*$ maximizing $G_{s^*}$ having high correlation to the output variable and low
-correlation among the features in the group $s^*$. The correlation was measured by calculating the conditional entropy, which is independent
-from the data type (numerical, ordinal, categorical) of features and output variables. Unfortunately, no heuristic for finding the optimal
+where a joint numerator $G_s$ was constructed of the correlation between the input data $X$ of the selected group $s$ and to the output data $Y$.
+The optimization goal is to find the optimal group $s^*$ maximizing $G_{s^*}$ having high correlation to $Y$ and low
+correlation among $X$ in the group $s^*$. The correlation was measured by calculating the conditional entropy, which is independent
+from the data type (numerical, ordinal, categorical) of input and output data. Unfortunately, no heuristic for finding the optimal
 feature subset was given. \footcite[cf.][p.856]{hall_feature_1997} Another approach was presented from \cite{haindl_feature_2006},
 where features are discarded from the feature set based on the accumulated mutual correlation between features. However, the correlation between
 the features and the output variables is not respected and this approach could lead to non-informative features. \footcite[cf.][]{haindl_feature_2006}
 To avoid determining the maximum number of features beforehand, which is required for solely applied filter methods,
 a own feature selection Algorithm~\ref{alg:filter_algorithm} is presented, which follows the principle of the two previous approaches.
-The procedure filters all  high mutually correlated features, with a low dependency score,  as well as all features, which have a
-score below a certain quantile threshold $\epsilon$.
+The procedure filters all  high mutually correlated features, with a low dependency score, as well as all features features with an
+importance score below a threshold $\epsilon$.
 
 \input{algorithms/feature_filter.tex}
 
-The dependency between the output variable $Y$ and the feature data $X$ $\mathcal{R}_{d,\kappa}(\mathcal{F})$ is computed either by the
+The dependency/ importance between the output and features $\mathcal{R}_{d,\kappa}(\mathcal{F})$ is computed either by the
 \gls{MI} or the \gls{F-Score}. Both scores explain the dependency of numerical feature data to a categorical output value (see Fig.~\ref{fig:overview_Feature_selection}),
 but have different scales. As \gls{MI} is defined in [0,1] and \gls{F-Score} in $\mathbb{R}_0^+$, the scores are standardized by $\mathcal{N}(0,1)$ to
-apply the same thresholds. \gls{MI} is defined as the impact of a feature $X$ to reduce the uncertainty of the output variable $Y$.
+apply the same thresholds. \gls{MI} is defined as the impact of a feature $f$ to reduce the uncertainty of the output variable $Y$.
 The advantage over classical linear correlation techniques is that also nonlinear relations can be mapped.\footcite[cf.][pp.539-539]{battiti_using_1994}
 The \gls{F-Score} used is based on the \gls{ANOVA} and computes the linear dependency between the features and the output value.\footcite[cf.][p.2]{gu_generalized_2012}
-Both methods are used to distinguish, if linear or non-linear dependencies exists betweenn $X$ and $Y$. The mutual correlation between the variables
-is computed with the \textit{Pearson} correlation coefficient applicable to pure numerical data and is computed as following: \footcite[cf.][p.17]{chandrashekar_survey_2014}
-\begin{figure}
+Both methods are used to distinguish, if linear or non-linear dependencies exists between $X$ and $Y$. The mutual correlation between the variables
+is computed with the \textit{Pearson} correlation coefficient applicable to pure numerical data and the formula is shown below
+next to an exemplary heatmap plot visualizing all features, having at least one correlation above 0.9 to another feature. \footcite[cf.][p.17]{chandrashekar_survey_2014}
+\begin{figure}[ht]
     \centering
     \begin{minipage}{.48\linewidth}
         \begin{gather*}
@@ -518,11 +526,13 @@ is computed with the \textit{Pearson} correlation coefficient applicable to pure
     \caption{Formula for pearson correlation coefficient and exemplary mutual correlation heatmap for features above correlation threshold of 0.9. }
     \label{fig:pearson_correlation_example}
 \end{figure}
-Several different filtered subsets can be obtained for varying the filter method $\kappa$, the correlation thresholds $\Phi$, the boundary $\mathcal{B}$ and
-different quantile thresholds $\epsilon$. Adding also a certain threshold for features with a low score has the motivation to trim non-informative features.
-The following Figure~\ref{fig:normal_distribution} highlights that all features, which have a scaled importance score below $z_{\epsilon}$ are added to the drop candidates.
+
+Several different filtered subsets can be obtained for varying the filter method $\kappa$, the correlation thresholds $\Phi$, the barrier $\mathcal{B}$ and
+different quantile thresholds $\epsilon$. By applying this adapted correlation filter Algorithm~\ref{alg:filter_algorithm} the number of final
+features does not need to be defined beforehand, as for usual filter methods, but returns the features, which should be excluded, for
+various parameters. This allows more flexibility, but the performance of all models needs to be analyzed afterwards.
+The following Figure~\ref{fig:normal_distribution} highlights that all features, which have a scaled importance score below $z_{\epsilon}$ are added to the drop candidates, trimming
+effectively non-important and possibily non-informative features. Different subsets of features are presented in the Chapter~\ref{chap:computational_study}.
+In the following Chapter~\ref{chap:algorithm} the used metaheuristic is presented.
 
 \input{Plots/normal_dist.tex}
-
-Different subsets of features are presented in the Chapter~\ref{chap:computational_study}. In the following Chapter~\ref{chap:algorithm}
-the used metaheuristic is presented.

@@ -4,7 +4,7 @@
     \label{alg:filter_algorithm}
     \begin{algorithmic}[1]
         \Require{Counting dictionary $Q(f : 0 \,| \, \forall f \in \mathcal{F})$, Feature set $\mathcal{F}$, Datasets $\mathcal{D}$}
-        \Procedure{Filter}{Scoring method $\kappa$, Correlation thresholds $\Phi$, Quantile threshold $\epsilon$, Boundary $\mathcal{B}$}
+        \Procedure{Filter}{Scoring method $\kappa$, Correlation thresholds $\Phi$, Quantile threshold $\epsilon$, Barrier $\mathcal{B}$}
         \ForAll{datasets $d \in \mathcal{D}$}
         \State{Compute filter score $\mathcal{R}_{d,\kappa}(\mathcal{F})$ and standardize with $\mathcal{N}(0,1)$}
         \State{Compute mutual correlation matrix $\mathcal{C}_d(\mathcal{F},\mathcal{F})$}

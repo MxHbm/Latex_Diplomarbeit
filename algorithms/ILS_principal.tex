@@ -8,7 +8,6 @@
         \While{$ \text{stop condition not met}$}
         \State $s\sp{\prime}  = \text{Perturbation}(s^c,R)$ \Comment{All selected Perturbation Neighborhoods}
         \State $s\sp{c} = \text{LocalSearch}(s\sp{\prime})$
-        \State{}
         \If{$s\sp{c}$ is better than $s^*$} \Comment{Acceptance Criterion}
         \State $s^* \gets s\sp{c}\,,\;NoImpr \gets 0$
         \Else
