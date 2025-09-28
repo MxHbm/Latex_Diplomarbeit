@@ -57,12 +57,12 @@ For each stacked feature bar above one of the barriers, the feature is respected
 
 \begin{table}[ht]
     \centering
-    %\renewcommand{\arraystretch}{1.2}
+    \renewcommand{\arraystretch}{0.98}
     \rotatebox{90}{
         \footnotesize
-        \begin{tabular}{@{}P{0.04\paperheight}P{0.04\paperheight}P{0.07\paperheight}P{0.05\paperheight}P{0.46\paperheight}@{}}
+        \begin{tabular}{@{}P{0.045\paperheight}P{0.04\paperheight}P{0.07\paperheight}P{0.05\paperheight}P{0.47\paperheight}@{}}
             \toprule
-            Name         & Barrier $B$ & Importance Threshold $\epsilon$ & Number Features & Features                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      \\
+            Name         & Barrier $B$ & Importance Threshold $\epsilon$ & Number Features & Features to be dropped                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        \\
             \midrule
             DropSet-50-2 & 0.50        & 0.2                             & 10              & NoCustomers, NoItems, Rel Total Height Items, Rel Total Length Items, Rel Total Width Items, Volume Balance, Volume Distribution, height-area-std, volume-WLH-std, width-length-std                                                                                                                                                                                                                                                                                                                                                                                                                                                                           \\
             \midrule
@@ -113,26 +113,24 @@ For each stacked feature bar above one of the barriers, the feature is respected
 \clearpage
 \section{Further Feature Filter Results}
 \label{app:sec:further_feature_filter}
+The experiments conducted on the various drop sets, presented in Table~\ref{tab:drop_set_presentation_shortened}, included all
+random and save-strategy datasets as base datasets, as well as the same set of datasets as test/prediction datasets.
+In addition, all three model types were considered. This appendix section provides a more detailed discussion of the
+results and highlights differences in feature filter performance.
 
-The experiments conducted on the various dropsets, presented in Table~\ref{tab:drop_set_presentation_shortened}, were including
-all random and save strategy datasets as base datasets, as well as the same set of datasets as test/ prediction datasets. Also, all three
-kind of models were considered. This appendix section dives deeper in the results and to understand the feature filter performance differences.
-
-As mentioned in Section~\ref{sec:feature_filter_results}, the prediction from save strategy datasets to other save strategy datasets as
-GD-Complete-WS to GD-Complete were excluded from the results, as all routes considered in GD-Complete are also part of GD-Complete-WS leading to
-false results, as the model is basically evaluated on the train dataset. When only the cross prediction results from random to save strategy
-datasets and vice versa are considered. The performance of drop set DS-50-4 looks even better, as the performance is not resricted by the huge number
-of random datasets being predicted by other random datasets.
-
+As noted in Section~\ref{sec:feature_filter_results}, predictions from save-strategy datasets to other save-strategy datasets
+(e.g., GD-Complete-WS to GD-Complete) were excluded. This is because all routes in GD-Complete are also part of GD-Complete-WS,
+which would lead to misleading results by effectively evaluating the model on its training data. When focusing only on cross-predictions
+between random and save-strategy datasets, the performance of drop set DS-50-4 appears even stronger, since it is not overshadowed by
+the large number of random-to-random predictions.
 \begin{figure}[ht]
     \centering
-    \includegraphics[width = .95\textwidth]{pictures/feature_filter/cross_performance_boxplot.png}
+    \includegraphics[width = .85\textwidth]{pictures/feature_filter/cross_performance_boxplot.png}
     \caption{Box plots of MCC performance considering only the cross performance from random to save strategy datasets and vice versa.}
     \label{fig:mcc_filter_results_cross}
 \end{figure}
 
-The mean performance metrics for this selection of feature filter results is shown in the following Table~\ref{tab:featurePerformance_OnlyCrossCorrelation}.
-
+The mean performance metrics for the cross-predictions results are shown in the following Table~\ref{tab:featurePerformance_OnlyCrossCorrelation}.
 \begin{table}[ht]
     \centering
     \begin{tabular}{lrrrrrrr}
@@ -145,35 +143,37 @@ The mean performance metrics for this selection of feature filter results is sho
         AUROC    & 0.92   & 0.91    & 0.91    & \textbf{0.97} & 0.90    & 0.91    & 0.91    \\
         \bottomrule
     \end{tabular}
-    \caption[Mean performance metrics on various different drop set considering only the performance from random to save strategy datasets and vice versa.]
-    {Mean performance metrics on various different drop set considering only the performance from random to save strategy datasets and vice versa.
+    \caption[Mean performance metrics on various different drop set considering only the cross-predictions from random to save strategy datasets and vice versa.]
+    {Mean performance metrics on various different drop set considering only the cross-predictions from from random to save strategy datasets and vice versa.
         Bold font shows the best results for each performance score.}
     \label{tab:featurePerformance_OnlyCrossCorrelation}
 \end{table}
-
-When the mean performance for each base train dataset is plotted, the results are interesting as both XGB and \gls{LR}
-model have very constant performances. But the \gls{FFNN} model drops significantly, when based on a random dataset a save strategy dataset
-needs to be predicted. The XGB model got only two worse solutions for predicting any dataset, which are the two trimmed datasets. This
-is due to the missing feasible routes with 2 customers as only infeasible ones are considered leading to the exclusion of these two
-datasets for any further predicting task.
-
+When plotting the mean performance for each base training dataset (see Fig.~\ref{fig:mcc_filter_results_lineplot}),
+the results reveal that both the XGB and LR models maintain consistently high performance across datasets. In contrast,
+the FFNN model shows a significant performance drop when trained on a random dataset and applied to a save-strategy dataset.
+The XGB model only performed poorly on two cases, the trimmed datasets. This can be explained by the absence of feasible
+two-customer routes in these datasets, as only infeasible ones are included, making them unsuitable for further prediction tasks.
 \begin{figure}[ht]
     \centering
     \includegraphics[width = .95\textwidth]{pictures/feature_filter/cross_performance_lineplot.png}
     \caption{Box plots of MCC performance of different feature drop sets.}
     \label{fig:mcc_filter_results_lineplot}
-\end{figure}
+\end{figure}%
+During the training of different models on various datasets and their subsequent predictions on the remaining datasets,
+the lifetime of each model type was recorded.
+For each drop set, model, and training dataset, the lifetime measurement began at model initialization and ended once
+predictions were completed for all other datasets. Figure~\ref{fig:lifetime_model} highlights the substantial difference in computation time
+between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing the main bottleneck in training and testing different model features.
 
-Model life time = initial training and prediciton of datasets
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width = .6\textwidth]{pictures/feature_filter/life_time_models.png}
-    \caption{Box plots of MCC performance of different feature drop sets.}
-    \label{fig:lifetime_model}
+\begin{figure}[!ht]
+    \begin{center}
+        \includegraphics[width = .7\textwidth]{pictures/feature_filter/life_time_models.png}
+        \caption{Life time box plots of models for training and predictions used in drop set analysis.}
+        \label{fig:lifetime_model}
+    \end{center}
 \end{figure}
 
 \clearpage
-
 \section{Validation Dataset Results}
 \label{app:se:validation_results}
 
@@ -222,109 +222,6 @@ Model life time = initial training and prediciton of datasets
 
 \clearpage
 \section{Parking Lot}
-\label{app:trash}
-With a subset from krebs the following datasets were created!
-\begin{table}[ht]
-    \centering
-    \begin{tabular}{c c cc c c c}
-        \hline
-        \makecell{Multiplier $\alpha$} & \makecell{Attempts                          \\ limit $\beta$} & \makecell{Success \\threshold $\gamma$} & Routes & Balance& \gls{MCC}-Score & F1-Score \\
-        \hline
-        1                              & 1                  & 1 & 7616  & 60/40 &  & \\
-        1                              & 1                  & 2 & 15948 & 60/40 &  & \\
-        1                              & 1                  & 3 & 24573 & 60/40 &  & \\
-        1                              & 2                  & 1 & 8325  & 60/40 &  & \\
-        1                              & 2                  & 2 & 17217 & 60/40 &  & \\
-        1                              & 2                  & 3 & 26467 & 60/40 &  & \\
-        1                              & 3                  & 1 & 8683  & 60/40 &  & \\
-        1                              & 3                  & 2 & 18041 & 60/40 &  & \\
-        1                              & 3                  & 3 & 27535 & 60/40 &  & \\
-        \hline
-    \end{tabular}
-    \caption[Created instances for different parameter combinations $(\alpha, \beta, \gamma)$ for \krebsADataSetText dataset.]{Created instances for different parameter combinations $(\alpha, \beta, \gamma)$ for \krebsADataSetText dataset.
-        The values in the balance column stand for the share of positive and netative labels in the sample population.}
-    \label{tab:created_instances_xyz_krebs}
-\end{table}
-
-
-
-\begin{table}[ht]
-    \centering
-    \begin{tabular}{c c c c c c}
-        \toprule
-        Model                          & Name     & \gls{MCC}-Score & \gls{AUROC} & F1-Score & Accuracy \\
-        \midrule
-        \multirow{3}{*}{\gls{LR}}      & Complete & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                       & Trimmed  & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                       & Shrinked & 0.6             & 0.9         & 0.87     & 0.95     \\
-        \midrule
-        \multirow{3}{*}{Decision Tree} & Complete & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                       & Trimmed  & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                       & Shrinked & 0.6             & 0.9         & 0.87     & 0.95     \\
-        \midrule
-        \multirow{3}{*}{\gls{FFNN}}    & Complete & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                       & Trimmed  & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                       & Shrinked & 0.6             & 0.9         & 0.87     & 0.95     \\
-        \bottomrule
-    \end{tabular}
-    \caption{Results}
-    \label{tab:dataset_model_selection_saveStrategy}
-\end{table}
-
-\begin{table}[ht]
-    \centering
-    \begin{tabular}{c c c c c c}
-        \toprule
-        Model                           & Name       & \gls{MCC}-Score & \gls{AUROC} & F1-Score & Accuracy \\
-        \midrule
-        \multirow{13}{*}{\gls{LR}}      & RD-2-20-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-2-20-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-2-30-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-2-30-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-3-20-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-3-20-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-3-30-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-3-30-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-4-20-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-4-20-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-4-30-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-4-30-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-5-40-40 & 0.6             & 0.9         & 0.87     & 0.95     \\
-        \midrule
-        \multirow{13}{*}{Decision Tree} & RD-2-20-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-2-20-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-2-30-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-2-30-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-3-20-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-3-20-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-3-30-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-3-30-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-4-20-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-4-20-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-4-30-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-4-30-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-5-40-40 & 0.6             & 0.9         & 0.87     & 0.95     \\
-        \midrule
-        \multirow{13}{*}{\gls{FFNN}}    & RD-2-20-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-2-20-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-2-30-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-2-30-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-3-20-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-3-20-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-3-30-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-3-30-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-4-20-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-4-20-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-4-30-20 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-4-30-30 & 0.6             & 0.9         & 0.87     & 0.95     \\
-                                        & RD-5-40-40 & 0.6             & 0.9         & 0.87     & 0.95     \\
-        \bottomrule
-    \end{tabular}
-    \caption{Results}
-    \label{tab:dataset_model_selection_randomStrategy}
-\end{table}
-
-
 \begin{table}[ht]
     \centering
     \begin{tabular}{c c c c c c c}
@@ -392,7 +289,7 @@ from save strategy. The following table explains each column header:
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{C{0.2\textwidth}C{0.75\textwidth}}
+    \begin{tabular}{C{0.2\textwidth}C{0.74\textwidth}}
         \toprule
         Column Header & Description                                                    \\
         \midrule
@@ -544,18 +441,18 @@ next to the instance name. In this comparison all published papers were consider
 \section{\krebsADataSetText computational challenges}
 \label{app:sec:krebs_computationally_challenges}
 
-As shown in Table~\ref{tab:dataset_comparison}, an average route of \krebsADataSetText cotains four times more items than
-in the \gendreauDataSet dataset. This makes it much more computationally challenging to create a labeled train dataset with either
+As shown in Table~\ref{tab:dataset_comparison}, an average route of \krebsADataSetText contains four times more items than
+in the \gendreauDataSetText dataset. This makes it much more computationally challenging to create a labeled train dataset with either
 the \gls{CP} solver (random strategy) or by applying the B\&C algorithm (save strategy). This appendix section dives deeper in
 the construction of each retrieval strategy to highlight difficulties.
 
 \subsection{Random strategy}
 \label{subsec:challenges_krebs_random}
 
-The two random datasets, RD-1-1-1-10 and RD-2-30-20-10, are compared, which are the smallestr random dataset from each group and
-where $\delta = 1.0$ for both datasets. The difference between the computation time for the \gls{CP} solver is huge. The average
+The two random datasets, RD-1-1-1-10 (Krebs) and RD-2-30-20-10 (Gendreau), are compared, which are the smallest random dataset from each instance group and
+where $\delta = 1.0$. The difference between the computation time for the \gls{CP} solver needed for classifying the random routes is huge. The average
 \gls{CP} time for the dataset constructed from \krebsADataSetText is 247 seconds, but for \gendreauDataSetText only 0.244 seconds,
-which is a factor of 1000. The following boxplot shows this dispersion of \gls{CP} times for each \gls{LST}.
+which is 1000 times faster. The following boxplot shows this dispersion of \gls{CP} times for each \gls{LST}.
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{pictures/comparison_krebs_gendreau/boxplot_cp_time.png}
@@ -573,7 +470,7 @@ feasibility or infeasibility could not be proven in the maximum runtime of 600 s
     \caption{Big share of unknown labeled tours for the \krebsADataSet.}
     \label{fig:comparison_krebs_gendreau_piechart}
 \end{figure}
-All routes classified as \textit{Unknown} will be consideres as \textit{Infeasible}, as outlined in Section~\ref{sec:DataRetrieval}. But
+All routes classified as \textit{Unknown} will be considered as \textit{Infeasible}, as outlined in Section~\ref{sec:DataRetrieval}. But
 as the true label is not used, the model performance is weakened as possibly feasible routes will be labeled as infeasible. The
 next Figure~\ref{fig:comparison_krebs_gendreau_numberItems} shows the effect of the number of items to the \gls{CP} time and the status.
 
@@ -586,22 +483,22 @@ next Figure~\ref{fig:comparison_krebs_gendreau_numberItems} shows the effect of 
 
 The computation time literally explodes when more than 50 items are considered in a route, leading to an \textit{Unknown} \gls{CP} status, and
 infeasible labels in the train dataset. So in the end, new long routes which improve the solution quality will always be classified as infeasible
-or the exact computation time with the \gls{CP} solver takes too long to be used in a heuristic. As fewer items are considered in the dataset
+and the exact computation time with the \gls{CP} solver takes too long to be used in a heuristic. As fewer items are considered in the dataset
 RD-2-30-20-10 the \gls{CP} time increases only minimal, when the maximum number of 25 items is reached.
 
 \subsection{Save strategy}
 \label{subsec:challenges_krebs_save}
 
-The results obtained by the B\&C algorithm from \cite{tamke_branch-and-cut_2024} are with an average gap of 3.14\%. However, some limitations
-of the branch-and-algorithm caused issues solving instances from \krebsADataSetText. As shown before the labeling of one route takes approximately
+The results obtained by the B\&C algorithm from \cite{tamke_branch-and-cut_2024} are with an average gap of 3.14\% pretty good. However, some limitations
+of the branch-and-cut algorithm caused issues solving instances from \krebsADataSetText. As shown before, the labeling of one route takes approximately
 1000 times longer than for the \gendreauDataSetText, causing the dilemma, if either the time limit for the \gls{CP} solver within the B\%C solver
 must be limited causing a lot of \textit{Unknown} and \textit{Invalid} labeled tours and the interrupting of the B\%C solver or choosing
 a high time limit, which restricts the B\%C solver in testing many solutions as the feasibility check is time intensive. The first option
 was chosen and the B\%C was modified to avert some interruptions, but not all. Therefore some runs creating the train datasets are labeled with
 B and C in Table~\ref{tab:bc_results_krebs}. The obtained datasets of the save strategy are shown in Table~\ref{tab:saved_instances_krebs}
 and the most suiting dataframe can already be identified by looking at the datasets characteristics. The number of routes with two customers
-are dominating the total number of routes, if the datasets are not shrinked or trimmed. Furthermore, the average relative mass and volume and
-is very low due to the imbalance of the route length. The route length dispersion is also shown in the following Figure~\ref{fig:route-dists_save_krebs}.
+are dominating the total number of routes, if the datasets are not shrinked or trimmed, as can be seen in Figure~\ref{fig:route-dists_save_krebs}. Furthermore, the average relative mass and volume and
+is very low due to the imbalance of the route length.
 
 \begin{figure}[ht]
     \centering
@@ -622,8 +519,8 @@ is very low due to the imbalance of the route length. The route length dispersio
     \label{fig:route-dists_save_krebs}
 \end{figure}
 
-The prevaillance of routes with 2 customers is also shown in the following Figure~\ref{fig:route-feasibility_save_krebs}, displaying the number of routes per instance found and
-the balance of feasible and infeasible routes. The number of routes found is dropping by a delta of 205.027 routes in total, and therefore
+The prevaillance of routes with 2 customers is also shown in the following Figure~\ref{fig:route-feasibility_save_krebs}, displaying the number of routes found per instance and
+the balance of feasible and infeasible routes. The number of found routes is dropping by 205.027 routes in total, and therefore
 also the prevailing share of feasible routes with 2 customers.
 
 \begin{figure}[ht]

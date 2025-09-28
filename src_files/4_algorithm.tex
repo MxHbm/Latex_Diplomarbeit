@@ -13,11 +13,12 @@ classifier are presented.
 The \gls{ILS} algorithm was proposed by \cite{lourenco_iterated_2003} and has the goal to incorporate simplicity and generality.
 As the authors say, metaheuristics became recently too sophisticated and problem specific and lack the purpose of
 being applied to different use cases. The main concept is based on iterations of the metaheuristic, in which the current
-solution is first perturbated (diversification) and afterwards improved by different sequential local search neighborhoods
+solution is first perturbed (diversification) and afterwards improved by different sequential local search neighborhoods
 (intensification). The solution process restarts with the best solution after a number of iterations without improvement
-or continues with the current solution to explore new areas of the solution space.
+or continues with the current solution to explore n
+ew areas of the solution space.
 The proposed base algorithm is depicted in Algorithm~\ref{alg:base_ILS}. Here, $s^*$ stands for the best solution,
-$s\sp{c}$ for the current solution and $s\sp{\prime}$ for a perturbated neighbor of $s^c$. Note that the symbol $s^c$
+$s\sp{c}$ for the current solution and $s\sp{\prime}$ for a perturbed neighbor of $s^c$. Note that the symbol $s^c$
 is used as a placeholder, and shows the current state of the solution after each step. So the current solution
 $s^c$ before the perturbation is usually different from $s^c$ after the local search, but, as the non-deterministic
 perturbation and local search can return to the same solution, ambiguity exists to a certain extent.

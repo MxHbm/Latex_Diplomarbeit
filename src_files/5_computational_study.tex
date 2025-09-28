@@ -11,7 +11,7 @@ This chapter closes with a computational study of all four variants, comparing t
 These insights are summarized in the concluding chapter.
 
 \section{Comparison of Available Datasets}
-\label{sec:dataset_selection}
+\label{sec:dataset_comparison}
 
 The \gls{3L-CVRP} is a well-studied problem and several datasets were published in the past, considering
 different constraints and characteristics. A selection of these datasets will be compared and evaluated
@@ -130,19 +130,10 @@ that the average numeric route structure differs.
 This dataset consists of 27 instances, where the dispersion of the aggregated mass per customer is reaching very high values, up to
 0.91, but has modest volume levels, with a maximum of 0.4 approximately, as could be seen in Figure~\ref{fig:dataset_comparison}. The
 following Figure~\ref{fig:aggregated_gendreau_plots} show this dispersion per instance revealing an important insight about the dataset.
-As the relative volume is quite for all instances, the relative mass differs between the instances. As it was analyzed from \cite{tamke_branch-and-cut_2024}
-the complexity to solve the instances is far greater, when the items are more lightweight and the volume is the limiting factor
-for packing items in the container. Furthermore, the authors distinguished the instances in a group of heavy items ($\mathcal{H}$) and
-a group of lighweight items ($\mathcal{L}$) by dividing the two groups by the average weight utilization $\overline{\omega}$.\footcite[cf.][pp. 23-25]{tamke_branch-and-cut_2024}
-As this classification is based on the optimal solutions, in this thesis another approach will be followed to distinguish both
-\krebsADataSetText and \gendreauDataSetText in heavy (H) and lightweight (L) items. An instance is accounted as heavyweigt, if
-the average weight aggregated per customer is above the avrage over all instances. This definition has the advantage, that also instances absent
-of optimal / good solutions can be labeled. The obtained results for the \gendreauDataSetText and \krebsADataSetText instances will be
-differentiated in those two groups to investigate the effect of the average weight per customer on the solution quality and process.
-
+As the relative volume is quite constant for all instances, the relative mass differs between the instances.
 \begin{figure}[ht]
     \centering
-    \begin{tikzpicture}[node distance=0mm and 0mm]
+    \begin{tikzpicture}[scale=0.9, transform shape,node distance=0mm and 0mm]
         \node[anchor=south, inner sep=0] (A) at (0,0)
         {\includegraphics[width=0.95\textwidth]{pictures/AggMassCustGendreau.png}};
         \node[anchor=north, below=of A,inner sep=0] (B)
@@ -151,27 +142,41 @@ differentiated in those two groups to investigate the effect of the average weig
     \caption{Aggregated relative mass and volume per customer distributed for each instance of the \gendreauDataSetText dataset.}
     \label{fig:aggregated_gendreau_plots}
 \end{figure}
+As it was analyzed from \cite{tamke_branch-and-cut_2024}
+the complexity to solve the instances is far greater, when the items are more lightweight and the volume is the limiting factor
+for packing items in the container. Furthermore, the authors distinguished the instances in a
+group of heavy items ($\mathcal{H}$) and a group of lighweight items ($\mathcal{L}$) by the average weight utilization $\overline{\omega}$
+of the final routes obtained.\footcite[cf.][pp. 23-25]{tamke_branch-and-cut_2024}
+As this classification is based on the optimal solutions, another approach will be followed ifn this thesis to distinguish both
+\krebsADataSetText and \gendreauDataSetText in heavy (H) and lightweight (L) items. An instance is accounted as heavyweigt, if
+the average weight aggregated per customer is above the average over all instances. This definition has the advantage, that also instances absent
+of optimal / good solutions can be labeled. The obtained results for the \gendreauDataSetText and \krebsADataSetText instances will be
+differentiated in those two groups to investigate the effect of the average weight per customer on the solution quality and process.
 
-As the construction of train datasets with the \krebsADataSetText is much more computationally challenging as for \gendreauDataSetText,
+\parbreak
+
+As the construction of train datasets with the \krebsADataSetText dataset is much more computationally challenging than for \gendreauDataSet,
 the following sections will focus only on the latter and the Section~\ref{sec:application_krebs} on solving instances from \krebsADataSet.
-Additionally, the Section~\ref{app:sec:krebs_computationally_challenges} in the appendix dives deeper in the challenges for creating a suiting training dataset from the
-\krebsADataSetText instances. In the following section the results from training the binary classifier
+In the following section the results from training the binary classifier
 are presented with diffferent datasets.
 
-\section{Results Training}
+\section{Results Model Training}
 \label{sec:ResultsTraining}
 In this section the results from the feature dataset selection are discussed. The single best features
 with individual scores are shown in the Appendix~\ref{app:feature_selection}. For each model variant (see Section~\ref{sec:modelselection})
 the most suiting dataset is selected from both, the Random Retrieval and Save Strategy datasets. These selected
 models will then be used in the further steps of the computational study to compare the \gls{ILS} algorithm
-with and without the boost of the classifier.
+with and without the boost of the classifier. Additionally, the Section~\ref{app:sec:krebs_computationally_challenges} in the appendix
+dives deeper in the challenges for creating a suiting training dataset from the \krebsADataSetText instances and the computational
+challenges.
 
-\subsection{Random Retrieval Strategy}
-The following random datasets were created with the Algorithm~\ref{fig:flowchart_randomRouteGeneration}.All instances
+\subsubsection{Random Retrieval Strategy}
+The following random datasets were created with the Algorithm~\ref{fig:flowchart_randomRouteGeneration}. All instances
 from \gendreauDataSetText were considered. It must be noted, that the parameter for attempts limit $\beta$ did not have a huge influence on
 the number of routes and the structure of the dataset. Therefore only the datasets with $\beta = 30$ have been preselected.
-The values in the balance column stand for the share of positive and netative labels in the sample population. The relative volume
-and mass refer to the average value for all routes in the respective dataset.
+The values in the balance column stand for the share of positive and negative labels in the sample population. The relative volume
+and mass refer to the average value for all routes in the respective dataset. The names for the random datasets are constructed from
+the parameters as follows: RD-$\alpha$-$\beta$-$\gamma$-$10\delta$.
 
 \begin{table}[ht]
     \centering
@@ -217,7 +222,7 @@ are created. The route characteristics of balance and relative volume and weight
 of ($\alpha$,$\beta$,$\gamma$). This influence is visualized in the following Figure~\ref{fig:route-dists_randomdata}, where the distribution
 of the route length of each $\delta$ variant is shown for an exemplary random dataset.
 
-\begin{figure}[!h]
+\begin{figure}[!ht]
     \centering
     \begin{subfigure}[t]{.33\textwidth}
         \centering
@@ -237,38 +242,38 @@ of the route length of each $\delta$ variant is shown for an exemplary random da
         \caption{RD-3-30-20-10; \\ Threshold $\delta$ = 1.0.}
         \label{fig:ds-c}
     \end{subfigure}
-    \caption{Distribution of route length for a randomly generated dataset with different thresholds.
+    \caption[Distribution of route length for the random strategy with different thresholds.]{Distribution of route length the random strategy for with different thresholds.
         The red vertical line represents the average number of customers.}
     \label{fig:route-dists_randomdata}
 \end{figure}
 
-
+\FloatBarrier
 
 \subsubsection{Save Retrieval Strategy}
 
 By running the complete B\&C algorithm from \cite{tamke_branch-and-cut_2024}, two train datasets were generated,
-one considering the infeasible routes from the \textit{NoSequence} sets and one only the sequences. The prior dataset is
-labeled with WS (= with sets). The length of the routes included in the
-train dataset are dominated by routes consisting of 2 customers,
+one considering additionally the infeasible routes constructed from the \textit{NoSequence} sets and one only the sequences.
+The prior dataset is labeled with WS (= with sets) (see Section~\ref{sec:DataRetrieval}). The length of the routes included in the
+train dataset are dominated by routes consisting of two customers,
 as in the beginning of the algorithm all customer combinations are checked to find infeasible customers tuple to
-fasten the feasibility loading check in the algorithm afterwards. \footcite[cf.][]{tamke_branch-and-cut_2024}
+fasten the feasibility loading check in the algorithm afterwards, which is shown in Figure~\ref{fig:customer_count_bc}. \footcite[cf.][]{tamke_branch-and-cut_2024}
 The results of the branch-and-cut algorithm are summarized in Table~\ref{tab:bc_results_gendreau} in the appendix.
-Thhe distribution of the route length is shown in Figure~\ref{fig:customer_count_bc}.
 \begin{wrapfigure}{l}{0.5\textwidth}
     \begin{center}
         \includegraphics[width = .5\textwidth]{pictures/dataset_structure/no_cust_plot_gendreau_28880_600_WS.png}
-        \caption{Customer count per route for dataaset GD-Complete-WS.}
+        \caption{Customer count per route for dataset GD-Complete-WS.}
         \label{fig:customer_count_bc}
     \end{center}
 \end{wrapfigure}
-To reduce the number of routes with two customers, two altenative datasets are constructed for each base dataset to test if the reduction
+To reduce the number of routes with two customers, two alternative datasets are constructed for each base dataset (Complete) to test if the reduction
 of number of routes with 2 customers, lead to better model performance results. Therefore it was tested
 to shrink all feasible routes with 2 customers with a cosine similarity of $94\%$ (Shrinked) or alternatively drop
 all feasible routes with 2 customers (Trimmed).
 The resulting datasets have the following characterics, shown in Table~\ref{tab:saved_instances_gendreau}, and it is apparent, that the average relative volume
 and mass are higher for the two modified datasets, as short routes were dropped. Additionally the balance between
 feasible and infeasible is tilting to more to infeasible tours as only feasible routes with two customers were dropped.
-Additonally the WS datasets contain more infeasible routes and are therefore more imbalanced.
+Additonally the WS datasets contain more infeasible routes and are therefore more imbalanced. The use case of the trimmed dataset is limited,
+as no feasible short tours are included. This distorts the application of the model classifier, since small tours are only labeled as infeasible.
 
 \begin{table}[!h]
     \centering
@@ -285,87 +290,86 @@ Additonally the WS datasets contain more infeasible routes and are therefore mor
         GD-Shrinked    &                      & 183531 & 35538         & 38.4/61.6 & 0.61     & 0.48      \\
         \bottomrule
     \end{tabular}
-    \caption[Save strategy train datsets from \gendreauDataSet.]{Save strategy train datsets from \gendreauDataSet.}
+    \caption[Save strategy train datsets from \gendreauDataSet.]{Save strategy datsets from \gendreauDataSet.}
     \label{tab:saved_instances_gendreau}
 \end{table}
 
 \subsubsection{Differences between Random and save strategy datasets}
 
-As the creation method differs significantly between the random and the save strategy, differences are laid out in
-the following paragraph. The branch-and-cut algorithm does not follow any strict route generation procedure, but to
-find the optimal solution for each instance. The complexity to solve these is aligned with the number of routes found.
-Therefore only few routes from simple instances, belonging to $\mathcal{H}$, are considered in the save strategy dataset
+The creation method of the datasets differs significantly between the random and the save strategy. Whereas the random
+generation maximizes the number of routes per instance, the branch-and-cut algorithm tries
+find the optimal solution for each instance. The complexity to solve these optimally is aligned with the number of routes found.
+Therefore only few routes from heavy instances, belonging to $\mathcal{H}$, are considered in the save strategy dataset
 in comparison to the random datasets. This difference is visualized in the following Figure~\ref{fig:comparison_noroutes_perInstancce}
-visualizing the number of routes and the labels per instance of \gendreauDataSetText considered in each training dataset.
+highlighting the number of routes and the labels (0: infeasible, 1:feasible) per instance of \gendreauDataSet dataset. The chosen
+datasets have similar size and balance.
 
 \begin{figure}[ht]
     \centering
     \begin{subfigure}[t]{.5\textwidth}
         \centering
         \includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_RandomData_5_40_40_10.png}
-        \caption{Random dataset RD-3-30-20-8.}
+        \caption{RD-5-40-40-10.}
     \end{subfigure}%
     \begin{subfigure}[t]{.5\textwidth}
         \centering
-        \includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_gendreau_28880_600_WS.png}
-        \caption{Save strategy dataset Complete-WS.}
+        \includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_gendreau_28880_600_WS_shrinked094.png}
+        \caption{Complete-WS-Shrinked.}
     \end{subfigure}
-    \caption{Distribution of routes considered per instance for two exemplary datasets of random and save strategy.}
+    \caption[Distribution of routes considered per instance for two exemplary datasets of random and save strategy.]
+    {Distribution of routes considered per instance for two exemplary datasets of random and save strategy.}
     \label{fig:comparison_noroutes_perInstancce}
 \end{figure}
 
 \subsection{Feature Filter Results}
 \label{sec:feature_filter_results}
 
-The filter Algorithm~\ref{alg:filter_algorithm} was applied for each of the following minimum importance thresholds
-$\epsilon =[0.1,0.2.3,0.4]$ and barriers $\mathcal{B}=[0.5,0.75]$ . Furthermore, the pearson correlation thresholds $\Phi$ = [0.8, 0.85, 0.9] and
-all 27 datasets, forming $\mathcal{D}$, presented in the previous subsection were considered. Figure~\ref{fig:feature_filter_parameters}
-in the appendix shows, how each set is constructed visualizing
-different thresholds $\epsilon$ and the influence of the barrier $\mathcal{B}$. It needs to be noted, that
-the thresholds below 20\% were considered, but these had no impact on the final subset. The list of the
-features which will be dropped are shown in Table~\ref{tab:feature_dropsets}. The following Table~\ref{tab:drop_set_presentation_shortened}
-presents the names of the drop sets as well as the number of features, which will be dropped.
-Additionally, one empty dropset (DS-0-0) was added, to analyse the impact of the dropsets.
+The filter algorithm (Algorithm~\ref{alg:filter_algorithm}) was applied using minimum importance thresholds $\epsilon \in {0.1, 0.2, 0.3, 0.4}$
+and barrier values $\mathcal{B} \in {0.5, 0.75}$. In addition, Pearson correlation thresholds $\Phi \in {0.8, 0.85, 0.9}$ were considered
+across all 27 datasets $\mathcal{D}$ introduced in the previous subsection. Figure~\ref{fig:feature_filter_parameters} in the appendix
+illustrates how the drop sets are constructed by varying $\epsilon$ and $\mathcal{B}$. Thresholds below 20\% were also tested but
+did not affect the final subsets. The specific features removed under each configuration are listed in Table~\ref{tab:feature_dropsets},
+while Table~\ref{tab:drop_set_presentation_shortened} summarizes the drop set names and the number of features excluded. The drop set
+names have the following structure: DS-$100\mathcal{B}$-$10\epsilon$. To enable
+comparison, an additional empty drop set (DS-0-0) was included.
+
 \begin{table}[ht]
     \centering
     \small
     \begin{tabular}{l c c c c c c c}
         \toprule
-        Dropset Name          & DS-50-2 & DS-50-3 & DS-50-4 & DS-75-2 & DS-75-3 & DS-75-4 & DS-0-0 \\
+        Dropset Name          & DS-0-0 & DS-50-2 & DS-50-3 & DS-50-4 & DS-75-2 & DS-75-3 & DS-75-4 \\
         \midrule
-        Barrier $\mathcal{B}$ & 0.5     & 0.5     & 0.5     & 0.75    & 0.75    & 0.75    & -      \\
-        Threshold $\epsilon$  & 0.2     & 0.3     & 0.4     & 0.2     & 0.3     & 0.4     & -      \\
-        Number Features       & 10      & 18      & 38      & 7       & 18      & 32      & 0      \\
+        Barrier $\mathcal{B}$ & -      & 0.5     & 0.5     & 0.5     & 0.75    & 0.75    & 0.75    \\
+        Threshold $\epsilon$  & -      & 0.2     & 0.3     & 0.4     & 0.2     & 0.3     & 0.4     \\
+        Number Features       & 0      & 10      & 18      & 38      & 7       & 18      & 32      \\
         \bottomrule
     \end{tabular}
     \caption{Presentation of the considered drop sets for the feature selection.}
     \label{tab:drop_set_presentation_shortened}
 \end{table}
-
-For each dropset each dataset was trained for each model type and was used to predict the true labels of
-every other dataset to select the best fitting dropset. The used hyperparameters for each model can be seen in
-Table~\ref{tab:hyperparams_feature_selection} in the appendix. For the following analysis of the results, it
-needs to be noted, that all results predicting from one save strategy dataset to another was excluded,
-as every dataset is a subset of each other (see Table~\ref{tab:saved_instances_gendreau}).
-The following Figure~\ref{fig:mcc_filter_results} shows the performance of boxplots for the \gls{MCC} for all drop sets
-and the three different model types introduced in Section~\ref{sec:modelselection}.
+For each drop set, every dataset was trained with each model type and then used to predict the
+true labels of all other datasets in order to identify the best-performing drop set. The hyperparameters used for
+each model are provided in Table~\ref{tab:hyperparams_feature_selection} in the appendix. For the subsequent analysis,
+results obtained from predicting between datasets of the save strategy were excluded, since these datasets are nested
+subsets of one another (see Table~\ref{tab:saved_instances_gendreau}). Figure~\ref{fig:mcc_filter_results} presents boxplots of
+the \gls{MCC} for all drop sets and the three model types introduced in Section~\ref{sec:modelselection}.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width = .95\textwidth]{pictures/feature_filter/all_data_exceptSubsets_box_plot.png}
+    \includegraphics[width = .85\textwidth]{pictures/feature_filter/all_data_exceptSubsets_box_plot.png}
     \caption{Box plots of MCC performance of different feature drop sets.}
     \label{fig:mcc_filter_results}
 \end{figure}
-Two things are apparent in the boxplot, first the model performance for the \gls{FFNN} has the greatest spread performance-wise and
-XGB the smallest. Second, the results for dropset DS-50-4 are the most constant having very similar results. For both, the \gls{LR} and
-the \gls{FFNN} the spread is greater as for the XGB model caused by the need to scale the data before the prediction is done on all datasets.
-The scaling depends on the train dataset the model is initially trained on, if the structure, the mean and the standard deviation is
-different \footnote{Compare Table~\ref{tab:saved_instances_gendreau} and Table~\ref{tab:created_instances_xyz_gendreau} for the created datasets.}
-the scaled feature values on the predicting datasets, will have other ranges than the initially train dataset, causing the model to perform worse.
-The \gls{FFNN} is here more "sensitive" than the \gls{LR} model, due to the amplified effect of the hidden layers of the model. The dropset
-DS-50-4 removes 38 of 48 intital features, reducing the complexity and the possibility to "mis-scale" data to a minimum, while preserving
-the same model predicting performance as can be seen in the comparison of the boxplots. The results for all performance metrics is shown in
-the following Table~\ref{tab:featurePerformance_Alldata}.
+Two main observations can be drawn from the boxplot. First, the FFNN exhibits the widest variation in performance, whereas the XGB model
+shows the smallest. Second, dropset DS-50-4 achieves the most consistent results across datasets. For both LR and FFNN, the performance
+spread is larger than for XGB due to the need to scale the data before making predictions. Since scaling depends on the statistics of
+the training dataset (e.g., mean and standard deviation), differences in dataset structure\footnote{Compare Table~\ref{tab:saved_instances_gendreau} and Table~\ref{tab:created_instances_xyz_gendreau} for the created datasets.}
+can lead to mismatched feature ranges in the prediction datasets, thereby reducing performance. The FFNN is particularly sensitive
+to such mismatches, as the hidden layers amplify these effects more strongly than in LR. Dropset DS-50-4, which removes 38 of
+the 48 initial features, mitigates this issue by reducing complexity and minimizing the risk of mis-scaling, while still
+achieving predictive performance comparable to other drop sets, as seen in the boxplot comparison. The full set of results across
+all performance metrics is presented in Table~\ref{tab:featurePerformance_Alldata}.
 
 \begin{table}[ht]
     \centering
@@ -380,36 +384,36 @@ the following Table~\ref{tab:featurePerformance_Alldata}.
         AUROC    & 0.96   & 0.96    & 0.96    & \textbf{0.98} & 0.95    & 0.96    & 0.96    \\
         \bottomrule
     \end{tabular}
-    \caption[Mean performance metrics on various different drop set excluding the performance from save strategy datasets to save strategy datasets.]
-    {Mean performance metrics on various different drop set excluding the performance from save strategy datasets to save strategy datasets.
+    \caption[Mean performance metrics on various different drop set excluding the predicting between save strategy datasets.]
+    {Mean performance metrics on various different drop set excluding the predicting between save strategy datasets.
         Bold font shows the best results for each performance score.}
     \label{tab:featurePerformance_Alldata}
 \end{table}
 
 The final features considered for predicting the loading feasibility are the following:
-\begin{table}[ht]
+\begin{table}[!ht]
     \centering
     \def\arraystretch{1.5}
     \begin{tabular}{l l l l }
-        $\bullet$ Rel Volume     & $\bullet$ Fragile Sequence   & $\bullet$ width-W-mean & $\bullet$ height-H-std    \\
-        $\bullet$ length-L-std   & $\bullet$Weight Distribution & $\bullet$ width-W-std  & $\bullet$ height-area-min \\
-        $\bullet$ area-AREA-mean & $\bullet$ area-AREA-max      &                        &                           \\
+        \sbt Rel Volume      & \sbt Fragile Sequence    & \sbt width-W-mean & \sbt height-H-std    \\
+        \sbt  length-L-std   & \sbt Weight Distribution & \sbt width-W-std  & \sbt height-area-min \\
+        \sbt  area-AREA-mean & \sbt area-AREA-max       &                   &                      \\
     \end{tabular}
 \end{table}
 
-In the Section~\ref{app:sec:further_feature_filter} in the appendix more feature filter insights are presented, but the
-results stay the same, that drop set DS-50-4 has the overall best results and that the performance of models with the need
-to scale the features lack performance, considering many different datasets. The next section is about choosing the
-datasets further used as classifiers in the final algorithm.
+Additional feature filter results are provided in Section~\ref{app:sec:further_feature_filter} of the appendix.
+These confirm that drop set DS-50-4 achieves the best overall performance, while models requiring feature scaling generally perform worse
+across multiple datasets. The following section addresses the selection of datasets to be used as classifiers in the final algorithm.
 
 \subsection{Selection of dataset}
 \label{sec:dataset_selection}
 
-The results obtained from the feature filter perfromance analyses descirbed in the previous section, can be used to analyze and select
-the best performing datasets from each retrieval strategy, when the results are filtered for drop set DS-50-4.
-The folllowing Figure~\ref{fig:dataset_performance_group_subgroup} displays the \gls{MCC} performance based on which base dataset is chosen (Group)
-and which subgroup of datasets are predicted, either random or save strategy datasets. As described in the previous section, only the
-performance on the base dataset is considered for the save strategy datasets as the datasets are subsets from each other.
+The feature filter performance analyses described in the previous section can be used to identify the best-performing datasets
+from each retrieval strategy, when results are filtered for drop set DS-50-4. Figure~\ref{fig:dataset_performance_group_subgroup}
+shows the MCC performance as a function of the chosen base dataset (Group) and the subgroup of predicted datasets, which are either
+random or save-strategy datasets. Here BC stands for the save strategy with the B\&C algorithm.
+As noted earlier, for save-strategy datasets only the performance on the base dataset is considered,
+since these datasets are nested subsets of one another.
 \begin{figure}[ht]
     \centering
     \includegraphics[width =\textwidth]{pictures/feature_filter/group_subgroup_results.png}
@@ -417,17 +421,19 @@ performance on the base dataset is considered for the save strategy datasets as 
     \label{fig:dataset_performance_group_subgroup}
 \end{figure}
 
-The first subplot Group = SubGroup = BC, displays therefore only the performance on the base train dataset for every respected model type (\gls{LR}, XGB and \gls{FFNN}).
-This subset is the only one with significant differences in performances and the complete datasets outperform the other. When the subgroup
-are random datasets, the performance of shrinked and complete is similar. Only the trimmed datasets can be left out for consideration, as
-the prediction capability is restricted for small tours as only infeasible routes with two customers are respected. The results for the random
-dataset is harder to intepret as the median performance is almost constant for all datasets. When group and subgroup are random datasets, it can
-be observed, that the median performance is slightly better for smaller values of $\delta$ in the same group of ($\alpha$, $\beta$, $\gamma$).
-To avoid choosing datasets arbitrarily, an additional validation dataset was constructed by saving the routes found during the base \gls{ILS}
-algorithm only using the \gls{CP} solver for the feasibility checks. Each instance from \gendreauDataSetText is run 5 times with different times
-with an extended timelimit of 15 min to find many different route candidates. The \gls{ILS} parameters for this run are presented in the next section
-in Table~\ref{tab:parameters_final_noclassifier}.
-
+In the first subplot, where Group = SubGroup = BC, only the performance on the base training dataset is
+displayed for each respective model type (\gls{LR}, XGB, and \gls{FFNN}). This subset is the only one showing significant
+performance differences, with the Complete datasets outperforming the others. When the subgroup consists of random datasets,
+the performance of the Shrinked and Complete datasets is similar. The Trimmed datasets, however, can be excluded from consideration,
+as their predictive capability is restricted by the lack of feasible small tours (only infeasible two-customer routes are included).
+For the random dataset subgroup, the results are more difficult to interpret, as the median performance remains nearly constant
+across datasets. Still, when both group and subgroup are random datasets, a slight improvement in median performance can
+be observed for smaller values of $\delta$ within the same ($\alpha$, $\beta$, $\gamma$) group. To avoid arbitrary dataset
+selection, an additional validation dataset was constructed by saving the routes found during the base \gls{ILS} algorithm,
+with feasibility checks carried out exclusively by the \gls{CP} solver. Each instance from \gendreauDataSetText was run
+five times with different seeds and an extended time limit of 15 minutes to generate a large set of candidate routes.
+The parameters used for this run are provided in Table~\ref{tab:parameters_final_noclassifier} in the following section and
+the validation dataset characteristics in the Table~\ref{tab:validation_dataset_gendreau}.
 \begin{table}[!h]
     \centering
     \small
@@ -438,9 +444,14 @@ in Table~\ref{tab:parameters_final_noclassifier}.
         Validation DS & 427048 & 8605          & 47.0/53.0 & 0.61     & 0.60      \\
         \bottomrule
     \end{tabular}
-    \caption{Validation dataset constructed from \gendreauDataSet with ILS.}
+    \caption{Validation dataset characteristics constructed from \gendreauDataSetText with ILS algorithm.}
     \label{tab:validation_dataset_gendreau}
 \end{table}
+
+The datasets contains many rows with a balanced profile of feasible and infeasible labels. In comparison to both
+random and save strategy datasets the number of routes with two customers is very low, as the \gls{ILS} algorithm
+works with dense routes to improve the solution quality. The \gls{MCC} score for every model and train dataset
+from random and save strategy is shown in the following Figure~\ref{fig:validation_performance_line_plot}.
 
 \begin{figure}[ht]
     \centering
@@ -449,10 +460,15 @@ in Table~\ref{tab:parameters_final_noclassifier}.
     \label{fig:validation_performance_line_plot}
 \end{figure}
 
-
-All the concrete results for every performance metric is depicted in Table~\ref{tab:featurePerformance_validationDataset}.
-
-Chosen Datasets:
+With the exception of the trimmed datasets, the save-strategy datasets generally achieve better predictive performance.
+However, the MCC scores, independent of the training dataset, are significantly lower than those shown in
+Figure~\ref{fig:dataset_performance_group_subgroup}. While the LR model yields consistent values across dataset groups,
+the performance of XGB and FFNN decreases when trained on random-strategy datasets, reversing the ranking of the best-performing
+models from one group to the other. This motivates a more detailed comparison of solution quality with respect to dataset type and
+its causal relationship with model choice. The complete results for all performance metrics are reported in Table~\ref{tab:featurePerformance_validationDataset},
+with the best values highlighted in bold. The choice of the two datasets is based on their superior performance among the evaluation metrics,
+but also on the need to compare random versus save-strategy datasets and to examine whether adjusting the threshold $\delta$ or adding
+more routes to the training dataset (WS) yields better results.
 
 \begin{table}[ht]
     \centering
@@ -462,6 +478,8 @@ Chosen Datasets:
         Save Strategy   & GD-Shrinked  & GD-Shrinked-WS \\\hline
         Random Strategy & RD-4-30-30-6 & RD-4-30-30-8   \\
     \end{tabular}
+    \caption{Chosen datasets for training final classifier.}
+    \label{tab:chosen_datasets}
 \end{table}
 
 \section{Parameter Study}
@@ -493,22 +511,23 @@ total costs of the best solution $C^*$ and another solution with costs $C$.
 \begin{align}
     RPD = \frac{C - C^*}{C^*} \cdot 100\%
 \end{align}
-The rejection rate is the proportion of iterations rejected for infeasible loading in the CP check.
+The rejection rate is the proportion of iterations rejected as infeasible in the \gls{CP} check, which needs
+to be applied after the \textit{SpeedUp} and \textit{Hybrid} variant. These variants allow the acceptance of
+new solutions only based on the classification and need to be checked for \gls{FP} routes afterwards.
 All experiments were run on a AMD EPYC 7513 32-Core machine with 8 cores maximum available for the \gls{CP} solver
-and the heuristic is implemented in C++ and all models were pretrained in Python.
+The \gls{ILS} algorithm is implemented in C++ and all models were pretrained in Python and loaded afterwards in
+the metaheuristic.
 
 \subsection{NoClassifier Variant}
 \label{subsec_parameterStuy_noclassifier}
 In this variant, all base \gls{ILS} parameters are tested, providing the foundation for subsequent variants,
 with the limitation that loading is checked only using the exact \gls{CP} solver. The following levels of
-different parameters were selected in a full grid parameter study. Only one model from the list presented
-in the previous solution will be taken, as the characteristics from one model should be similiar!
-
+different parameters were selected in a full grid parameter study.
 \begin{table}[ht]
     \centering
     \setlength{\tabcolsep}{2em}
     \def\arraystretch{1.1}
-    \begin{tabular}{@{}P{4cm}P{8cm}@{}}
+    \begin{tabular}{@{}L{4cm}P{8cm}@{}}
         \toprule
         Parametertype      & Levels                                                         \\
         \midrule
@@ -521,14 +540,13 @@ in the previous solution will be taken, as the characteristics from one model sh
     \caption{Parameter levels for NoClassifier variant.}
     \label{tab:parameters_noclassifier}
 \end{table}
-
-The core result is, that the \gls{ILS} without speedups is heavely relying on the number of iterations to find good
-solutions. The average \gls{ILS} iterations are very low for some instances as shown in Figure~\ref{fig:average_iterations_noclassifier}.
-Therefore, the instances were grouped in two groups dependent if the average iterations are below 25 iterations (Visualized with different bar
-colors and the horizontal red line). The heatmap of the parameters RandomMoves and LimitNoImpr (see Figure~\ref{fig:heatmap_parameter_study}) indicate, that the best solutions
-were found for the paramters, where either the fewest number of perturbations is executed or the solution is reset frequently to the best found
-solutions to have fewer intensification phases from a strong perturbated solution.
-
+The core result is that the \gls{ILS} without speedups relies heavily on the number of iterations to find high-quality solutions.
+For some instances, the average number of ILS iterations is very low, as shown in Figure~\ref{fig:average_iterations_noclassifier}.
+To account for this, the instances were divided into two groups depending on whether the average number of iterations was below 25
+(visualized with different bar colors and the horizontal red line). The heatmap of the parameters RandomMoves and LimitNoImpr
+(Figure~\ref{fig:heatmap_parameter_study}) indicates that the best solutions were found either when very few perturbations were
+executed or when the search was frequently reset to the best solution found so far, thereby limiting the number of intensification
+phases starting from a strongly perturbed solution.
 \begin{figure}[ht]
     \centering
     \begin{minipage}[t]{0.49\textwidth}
@@ -545,14 +563,16 @@ solutions to have fewer intensification phases from a strong perturbated solutio
     \end{minipage}
 \end{figure}
 
-The complete results are shown as boxplots for each parameter and performance metric in the Appendix Section~\ref{app:subsec:parameterstudy_noclassifier}.
-This parameterstudy shows, that the order of the local search neighborhoods has the only significant effect and the inter neighborhoods
-should be applied first (see Figure~\ref{fig:parameterstudy_NoClassifier_localSearch}). In general it can be observed again, that
-the number of iterations matter most, as the results of the two groups introduced differ strongly performance wise. With these results
-the parameters for the \gls{ILS} variants using the classifier can not be deduced, as the average number of iterations will be higher due to
-speedups incorporated and the rejection rate plays a more significant role. For the comparison between the different variants the following
-configuration will be chosen for NoClassifier:
-
+The complete results are presented as boxplots for each parameter and performance metric in
+Appendix~\ref{app:subsec:parameterstudy_noclassifier}. This parameter study shows that the order of local-search neighborhoods
+is the only factor with a significant effect, with inter-neighborhood moves performing best when applied first
+(see Figure~\ref{fig:parameterstudy_NoClassifier_localSearch}). More generally, the number of iterations is the most
+influential driver of performance, as the two instance groups introduced earlier exhibit pronounced differences.
+The other \gls{ILS} variants incorporate speedups and therefore execute far more iterations, which means their parameter behavior
+will likely follow patterns beyond simply maximizing the number of iterations. To keep the subsequent parameter study tractable,
+a set of base parameters was defined for use in the upcoming analysis and as the configuration for the \textit{NoClassifier} variant.
+This set represents a compromise between the results reported in Appendix~\ref{app:subsec:parameterstudy_noclassifier} for instances
+with many versus few iterations.
 \begin{table}[ht]
     \centering
     \begin{tabular}{@{}cccc@{}}
@@ -562,41 +582,77 @@ configuration will be chosen for NoClassifier:
         3             & 4                    & InterLSFirst       & Both-Insertions-First \\
         \bottomrule
     \end{tabular}
-    \caption{Final chosen parameters for the NoClassifier ILS variant.}
+    \caption{Chosen parameters for the base ILS variant.}
     \label{tab:parameters_final_noclassifier}
 \end{table}
 
 \subsection{SpeedUp Variant}
 \label{subsec_parameterStuy_speedup}
+For the parameter study of each classifier variant of the heuristic, a single dataset (GD-Shrinked-WS) is used.
+This choice is justified by the fact that classifier behavior is independent of the dataset, while performance differences
+are instead captured in the comparison between the \textit{NoClassifier} variant and the classifier-based variants.
+For the \textit{SpeedUp} variant, two main effects are analyzed: (i) whether applying the \textit{Filter} variant during the
+constructive heuristic is beneficial, and (ii) whether allowing multiple iterations without a \gls{CP} check improves results.
+The parameter levels for this study are summarized in Table~\ref{tab:parameters_speedup}.
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{c c }
+    \def\arraystretch{1.2}
+    \begin{tabular}{l c }
         \toprule
-        Parametertype            & Levels     \\
+        Parametertype            & Levels                          \\
         \midrule
-        IterationsWithoutCPCheck & [1,3,5,10] \\
-        UseFilterStartSolution   & [1,0]      \\
+        IterationsWithoutCPCheck & 1,3,5                           \\
+        UseFilterStartSolution   & True, False                     \\
+        Model type               & \gls{LR}, \gls{XGB}, \gls{FFNN} \\
         \bottomrule
     \end{tabular}
     \caption{Parameter levels for SpeedUp variant.}
     \label{tab:parameters_speedup}
 \end{table}
 
+\subsection{Filter Variant}
+\label{subsec_parameterStuy_filter}
+
+The parameter study levels for the \textit{Filter} variant, shown in Table~\ref{tab:parameters_filter}, investigates, which model
+type is best, and if the whether the \textit{Filter} variant for constructive heuristic is advantageous.
+\begin{table}[ht]
+    \centering
+    \def\arraystretch{1.2}
+    \begin{tabular}{l c }
+        \toprule
+        Parametertype          & Levels                          \\
+        \midrule
+        UseFilterStartSolution & True, False                     \\
+        Model type             & \gls{LR}, \gls{XGB}, \gls{FFNN} \\
+        \bottomrule
+    \end{tabular}
+    \caption{Parameter levels for Filter variant.}
+    \label{tab:parameters_filter}
+\end{table}
+
+
 \subsection{Hybrid Variant}
 \label{subsec_parameterStuy_hybrid}
+The \textit{Hybrid} variant requires the most extensive parameter tuning. In addition to the effects analyzed in the
+\textit{SpeedUp} variant, it must also be determined in which part of the algorithm, the perturbation phase, inter-LS, or intra-LS,
+the exact \gls{CP} solver should be applied, while the \textit{SpeedUp} mechanism is used for the remaining two components.
+The parameter levels for this study are summarized in Table~\ref{tab:parameters_hybrid}.
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{c c }
+    \def\arraystretch{1.2}
+    \begin{tabular}{l c }
         \toprule
-        Parametertype             & Levels                      \\
+        Parametertype            & Levels                                       \\
         \midrule
-        Hybrid Usage Alternatives & \{[1,1,0],[1,0,1],[0,1,1]\} \\
-        UseFilterStartSolution    & [1,0]                       \\
+        IterationsWithoutCPCheck & 1,3,5                                        \\
+        Hybrid Usage             & Perturbation, Inter \gls{LS}, Intra \gls{LS} \\
+        UseFilterStartSolution   & True, False                                  \\
+        Model type               & \gls{LR}, \gls{XGB}, \gls{FFNN}              \\
         \bottomrule
     \end{tabular}
-    \caption{Parameter levels for hybrid variant.}
+    \caption{Parameter levels for Hybrid variant.}
     \label{tab:parameters_hybrid}
 \end{table}
 
@@ -618,5 +674,8 @@ to \cite{zhang_evolutionary_2015}.\footcite[cf.][p.28]{zhang_evolutionary_2015}
     \caption{Timelimit for the final heuristic comparisons.}
 \end{table}
 
-\section{Krebs will be cooked}
+\section{Generalization of model}
 \label{sec:application_krebs}
+
+Test Krebs by either using model and settings grom gendreau
+or by training own dataset with the krebs random and save strategy datasets.
