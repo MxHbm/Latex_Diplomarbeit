@@ -183,11 +183,11 @@ For example, \textcite{gehring_genetic_1997} propose the construction of item
 by the box below it. This effectively reduces the dimensions from 3D to a 2D floor space arrangement,
 similar to the \gls{PLP}.\footcite[cf.][pp. 402--406]{gehring_genetic_1997}
 In the integrated approach for solving the subproblem of the \gls{2L-CVRP} resp. \gls{3L-CVRP}
-the most common heuristics are variations of the \textit{\Gls{BLF}}
-and the \textit{\Gls{MTP}} algorithm. The \gls{BLF} describes the order, where
+the most common heuristics are variations of the \gls{BLF}
+and the \gls{MTP} algorithm. The \gls{BLF} describes the order, where
 every consecutive item is tried to be placed as close to the bottom left corner of the vehicle. The
 first priority is the distance to the container wall in the back and the second priority the distance
-to the left container wall. This leads to a placing pattern filling each "row" of the container floor
+to the left container wall. This leads to a placing pattern filling each row of the container floor
 consecutively.
 When constraints as \gls{LIFO} are considered, \cite{iori_exact_2007} utilized a \textit{contour} line
 to identify the last possibble placement of each item on the floor. The \gls{MTP} was introduced by
@@ -197,15 +197,16 @@ For the three-dimensional problem the heuristics were adapted to generate also a
 stacking and multiple layers of items are considered. In \cite{gendreau_tabu_2006}, the \gls{BLF}
 was adapted, that the bottom (first priority) could also represent already placed items, this leads
 to a placing pattern where walls are constructed consecutively from the container back to the rear. The
-\gls{MTP} is adapted by considering the whole three-dimensional
-surface of all items (touching area algorithm). \footcite[cf.][p. 345]{gendreau_tabu_2006}
+\gls{MTP} was adapted from \cite{tarantilis_hybrid_2009} by considering the whole three-dimensional
+surface of all items (\gls{MTA}). \footcite[cf.][pp. 258-260]{tarantilis_hybrid_2009}
 In the work from \cite{tao_effective_2015} a corner point method
 was introduced, which aims to minimize the waste area (unused loading capacities, blocked space) by
 defining for each item all possible corner points, where the item could be placed in all possible
 orientations.\footcite[cf.][pp. 130-132]{tao_effective_2015} The \gls{DBLF} algorithm
-is an adaption of the \gls{BLF} Algorithm and was integrated in the \gls{3L-CVRP} from \cite{krebs_advanced_2021}.
+is an adaption of the \gls{BLF} Algorithm and was integrated in the \gls{3L-CVRP} firstly from \cite{wang_two_2010}
+and further used by \cite{krebs_advanced_2021}.
 The core adaption is, that the first priority for placing any item is as far as possible in the back of the cargo
-leading to a more dense packing.\footcite[cf.][pp. 8-9]{krebs_axle_2021}
+leading to a more dense packing.\footcites[cf.][pp. 259-263]{wang_two_2010}[cf.][pp. 8-9]{krebs_axle_2021}
 Even though constructive heuristics are quite simple, they are still widely used because of their simplicity and efficiency to obtain fast solutions.
 \footcite[cf.][pp. 11--13]{tamke_branch-and-cut_2024}
 
@@ -373,22 +374,20 @@ on \gls{3L-CVRP} algorithms presenting for both \gls{CLP} and \gls{VRP} solution
 
 \section{Literature Overview}
 \label{sec:literature_overview}
-
-The presented literature is grouped in three groups, namely metaheuristics, exact approaches and blended
-approaches, in Table~\ref{tab:literature overview}. As the emphasis is lying on the distinction
-if the loading of one route is feasible or not, the routing algorithms were not presented so far.
-The overview table gives an impression of the methods and algorithms used for
-optimizing the master problem, the \gls{VRP}. Most heuristic methods rely on \gls{LS} neighborhoods,
-which are embedded in a metaheuristic, as \gls{SA}, \gls{LNS} or \gls{TS}. To group the approaches
-further different sets of loading constraints are summarized in Table~\ref{tab:constraint_sets} and
-are divided by the first authors using these constraints.
-When analyzing the three approach groups it is apparent, that the metaheuristic approaches considered
-the most loading constraints. This is a consequence of the more complex definitions needed for
-exact methods or the \gls{ML} approaches and the computational time surplus. Furthermore, when
-the \gls{3L-CVRP} is tackled instead of the \gls{2L-CVRP}, more loading constraints, than just sequence,
-can be considered as the loading gets much more complex due to the added dimension.The following chapter
-highlights insigts for training a binary classifier with all necessary components
-to lay the foundation for a new promising \gls{3L-CVRP} algorithm with \gls{ML} components.
+The reviewed literature is categorized into three main groups—metaheuristics, exact approaches, and blended approaches, as
+summarized in Table~\ref{tab:literature overview}. Since the focus here is on route-loading feasibility, routing algorithms
+themselves are not discussed in detail. Notably, papers reporting improvements on the \gendreauDataSetText instances primarily
+advanced the loading algorithms, as the \gls{CLP} constitutes the bottleneck of the problem.
+Table~\ref{tab:literature overview} provides an overview of methods used to optimize the master problem, the \gls{VRP}.
+Most heuristic approaches rely on \gls{LS} neighborhoods embedded within a metaheuristic, such as \gls{SA}, \gls{LNS},
+or \gls{TS}. To refine the comparison, different sets of loading constraints are summarized in Table~\ref{tab:constraint_sets}
+and grouped according to the authors who first introduced them.
+Across the three categories, metaheuristic approaches generally consider the largest number of loading constraints. This results
+from the more complex definitions required in exact or \gls{ML}-based methods, as well as their higher computational demands.
+Moreover, when extending from the \gls{2L-CVRP} to the \gls{3L-CVRP}, additional constraints beyond sequence feasibility can
+be addressed, since loading becomes more complex in three dimensions.
+The following chapter builds on these insights to motivate the training of a binary classifier, incorporating all necessary
+components to establish the foundation for a promising new \gls{3L-CVRP} algorithm with integrated \gls{ML} techniques.
 
 \begin{table}[ht]\footnotesize
     \centering
@@ -406,7 +405,7 @@ to lay the foundation for a new promising \gls{3L-CVRP} algorithm with \gls{ML} 
         \cite{gendreau_tabu_2006}  & $\mathcal{G}$       & z-Rotation, Fragility, LIFO, Sequence, Support Area                                    \\
         \cite{ceschia_local_2013}  & $\mathcal{C}$       & z-Rotation, Load Bearing Strength, Reachability, MLIFO, Robust Stability               \\
         \cite{krebs_advanced_2021} & $\mathcal{K}$       & z-Rotation, Load Bearing Strength, Reachability, MLIFO, Robust Stability, Axle Weights \\
-        \cite{iori_exact_2007}     & $\mathcal{I}$       & Sequence / \gls{LIFO}                                                                  \\
+        \cite{iori_exact_2007}     & $\mathcal{I}$       & Sequence, \gls{LIFO}                                                                   \\
         \bottomrule
     \end{tabular}
 
@@ -431,34 +430,37 @@ to lay the foundation for a new promising \gls{3L-CVRP} algorithm with \gls{ML} 
             P{0.12\textwidth} % Constraints
             @{}}
         \toprule
-        \textbf{No} & \textbf{Year}                          & \textbf{Author}                          & \textbf{Problem} & \textbf{Routing Algorithm}    & \textbf{Loading Algorithm}              & \textbf{Constraints}            \\
+        \textbf{No} & \textbf{Year}                          & \textbf{Author}                          & \textbf{Problem} & \textbf{Routing Algorithm}    & \textbf{Loading Algorithm}                & \textbf{Constraints}            \\
         \midrule
 
-        \multicolumn{7}{c}{\textbf{Metaheuristics}}                                                                                                                                                                                    \\
+        \multicolumn{7}{c}{\textbf{Metaheuristics}}                                                                                                                                                                                      \\
         \midrule
-        1           & \citeyear{gendreau_tabu_2006}          & \citeauthor{gendreau_tabu_2006}          & 3L-CVRP          & 4-Opt \gls{LS} with Tabu List & \gls{BLF}                               & $\mathcal{G}$                   \\
-        2           & \citeyear{gendreau_tabu_2008}          & \citeauthor{gendreau_tabu_2008}          & 2L-CVRP          & \gls{TS}                      & \gls{MTP}                               & $\mathcal{I}$                   \\
-        3           & \citeyear{zachariadis_guided_2009}     & \citeauthor{zachariadis_guided_2009}     & 2L-CVRP          & Guided \gls{TS}               & \gls{MTP}                  \& \gls{BLF} & $\mathcal{I}$                   \\
-        4           & \citeyear{ceschia_local_2013}          & \citeauthor{ceschia_local_2013}          & 3L-CVRP          & \gls{SA} with \gls{LNS}       & Different Heuristics (\gls{BLF}, \dots) & $\mathcal{C}$                   \\
-        5           & \citeyear{tao_effective_2015}          & \citeauthor{tao_effective_2015}          & 3L-CVRP          & \gls{TS}                      & Least Waste Heuristic                   & $\mathcal{G}$                   \\
-        6           & \citeyear{zhang_evolutionary_2015}     & \citeauthor{zhang_evolutionary_2015}     & 3L-CVRP          & Evolutionary \gls{LS}         & \gls{LS} with Open Space Heuristic      & $\mathcal{G}$                   \\
-        7           & \citeyear{krebs_axle_2021}             & \citeauthor{krebs_axle_2021}             & 3L-CVRP          & Adaptive \gls{LNS}            & \gls{DBLF}                              & $\mathcal{G}$ + Axle Weights    \\
-        8           & \citeyear{krebs_advanced_2021}         & \citeauthor{krebs_advanced_2021}         & 3L-CVRP          & Adaptive \gls{LNS}            & \gls{DBLF}                              & $\mathcal{K}$                   \\
+        1           & \citeyear{gendreau_tabu_2006}          & \citeauthor{gendreau_tabu_2006}          & 3L-CVRP          & 4-Opt \gls{LS} with Tabu List & \gls{BLF}                                 & $\mathcal{G}$                   \\
+        2           & \citeyear{gendreau_tabu_2008}          & \citeauthor{gendreau_tabu_2008}          & 2L-CVRP          & \gls{TS}                      & \gls{MTP}                                 & $\mathcal{I}$                   \\
+        3           & \citeyear{tarantilis_hybrid_2009}      & \citeauthor{tarantilis_hybrid_2009}      & 3L-CVRP          & Guided \gls{TS}               & 6 different Heuristics (\gls{MTP}, \dots) & $\mathcal{G}$                   \\
+        4           & \citeyear{zachariadis_guided_2009}     & \citeauthor{zachariadis_guided_2009}     & 2L-CVRP          & Guided \gls{TS}               & \gls{MTP}                  \& \gls{BLF}   & $\mathcal{I}$                   \\
+        5           & \citeyear{wang_two_2010}               & \citeauthor{wang_two_2010}               & 3L-CVRP          & \gls{TS}                      & \gls{DBLF} \& \gls{MTP}                   & $\mathcal{G}$                   \\
+        6           & \citeyear{bortfeldt_hybrid_2012}       & \citeauthor{bortfeldt_hybrid_2012}       & 3L-CVRP          & \gls{TS}                      & Tree search algorithm                     &                                 \\
+        7           & \citeyear{ceschia_local_2013}          & \citeauthor{ceschia_local_2013}          & 3L-CVRP          & \gls{SA} with \gls{LNS}       & Different Heuristics (\gls{BLF}, \dots)   & $\mathcal{C}$                   \\
+        8           & \citeyear{tao_effective_2015}          & \citeauthor{tao_effective_2015}          & 3L-CVRP          & \gls{TS}                      & Least Waste Heuristic                     & $\mathcal{G}$                   \\
+        9           & \citeyear{zhang_evolutionary_2015}     & \citeauthor{zhang_evolutionary_2015}     & 3L-CVRP          & Evolutionary \gls{LS}         & \gls{LS} with Open Space Heuristic        & $\mathcal{G}$                   \\
+        10          & \citeyear{krebs_axle_2021}             & \citeauthor{krebs_axle_2021}             & 3L-CVRP          & Adaptive \gls{LNS}            & \gls{DBLF}                                & $\mathcal{G}$ + Axle Weights    \\
+        11          & \citeyear{krebs_advanced_2021}         & \citeauthor{krebs_advanced_2021}         & 3L-CVRP          & Adaptive \gls{LNS}            & \gls{DBLF}                                & $\mathcal{K}$                   \\
         \addlinespace[0.5em]
         \midrule
-        \multicolumn{7}{c}{\textbf{Exact Approaches}}                                                                                                                                                                                  \\
+        \multicolumn{7}{c}{\textbf{Exact Approaches}}                                                                                                                                                                                    \\
         \midrule
-        9           & \citeyear{iori_exact_2007}             & \citeauthor{iori_exact_2007}             & 2L-CVRP          & Branch-and-cut                & Branch-and-bound \& \gls{BLF} Heuristic & $\mathcal{I}$                   \\
-        10          & \citeyear{junqueira_optimization_2013} & \citeauthor{junqueira_optimization_2013} & 3L-CVRP          & Integer \gls{LP}              & Branch-and-bound \& \gls{BLF} Heuristic & Multidrop, \gls{LBS}, Fragility \\
-        11          & \citeyear{hokama_branch-and-cut_2016}  & \citeauthor{hokama_branch-and-cut_2016}  & 2L/3L-CVRP       & Branch-and-cut                & \gls{CP} Solver \& Heuristic            & $\mathcal{I}$                   \\
-        12          & \citeyear{tamke_branch-and-cut_2024}   & \citeauthor{tamke_branch-and-cut_2024}   & 3L-CVRP          & Branch-and-cut                & \gls{CP} Solver \& Heuristic            & $\mathcal{G}$                   \\
+        12          & \citeyear{iori_exact_2007}             & \citeauthor{iori_exact_2007}             & 2L-CVRP          & Branch-and-cut                & Branch-and-bound \& \gls{BLF} Heuristic   & $\mathcal{I}$                   \\
+        13          & \citeyear{junqueira_optimization_2013} & \citeauthor{junqueira_optimization_2013} & 3L-CVRP          & Integer \gls{LP}              & Branch-and-bound \& \gls{BLF} Heuristic   & Multidrop, \gls{LBS}, Fragility \\
+        14          & \citeyear{hokama_branch-and-cut_2016}  & \citeauthor{hokama_branch-and-cut_2016}  & 2L/3L-CVRP       & Branch-and-cut                & \gls{CP} Solver \& Heuristic              & $\mathcal{I}$                   \\
+        15          & \citeyear{tamke_branch-and-cut_2024}   & \citeauthor{tamke_branch-and-cut_2024}   & 3L-CVRP          & Branch-and-cut                & \gls{CP} Solver \& Heuristic              & $\mathcal{G}$                   \\
         \addlinespace[0.5em]
         \midrule
-        \multicolumn{7}{c}{\textbf{Blended Approaches}}                                                                                                                                                                                \\
+        \multicolumn{7}{c}{\textbf{Blended Approaches}}                                                                                                                                                                                  \\
         \midrule
-        13          & \citeyear{kucuk_constraint_2022}       & \citeauthor{kucuk_constraint_2022}       & 3L-VRPTW         & CP-Solver                     & \gls{EA}                                & Full rotation                   \\
-        14          & \citeyear{zhang_learning-based_2022}   & \citeauthor{zhang_learning-based_2022}   & 2L-VRPTW         & Branch-and-price              & Binary Classifier + \gls{SP} Algorithm  & $\emptyset$                     \\
-        15          & \citeyear{schoepf_using_2024}          & \citeauthor{schoepf_using_2024}          & 3L-CVRP          & \gls{RL}                      & \gls{RL}                                & $\mathcal{G}$                   \\
+        16          & \citeyear{kucuk_constraint_2022}       & \citeauthor{kucuk_constraint_2022}       & 3L-VRPTW         & CP-Solver                     & \gls{EA}                                  & Full rotation                   \\
+        17          & \citeyear{zhang_learning-based_2022}   & \citeauthor{zhang_learning-based_2022}   & 2L-VRPTW         & Branch-and-price              & Binary Classifier + \gls{SP} Algorithm    & $\emptyset$                     \\
+        18          & \citeyear{schoepf_using_2024}          & \citeauthor{schoepf_using_2024}          & 3L-CVRP          & \gls{RL}                      & \gls{RL}                                  & $\mathcal{G}$                   \\
 
 
         \bottomrule
