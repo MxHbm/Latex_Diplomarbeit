@@ -8,7 +8,10 @@ different strategies for comparing different models and selecting the best best 
 Afterwards a parameter study is conducted for the \gls{ILS}, starting with the \textit{NoClassifier} variant determining
 the best configurations for the base parameters, followed by a variant specific parameter study.
 This chapter closes with a computational study of all four variants, comparing the variants with tuned parameters.
-These insights are summarized in the concluding chapter.
+These insights are summarized in the concluding chapter. All experiments were run on a AMD EPYC 7513 32-Core machine
+with 8 cores maximum available for the \gls{CP} solver. The \gls{ILS} algorithm is implemented in C++ and all models
+were pretrained in Python and loaded afterwards in the metaheuristic. All data analysis was carried out in either Python scripts
+or Jupyter notebooks. The Section~\ref{app:sec:github_implementations} in the appendix contains the links to all GitHub repositories containing the used implementations.
 
 \section{Comparison of Available Datasets}
 \label{sec:dataset_comparison}
@@ -79,10 +82,10 @@ For example, the \mouraDataSetText dataset includes 46
 instances with 25 customers each, resulting in $25 \cdot 46 = 1150$ dots in the plot.
 
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.85\textwidth]{pictures/comparison_datasets_3lcvrp.png}
-    \caption{Comparison aggregated customer demands of different 3L--CVRP/ 3L--VRPTW datasets.}
-    \label{fig:dataset_comparison}
+	\centering
+	\includegraphics[width=0.85\textwidth]{pictures/comparison_datasets_3lcvrp.png}
+	\caption{Comparison aggregated customer demands of different 3L--CVRP/ 3L--VRPTW datasets.}
+	\label{fig:dataset_comparison}
 \end{figure}
 
 The dispersion of the data points reflects the diversity of individual instances in terms of volume
@@ -111,11 +114,11 @@ represents one instance type and the plots are divided by the number of respecti
 6 combinations each. There are three levels for the different item types per [3,10,100] and two levels for the total
 number of items, 200 and 400, per instance.
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.85\textwidth]{pictures/krebs_instances_detailed.png}
-    \caption[Visualization of different instances of \textcite{krebs_advanced_2021} dataset.]{Visualization of different instances of \krebsADataSetText dataset.
-        The instances are named by the number of customers, item types and items.}
-    \label{fig:krebs_dataset_analysis_detailes}
+	\centering
+	\includegraphics[width=0.85\textwidth]{pictures/krebs_instances_detailed.png}
+	\caption[Visualization of different instances of \textcite{krebs_advanced_2021} dataset.]{Visualization of different instances of \krebsADataSetText dataset.
+		The instances are named by the number of customers, item types and items.}
+	\label{fig:krebs_dataset_analysis_detailes}
 \end{figure}%
 Several insights can be obtained from the analysis of this plot. Firstly, the aggregated relative
 volume and mass per customer is significantly lower for the group with 20 customers than for the groups with 60 or 100 customers.
@@ -132,15 +135,15 @@ This dataset consists of 27 instances, where the dispersion of the aggregated ma
 following Figure~\ref{fig:aggregated_gendreau_plots} show this dispersion per instance revealing an important insight about the dataset.
 As the relative volume is quite constant for all instances, the relative mass differs between the instances.
 \begin{figure}[ht]
-    \centering
-    \begin{tikzpicture}[scale=0.9, transform shape,node distance=0mm and 0mm]
-        \node[anchor=south, inner sep=0] (A) at (0,0)
-        {\includegraphics[width=0.95\textwidth]{pictures/AggMassCustGendreau.png}};
-        \node[anchor=north, below=of A,inner sep=0] (B)
-        {\includegraphics[width=0.96\textwidth]{pictures/AggVolCustGendreau.png}};
-    \end{tikzpicture}
-    \caption{Aggregated relative mass and volume per customer distributed for each instance of the \gendreauDataSetText dataset.}
-    \label{fig:aggregated_gendreau_plots}
+	\centering
+	\begin{tikzpicture}[scale=0.9, transform shape,node distance=0mm and 0mm]
+		\node[anchor=south, inner sep=0] (A) at (0,0)
+		{\includegraphics[width=0.95\textwidth]{pictures/AggMassCustGendreau.png}};
+		\node[anchor=north, below=of A,inner sep=0] (B)
+		{\includegraphics[width=0.96\textwidth]{pictures/AggVolCustGendreau.png}};
+	\end{tikzpicture}
+	\caption{Aggregated relative mass and volume per customer distributed for each instance of the \gendreauDataSetText dataset.}
+	\label{fig:aggregated_gendreau_plots}
 \end{figure}
 As it was analyzed from \cite{tamke_branch-and-cut_2024}
 the complexity to solve the instances is far greater, when the items are more lightweight and the volume is the limiting factor
@@ -179,43 +182,43 @@ and mass refer to the average value for all routes in the respective dataset. Th
 the parameters as follows: RD-$\alpha$-$\beta$-$\gamma$-$10\delta$.
 
 \begin{table}[ht]
-    \centering
-    \small
-    \begin{tabular}{@{}L{0.20\textwidth}P{0.04\textwidth}P{0.04\textwidth}P{0.05\textwidth}P{0.10\textwidth}P{0.12\textwidth}P{0.12\textwidth}P{0.12\textwidth}@{}}
-        \toprule
-        Name          & $\alpha$           & $\gamma$            & $\delta$ & Routes & Balance   & Rel. Vol & Rel. Mass \\
-        \midrule
-        RD-2-30-20-6  & \multirow{3}{*}{2} & \multirow{3}{*}{20} & 0.6      & 36779  & 34.4/65.6 & 0.66     & 0.55      \\
-        RD-2-30-20-8  &                    &                     & 0.8      & 40724  & 29.0/71.0 & 0.69     & 0.59      \\
-        RD-2-30-20-10 &                    &                     & 1        & 47350  & 24.3/75.7 & 0.75     & 0.65      \\
-        \midrule
-        RD-2-30-30-6  & \multirow{3}{*}{2} & \multirow{3}{*}{30} & 0.6      & 56644  & 33.6/66.4 & 0.66     & 0.55      \\
-        RD-2-30-30-8  &                    &                     & 0.8      & 63011  & 28.2/71.8 & 0.69     & 0.59      \\
-        RD-2-30-30-10 &                    &                     & 1        & 72408  & 24.2/75.8 & 0.75     & 0.6       \\
-        \midrule
-        RD-3-30-20-6  & \multirow{3}{*}{3} & \multirow{3}{*}{20} & 0.6      & 48987  & 35.4/64.6 & 0.65     & 0.54      \\
-        RD-3-30-20-8  &                    &                     & 0.8      & 61376  & 28.8/71.2 & 0.69     & 0.59      \\
-        RD-3-30-20-10 &                    &                     & 1        & 70843  & 24.5/75.5 & 0.74     & 0.64      \\
-        \midrule
-        RD-3-30-30-6  & \multirow{3}{*}{3} & \multirow{3}{*}{30} & 0.6      & 84751  & 33.8/66.2 & 0.66     & 0.55      \\
-        RD-3-30-30-8  &                    &                     & 0.8      & 93942  & 28.6/71.4 & 0.69     & 0.59      \\
-        RD-3-30-30-10 &                    &                     & 1        & 108597 & 24.0/76.0 & 0.75     & 0.65      \\
-        \midrule
-        RD-4-30-20-6  & \multirow{3}{*}{4} & \multirow{3}{*}{20} & 0.6      & 73549  & 34.4/65.6 & 0.66     & 0.55      \\
-        RD-4-30-20-8  &                    &                     & 0.8      & 81607  & 28.9/71.1 & 0.69     & 0.59      \\
-        RD-4-30-20-10 &                    &                     & 1        & 94666  & 24.2/75.8 & 0.75     & 0.65      \\
-        \midrule
-        RD-4-30-30-6  & \multirow{3}{*}{4} & \multirow{3}{*}{30} & 0.6      & 113241 & 33.7/66.3 & 0.66     & 0.55      \\
-        RD-4-30-30-8  &                    &                     & 0.8      & 125181 & 28.4/71.6 & 0.69     & 0.59      \\
-        RD-4-30-30-10 &                    &                     & 1        & 144311 & 24.1/75.9 & 0.75     & 0.65      \\
-        \midrule
-        RD-5-40-40-6  & \multirow{3}{*}{5} & \multirow{3}{*}{40} & 0.6      & 197525 & 32.0/68.0 & 0.67     & 0.56      \\
-        RD-5-40-40-8  &                    &                     & 0.8      & 217085 & 27.3/72.7 & 0.70     & 0.60      \\
-        RD-5-40-40-10 &                    &                     & 1        & 249762 & 23.1/76.9 & 0.76     & 0.66      \\
-        \bottomrule
-    \end{tabular}
-    \caption{Created instances for different parameter combinations $(\alpha, \beta, \gamma, \delta)$ for \gendreauDataSetText dataset.}
-    \label{tab:created_instances_xyz_gendreau}
+	\centering
+	\small
+	\begin{tabular}{@{}L{0.20\textwidth}P{0.04\textwidth}P{0.04\textwidth}P{0.05\textwidth}P{0.10\textwidth}P{0.12\textwidth}P{0.12\textwidth}P{0.12\textwidth}@{}}
+		\toprule
+		Name          & $\alpha$           & $\gamma$            & $\delta$ & Routes & Balance   & Rel. Vol & Rel. Mass \\
+		\midrule
+		RD-2-30-20-6  & \multirow{3}{*}{2} & \multirow{3}{*}{20} & 0.6      & 36779  & 34.4/65.6 & 0.66     & 0.55      \\
+		RD-2-30-20-8  &                    &                     & 0.8      & 40724  & 29.0/71.0 & 0.69     & 0.59      \\
+		RD-2-30-20-10 &                    &                     & 1        & 47350  & 24.3/75.7 & 0.75     & 0.65      \\
+		\midrule
+		RD-2-30-30-6  & \multirow{3}{*}{2} & \multirow{3}{*}{30} & 0.6      & 56644  & 33.6/66.4 & 0.66     & 0.55      \\
+		RD-2-30-30-8  &                    &                     & 0.8      & 63011  & 28.2/71.8 & 0.69     & 0.59      \\
+		RD-2-30-30-10 &                    &                     & 1        & 72408  & 24.2/75.8 & 0.75     & 0.6       \\
+		\midrule
+		RD-3-30-20-6  & \multirow{3}{*}{3} & \multirow{3}{*}{20} & 0.6      & 48987  & 35.4/64.6 & 0.65     & 0.54      \\
+		RD-3-30-20-8  &                    &                     & 0.8      & 61376  & 28.8/71.2 & 0.69     & 0.59      \\
+		RD-3-30-20-10 &                    &                     & 1        & 70843  & 24.5/75.5 & 0.74     & 0.64      \\
+		\midrule
+		RD-3-30-30-6  & \multirow{3}{*}{3} & \multirow{3}{*}{30} & 0.6      & 84751  & 33.8/66.2 & 0.66     & 0.55      \\
+		RD-3-30-30-8  &                    &                     & 0.8      & 93942  & 28.6/71.4 & 0.69     & 0.59      \\
+		RD-3-30-30-10 &                    &                     & 1        & 108597 & 24.0/76.0 & 0.75     & 0.65      \\
+		\midrule
+		RD-4-30-20-6  & \multirow{3}{*}{4} & \multirow{3}{*}{20} & 0.6      & 73549  & 34.4/65.6 & 0.66     & 0.55      \\
+		RD-4-30-20-8  &                    &                     & 0.8      & 81607  & 28.9/71.1 & 0.69     & 0.59      \\
+		RD-4-30-20-10 &                    &                     & 1        & 94666  & 24.2/75.8 & 0.75     & 0.65      \\
+		\midrule
+		RD-4-30-30-6  & \multirow{3}{*}{4} & \multirow{3}{*}{30} & 0.6      & 113241 & 33.7/66.3 & 0.66     & 0.55      \\
+		RD-4-30-30-8  &                    &                     & 0.8      & 125181 & 28.4/71.6 & 0.69     & 0.59      \\
+		RD-4-30-30-10 &                    &                     & 1        & 144311 & 24.1/75.9 & 0.75     & 0.65      \\
+		\midrule
+		RD-5-40-40-6  & \multirow{3}{*}{5} & \multirow{3}{*}{40} & 0.6      & 197525 & 32.0/68.0 & 0.67     & 0.56      \\
+		RD-5-40-40-8  &                    &                     & 0.8      & 217085 & 27.3/72.7 & 0.70     & 0.60      \\
+		RD-5-40-40-10 &                    &                     & 1        & 249762 & 23.1/76.9 & 0.76     & 0.66      \\
+		\bottomrule
+	\end{tabular}
+	\caption{Created instances for different parameter combinations $(\alpha, \beta, \gamma, \delta)$ for \gendreauDataSetText dataset.}
+	\label{tab:created_instances_xyz_gendreau}
 \end{table}
 The greatest impact on the route characteristics contained in the datasets has parameter $\delta$ as fewer and lighter packed routes
 are created. The route characteristics of balance and relative volume and weight are nearly identical for each other tuple combination
@@ -223,28 +226,28 @@ of ($\alpha$,$\beta$,$\gamma$). This influence is visualized in the following Fi
 of the route length of each $\delta$ variant is shown for an exemplary random dataset.
 
 \begin{figure}[!ht]
-    \centering
-    \begin{subfigure}[t]{.33\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_3_30_20_6.png}
-        \caption{RD-3-30-20-6; \\Threshold $\delta$ = 0.6.}
-        \label{fig:ds-a}
-    \end{subfigure}%
-    \begin{subfigure}[t]{.33\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_3_30_20_8.png}
-        \caption{RD-3-30-20-8; \\Threshold $\delta$ = 0.8.}
-        \label{fig:ds-b}
-    \end{subfigure}
-    \begin{subfigure}[t]{.33\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_3_30_20_10.png}
-        \caption{RD-3-30-20-10; \\ Threshold $\delta$ = 1.0.}
-        \label{fig:ds-c}
-    \end{subfigure}
-    \caption[Distribution of route length for the random strategy with different thresholds.]{Distribution of route length the random strategy for with different thresholds.
-        The red vertical line represents the average number of customers.}
-    \label{fig:route-dists_randomdata}
+	\centering
+	\begin{subfigure}[t]{.33\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_3_30_20_6.png}
+		\caption{RD-3-30-20-6; \\Threshold $\delta$ = 0.6.}
+		\label{fig:ds-a}
+	\end{subfigure}%
+	\begin{subfigure}[t]{.33\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_3_30_20_8.png}
+		\caption{RD-3-30-20-8; \\Threshold $\delta$ = 0.8.}
+		\label{fig:ds-b}
+	\end{subfigure}
+	\begin{subfigure}[t]{.33\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_3_30_20_10.png}
+		\caption{RD-3-30-20-10; \\ Threshold $\delta$ = 1.0.}
+		\label{fig:ds-c}
+	\end{subfigure}
+	\caption[Distribution of route length for the random strategy with different thresholds.]{Distribution of route length the random strategy for with different thresholds.
+		The red vertical line represents the average number of customers.}
+	\label{fig:route-dists_randomdata}
 \end{figure}
 
 \FloatBarrier
@@ -259,11 +262,11 @@ as in the beginning of the algorithm all customer combinations are checked to fi
 fasten the feasibility loading check in the algorithm afterwards, which is shown in Figure~\ref{fig:customer_count_bc}. \footcite[cf.][]{tamke_branch-and-cut_2024}
 The results of the branch-and-cut algorithm are summarized in Table~\ref{tab:bc_results_gendreau} in the appendix.
 \begin{wrapfigure}{l}{0.5\textwidth}
-    \begin{center}
-        \includegraphics[width = .5\textwidth]{pictures/dataset_structure/no_cust_plot_gendreau_28880_600_WS.png}
-        \caption{Customer count per route for dataset GD-Complete-WS.}
-        \label{fig:customer_count_bc}
-    \end{center}
+	\begin{center}
+		\includegraphics[width = .5\textwidth]{pictures/dataset_structure/no_cust_plot_gendreau_28880_600_WS.png}
+		\caption{Customer count per route for dataset GD-Complete-WS.}
+		\label{fig:customer_count_bc}
+	\end{center}
 \end{wrapfigure}
 To reduce the number of routes with two customers, two alternative datasets are constructed for each base dataset (Complete) to test if the reduction
 of number of routes with 2 customers, lead to better model performance results. Therefore it was tested
@@ -276,22 +279,22 @@ Additonally the WS datasets contain more infeasible routes and are therefore mor
 as no feasible short tours are included. This distorts the application of the model classifier, since small tours are only labeled as infeasible.
 
 \begin{table}[!h]
-    \centering
-    \small
-    \begin{tabular}{l c c c c c c }
-        \toprule
-        Name           & Sets                 & Routes & Route Len = 2 & Balance   & Rel. Vol & Rel. Mass \\
-        \midrule
-        GD-Complete-WS & \multirow{3}{*}{Yes} & 286858 & 72832         & 37.6/62.4 & 0.62     & 0.46      \\
-        GD-Trimmed-WS  &                      & 216260 & 2234          & 17.2/82.8 & 0.74     & 0.54      \\
-        GD-Shrinked-WS &                      & 249564 & 35538         & 28.2/71.8 & 0.68     & 0.50      \\        \midrule
-        GD-Complete    & \multirow{3}{*}{No}  & 220825 & 72832         & 48.8/51.2 & 0.55     & 0.43      \\
-        GD-Trimmed     &                      & 150227 & 2234          & 24.7/75.3 & 0.69     & 0.53      \\
-        GD-Shrinked    &                      & 183531 & 35538         & 38.4/61.6 & 0.61     & 0.48      \\
-        \bottomrule
-    \end{tabular}
-    \caption[Save strategy train datsets from \gendreauDataSet.]{Save strategy datsets from \gendreauDataSet.}
-    \label{tab:saved_instances_gendreau}
+	\centering
+	\small
+	\begin{tabular}{l c c c c c c }
+		\toprule
+		Name           & Sets                 & Routes & Route Len = 2 & Balance   & Rel. Vol & Rel. Mass \\
+		\midrule
+		GD-Complete-WS & \multirow{3}{*}{Yes} & 286858 & 72832         & 37.6/62.4 & 0.62     & 0.46      \\
+		GD-Trimmed-WS  &                      & 216260 & 2234          & 17.2/82.8 & 0.74     & 0.54      \\
+		GD-Shrinked-WS &                      & 249564 & 35538         & 28.2/71.8 & 0.68     & 0.50      \\        \midrule
+		GD-Complete    & \multirow{3}{*}{No}  & 220825 & 72832         & 48.8/51.2 & 0.55     & 0.43      \\
+		GD-Trimmed     &                      & 150227 & 2234          & 24.7/75.3 & 0.69     & 0.53      \\
+		GD-Shrinked    &                      & 183531 & 35538         & 38.4/61.6 & 0.61     & 0.48      \\
+		\bottomrule
+	\end{tabular}
+	\caption[Save strategy train datsets from \gendreauDataSet.]{Save strategy datsets from \gendreauDataSet.}
+	\label{tab:saved_instances_gendreau}
 \end{table}
 
 \subsubsection{Differences between Random and save strategy datasets}
@@ -305,20 +308,20 @@ highlighting the number of routes and the labels (0: infeasible, 1:feasible) per
 datasets have similar size and balance.
 
 \begin{figure}[ht]
-    \centering
-    \begin{subfigure}[t]{.5\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_RandomData_5_40_40_10.png}
-        \caption{RD-5-40-40-10.}
-    \end{subfigure}%
-    \begin{subfigure}[t]{.5\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_gendreau_28880_600_WS_shrinked094.png}
-        \caption{Complete-WS-Shrinked.}
-    \end{subfigure}
-    \caption[Distribution of routes considered per instance for two exemplary datasets of random and save strategy.]
-    {Distribution of routes considered per instance for two exemplary datasets of random and save strategy.}
-    \label{fig:comparison_noroutes_perInstancce}
+	\centering
+	\begin{subfigure}[t]{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_RandomData_5_40_40_10.png}
+		\caption{RD-5-40-40-10.}
+	\end{subfigure}%
+	\begin{subfigure}[t]{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_gendreau_28880_600_WS_shrinked094.png}
+		\caption{Complete-WS-Shrinked.}
+	\end{subfigure}
+	\caption[Distribution of routes considered per instance for two exemplary datasets of random and save strategy.]
+	{Distribution of routes considered per instance for two exemplary datasets of random and save strategy.}
+	\label{fig:comparison_noroutes_perInstancce}
 \end{figure}
 
 \subsection{Feature Filter Results}
@@ -334,19 +337,19 @@ names have the following structure: DS-$100\mathcal{B}$-$10\epsilon$. To enable
 comparison, an additional empty drop set (DS-0-0) was included.
 
 \begin{table}[ht]
-    \centering
-    \small
-    \begin{tabular}{l c c c c c c c}
-        \toprule
-        Dropset Name          & DS-0-0 & DS-50-2 & DS-50-3 & DS-50-4 & DS-75-2 & DS-75-3 & DS-75-4 \\
-        \midrule
-        Barrier $\mathcal{B}$ & -      & 0.5     & 0.5     & 0.5     & 0.75    & 0.75    & 0.75    \\
-        Threshold $\epsilon$  & -      & 0.2     & 0.3     & 0.4     & 0.2     & 0.3     & 0.4     \\
-        Number Features       & 0      & 10      & 18      & 38      & 7       & 18      & 32      \\
-        \bottomrule
-    \end{tabular}
-    \caption{Presentation of the considered drop sets for the feature selection.}
-    \label{tab:drop_set_presentation_shortened}
+	\centering
+	\small
+	\begin{tabular}{l c c c c c c c}
+		\toprule
+		Dropset Name          & DS-0-0 & DS-50-2 & DS-50-3 & DS-50-4 & DS-75-2 & DS-75-3 & DS-75-4 \\
+		\midrule
+		Barrier $\mathcal{B}$ & -      & 0.5     & 0.5     & 0.5     & 0.75    & 0.75    & 0.75    \\
+		Threshold $\epsilon$  & -      & 0.2     & 0.3     & 0.4     & 0.2     & 0.3     & 0.4     \\
+		Number Features       & 0      & 10      & 18      & 38      & 7       & 18      & 32      \\
+		\bottomrule
+	\end{tabular}
+	\caption{Presentation of the considered drop sets for the feature selection.}
+	\label{tab:drop_set_presentation_shortened}
 \end{table}
 For each drop set, every dataset was trained with each model type and then used to predict the
 true labels of all other datasets in order to identify the best-performing drop set. The hyperparameters used for
@@ -356,10 +359,10 @@ subsets of one another (see Table~\ref{tab:saved_instances_gendreau}). Figure~\r
 the \gls{MCC} for all drop sets and the three model types introduced in Section~\ref{sec:modelselection}.
 
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width = .85\textwidth]{pictures/feature_filter/all_data_exceptSubsets_box_plot.png}
-    \caption{Box plots of MCC performance of different feature drop sets.}
-    \label{fig:mcc_filter_results}
+	\centering
+	\includegraphics[width = .85\textwidth]{pictures/feature_filter/all_data_exceptSubsets_box_plot.png}
+	\caption{Box plots of MCC performance of different feature drop sets.}
+	\label{fig:mcc_filter_results}
 \end{figure}
 Two main observations can be drawn from the boxplot. First, the FFNN exhibits the widest variation in performance, whereas the XGB model
 shows the smallest. Second, dropset DS-50-4 achieves the most consistent results across datasets. For both LR and FFNN, the performance
@@ -372,33 +375,33 @@ achieving predictive performance comparable to other drop sets, as seen in the b
 all performance metrics is presented in Table~\ref{tab:featurePerformance_Alldata}.
 
 \begin{table}[ht]
-    \centering
-    \small
-    \begin{tabular}{lrrrrrrr}
-        \toprule
-        DropSet  & DS-0-0 & DS-50-2 & DS-50-3 & DS-50-4       & DS-75-2 & DS-75-3 & DS-75-4 \\
-        \midrule
-        MCC      & 0.75   & 0.76    & 0.76    & \textbf{0.82} & 0.76    & 0.76    & 0.76    \\
-        F1-Score & 0.81   & 0.82    & 0.82    & \textbf{0.88} & 0.82    & 0.82    & 0.82    \\
-        Accuracy & 0.89   & 0.89    & 0.89    & \textbf{0.93} & 0.89    & 0.89    & 0.89    \\
-        AUROC    & 0.96   & 0.96    & 0.96    & \textbf{0.98} & 0.95    & 0.96    & 0.96    \\
-        \bottomrule
-    \end{tabular}
-    \caption[Mean performance metrics on various different drop set excluding the predicting between save strategy datasets.]
-    {Mean performance metrics on various different drop set excluding the predicting between save strategy datasets.
-        Bold font shows the best results for each performance score.}
-    \label{tab:featurePerformance_Alldata}
+	\centering
+	\small
+	\begin{tabular}{lrrrrrrr}
+		\toprule
+		DropSet  & DS-0-0 & DS-50-2 & DS-50-3 & DS-50-4       & DS-75-2 & DS-75-3 & DS-75-4 \\
+		\midrule
+		MCC      & 0.75   & 0.76    & 0.76    & \textbf{0.82} & 0.76    & 0.76    & 0.76    \\
+		F1-Score & 0.81   & 0.82    & 0.82    & \textbf{0.88} & 0.82    & 0.82    & 0.82    \\
+		Accuracy & 0.89   & 0.89    & 0.89    & \textbf{0.93} & 0.89    & 0.89    & 0.89    \\
+		AUROC    & 0.96   & 0.96    & 0.96    & \textbf{0.98} & 0.95    & 0.96    & 0.96    \\
+		\bottomrule
+	\end{tabular}
+	\caption[Mean performance metrics on various different drop set excluding the predicting between save strategy datasets.]
+	{Mean performance metrics on various different drop set excluding the predicting between save strategy datasets.
+		Bold font shows the best results for each performance score.}
+	\label{tab:featurePerformance_Alldata}
 \end{table}
 
 The final features considered for predicting the loading feasibility are the following:
 \begin{table}[!ht]
-    \centering
-    \def\arraystretch{1.5}
-    \begin{tabular}{l l l l }
-        \sbt Rel Volume      & \sbt Fragile Sequence    & \sbt width-W-mean & \sbt height-H-std    \\
-        \sbt  length-L-std   & \sbt Weight Distribution & \sbt width-W-std  & \sbt height-area-min \\
-        \sbt  area-AREA-mean & \sbt area-AREA-max       &                   &                      \\
-    \end{tabular}
+	\centering
+	\def\arraystretch{1.5}
+	\begin{tabular}{l l l l }
+		\sbt Rel Volume      & \sbt Fragile Sequence    & \sbt width-W-mean & \sbt height-H-std    \\
+		\sbt  length-L-std   & \sbt Weight Distribution & \sbt width-W-std  & \sbt height-area-min \\
+		\sbt  area-AREA-mean & \sbt area-AREA-max       &                   &                      \\
+	\end{tabular}
 \end{table}
 
 Additional feature filter results are provided in Section~\ref{app:sec:further_feature_filter} of the appendix.
@@ -415,10 +418,10 @@ random or save-strategy datasets. Here BC stands for the save strategy with the 
 As noted earlier, for save-strategy datasets only the performance on the base dataset is considered,
 since these datasets are nested subsets of one another.
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width =\textwidth]{pictures/feature_filter/group_subgroup_results.png}
-    \caption{Box plots of MCC performance of different feature drop sets.}
-    \label{fig:dataset_performance_group_subgroup}
+	\centering
+	\includegraphics[width =\textwidth]{pictures/feature_filter/group_subgroup_results.png}
+	\caption{Box plots of MCC performance of different feature drop sets.}
+	\label{fig:dataset_performance_group_subgroup}
 \end{figure}
 
 In the first subplot, where Group = SubGroup = BC, only the performance on the base training dataset is
@@ -435,17 +438,17 @@ five times with different seeds and an extended time limit of 15 minutes to gene
 The parameters used for this run are provided in Table~\ref{tab:parameters_final_noclassifier} in the following section and
 the validation dataset characteristics in the Table~\ref{tab:validation_dataset_gendreau}.
 \begin{table}[!h]
-    \centering
-    \small
-    \begin{tabular}{l c c c c c }
-        \toprule
-        Name          & Routes & Route Len = 2 & Balance   & Rel. Vol & Rel. Mass \\
-        \midrule
-        Validation DS & 427048 & 8605          & 47.0/53.0 & 0.61     & 0.60      \\
-        \bottomrule
-    \end{tabular}
-    \caption{Validation dataset characteristics constructed from \gendreauDataSetText with ILS algorithm.}
-    \label{tab:validation_dataset_gendreau}
+	\centering
+	\small
+	\begin{tabular}{l c c c c c }
+		\toprule
+		Name          & Routes & Route Len = 2 & Balance   & Rel. Vol & Rel. Mass \\
+		\midrule
+		Validation DS & 427048 & 8605          & 47.0/53.0 & 0.61     & 0.60      \\
+		\bottomrule
+	\end{tabular}
+	\caption{Validation dataset characteristics constructed from \gendreauDataSetText with ILS algorithm.}
+	\label{tab:validation_dataset_gendreau}
 \end{table}
 
 The datasets contains many rows with a balanced profile of feasible and infeasible labels. In comparison to both
@@ -454,10 +457,10 @@ works with dense routes to improve the solution quality. The \gls{MCC} score for
 from random and save strategy is shown in the following Figure~\ref{fig:validation_performance_line_plot}.
 
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width =\textwidth]{pictures/feature_filter/validation_line_plot.png}
-    \caption{Obtained MCC from validation dataset based on different train datasets and model types.}
-    \label{fig:validation_performance_line_plot}
+	\centering
+	\includegraphics[width =\textwidth]{pictures/feature_filter/validation_line_plot.png}
+	\caption{Obtained MCC from validation dataset based on different train datasets and model types.}
+	\label{fig:validation_performance_line_plot}
 \end{figure}
 
 With the exception of the trimmed datasets, the save-strategy datasets generally achieve better predictive performance.
@@ -471,15 +474,15 @@ but also on the need to compare random versus save-strategy datasets and to exam
 more routes to the training dataset (WS) yields better results.
 
 \begin{table}[ht]
-    \centering
-    \setlength{\tabcolsep}{0.75em}
-    \def\arraystretch{1.5}
-    \begin{tabular}{l|ll}
-        Save Strategy   & GD-Shrinked  & GD-Shrinked-WS \\\hline
-        Random Strategy & RD-4-30-30-6 & RD-4-30-30-8   \\
-    \end{tabular}
-    \caption{Chosen datasets for training final classifier.}
-    \label{tab:chosen_datasets}
+	\centering
+	\setlength{\tabcolsep}{0.75em}
+	\def\arraystretch{1.5}
+	\begin{tabular}{l|ll}
+		Save Strategy   & GD-Shrinked  & GD-Shrinked-WS \\\hline
+		Random Strategy & RD-4-30-30-6 & RD-4-30-30-8   \\
+	\end{tabular}
+	\caption{Chosen datasets for training final classifier.}
+	\label{tab:chosen_datasets}
 \end{table}
 
 \section{Parameter Study}
@@ -492,13 +495,13 @@ instances from \gendreauDataSetText is used:
 
 
 \begin{table}[ht]
-    \centering
-    \setlength{\tabcolsep}{0.75em}
-    \def\arraystretch{1.5}
-    \begin{tabular}{lllllll}
-        E016-03m & E022-04g & E023-03g & E023-05s & E030-03g & E033-04g & E033-05s \\
-        E051-05e & E072-04f & E076-07s & E076-14s & E101-10c & E101-14s &          \\
-    \end{tabular}
+	\centering
+	\setlength{\tabcolsep}{0.75em}
+	\def\arraystretch{1.5}
+	\begin{tabular}{lllllll}
+		E016-03m & E022-04g & E023-03g & E023-05s & E030-03g & E033-04g & E033-05s \\
+		E051-05e & E072-04f & E076-07s & E076-14s & E101-10c & E101-14s &          \\
+	\end{tabular}
 \end{table}
 
 The division followed the following approach, first all instances were omitted, which found
@@ -509,14 +512,11 @@ how different parameter combinations influence the \gls{RDP}, the iteration numb
 the average improvement per second after finding the initial solution. The \gls{RDP} is defined between the
 total costs of the best solution $C^*$ and another solution with costs $C$.
 \begin{align}
-    RPD = \frac{C - C^*}{C^*} \cdot 100\%
+	RPD = \frac{C - C^*}{C^*} \cdot 100\%
 \end{align}
 The rejection rate is the proportion of iterations rejected as infeasible in the \gls{CP} check, which needs
 to be applied after the \textit{SpeedUp} and \textit{Hybrid} variant. These variants allow the acceptance of
 new solutions only based on the classification and need to be checked for \gls{FP} routes afterwards.
-All experiments were run on a AMD EPYC 7513 32-Core machine with 8 cores maximum available for the \gls{CP} solver
-The \gls{ILS} algorithm is implemented in C++ and all models were pretrained in Python and loaded afterwards in
-the metaheuristic.
 
 \subsection{NoClassifier Variant}
 \label{subsec_parameterStuy_noclassifier}
@@ -524,21 +524,21 @@ In this variant, all base \gls{ILS} parameters are tested, providing the foundat
 with the limitation that loading is checked only using the exact \gls{CP} solver. The following levels of
 different parameters were selected in a full grid parameter study.
 \begin{table}[ht]
-    \centering
-    \setlength{\tabcolsep}{2em}
-    \def\arraystretch{1.1}
-    \begin{tabular}{@{}L{4cm}P{8cm}@{}}
-        \toprule
-        Parametertype      & Levels                                                         \\
-        \midrule
-        AttemptsLimit $a$  & 3, 5, 8, 12                                                    \\
-        RandomMoves R      & 2, 4, 8, 12                                                    \\
-        Perturbation       & R-Swaps, R-Insertions, Both-Insertions-First, Both-Swaps-First \\
-        Neighborhood order & IntraFirst, InterFirst                                         \\
-        \bottomrule
-    \end{tabular}
-    \caption{Parameter levels for NoClassifier variant.}
-    \label{tab:parameters_noclassifier}
+	\centering
+	\setlength{\tabcolsep}{2em}
+	\def\arraystretch{1.1}
+	\begin{tabular}{@{}L{4cm}P{8cm}@{}}
+		\toprule
+		Parametertype      & Levels                                                         \\
+		\midrule
+		AttemptsLimit $a$  & 3, 5, 8, 12                                                    \\
+		RandomMoves R      & 2, 4, 8, 12                                                    \\
+		Perturbation       & R-Swaps, R-Insertions, Both-Insertions-First, Both-Swaps-First \\
+		Neighborhood order & IntraFirst, InterFirst                                         \\
+		\bottomrule
+	\end{tabular}
+	\caption{Parameter levels for NoClassifier variant.}
+	\label{tab:parameters_noclassifier}
 \end{table}
 The core result is that the \gls{ILS} without speedups relies heavily on the number of iterations to find high-quality solutions.
 For some instances, the average number of ILS iterations is very low, as shown in Figure~\ref{fig:average_iterations_noclassifier}.
@@ -548,19 +548,19 @@ To account for this, the instances were divided into two groups depending on whe
 executed or when the search was frequently reset to the best solution found so far, thereby limiting the number of intensification
 phases starting from a strongly perturbed solution.
 \begin{figure}[ht]
-    \centering
-    \begin{minipage}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{pictures/iterations_per_instance.png}
-        \captionof{figure}{\small Average iterations for each \gendreauDataSetText instance.}
-        \label{fig:average_iterations_noclassifier}
-    \end{minipage}\hfill
-    \begin{minipage}[t]{0.49\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{pictures/heatmap_randomMoves_limitNoImpr.png}
-        \captionof{figure}{\small Dependency between RPD and RandomMoves and LimitNoImpr}
-        \label{fig:heatmap_parameter_study}
-    \end{minipage}
+	\centering
+	\begin{minipage}[t]{0.49\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/iterations_per_instance.png}
+		\captionof{figure}{\small Average iterations for each \gendreauDataSetText instance.}
+		\label{fig:average_iterations_noclassifier}
+	\end{minipage}\hfill
+	\begin{minipage}[t]{0.49\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/heatmap_randomMoves_limitNoImpr.png}
+		\captionof{figure}{\small Dependency between RPD and RandomMoves and LimitNoImpr}
+		\label{fig:heatmap_parameter_study}
+	\end{minipage}
 \end{figure}
 
 The complete results are presented as boxplots for each parameter and performance metric in
@@ -574,87 +574,56 @@ a set of base parameters was defined for use in the upcoming analysis and as the
 This set represents a compromise between the results reported in Appendix~\ref{app:subsec:parameterstudy_noclassifier} for instances
 with many versus few iterations.
 \begin{table}[ht]
-    \centering
-    \begin{tabular}{@{}cccc@{}}
-        \toprule
-        AttemptsLimit & RandomMoves        R & Local Search order & Perturbation          \\
-        \midrule
-        3             & 4                    & InterLSFirst       & Both-Insertions-First \\
-        \bottomrule
-    \end{tabular}
-    \caption{Chosen parameters for the base ILS variant.}
-    \label{tab:parameters_final_noclassifier}
+	\centering
+	\begin{tabular}{@{}cccc@{}}
+		\toprule
+		AttemptsLimit & RandomMoves        R & Local Search order & Perturbation          \\
+		\midrule
+		3             & 4                    & InterLSFirst       & Both-Insertions-First \\
+		\bottomrule
+	\end{tabular}
+	\caption{Chosen parameters for the base ILS variant.}
+	\label{tab:parameters_final_noclassifier}
 \end{table}
 
-\subsection{SpeedUp Variant}
+\subsection{Classifier Variants}
 \label{subsec_parameterStuy_speedup}
-For the parameter study of each classifier variant of the heuristic, a single dataset (GD-Shrinked-WS) is used.
-This choice is justified by the fact that classifier behavior is independent of the dataset, while performance differences
-are instead captured in the comparison between the \textit{NoClassifier} variant and the classifier-based variants.
-For the \textit{SpeedUp} variant, two main effects are analyzed: (i) whether applying the \textit{Filter} variant during the
-constructive heuristic is beneficial, and (ii) whether allowing multiple iterations without a \gls{CP} check improves results.
-The parameter levels for this study are summarized in Table~\ref{tab:parameters_speedup}.
-
+For the parameter study of the classifier variants, a single dataset (GD-Shrinked-WS) is used. This choice is motivated
+by the fact that classifier behavior is independent of the dataset, while performance differences are instead revealed in
+the comparison between the \textit{NoClassifier} baseline and the classifier-based variants. The study is summarized in
+Table~\ref{tab:parameters_summary_classifier}, with detailed results for all parameter levels presented in the Appendix,
+where hyperlinks are provided for quick reference.
+In the analysis, several aspects are examined. For all classifier variants, it is investigated whether the \textit{Filter} strategy
+within the constructive heuristic offers an advantage. For the \textit{SpeedUp} and \textit{Hybrid} variants, the study additionally
+considers whether allowing multiple iterations without a \gls{CP} check can improve performance. Within the \textit{Hybrid} variant,
+further attention is given to identifying the most suitable component of the algorithm—intra \gls{LS}, inter \gls{LS}, or
+perturbation—for the use of the \gls{CP} solver.
 \begin{table}[ht]
-    \centering
-    \def\arraystretch{1.2}
-    \begin{tabular}{l c }
-        \toprule
-        Parametertype            & Levels                          \\
-        \midrule
-        IterationsWithoutCPCheck & 1,3,5                           \\
-        UseFilterStartSolution   & True, False                     \\
-        Model type               & \gls{LR}, \gls{XGB}, \gls{FFNN} \\
-        \bottomrule
-    \end{tabular}
-    \caption{Parameter levels for SpeedUp variant.}
-    \label{tab:parameters_speedup}
+	\centering
+	\def\arraystretch{1.2}
+	\begin{tabular}{l l c c}
+		\toprule
+		Variant                  & Parameter                & Levels                                       & Appendix                                                 \\
+		\midrule
+		\multirow{2}{*}{SpeedUp} & IterationsWithoutCPCheck & 1,3,5                                        & \multirow{2}{*}{\ref{app:subsec:parameterstudy_SpeedUp}} \\
+		                         & UseFilterStartSolution   & True, False                                  &                                                          \\
+		\midrule
+		\multirow{1}{*}{Filter}  & UseFilterStartSolution   & True, False                                  & \multirow{1}{*}{\ref{app:subsec:parameterstudy_Filter}}  \\
+		\midrule
+		\multirow{3}{*}{Hybrid}  & IterationsWithoutCPCheck & 1,3,5                                        & \multirow{3}{*}{\ref{app:subsec:parameterstudy_Hybrid}}  \\
+		                         & Hybrid Usage             & Perturbation, Inter \gls{LS}, Intra \gls{LS} &                                                          \\
+		                         & UseFilterStartSolution   & True, False                                  &                                                          \\
+
+
+		\bottomrule
+	\end{tabular}
+	\caption{Summary of parameter levels for classifier variants and links to visualizations in Appendix.}
+	\label{tab:parameters_summary_classifier}
 \end{table}
 
-\subsection{Filter Variant}
-\label{subsec_parameterStuy_filter}
+In general, the usage of the filter variant in the constructive leads to worse results for all variant types. For the hybrid and
+the speedup variant the
 
-The parameter study levels for the \textit{Filter} variant, shown in Table~\ref{tab:parameters_filter}, investigates, which model
-type is best, and if the whether the \textit{Filter} variant for constructive heuristic is advantageous.
-\begin{table}[ht]
-    \centering
-    \def\arraystretch{1.2}
-    \begin{tabular}{l c }
-        \toprule
-        Parametertype          & Levels                          \\
-        \midrule
-        UseFilterStartSolution & True, False                     \\
-        Model type             & \gls{LR}, \gls{XGB}, \gls{FFNN} \\
-        \bottomrule
-    \end{tabular}
-    \caption{Parameter levels for Filter variant.}
-    \label{tab:parameters_filter}
-\end{table}
-
-
-\subsection{Hybrid Variant}
-\label{subsec_parameterStuy_hybrid}
-The \textit{Hybrid} variant requires the most extensive parameter tuning. In addition to the effects analyzed in the
-\textit{SpeedUp} variant, it must also be determined in which part of the algorithm, the perturbation phase, inter-LS, or intra-LS,
-the exact \gls{CP} solver should be applied, while the \textit{SpeedUp} mechanism is used for the remaining two components.
-The parameter levels for this study are summarized in Table~\ref{tab:parameters_hybrid}.
-
-\begin{table}[ht]
-    \centering
-    \def\arraystretch{1.2}
-    \begin{tabular}{l c }
-        \toprule
-        Parametertype            & Levels                                       \\
-        \midrule
-        IterationsWithoutCPCheck & 1,3,5                                        \\
-        Hybrid Usage             & Perturbation, Inter \gls{LS}, Intra \gls{LS} \\
-        UseFilterStartSolution   & True, False                                  \\
-        Model type               & \gls{LR}, \gls{XGB}, \gls{FFNN}              \\
-        \bottomrule
-    \end{tabular}
-    \caption{Parameter levels for Hybrid variant.}
-    \label{tab:parameters_hybrid}
-\end{table}
 
 \section{Comparison of heuristic variants}
 \label{sec:comparison_ils_variants}
@@ -663,15 +632,15 @@ The solution quality for all four variants (see Fig.~\ref{fig:four_variants}) is
 The timelimit is in comparison to the parameterstudy now adapted by instance size. The following timelimits are identical
 to \cite{zhang_evolutionary_2015}.\footcite[cf.][p.28]{zhang_evolutionary_2015}
 \begin{table}[ht]
-    \centering
-    \begin{tabular}{C{0.24\linewidth}C{0.18\linewidth}C{0.18\linewidth}C{0.18\linewidth}}
-        \toprule
-        Customer number $N$ & $N \leq 25$ & $N < 25 < 50 $ & $N \geq 50 $ \\
-        \midrule
-        Timelimit [sec]     & 900         & 1800           & 3600         \\
-        \bottomrule
-    \end{tabular}
-    \caption{Timelimit for the final heuristic comparisons.}
+	\centering
+	\begin{tabular}{C{0.24\linewidth}C{0.18\linewidth}C{0.18\linewidth}C{0.18\linewidth}}
+		\toprule
+		Customer number $N$ & $N \leq 25$ & $N < 25 < 50 $ & $N \geq 50 $ \\
+		\midrule
+		Timelimit [sec]     & 900         & 1800           & 3600         \\
+		\bottomrule
+	\end{tabular}
+	\caption{Timelimit for the final heuristic comparisons.}
 \end{table}
 
 The publisher for best known solution(BKS) for the \gendreauDataSetText is indicated by the small letter
@@ -679,12 +648,12 @@ next to the instance name. In this comparison all published papers were consider
 In comparison to Table~\ref{tab:bc_results_gendreau} only heuristic approaches are considered.
 
 \begin{table}[ht]
-    \centering
-    \renewcommand{\arraystretch}{1.05}
-    \begin{tabular}{@{}ll@{}}
-        \datasetPos{a}{\cite{tarantilis_hybrid_2009}} & \datasetPos{b}{\cite{wang_two_2010}}           \\
-        \datasetPos{c}{\cite{bortfeldt_hybrid_2012}}  & \datasetPos{d}{\cite{zhang_evolutionary_2015}} \\
-    \end{tabular}
+	\centering
+	\renewcommand{\arraystretch}{1.05}
+	\begin{tabular}{@{}ll@{}}
+		\datasetPos{a}{\cite{tarantilis_hybrid_2009}} & \datasetPos{b}{\cite{wang_two_2010}}           \\
+		\datasetPos{c}{\cite{bortfeldt_hybrid_2012}}  & \datasetPos{d}{\cite{zhang_evolutionary_2015}} \\
+	\end{tabular}
 \end{table}
 
 \section{Generalization of model}

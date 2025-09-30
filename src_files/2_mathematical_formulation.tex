@@ -10,13 +10,13 @@ explainations.
 \subsection*{Sets}
 A directed graph $G=(N,A)$ is defined by the set of nodes $N$ including the depot and the set of arcs
 $A = \{ (i, j) \mid i, j \in N \}$ between all nodes. The set of customer nodes $C$ is defined without the depot.
-The Sets $\delta^+$ and $\delta^-$ define the arcs, which are leaving respective entering a node.
+The Sets $\delta^+$ and $\delta^-$ define the arcs, which are leaving, respective entering a node.
 For example, for node 3, $\delta^+ = \{(3,5)\}$ and $\delta^-= \{(2,3)\}$.
 The set $A(S)$ defines a sequence of arcs connecting nodes in a random set of customers $C$,
 which is a route in wider sense. For example the set $A(S)=\{(2,1),(1,5),(5,3)\}$ connects nodes
 2 and 3 via node 5. Every set $A(S)$ is defined by the total volume $q(S)$ and total weight $v(S)$
 demanded by all customers $i \in S$, with $S \subseteq C$. The set $A(P)$ includes all infeasible sequences $P$ leading
-to an infeasible route.
+to an infeasible route. A sequence has to have the minimum length of two.
 
 \begin{table}[ht]
     \centering
@@ -37,10 +37,10 @@ to an infeasible route.
 \vspace{0.2em}
 
 \subsection*{Parameters}
-The parameters can be divided in the two groups, static and set-dependent
+The parameters can be divided in two groups, static and set-dependent.
 The costs $c_{ij}$ for travelling from one node $i$ to another node $j$,
 are symmetrical defined, stating $c_{ij} \overset{!}{=} c_{ji}$. Furthermore, the triangle inequality
-$c_{ij} \leq c_{ih} + c_{hj}$ needs to be fulfilled, that the travel distance is always shorter travelling
+$c_{ij} \leq c_{ih} + c_{hj}$ needs to be fulfilled, stating the travel distance must always be shorter travelling
 directly and not via any intermediate node $h$. Additionally the number of vehicles
 available for the fleet planning is given as constant $K$. No solution is allowed to have
 more routes than avalaible vehicles. $r(S)$ defines a \gls{LB} for the numbers of vehicles needed

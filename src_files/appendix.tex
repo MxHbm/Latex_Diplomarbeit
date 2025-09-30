@@ -247,39 +247,147 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 
 \section{Parameterstudy}
 
-\subsection{NoClasifier Variant}
+\subsection{NoClassifier Variant}
 \label{app:subsec:parameterstudy_noclassifier}
 
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=\textwidth]{pictures/parameter_study/LimitNoImpr_base_parameter_study.png}
-	\caption{Parameterstudy of LimitNoImpr divided in two groups based on the average iterations.}
-	\label{fig:parameterstudy_NoClassifier_limitNoImpr}
-\end{figure}
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=\textwidth]{pictures/parameter_study/RandomMoves_base_parameter_study.png}
-	\caption{Parameterstudy of RandomMoves divided in two groups based on the average iterations.}
-	\label{fig:parameterstudy_NoClassifier_RandomMoves}
+	\begin{subfigure}[t]{0.83\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{pictures/parameter_study/LimitNoImpr_base_parameter_study.png}
+		\caption{Parameter study LimitNoImpr.}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.83\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{pictures/parameter_study/RandomMoves_base_parameter_study.png}
+		\caption{Parameter study RandomMoves}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.83\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{pictures/parameter_study/LocalSearchTypes_base_parameter_study.png}
+		\caption{Parameter study for the order of LS neighborhoods.}
+	\end{subfigure}
+	\begin{subfigure}[t]{0.83\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{pictures/parameter_study/PerturbationTypes_base_parameter_study.png}
+		\caption{Parameter study for the order and selection of perturbation neighborhoods.}
+	\end{subfigure}
+	\caption{Parameterstudy for the NoClassifier variant divided in two groups based on the average iterations.}
 \end{figure}
+
+\FloatBarrier
+\subsection{Filter Variant}
+\label{app:subsec:parameterstudy_Filter}
 
 \begin{figure}[!ht]
 	\centering
-	\includegraphics[width=\textwidth]{pictures/parameter_study/LocalSearchTypes_base_parameter_study.png}
-	\caption{Parameterstudy of the order of local search neighborhoods divided in two groups based on the average iterations.}
-	\label{fig:parameterstudy_NoClassifier_localSearch}
+	\includegraphics[width=\linewidth]{pictures/parameter_study/Filter_UseFilterStartSolution_parameter_study.png}
+	\caption{Parameter study for usage of filter start solutions in the Filter variant.}
+	\label{fig:parameter_study_filter}
 \end{figure}
 
-\begin{figure}[!ht]
-	\centering
-	\includegraphics[width=\textwidth]{pictures/parameter_study/PerturbationTypes_base_parameter_study.png}
-	\caption{Parameterstudy of the set and order of perturbation neighborhoods divided in two groups based on the average iterations.}
-	\label{fig:parameterstudy_NoClassifier_perturbation}
-\end{figure}
 
 \subsection{SpeedUp Variant}
 \label{app:subsec:parameterstudy_SpeedUp}
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/parameter_study/SpeedUp_Interval_CP_Check_parameter_study.png}
+		\caption{Parameter study for frequency of CP checks.}
+	\end{subfigure}
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/parameter_study/SpeedUp_UseFilterStartSolution_parameter_study.png}
+		\caption{Parameter study for usage of filter start solutions.}
+	\end{subfigure}
+	\caption{Parameter study of SpeedUp variant.}
+\end{figure}
+
+\clearpage
+\subsection{Hybrid Variant}
+\label{app:subsec:parameterstudy_Hybrid}
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/parameter_study/Hybrid_Interval_CP_Check_parameter_study.png}
+		\caption{Parameter study for frequency of CP checks.}
+	\end{subfigure}
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/parameter_study/Hybrid_UseClassifierLocalSearch_parameter_study.png}
+		\caption{Parameter study for neighborhoods with CP check.}
+	\end{subfigure}
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/parameter_study/Hybrid_UseFilterStartSolution_parameter_study.png}
+		\caption{Parameter study for the usage of filter in the start solution.}
+	\end{subfigure}
+	\caption{Parameter study for Hybrid variant.}
+\end{figure}
+
+\subsection{Classifier variants numerical parameter study}
+\begin{table}[!ht]
+	\footnotesize
+	\centering
+	\renewcommand{\multirowsetup}{\centering}
+	\renewcommand{\arraystretch}{1.00}
+	\begin{tabular}{@{}l|l|l|l|r|r @{}}
+		\textbf{Variant}                   & \textbf{Parameter}                        & \textbf{Metric}                  & \textbf{Level}       & \textbf{Median} & \textbf{IsBest} \\
+		\hline
+		\multirow{4}{*}{\textbf{Filter}}   & \multirow{4}{*}{UseFilterStartSolution}   & \multirow{2}{*}{ILSIterations}   & False                & 83.00           & True            \\\cline{4-6}
+		                                   &                                           &                                  & True                 & 97.00           & False           \\\cline{3-6}
+		                                   &                                           & \multirow{2}{*}{RPD}             & False                & 2.15            & True            \\\cline{4-6}
+		                                   &                                           &                                  & True                 & 3.35            & False           \\\hline
+		\multirow{24}{*}{\textbf{Hybrid}}  & \multirow{9}{*}{Interval-CP-Check}        & \multirow{3}{*}{ILSIterations}   & 1                    & 282.50          & True            \\\cline{4-6}
+		                                   &                                           &                                  & 3                    & 317.00          & False           \\\cline{4-6}
+		                                   &                                           &                                  & 5                    & 294.50          & False           \\\cline{3-6}
+		                                   &                                           & \multirow{3}{*}{RPD}             & 1                    & 1.88            & True            \\\cline{4-6}
+		                                   &                                           &                                  & 3                    & 3.28            & False           \\\cline{4-6}
+		                                   &                                           &                                  & 5                    & 4.43            & False           \\\cline{3-6}
+		                                   &                                           & \multirow{3}{*}{RatioRejections} & 1                    & 0.49            & True            \\\cline{4-6}
+		                                   &                                           &                                  & 3                    & 0.82            & False           \\\cline{4-6}
+		                                   &                                           &                                  & 5                    & 0.91            & False           \\\cline{2-6}
+		                                   & \multirow{9}{*}{UseClassifierLocalSearch} & \multirow{3}{*}{ILSIterations}   & InterCPSolver        & 105.00          & True            \\\cline{4-6}
+		                                   &                                           &                                  & IntraCPSolver        & 737.00          & False           \\\cline{4-6}
+		                                   &                                           &                                  & PerturbationCPSolver & 237.00          & False           \\\cline{3-6}
+		                                   &                                           & \multirow{3}{*}{RPD}             & IntraCPSolver        & 1.68            & True            \\\cline{4-6}
+		                                   &                                           &                                  & InterCPSolver        & 3.52            & False           \\\cline{4-6}
+		                                   &                                           &                                  & PerturbationCPSolver & 3.28            & False           \\\cline{3-6}
+		                                   &                                           & \multirow{3}{*}{RatioRejections} & InterCPSolver        & 0.57            & True            \\\cline{4-6}
+		                                   &                                           &                                  & IntraCPSolver        & 0.69            & False           \\\cline{4-6}
+		                                   &                                           &                                  & PerturbationCPSolver & 0.89            & False           \\\cline{2-6}
+		                                   & \multirow{6}{*}{UseFilterStartSolution}   & \multirow{2}{*}{ILSIterations}   & False                & 272.00          & True            \\\cline{4-6}
+		                                   &                                           &                                  & True                 & 315.50          & False           \\\cline{3-6}
+		                                   &                                           & \multirow{2}{*}{RPD}             & False                & 2.40            & True            \\\cline{4-6}
+		                                   &                                           &                                  & True                 & 4.00            & False           \\\cline{3-6}
+		                                   &                                           & \multirow{2}{*}{RatioRejections} & False                & 0.70            & True            \\\cline{4-6}
+		                                   &                                           &                                  & True                 & 0.70            & False           \\\hline
+		\multirow{15}{*}{\textbf{SpeedUP}} & \multirow{9}{*}{Interval-CP-Check}        & \multirow{3}{*}{ILSIterations}   & 1                    & 2627.50         & True            \\\cline{4-6}
+		                                   &                                           &                                  & 3                    & 4237.50         & False           \\\cline{4-6}
+		                                   &                                           &                                  & 5                    & 5981.00         & False           \\\cline{3-6}
+		                                   &                                           & \multirow{3}{*}{RPD}             & 1                    & 0.34            & True            \\\cline{4-6}
+		                                   &                                           &                                  & 3                    & 1.03            & False           \\\cline{4-6}
+		                                   &                                           &                                  & 5                    & 1.81            & False           \\\cline{3-6}
+		                                   &                                           & \multirow{3}{*}{RatioRejections} & 1                    & 0.53            & True            \\\cline{4-6}
+		                                   &                                           &                                  & 3                    & 0.89            & False           \\\cline{4-6}
+		                                   &                                           &                                  & 5                    & 0.96            & False           \\\cline{2-6}
+		                                   & \multirow{6}{*}{UseFilterStartSolution}   & \multirow{2}{*}{ILSIterations}   & False                & 4170.00         & True            \\\cline{4-6}
+		                                   &                                           &                                  & True                 & 4353.00         & False           \\\cline{3-6}
+		                                   &                                           & \multirow{2}{*}{RPD}             & False                & 0.65            & True            \\\cline{4-6}
+		                                   &                                           &                                  & True                 & 1.19            & False           \\\cline{3-6}
+		                                   &                                           & \multirow{2}{*}{RatioRejections} & False                & 0.70            & True            \\\cline{4-6}
+		                                   &                                           &                                  & True                 & 0.75            & False           \\
+	\end{tabular}
+
+	\caption{Column header description for B\&C results.}
+	\label{tab:numerical_results_paramStudy_classifiers}
+\end{table}
+
 
 \clearpage
 \section{Branch-and-Cut Results}
@@ -307,6 +415,7 @@ from save strategy. The following table explains each column header:
 	\label{tab:column_header_description_bc}
 \end{table}
 
+
 The results for \gendreauDataSetText are shown in Table~\ref{tab:bc_results_gendreau} and for \krebsADataSetText in Table~\ref{tab:bc_results_krebs}.
 Both instances are sorted in the groups lightweigt (L) and heavyweight (H) labeled by the instance names, indicating if the average weight
 requested by a customer is above (H) or under (L) the average of all instances, indicating the complexity to solve the instances optimally.
@@ -324,7 +433,7 @@ Applying the exact algorithm from \cite{tamke_branch-and-cut_2024} to the \krebs
 The average gap across this subset of instances is 3.14\%, resulting in many optimal solutions being found.\footcite[cf.][]{tamke_branch-and-cut_2024}
 The objectives cant be compared to initially published results of \cite{krebs_advanced_2021}, as the \gls{3L-CVRP} was solved rather than the initial \gls{3L-VRPTW}.\footcite[cf.][pp. 858–864]{krebs_advanced_2021}
 
-\begin{table}[!h]
+\begin{table}[!ht]
 	\centering
 	\small
 	\begin{tabular}{lrrrrll}
@@ -560,3 +669,43 @@ infeasible tours for this route length are present in the dataset.
 	\caption{Save strategy train datsets from \krebsADataSet.}
 	\label{tab:saved_instances_krebs}
 \end{table}
+
+\clearpage
+\section{Implementations in GitHub repositories}
+\label{app:sec:github_implementations}
+
+\subsubsection{Initial data analysis of different datasets}
+All the datasets from different authors presented in Section~\ref{sec:dataset_comparison} are contained in repository
+\href{https://github.com/MxHbm/Analysis_Instances}{\textit{Analysis\_Instances}}, as well as the scripts to analyse the characteristics.
+
+\subsubsection{Classifier based on CP Solver}
+The classifier based on the \gls{CP} Solver from \cite{tamke_repository_2024} is available in
+repository \href{https://github.com/MxHbm/3l-cvrp-classifier-work}{3l-cvrp-classifier-work}. \footcite{tamke_repository_2024}
+The C++ code is controlled by a python script, defining the input files and the output folder, where the results should be stored.
+
+\subsubsection{Forked branch-and-cut algorithm for save strategy}
+The  repository \href{https://github.com/MxHbm/clean-3l-cvrp}{\textit{clean-3l-cvrp}} has the purpose the run the published branch-and-cut algorithm from \cite{tamke_branch-and-cut_2024}. The algorithm
+was modified to save all checked routes dependend from \gls{LST} and \gls{LFL} (see Section~\ref{sec:DataRetrieval}). Furthermore,
+the branch \texttt{krebs\_branch} was created to cause the algorithm not to break, when \textit{Invalid} or \textit{Unknown}
+status were returned from the \gls{CP} solver to be able to solve \krebsADataSetText instances (see Section~\ref{app:sec:krebs_computationally_challenges}).\footcite[cf.][]{tamke_branch-and-cut_2024}
+
+\subsubsection{Model creation and advanced data analysis of results}
+
+Throughout the thesis work, all further data analysis and model development steps were consolidated in a single repository,
+\href{https://github.com/MxHbm/train_classifier_model}{\textit{train\_classifier\_model}}. This repository contains the scripts to
+create the training datasets either from random routes, branch-and-cut algorithm or validation data, named with \texttt{retrieval}\dots,
+and folders each representing a single part of this thesis listed in the following:
+\begin{itemize}
+	\item AnalyzeBranch\&Cut: Analyze the branch-and-cut results obtained for the \gendreauDataSetText and \krebsADataSetText and create tables for \LaTeX.
+	\item AnalyzeHeuristicResults: Retrieve data for parameter study and comparison between different \gls{ILS} variants and visualize the results.
+	\item AnalyzeTensorData: Plot the false and true labeled labeled routes in comparison to the \gls{CP} status.
+	\item AnalyzeTrainDataSets: Get numerical and visualized characteristics from all train datasets.
+	\item FeatureSelection: Create feature dropsets and pretrain \gls{ML} models with various drop sets and analyze the results.
+	\item ModelCreation: Scripts to pretrain and save \gls{LR}, \gls{XGB} or \gls{FFNN} models.
+\end{itemize}
+
+\subsubsection{ILS algorithm with embedded classifier variants}
+The developed \gls{ILS} algorithm with the functionality to controll the type of variant (see Section~\ref{sec:FeasibilityCheck}), the type
+of model and the train dataset is published in the repository \href{https://github.com/MxHbm/3l-cvrp-heuristic}{\textit{3l-cvrp-heuristic}}.
+The algorithm is completely coded in C++ and started with different parameter files from a Python script. The architecture of the algorithm is
+adapted from \cite{tamke_repository_2024} and was modified to handle this versatile algorithm.\footcite[cf.][]{tamke_repository_2024}

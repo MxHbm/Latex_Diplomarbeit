@@ -10,14 +10,14 @@ solvation leaded rallys to solve them.\footcite[cf.][]{solomon_algorithms_1987} 
 in practical and real-world situations items can not be considered as integers of weight
 and volume to check the loading, but by considering the geometrical shape and characteristics.\footcite[cf.][p.1]{gendreau_tabu_2008}
 To attain a more realistic profile of routing and loading problems, \cite{iori_exact_2004} and \cite{gendreau_tabu_2008}
-solved the \gls{2L-CVRP} for the first time, considering the area of each in
-the vehicles used for delivery.\footcites()()[cf.][]{iori_exact_2004}[cf.][]{gendreau_tabu_2008}
+solved the \gls{2L-CVRP} for the first time, considering the area of each item in
+the vehicles planned for delivery.\footcites()()[cf.][]{iori_exact_2004}[cf.][]{gendreau_tabu_2008}
 This lead consequently to a more complex problem, as every route needed to be checked seperately for
 a feasible loading without violating physical and loading related constraints.
 The applicability in practical scenarios was further increased from \cite{gendreau_tabu_2006} by defining
-the \gls{3L-CVRP}, considering the stacking of items and all dimensions of items and the vehicles. The authors
+the \gls{3L-CVRP}, considering the stacking of items and three-dimensional items and vehicles. The authors
 also conidered a set of practical loading constraints to further enhance the applicability. \footcite[cf.][]{gendreau_tabu_2006}
-The algorithms to solve the integrated could already be taken from existing literature tackling the standalone
+The algorithms to solve the integrated problems could already be taken from existing literature tackling the standalone
 problems, \gls{CLP} and \gls{VRP}.\footcite[cf.][]{pisinger_heuristics_2002} Foremost, the following section defines
 a mathematical model formulation for the \gls{3L-CVRP} and the following literature review will focus
 on the \gls{CLP}, its possible constraints, algorihtms to solve it and the possibility to use solution
@@ -44,7 +44,19 @@ homogeneous or heterogeneous in size and shape. Furthermore, they can be classif
 homogeneous or heterogeneous, depending on the degree of similarity among them. The container is
 defined as a recangular volume with a fixed size and shape, where the items have to be placed in.
 Other, non rectangular, shapes are seldomly considered in the literature, as the practical relevance is
-limited. Multiple containers of homogeneous or heterogeneous sizes are used when the volume and weight
+limited.
+\begin{wrapfigure}{l}{0.5\textwidth}
+    \begin{center}
+        \centering
+        \vspace{-25pt}
+        \includegraphics[width=6.3cm]{pictures/3l_cvrp_example.png}
+        \caption[Visualized 3D packing with packing constraints.]{3D Packing with geometry, orthogonality and support area constraints.\footnotemark}
+        \vspace{-25pt}
+        \footnotetext{CLP Visualizer from \textcite{tamke_branch-and-cut_2024}.}
+        \label{fig:solution-visualization}
+    \end{center}
+\end{wrapfigure}
+Multiple containers of homogeneous or heterogeneous sizes are used when the volume and weight
 of the cargo require it.
 According to \textcite{bischoff_issues_1995}, the mere placement of items in containers is insufficient
 if practical requirements are not fulfilled as it lacks applicability.
@@ -53,14 +65,6 @@ into five categories, which are presented in the following. They also distinguis
 where hard constraints must be strictly satisfied, while soft constraints may be violated
 to some extent.\footcites[cf.][pp. 1f]{bortfeldt_constraints_2013}[cf.][pp. 1--2]{bischoff_issues_1995}
 Figure~\ref{fig:solution-visualization} visualizes a possible 3D packing with different constraints applied.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=6.3cm]{pictures/3l_cvrp_example.png}
-    \caption[Visualized 3D packing with packing constraints.]{3D Packing with geometry, orthogonality and support area constraints.\footnotemark}.
-    \footnotetext{CLP Visualizer from \textcite{tamke_branch-and-cut_2024}.}
-    \label{fig:solution-visualization}
-\end{figure}
 
 \subsubsection{Container related constraints}
 These constraints summarize all physical barriers of the container. The \textit{load capacity} limits the aggregated
@@ -175,8 +179,8 @@ used depending on the heterogeneity of the items. In cases where the items are w
 the problem dimensionality is reduced from 3D to 2D by constructing either
 \textit{walls} or \textit{layers} of similarly sized items. These structures fill one
 dimension of the container, typically either length and height or width and length, thereby
-simplifying the remaining problem space. Moreover, when the layers or walls have
-equal dimensions approximately, horizontal and vertical stability constraints are met.
+simplifying the remaining problem space. Moreover, when the layers or walls have approximately
+equal dimensions, horizontal and vertical stability constraints are met.
 Beyond these two dominant approaches, several adaptations exist to address item heterogeneity.
 For example, \textcite{gehring_genetic_1997} propose the construction of item
 \textit{towers}, in which boxes are stacked on top of other items so that the base of the box is covered completely
@@ -187,15 +191,15 @@ the most common heuristics are variations of the \gls{BLF}
 and the \gls{MTP} algorithm. The \gls{BLF} describes the order, where
 every consecutive item is tried to be placed as close to the bottom left corner of the vehicle. The
 first priority is the distance to the container wall in the back and the second priority the distance
-to the left container wall. This leads to a placing pattern filling each row of the container floor
+to the left container wall. This leads to a placing pattern of filling each row of the container floor
 consecutively.
 When constraints as \gls{LIFO} are considered, \cite{iori_exact_2007} utilized a \textit{contour} line
-to identify the last possibble placement of each item on the floor. The \gls{MTP} was introduced by
+to identify the last possible placement of each item on the floor. The \gls{MTP} was introduced by
 \cite{zachariadis_guided_2009} and inserts the next item regarding the perimeter of the item which is connected
-to other items and to the container wall (An alternative is also proposed, where walls are excluded).\footcite[cf.][p.732f]{zachariadis_guided_2009}
+to other items or additionally also to the container wall.\footcite[cf.][p.732f]{zachariadis_guided_2009}
 For the three-dimensional problem the heuristics were adapted to generate also appropriate solutions, when
-stacking and multiple layers of items are considered. In \cite{gendreau_tabu_2006}, the \gls{BLF}
-was adapted, that the bottom (first priority) could also represent already placed items, this leads
+stacking and multiple layers of items are considered. In \cite{gendreau_tabu_2006}, the \gls{BLF} was
+adapted so that the bottom (first priority) could also represent already placed items, this leads
 to a placing pattern where walls are constructed consecutively from the container back to the rear. The
 \gls{MTP} was adapted from \cite{tarantilis_hybrid_2009} by considering the whole three-dimensional
 surface of all items (\gls{MTA}). \footcite[cf.][pp. 258-260]{tarantilis_hybrid_2009}
@@ -207,6 +211,9 @@ is an adaption of the \gls{BLF} Algorithm and was integrated in the \gls{3L-CVRP
 and further used by \cite{krebs_advanced_2021}.
 The core adaption is, that the first priority for placing any item is as far as possible in the back of the cargo
 leading to a more dense packing.\footcites[cf.][pp. 259-263]{wang_two_2010}[cf.][pp. 8-9]{krebs_axle_2021}
+Additionally, \cite{bortfeldt_hybrid_2012} introduced a tree search algorithm as part of a hybrid method,
+where packing decisions are systematically explored through backtracking to find feasible loadings for
+given routes, making it a search-based heuristic rather than a purely constructive approach.\footcite[cf.][p. 2251f]{bortfeldt_hybrid_2012}
 Even though constructive heuristics are quite simple, they are still widely used because of their simplicity and efficiency to obtain fast solutions.
 \footcite[cf.][pp. 11--13]{tamke_branch-and-cut_2024}
 
@@ -233,8 +240,8 @@ loaded on the vehicles instead of the customers. By combining a \gls{LNS} as
 well as \gls{SA} the solutions are allowed to be infeasible during the procedure, becoming repaired afterwards
 and several loading heuristics are being selected from. This was the first work to
 solve the loading and routing completely integrated on item level. \footcite[cf.][pp. 1142-1145]{ceschia_local_2013}
-\cite{tamke_branch-and-cut_2024} implemented a \textit{augmented extreme point-based metaheuristic}
-to speed-up the exact \gls{3L-CVRP} algorithm by cutting calls of the \gls{CP} solver, whenever the heuristic
+\cite{tamke_branch-and-cut_2024} implemented a augmented extreme point-based metaheuristic
+to speed-up the exact \gls{3L-CVRP} algorithm by avoiding the usage of the \gls{CP} solver, whenever the heuristic
 found a feasibile solution. This metaheuristic is based on the extreme point heuristic from \cite{zhang_evolutionary_2015},
 but adds several diversification and intensification elements as perturbation and \gls{LS} to find
 feasible and qualitative loading solutions for their exact algorithm.\footcite[cf.][pp. 11-13]{tamke_branch-and-cut_2024}
