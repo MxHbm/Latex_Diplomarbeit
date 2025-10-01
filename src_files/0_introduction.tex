@@ -7,24 +7,29 @@ However, the last mile, delivering individual parcels to customers, poses some o
 challenges. In 2022, over 161 billion parcels were delivered globally, equating to more than 5,000
 deliveries every second.\footcite[cf.][]{statista_global_2022}
 These numbers are only manageable through a strong logistics network, where even small inefficiencies
-become very costly and optimization potential is huge. Two major challenges are faced in this domain, which
-is the optimization of the routes driven by the delivery trucks, the \gls{VRP}, and the efficient arrangement of items
-of various shapes and sizes, the \gls{CLP}. When the \gls{VRP} and the \gls{CLP} are solved integrated,
-solutions are on average around $7\%$ better cost-wise, but are complex to solve as
-both problems are $NP$-hard. \footcite[cf.][p. 23]{cote_value_2016} Therefore, efficient heuristics are the practical
+become very costly and optimization potential is huge. Two major challenges are faced in this domain.
+First, the \gls{VRP}, which is the optimization of the routes driven by the delivery trucks and second,
+the \gls{CLP}, which is the efficient arrangement of items of various shapes and sizes.
+Several subproblems of the \gls{VRP} incorporate the dimensionality of the \gls{CLP}. The most basic form is the Capacitated VRP (CVRP),
+which accounts for one-dimensional weight and volume constraints to prevent vehicle overloading.
+More advanced formulations extend this to two- or three-dimensional packing considerations,
+leading to the \gls{2L-CVRP} and \gls{3L-CVRP}, whose complexity increases exponentially with each added dimension.
+When the \gls{VRP} and the \gls{CLP} are solved integrated,
+solutions are on average $7\%$ more cost-efficient, but it is complex to solve
+both problems as they are $NP$-hard. \footcite[cf.][p. 23]{cote_value_2016} Therefore, efficient heuristics are the practical
 choice to find good solutions in a reasonable time, because exact solution methods are limited to
 small instances considering only few practical constaints, as orientation rules, stability, and load-bearing limits. \footcite[cf.][pp. 377--378]{bischoff_issues_1995}
-Recent research has shown that \gls{ML} techniques can be used to accelerate the exact solution process
+Recent research has shown, that \gls{ML} techniques can be used to accelerate the exact solution process
 of the \gls{2L-CVRP}.\footcite[cf.][]{zhang_learning-based_2022}
-Therefore this paper aims to provide an overview of the \gls{CLP} and explore how \gls{ML} can be used
+This paper aims to provide an overview of the \gls{CLP} and explores how \gls{ML} can be used
 to enhance the solution process of \gls{CLP} algorithms focusing on the \gls{3L-CVRP}.
 The paper is structured as follows:
 Chapter~\ref{chap:literature_review} introduces a general mathematical model for
-the \gls{VRP} with subproblem, the \gls{CLP} and its common constraints, as well as classical
-solution approaches. Promising \gls{ML} approaches will be discussed and a complete overview of algorithms
-for \gls{3L-CVRP} algorithms will be conducted. The Chapter~\ref{chap:classifier} introduces the required
-steps for developing a binary classifier are presented, ranging from data to modeling and the used features
-are presented. Chapter~\ref{chap:algorithm} explains the implemented \gls{3L-CVRP} algorithm leveraging
-the usage of the binary classifier and classical solution approaches. The computational results and the
-tuning of the used parameters are shown in \ref{chap:computational_study} and this thesis ends with the conclusion
-of the obtained results and the outlook fur further research steps in Chapter~\ref{chap:conclusion}.
+the \gls{VRP} with CLP and its constraints as a subproblem as well as the as well as classical
+solution approaches. Promising \gls{ML} approaches are discussed and a complete overview of algorithms
+for \gls{3L-CVRP} algorithms are conducted. Then, Chapter~\ref{chap:classifier} introduces the required
+steps for developing a binary classifier, ranging from data to modeling and the used features
+are presented. \textcolor{red}{Chapter~\ref{chap:algorithm} explains the implemented \gls{3L-CVRP} algorithm leveraging
+    the usage of the binary classifier and classical solution approaches.} The computational results and the
+tuning of the parameters are shown in Chapter~\ref{chap:computational_study}. This thesis ends with the conclusion
+of the obtained results and outlook for further research in Chapter~\ref{chap:conclusion}.

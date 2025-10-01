@@ -39,9 +39,9 @@ to an infeasible route. A sequence has to have the minimum length of two.
 \subsection*{Parameters}
 The parameters can be divided in two groups, static and set-dependent.
 The costs $c_{ij}$ for travelling from one node $i$ to another node $j$,
-are symmetrical defined, stating $c_{ij} \overset{!}{=} c_{ji}$. Furthermore, the triangle inequality
+are symmetrically defined, stating $c_{ij} \overset{!}{=} c_{ji}$. Furthermore, the triangle inequality
 $c_{ij} \leq c_{ih} + c_{hj}$ needs to be fulfilled, stating the travel distance must always be shorter travelling
-directly and not via any intermediate node $h$. Additionally the number of vehicles
+directly and not via any intermediate node $h$. Additionally, the number of vehicles
 available for the fleet planning is given as constant $K$. No solution is allowed to have
 more routes than avalaible vehicles. $r(S)$ defines a \gls{LB} for the numbers of vehicles needed
 to include all customers in $S$. The \gls{LB} is calculated as the ceiling of the maximum
@@ -70,7 +70,7 @@ total volume $v(S)$ divided by the volume capacity $V$:
 \bigskip
 
 \subsection*{Decision Variable}
-For the Two-Index-Flow model only one binary decision variable is necessary stating, if the arc
+For the Two-Index-Flow model only one binary decision variable is necessary indicating, if the arc
 between nodes $i$ and $j$ is included in the solution.
 \[
     x_{ij} =
@@ -98,8 +98,8 @@ between nodes $i$ and $j$ is included in the solution.
     \sum_{(i,j)\in A(P)} x_{ij}        & \leq |A(P)| - 1                                                                      &  & \forall \text{ infeasible paths } P     \label{eq:pathelim}
 \end{align}
 
-The objective function minimizes the total costs and the travelled distance. The constraints \ref{eq:flowin}
-and \ref{eq:flowout} are restricting that every customer can and must only be visited once by defining the number
+The objective function minimizes the total costs and the travelled distance. The constraints \ref{eq:flowout} and \ref{eq:flowin}
+are restricting that every customer can and must only be visited once by defining the number
 of arcs leaving and entering a node $i$ to 1. These two constraints do not apply to the depot,
 which is included in every tour. Constraint~\ref{eq:vehiclelimit} limits the maximum number of
 tours to $K$ by limiting the number of arcs entering the depot ($(i,j)\in \delta^+(0)$).
@@ -114,7 +114,7 @@ paths are labeled as such, when the corresponding \gls{CLP} to a route is not fu
 constraints. The constraint determines, that at least one binary variable defining an arc
 from the set of arcs defining the infeasible path $|A(P)|$ has to have the value 0, that the left
 side of this constraint is smaller equal to the right side. The set of infeasible paths is determined by
-solving the subproblem of the \gls{CLP}.
+solving the \gls{CLP}.
 
 
 

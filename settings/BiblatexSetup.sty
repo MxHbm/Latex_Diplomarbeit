@@ -61,16 +61,21 @@
             }}}%
     {\usebibmacro{cite:shorthand}}%
 }
+\newcommand{\halfspace}{\kern0.5\fontdimen2\font}
+% Delimiter used between multiple cited keys:
+\newcommand{\footcitesep}{\addsemicolon\par\noindent\space\space\halfspace}
+% If you want a small space before the break, use:
+% \newcommand{\footcitesep}{\addsemicolon\space\par\noindent}
 
+% Your footnote cite (keeps your custom formatting macro):
 \DeclareCiteCommand{\footcite}[\mkbibfootnote]
 {\usebibmacro{prenote}}
-{\usebibmacro{citeindex}%
-    \usebibmacro{customfootcite}
-}
-{\multicitedelim}
+{\usebibmacro{citeindex}\usebibmacro{customfootcite}}
+{\footcitesep} % <-- semicolon, then newline
 {\usebibmacro{postnote}}
 
-
+% Multicite variant uses the same delimiter:
+\DeclareMultiCiteCommand{\footcites}[\mkbibfootnote]{\footcite}{\footcitesep}
 
 % https://tex.stackexchange.com/questions/97376/missing-vol-and-no-in-biblatex-biber
 \renewbibmacro*{volume+number+eid}{%

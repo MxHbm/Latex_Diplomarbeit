@@ -221,27 +221,37 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 \end{table}
 
 \clearpage
-\section{Parking Lot}
-\begin{table}[ht]
-	\centering
-	\begin{tabular}{c c c c c c c}
-		\toprule
-		Model                          & Strategy & Name       & \gls{MCC}-Score & \gls{AUROC} & F1-Score & Accuracy \\
-		\midrule
-		\multirow{2}{*}{\gls{LR}}      & Random   & RD-4-20-30 & 0.6             & 0.87        & 0.9      & 0.8      \\
-		                               & Save     & Complete   & 0.6             & 0.87        & 0.9      & 0.8      \\
-		\midrule
-		\multirow{2}{*}{Decision Tree} & Random   & RD-4-20-30 & 0.6             & 0.87        & 0.9      & 0.8      \\
-		                               & Save     & Complete   & 0.6             & 0.87        & 0.9      & 0.8      \\
-		\midrule
-		\multirow{2}{*}{\gls{FFNN}}    & Random   & RD-4-20-30 & 0.6             & 0.87        & 0.9      & 0.8      \\
-		                               & Save     & Complete   & 0.6             & 0.87        & 0.9      & 0.8      \\
 
-		\bottomrule
-	\end{tabular}
-	\caption{Presentatione of final datasets and feature selection}
-	\label{tab:final_dataset_features}
-\end{table}
+\section{Feature space}
+\label{app:sec:feature_space}
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width=\textwidth]{pictures/dataset_structure/featureSpace_random_BC.png}
+	\label{fig:feature_space}
+	\caption{Feature space comparison from datasets GD-Shrinked (BC) and RD-4-30-30-6 (Random).}
+\end{figure}
+\clearpage
+
+\section{CP status distribution of feature space}
+\label{app:sec:feature_space_cpStatus}
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[t]{0.49\textwidth}
+		\centering
+		\caption{Dataset RD-4-30-30-6.}
+		\includegraphics[width=\textwidth]{pictures/dataset_structure/Distribution_CPStatus_RandomDataset.png}
+	\end{subfigure}%
+	\begin{subfigure}[t]{0.49\textwidth}
+		\centering
+		\caption{Dataset GD-Shrinked.}
+		\includegraphics[width=\textwidth]{pictures/dataset_structure/Distribution_CPStatus_RouteDataset.png}
+	\end{subfigure}
+	\caption{Distribtution of infeasible and feasible feature data space.}
+	\label{Feature space comparison for feasible and infeasible training data points.}
+\end{figure}
+
+
 \clearpage
 
 
@@ -277,6 +287,52 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 \end{figure}
 
 \FloatBarrier
+\subsection{Numerical parameter study NoClassifier variant}
+\begin{table}[!ht]
+	\small
+	\centering
+	\renewcommand{\multirowsetup}{\centering}
+	\renewcommand{\arraystretch}{1.15}
+	\begin{tabular}{l|l|l|r|r}
+		\textbf{Parameter}                          & \textbf{Metric}                & \textbf{Level}        & \textbf{Median} & \textbf{IsBest} \\
+		\hline
+		\multirow{8}{*}{\textbf{LimitNoImpr}}       & \multirow{4}{*}{ILSIterations} & 3                     & 20.00           & True            \\\cline{3-5}
+		                                            &                                & 5                     & 19.00           & False           \\\cline{3-5}
+		                                            &                                & 8                     & 19.00           & False           \\\cline{3-5}
+		                                            &                                & 12                    & 18.00           & False           \\\cline{2-5}
+		                                            & \multirow{4}{*}{RPD}           & 3                     & 4.26            & True            \\\cline{3-5}
+		                                            &                                & 5                     & 4.65            & False           \\\cline{3-5}
+		                                            &                                & 8                     & 4.81            & False           \\\cline{3-5}
+		                                            &                                & 12                    & 5.00            & False           \\\hline
+		\multirow{4}{*}{\textbf{LocalSearchTypes}}  & \multirow{2}{*}{ILSIterations} & InterLSFirst          & 21.00           & True            \\\cline{3-5}
+		                                            &                                & IntraLSFirst          & 16.00           & False           \\\cline{2-5}
+		                                            & \multirow{2}{*}{RPD}           & InterLSFirst          & 3.74            & True            \\\cline{3-5}
+		                                            &                                & IntraLSFirst          & 5.52            & False           \\\hline
+		\multirow{8}{*}{\textbf{PerturbationTypes}} & \multirow{4}{*}{ILSIterations} & R-Swaps               & 22.00           & True            \\\cline{3-5}
+		                                            &                                & Both-Insertions-First & 20.00           & False           \\\cline{3-5}
+		                                            &                                & Both-Swap-First       & 18.00           & False           \\\cline{3-5}
+		                                            &                                & R-Insertions          & 17.00           & False           \\\cline{2-5}
+		                                            & \multirow{4}{*}{RPD}           & Both-Insertions-First & 4.38            & True            \\\cline{3-5}
+		                                            &                                & Both-Swap-First       & 4.98            & False           \\\cline{3-5}
+		                                            &                                & R-Insertions          & 4.98            & False           \\\cline{3-5}
+		                                            &                                & R-Swaps               & 4.43            & False           \\\hline
+		\multirow{10}{*}{\textbf{RandomMoves}}      & \multirow{5}{*}{ILSIterations} & 2                     & 42.50           & True            \\\cline{3-5}
+		                                            &                                & 4                     & 31.00           & False           \\\cline{3-5}
+		                                            &                                & 6                     & 20.00           & False           \\\cline{3-5}
+		                                            &                                & 8                     & 15.00           & False           \\\cline{3-5}
+		                                            &                                & 12                    & 11.00           & False           \\\cline{2-5}
+		                                            & \multirow{5}{*}{RPD}           & 2                     & 3.34            & True            \\\cline{3-5}
+		                                            &                                & 4                     & 3.65            & False           \\\cline{3-5}
+		                                            &                                & 6                     & 4.40            & False           \\\cline{3-5}
+		                                            &                                & 8                     & 5.02            & False           \\\cline{3-5}
+		                                            &                                & 12                    & 5.52            & False           \\
+	\end{tabular}
+
+
+	\caption{CMedian ILS iteration counts and RPD across parameters and levels for the NoClassifier variant.}
+	\label{tab:numerical_results_paramStudy_NOclassifiers}
+\end{table}
+\clearpage
 \subsection{Filter Variant}
 \label{app:subsec:parameterstudy_Filter}
 
@@ -329,14 +385,14 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 	\end{subfigure}
 	\caption{Parameter study for Hybrid variant.}
 \end{figure}
-
-\subsection{Classifier variants numerical parameter study}
+\clearpage
+\subsection{Numerical parameter study classifier variants}
 \begin{table}[!ht]
 	\footnotesize
 	\centering
 	\renewcommand{\multirowsetup}{\centering}
-	\renewcommand{\arraystretch}{1.00}
-	\begin{tabular}{@{}l|l|l|l|r|r @{}}
+	\renewcommand{\arraystretch}{1.04}
+	\begin{tabular}{@{}l|l|l|l|c|c @{}}
 		\textbf{Variant}                   & \textbf{Parameter}                        & \textbf{Metric}                  & \textbf{Level}       & \textbf{Median} & \textbf{IsBest} \\
 		\hline
 		\multirow{4}{*}{\textbf{Filter}}   & \multirow{4}{*}{UseFilterStartSolution}   & \multirow{2}{*}{ILSIterations}   & False                & 83.00           & True            \\\cline{4-6}
@@ -344,8 +400,8 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 		                                   &                                           & \multirow{2}{*}{RPD}             & False                & 2.15            & True            \\\cline{4-6}
 		                                   &                                           &                                  & True                 & 3.35            & False           \\\hline
 		\multirow{24}{*}{\textbf{Hybrid}}  & \multirow{9}{*}{Interval-CP-Check}        & \multirow{3}{*}{ILSIterations}   & 1                    & 282.50          & True            \\\cline{4-6}
-		                                   &                                           &                                  & 3                    & 317.00          & False           \\\cline{4-6}
-		                                   &                                           &                                  & 5                    & 294.50          & False           \\\cline{3-6}
+		                                   &                                           &                                  & 3                    & 294.50          & False           \\\cline{4-6}
+		                                   &                                           &                                  & 5                    & 317.00          & False           \\\cline{3-6}
 		                                   &                                           & \multirow{3}{*}{RPD}             & 1                    & 1.88            & True            \\\cline{4-6}
 		                                   &                                           &                                  & 3                    & 3.28            & False           \\\cline{4-6}
 		                                   &                                           &                                  & 5                    & 4.43            & False           \\\cline{3-6}
@@ -384,10 +440,9 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 		                                   &                                           &                                  & True                 & 0.75            & False           \\
 	\end{tabular}
 
-	\caption{Column header description for B\&C results.}
+	\caption{Median ILS iteration counts and RPD across parameters and levels for the classifier variants.}
 	\label{tab:numerical_results_paramStudy_classifiers}
 \end{table}
-
 
 \clearpage
 \section{Branch-and-Cut Results}
@@ -596,8 +651,8 @@ RD-2-30-20-10 the \gls{CP} time increases only minimal, when the maximum number 
 \label{subsec:challenges_krebs_save}
 
 The results obtained by the B\&C algorithm from \cite{tamke_branch-and-cut_2024} are with an average gap of 3.14\% pretty good. However, some limitations
-of the branch-and-cut algorithm caused issues solving instances from \krebsADataSetText. As shown before, the labeling of one route takes approximately
-1000 times longer than for the \gendreauDataSetText, causing the dilemma, if either the time limit for the \gls{CP} solver within the B\%C solver
+of the branch-and-cut algorithm caused issues solving instances from \krebsADataSet. As shown before, the labeling of one route takes approximately
+1000 times longer than for the \gendreauDataSet, causing the dilemma, if either the time limit for the \gls{CP} solver within the B\%C solver
 must be limited causing a lot of \textit{Unknown} and \textit{Invalid} labeled tours and the interrupting of the B\%C solver or choosing
 a high time limit, which restricts the B\%C solver in testing many solutions as the feasibility check is time intensive. The first option
 was chosen and the B\%C was modified to avert some interruptions, but not all. Therefore some runs creating the train datasets are labeled with
