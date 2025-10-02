@@ -591,8 +591,6 @@ next to the instance name. In this comparison all published papers were consider
 		$\text{600-n100-m400-bt100}^L$ & $\text{680.66}^B$  & 0.00 & NaN   & 1      & 27553 & 1027.87 & 9     \\
 		\bottomrule
 	\end{tabular}
-
-
 	\caption{B\&C Results for obtaining save strategy dataset from \krebsADataSet.}
 	\label{tab:bc_results_krebs}
 \end{table}
@@ -684,7 +682,7 @@ The prevaillance of routes with 2 customers is also shown in the following Figur
 the balance of feasible and infeasible routes. The number of found routes is dropping by 205.027 routes in total, and therefore
 also the prevailing share of feasible routes with 2 customers.
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 	\centering
 	\begin{subfigure}[t]{.5\textwidth}
 		\centering
@@ -698,32 +696,9 @@ also the prevailing share of feasible routes with 2 customers.
 		\caption{Dataset KS-Shrinked-WS}
 		\label{fig:ds-b-krebs_l}
 	\end{subfigure}
-	\caption{Distribution of route length for the two adapted save strategy datasets. The red vertical line represents the average
-		number of customers.}
+	\caption{Distribution of balance of feasible and infeasible routes found per \krebsADataSetText instance for two save strategy datasets.}
 	\label{fig:route-feasibility_save_krebs}
 \end{figure}
-
-The trimmed dataset will not be used further, as this datasets lacks the data to predict feasible routes with two customers as only
-infeasible tours for this route length are present in the dataset.
-
-\begin{table}[ht]
-	\centering
-	\begin{tabular}{l c c c c c c }
-		\toprule
-		Name           & Sets                 & Routes & Routes Len = 2 & Balance   & Rel. Vol & Rel. Mass \\
-		\midrule
-		KS-Complete-WS & \multirow{3}{*}{Yes} & 261989 & 220860         & 92.4/7.6  & 0.18     & 0.20      \\
-		KS-Trimmed-WS  &                      & 41337  & 208            & 52.1/47.9 & 0.58     & 0.63      \\
-		KS-Shrinked-WS &                      & 56962  & 15833          & 65.3/34.7 & 0.43     & 0.48      \\        \midrule
-		KS-Complete    & \multirow{3}{*}{No}  & 256786 & 220860         & 94.3/5.7  & 0.16     & 0.19      \\
-		KS-Trimmed     &                      & 36134  & 208            & 59.6/40.4 & 0.54     & 0.61      \\
-		KS-Shrinked    &                      & 51759  & 15833          & 71.8/28.2 & 0.39     & 0.46      \\
-
-		\bottomrule
-	\end{tabular}
-	\caption{Save strategy train datsets from \krebsADataSet.}
-	\label{tab:saved_instances_krebs}
-\end{table}
 
 \clearpage
 \section{Implementations in GitHub repositories}

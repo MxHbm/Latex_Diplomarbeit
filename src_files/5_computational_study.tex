@@ -159,7 +159,7 @@ differentiated in those two groups to investigate the effect of the average weig
 \parbreak
 
 As the construction of train datasets with the \krebsADataSetText dataset is much more computationally challenging than for \gendreauDataSet,
-the following sections will focus only on the latter and the Section~\ref{sec:application_krebs} on \krebsADataSet.
+the following sections will focus only on the latter and the Section~\ref{chap:application_krebs} on \krebsADataSet.
 In the following section the results from training the binary classifier are presented with diffferent datasets.
 
 \section{Results Model Training}
@@ -634,7 +634,7 @@ has the highest. Conversely, the intra \gls{LS} phase is the least computational
 when paired with the \gls{CP} solver. Based on these findings, the InterCPSolver was selected as the setting for the final comparison.
 The bold parameter levels in Table~\ref{tab:parameters_summary_classifier} highlight the chosen variant configuration.
 
-\section{Comparison of heuristic variants}
+\section{Comparison of ILS Variants}
 \label{sec:comparison_ils_variants}
 
 The solution quality for all four variants (see Fig.~\ref{fig:four_variants}) is compared by running all 27 instances.
@@ -642,6 +642,16 @@ The timelimit is 10 min per instance and three repetitions.
 The publisher for best known solution(BKS) for the \gendreauDataSetText is indicated by the small letter
 next to the instance name. In this comparison all published papers were considered, which use the same loading constraint set $\mathcal{G}$.
 In comparison to Table~\ref{tab:bc_results_gendreau} only heuristic approaches are considered.
+
+
+\begin{table}[ht]
+	\centering
+	\begin{tabular}{@{}l l l l l r r r r @{}}
+		Instance & Variant & $C^*$ & $t^*$ & $K^*$ & $C^0$ & $t^0$ & $K^0$ & BKS //
+	\end{tabular}
+	\caption{Exemplary Table.}
+\end{table}
+
 
 \begin{table}[ht]
 	\centering
@@ -651,12 +661,3 @@ In comparison to Table~\ref{tab:bc_results_gendreau} only heuristic approaches a
 		\datasetPos{c}{\cite{bortfeldt_hybrid_2012}}  & \datasetPos{d}{\cite{zhang_evolutionary_2015}} \\
 	\end{tabular}
 \end{table}
-
-\section{Generalization of model}
-\label{sec:application_krebs}
-
-Additionally, the Section~\ref{app:sec:krebs_computationally_challenges} in the appendix
-dives deeper in the challenges for creating a suiting training dataset from the \krebsADataSetText instances and the computational
-challenges.
-Test Krebs by either using model and settings grom gendreau
-or by training own dataset with the krebs random and save strategy datasets.
