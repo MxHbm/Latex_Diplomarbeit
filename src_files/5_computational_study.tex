@@ -506,7 +506,7 @@ the optimal solution in a short time (see \cite{tamke_branch-and-cut_2024}\footc
 Second, similar instances of size and complexity were reduced to only one.
 Every instance is run three times with different seeds and a timelimit of 10 min. It will be investigated
 how different parameter combinations influence the \gls{RPD}, the iteration number, the rejection rate and
-the average improvement per second after finding the initial solution. The \gls{RPD} is defined between the
+the average improvement after finding the constructive solution. The \gls{RPD} is defined between the
 total costs of the best solution $C^*$ and another solution with costs $C$.
 \begin{align}
 	RPD = \frac{C - C^*}{C^*} \cdot 100\%
@@ -637,27 +637,122 @@ The bold parameter levels in Table~\ref{tab:parameters_summary_classifier} highl
 \section{Comparison of ILS Variants}
 \label{sec:comparison_ils_variants}
 
-The solution quality for all four variants (see Fig.~\ref{fig:four_variants}) is compared by running all 27 instances.
-The timelimit is 10 min per instance and three repetitions.
-The publisher for best known solution(BKS) for the \gendreauDataSetText is indicated by the small letter
-next to the instance name. In this comparison all published papers were considered, which use the same loading constraint set $\mathcal{G}$.
-In comparison to Table~\ref{tab:bc_results_gendreau} only heuristic approaches are considered.
+The solution quality for all four ILS variants (see Fig.~\ref{fig:four_variants}) is compared by running all 27 instances of the
+\gendreauDataSetText dataset. The timelimit is set to 10 min and three runs are executed per instance with different seed values.
+For every classifier based variant (Filter, SpeedUp, Hybrid) three different models (\gls{LR}, \gls{XGB},\gls{FFNN}) and four datasets
+(see Table~\ref{tab:chosen_datasets}) are chosen, which results in a total of 37 different configurations. The first insight in the
+comparison is presented in Figure~\ref{fig:boxplots_final_comparison}, which shows the boxplots for each classifier variant.
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width =\textwidth]{pictures/final_results/LoadingCheckerType_boxplot_final_results.png}
+	\caption{Comparison of all different ILS variants depending the RPD, the average improvement, iterations and rejection rate.}
+	\label{fig:boxplots_final_comparison}
+\end{figure}
+The NoClassifier variant has the lowest median \gls{RPD} and the least number of iterations. The SpeedUp variant is the best performing
+classifier variant, with a low \gls{RPD} and significantly the most iterations per instance, which consecutively leads to high percentual
+improvement from constructive to best solution. Even though, the Filter variant has a good improvement, the RPD values are the worst as
+the constructive solution is worse in comparison to the other variants, as \gls{FN} predictions lead to worse solutions. The Hybrid variant
+has decent \gls{RPD} values, but the number of iterations is in comparison to the SpeedUp variant quite low. This topic was already discussed
+in last section, and especially this sezup was chosen to differentiate to the SpeedUP variant. The following Table~\ref{tab:mean_final_results}
+contains mean performance indicator values per variant. The mean values are shown in Table~\ref{tab:final_mean_comparison} in the appendix.
+\begin{table}
+	\centering
+	\begin{tabular}{lrrrrrr}
+		\toprule
+		Variant      & RPD  & Iterations & Improvement & RatioRejection & $t_0$ & $C_0$   \\
+		\midrule
+		Filter       & 3.08 & 2944.36    & -6.18       & 0.00           & 12.65 & 1024.53 \\
+		Hybrid       & 2.36 & 3146.44    & -5.51       & 0.31           & 25.70 & 1007.83 \\
+		NoClassifier & 0.84 & 2895.44    & -5.61       & 0.00           & 30.74 & 1010.54 \\
+		SpeedUp      & 1.07 & 6124.06    & -7.27       & 0.36           & 23.49 & 1014.09 \\
+		\bottomrule
+	\end{tabular}
+	\caption[Mean results final comparison.]{Mean results final comparison. $t_0$ displays the time for the start solution and $C_0$ is the start solution objective.}
+	\label{tab:mean_final_results}
+\end{table}
+It needs to be noted, that the mean number of iterations is considerably higher than the median. Interestingly,
+the difference between the NoClassifier and SpeedUp RPD values is shrunken. Overall the rejection ratio is quite low, leading
+to the reversion of only round a third of all iterations. The median values per configuration are shown in Table~\ref{tab:final_mean_comparison} in the appendix. Additionally, the visualizations for each classifiers show, the influence of different model
+and datasets:
+\begin{itemize}
+	\item Filter variant - Figure~\ref{fig:final_results_filter_variant}.
+	\item SpeedUp variant - Figure~\ref{fig:final_results_speedup_variant}.
+	\item Hybrid variant - Figure~\ref{fig:final_results_hybrid_variant}.
+\end{itemize}
+However, the differences between single models and datasets for each variant are surprisingly small and do not effect the results
+considerably strong. Despite the average results, the results per instance are compared in the following. The best solution
+per variant is compared between each other, as well as with the best known solution. In comparison to Table~\ref{tab:bc_results_gendreau} only heuristic approaches are considered and the complete loading constraint set $\mathcal{G}$.
+The publisher for  the best known solution(BKS) for the \gendreauDataSetText is indicated by the small letter
+in the BKS column. In this comparison all published papers were considered, which use the same loading constraint set $\mathcal{G}$.
+\begin{table}
+	\centering
+	\begin{tabular}{L{6cm}lccc}
+		\toprule
+		                                                                                                                                      &       & \multicolumn{3}{c}{Timelimit [sec]}                               \\\cline{3-5}
+		Author                                                                                                                                & Label & $N \leq 25$                         & $25 < N \leq 50$ & $50 < N$ \\
+		\midrule
+		\cite{tarantilis_hybrid_2009}\footcite[cf.][p.264]{tarantilis_hybrid_2009}                                                            & a     & 1800                                & 3600             & 7200     \\
+		\cite{wang_two_2010} \footcite[cf.][pp.265-266]{wang_two_2010}                                                                        & b     & 1800                                & 3600             & 7200     \\
+		\cite{bortfeldt_hybrid_2012}\footcite[cf.][p.2253]{bortfeldt_hybrid_2012}\footnote{Start solution time was excluded from time limit.} & c     & 180                                 & 300              & 400      \\
+		\cite{zhang_evolutionary_2015}\footcite[cf.][p.28]{zhang_evolutionary_2015}                                                           & d     & 900                                 & 1800             & 3600     \\
+		This thesis                                                                                                                           & -     & 600                                 & 600              & 600      \\
 
+		\bottomrule
+	\end{tabular}
+	\label{tab:timeLimit_comparison}
+	\caption{Different time limits for \gendreauDataSetText instances dependend of customer number $N$.}
+\end{table}
 
 \begin{table}[ht]
 	\centering
-	\begin{tabular}{@{}l l l l l r r r r @{}}
-		Instance & Variant & $C^*$ & $t^*$ & $K^*$ & $C^0$ & $t^0$ & $K^0$ & BKS //
+	\scriptsize
+	\renewcommand{\arraystretch}{1.02}
+	\begin{tabular}{@{}llcccccccc@{}}
+		\toprule
+		                    &                             & \multicolumn{2}{c}{NoClassifier} & \multicolumn{2}{c}{Filter} & \multicolumn{2}{c}{SpeedUp} & \multicolumn{2}{c}{Hybrid}                                                                    \\ \cline{3-4}\cline{5-6}\cline{7-8}\cline{9-10}
+		Instance            & BKS                         & $C^*$                            & $\Delta BKS$               & $C^*$                       & $\Delta BKS$               & $C^*$            & $\Delta BKS$ & $C^*$           & $\Delta BKS$ \\
+		\midrule
+		$\text{E016-03m}^H$ & $\text{301.74}^b$           & \textbf{301.66}                  & -0.03                      & 301.74                      & 0.00                       & 301.74           & 0.00         & 301.74          & 0.00         \\
+		$\text{E016-05m}^H$ & $\text{\textbf{334.96}}^a$  & \textbf{334.96}                  & 0.00                       & \textbf{334.96}             & 0.00                       & \textbf{334.96}  & 0.00         & \textbf{334.96} & 0.00         \\
+		$\text{E021-04m}^H$ & $\text{\textbf{385.53}}^d$  & 392.25                           & 1.74                       & \textbf{385.53}             & 0.00                       & \textbf{385.53}  & 0.00         & \textbf{385.53} & 0.00         \\
+		$\text{E021-06m}^H$ & $\text{437.19}^b$           & \textbf{430.88}                  & -1.44                      & \textbf{430.88}             & -1.44                      & \textbf{430.88}  & -1.44        & \textbf{430.88} & -1.44        \\
+		$\text{E022-04g}^H$ & $\text{436.48}^b$           & \textbf{427.68}                  & -2.02                      & 437.27                      & 0.18                       & 437.27           & 0.18         & 437.27          & 0.18         \\
+		$\text{E022-06m}^H$ & $\text{\textbf{498.16}}^c$  & \textbf{498.16}                  & 0.00                       & \textbf{498.16}             & 0.00                       & \textbf{498.16}  & 0.00         & \textbf{498.16} & 0.00         \\
+		$\text{E023-03g}^L$ & $\text{767.46}^b$           & \textbf{757.88}                  & -1.25                      & 774.74                      & 0.95                       & 774.74           & 0.95         & 774.74          & 0.95         \\
+		$\text{E023-05s}^L$ & $\text{803.98}^b$           & \textbf{800.98}                  & -0.37                      & 803.48                      & -0.06                      & 803.48           & -0.06        & 803.48          & -0.06        \\
+		$\text{E026-08m}^H$ & $\text{\textbf{630.13}}^b$  & \textbf{630.13}                  & 0.00                       & 643.61                      & 2.14                       & 643.61           & 2.14         & 643.61          & 2.14         \\
+		$\text{E030-03g}^L$ & $\text{820.35}^c$           & 834.25                           & 1.69                       & 820.78                      & 0.05                       & \textbf{818.54}  & -0.22        & 831.43          & 1.35         \\
+		$\text{E030-04s}^L$ & $\text{768.25}^b$           & 779.33                           & 1.44                       & 786.03                      & 2.31                       & \textbf{764.58}  & -0.48        & 782.64          & 1.87         \\
+		$\text{E031-09h}^H$ & $\text{\textbf{610.23}}^b$  & 614.60                           & 0.72                       & \textbf{610.23}             & 0.00                       & \textbf{610.23}  & 0.00         & 614.23          & 0.66         \\
+		$\text{E033-03n}^L$ & $\text{2645.95}^c$          & 2627.28                          & -0.71                      & 2652.72                     & 0.26                       & \textbf{2605.58} & -1.53        & 2641.27         & -0.18        \\
+		$\text{E033-04g}^L$ & $\text{\textbf{1363.04}}^d$ & 1374.68                          & 0.85                       & 1434.76                     & 5.26                       & 1417.98          & 4.03         & 1448.18         & 6.25         \\
+		$\text{E033-05s}^L$ & $\text{1338.22}^d$          & 1360.96                          & 1.70                       & 1344.54                     & 0.47                       & \textbf{1331.57} & -0.50        & 1343.12         & 0.37         \\
+		$\text{E036-11h}^H$ & $\text{\textbf{698.61}}^a$  & 703.35                           & 0.68                       & \textbf{698.61}             & 0.00                       & \textbf{698.61}  & 0.00         & \textbf{698.61} & 0.00         \\
+		$\text{E041-14h}^H$ & $\text{\textbf{866.4}}^c$   & 871.63                           & 0.60                       & \textbf{866.40}             & 0.00                       & \textbf{866.40}  & 0.00         & 871.63          & 0.60         \\
+		$\text{E045-04f}^L$ & $\text{\textbf{1201.85}}^d$ & 1223.24                          & 1.78                       & 1216.45                     & 1.21                       & 1210.55          & 0.72         & 1218.15         & 1.36         \\
+		$\text{E051-05e}^L$ & $\text{\textbf{741.64}}^d$  & 745.05                           & 0.46                       & 765.95                      & 3.28                       & 742.16           & 0.07         & 758.11          & 2.22         \\
+		$\text{E072-04f}^L$ & $\text{\textbf{570.17}}^d$  & 598.93                           & 5.04                       & 603.84                      & 5.91                       & 600.74           & 5.36         & 619.27          & 8.61         \\
+		$\text{E076-07s}^L$ & $\text{\textbf{1044.26}}^d$ & 1102.90                          & 5.62                       & 1098.45                     & 5.19                       & 1071.07          & 2.57         & 1093.32         & 4.70         \\
+		$\text{E076-08s}^L$ & $\text{\textbf{1133.06}}^d$ & 1183.29                          & 4.43                       & 1173.34                     & 3.55                       & 1151.58          & 1.63         & 1172.79         & 3.51         \\
+		$\text{E076-10e}^L$ & $\text{\textbf{1084.17}}^d$ & 1143.31                          & 5.45                       & 1142.31                     & 5.36                       & 1108.80          & 2.27         & 1133.43         & 4.54         \\
+		$\text{E076-14s}^H$ & $\text{\textbf{1092.46}}^d$ & 1142.99                          & 4.63                       & 1134.57                     & 3.86                       & 1105.02          & 1.15         & 1131.63         & 3.59         \\
+		$\text{E101-08e}^L$ & $\text{\textbf{1338.35}}^d$ & 1384.10                          & 3.42                       & 1389.00                     & 3.78                       & 1364.01          & 1.92         & 1382.53         & 3.30         \\
+		$\text{E101-10c}^L$ & $\text{\textbf{1530.05}}^d$ & 1653.41                          & 8.06                       & 1628.43                     & 6.43                       & 1600.59          & 4.61         & 1652.37         & 7.99         \\
+		$\text{E101-14s}^L$ & $\text{\textbf{1472.11}}^d$ & 1516.77                          & 3.03                       & 1556.54                     & 5.74                       & 1505.07          & 2.24         & 1544.81         & 4.94         \\\hline
+		mean                & 922.77                      & 942.02                           & 1.69                       & 945.68                      & 2.02                       & 932.72           & 0.95         & 946.22          & 2.13         \\
+		\bottomrule
 	\end{tabular}
-	\caption{Exemplary Table.}
+	\caption[Final results all four variants in comparison to best known heuristic solutions for \gendreauDataSet]
+	{Final results all four variants in comparison to best known heuristic solutions for \gendreauDataSet. Bold font indicates the
+		minimum costs including the BKS. $\Delta BKS$ is the procentual difference to the BKS}
+	\label{tab:final_best_results_gendreau}
 \end{table}
 
+From 27 solutions in the literature nine could be improved with the presented alogorithm. Among them SpeedUp and NoClassifier found
+each four improvements alone. Generally, the SpeedUp variant performs better for middle to big sized instances in comparison to
+the NoClassifier variant. For these variants the high iteration number becomes more valuable. In total has the SpeedUp variant the lowest
+mean deviation from the BKS with 0.95\% and NoClassifier with 1.69\% the second best result. The filter variant performs slightly better than the Hybrid variant in this comparison. The performance of the presented algorithm is underlined, as the time limit for obtaining
+the best known solutions was for most of the author significantly up to 6 times higher than in this work (see Table~\ref{tab:timeLimit_comparison}).
 
-\begin{table}[ht]
-	\centering
-	\renewcommand{\arraystretch}{1.05}
-	\begin{tabular}{@{}ll@{}}
-		\datasetPos{a}{\cite{tarantilis_hybrid_2009}} & \datasetPos{b}{\cite{wang_two_2010}}           \\
-		\datasetPos{c}{\cite{bortfeldt_hybrid_2012}}  & \datasetPos{d}{\cite{zhang_evolutionary_2015}} \\
-	\end{tabular}
-\end{table}
+The mean costs per run and variant are shown in Table~\ref{tab:final_mean_comparison}, which shows, that SpeedUp and NoClassifier variant
+have the best results. The same impression confirms, that the SpeedUp variant is slightly better for middle and big sized instances. Filter and Hybrid in average performing not well.

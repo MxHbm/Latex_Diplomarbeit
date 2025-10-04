@@ -110,6 +110,34 @@ For each stacked feature bar above one of the barriers, the feature is respected
 \end{table}
 
 
+\begin{table}[ht]
+	\centering
+	\small
+	\caption{Model hyperparameters for training the classifier for the ILS algorithm.}
+	\label{tab:hyperparams_model_performance}
+	\renewcommand{\arraystretch}{1.1}
+	\begin{tabular}{@{}c P{0.3\textwidth}P{0.3\textwidth}@{}}
+		\toprule
+		\textbf{LR}                  & \textbf{XGB}                    & \textbf{FFNN}                      \\
+		\midrule
+		\kv{penalty}{l2}             & \kv{objective}{binary:logistic} & \kv{hidden\_layers}{[128, 64, 32]} \\
+		\kv{C}{1.0}                  & \kv{eval\_metric}{logloss}      & \kv{dropout}{0.2}                  \\
+		\kv{solver}{lbfgs}           & \kv{max\_depth}{15}             & \kv{lr}{0.001}                     \\
+		\kv{max\_iter}{1000}         & \kv{n\_estimators}{500}         & \kv{batch\_size}{512}              \\
+		\kv{class\_weight}{balanced} & \kv{learning\_rate}{0.05}       & \kv{epochs}{200}                   \\
+		\kv{random\_state}{42}       & \kv{subsample}{0.8}             & \kv{pos\_weight}{null}             \\
+		\kv{n\_jobs}{23}             & \kv{colsample\_bytree}{0.8}     & \kv{weight\_decay}{0.0}            \\
+		                             & \kv{reg\_alpha}{0.0}            & \kv{batch\_size}{512}              \\
+		                             & \kv{reg\_lambda}{1.0}           & \kv{device}{cpu}                   \\
+		                             & \kv{enable\_categorical}{false} & \kv{random\_state}{42}             \\
+		                             & \kv{tree\_method}{hist}         & \kv{n\_jobs}{23}                   \\
+		                             & \kv{n\_jobs}{23}                &                                    \\
+		                             & \kv{random\_state}{42}          &                                    \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
 \clearpage
 \section{Further Feature Filter Results}
 \label{app:sec:further_feature_filter}
@@ -596,7 +624,146 @@ next to the instance name. In this comparison all published papers were consider
 \end{table}
 
 \clearpage
+\section{Additional final results}
 
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{pictures/final_results/ModelType_Filter_boxplot_final_results.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{pictures/final_results/ModelDataSet_Filter_boxplot_final_results.png}
+	\end{subfigure}
+	\caption{Final results Filter variant.}
+	\label{fig:final_results_filter_variant}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{pictures/final_results/ModelType_SpeedUp_boxplot_final_results.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{pictures/final_results/ModelDataSet_SpeedUp_boxplot_final_results.png}
+	\end{subfigure}
+	\caption{Final results SpeedUp variant.}
+	\label{fig:final_results_speedup_variant}
+\end{figure}
+
+\begin{figure}[!ht]
+	\centering
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{pictures/final_results/ModelType_Hybrid_boxplot_final_results.png}
+	\end{subfigure}
+	\begin{subfigure}[t]{\textwidth}
+		\centering
+		\includegraphics[width=0.9\linewidth]{pictures/final_results/ModelDataSet_Hybrid_boxplot_final_results.png}
+	\end{subfigure}
+	\caption{Final results Hybrid variant.}
+	\label{fig:final_results_hybrid_variant}
+\end{figure}
+
+
+\begin{table}[ht]
+	\small
+	\centering
+	\renewcommand{\arraystretch}{1.1}
+	\begin{tabular}{lllrrr}
+		\toprule
+		\textbf{Variant}          & \textbf{Model Type}   & \textbf{Dataset} & \textbf{}RPD & \textbf{Iterations} & \textbf{RatioRejection} \\
+		\midrule
+		NoClassifier              & -                     & -                & 0.03         & 55.50               & 0.00                    \\\hline
+		\multirow{12}{*}{Filter}  & \multirow{4}{*}{FFNN} & GD-Shrinked      & 3.00         & 105.00              & 0.00                    \\\cline{3-6}
+		                          &                       & GD-Shrinked-WS   & 2.71         & 135.00              & 0.00                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-6     & 2.92         & 106.00              & 0.00                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-8     & 2.69         & 109.00              & 0.00                    \\\cline{2-6}
+		                          & \multirow{4}{*}{LR}   & GD-Shrinked      & 3.70         & 126.00              & 0.00                    \\\cline{3-6}
+		                          &                       & GD-Shrinked-WS   & 2.75         & 113.00              & 0.00                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-6     & 2.27         & 124.00              & 0.00                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-8     & 2.70         & 104.00              & 0.00                    \\\cline{2-6}
+		                          & \multirow{4}{*}{XGB}  & GD-Shrinked      & 2.45         & 129.00              & 0.00                    \\\cline{3-6}
+		                          &                       & GD-Shrinked-WS   & 2.62         & 134.00              & 0.00                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-6     & 3.04         & 123.00              & 0.00                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-8     & 2.96         & 116.00              & 0.00                    \\\hline
+		\multirow{12}{*}{SpeedUp} & \multirow{4}{*}{FFNN} & GD-Shrinked      & 0.78         & 3140.00             & 0.38                    \\\cline{3-6}
+		                          &                       & GD-Shrinked-WS   & 0.88         & 3836.00             & 0.36                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-6     & 0.63         & 3580.00             & 0.37                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-8     & 0.60         & 2910.00             & 0.42                    \\\cline{2-6}
+		                          & \multirow{4}{*}{LR}   & GD-Shrinked      & 0.96         & 6231.00             & 0.24                    \\\cline{3-6}
+		                          &                       & GD-Shrinked-WS   & 0.82         & 4480.00             & 0.33                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-6     & 0.66         & 4671.00             & 0.32                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-8     & 0.23         & 3728.00             & 0.42                    \\\cline{2-6}
+		                          & \multirow{4}{*}{XGB}  & GD-Shrinked      & 0.34         & 3101.00             & 0.37                    \\\cline{3-6}
+		                          &                       & GD-Shrinked-WS   & 1.01         & 4395.00             & 0.28                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-6     & 0.73         & 4504.00             & 0.30                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-8     & 0.68         & 3960.00             & 0.30                    \\\hline
+		\multirow{12}{*}{Hybrid}  & \multirow{4}{*}{FFNN} & GD-Shrinked      & 2.45         & 152.00              & 0.38                    \\\cline{3-6}
+		                          &                       & GD-Shrinked-WS   & 2.42         & 192.00              & 0.35                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-6     & 2.01         & 161.00              & 0.34                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-8     & 1.56         & 133.00              & 0.39                    \\\cline{2-6}
+		                          & \multirow{4}{*}{LR}   & GD-Shrinked      & 2.21         & 193.00              & 0.30                    \\\cline{3-6}
+		                          &                       & GD-Shrinked-WS   & 2.15         & 174.00              & 0.34                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-6     & 2.10         & 171.00              & 0.37                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-8     & 2.05         & 141.00              & 0.39                    \\\cline{2-6}
+		                          & \multirow{4}{*}{XGB}  & GD-Shrinked      & 2.08         & 178.00              & 0.35                    \\\cline{3-6}
+		                          &                       & GD-Shrinked-WS   & 1.84         & 190.00              & 0.33                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-6     & 2.33         & 162.00              & 0.34                    \\\cline{3-6}
+		                          &                       & RD-4-30-30-8     & 2.27         & 175.00              & 0.35                    \\
+		\bottomrule
+	\end{tabular}
+	\caption{Comparison of variant configurations (median values).}
+\end{table}
+
+\clearpage
+
+
+\begin{table}
+	\centering
+	\renewcommand{\arraystretch}{1.05}
+	\begin{tabular}{lcccc}
+		\toprule
+		                    & \multicolumn{4}{c}{Variant}                                                        \\\cline{2-5}
+		Instance            & NoClassifier                & Filter          & SpeedUp          & Hybrid          \\
+		\midrule
+		$\text{E016-03m}^H$ & \textbf{301.78  }           & 302.61          & 302.61           & 302.65          \\
+		$\text{E016-05m}^H$ & \textbf{334.96 }            & \textbf{334.96} & \textbf{334.96}  & \textbf{334.96} \\
+		$\text{E021-04m}^H$ & 401.39                      & 401.99          & \textbf{390.52}  & 391.51          \\
+		$\text{E021-06m}^H$ & \textbf{430.88 }            & 437.27          & 436.87           & 436.87          \\
+		$\text{E022-04g}^H$ & \textbf{437.21 }            & 448.13          & 440.40           & 444.38          \\
+		$\text{E022-06m}^H$ & \textbf{498.16 }            & 498.29          & \textbf{498.16}  & 498.25          \\
+		$\text{E023-03g}^L$ & \textbf{761.81 }            & 793.31          & 788.48           & 796.96          \\
+		$\text{E023-05s}^L$ & \textbf{803.98 }            & 819.41          & 816.45           & 821.17          \\
+		$\text{E026-08m}^H$ & \textbf{630.13 }            & 675.25          & 674.77           & 678.67          \\
+		$\text{E030-03g}^L$ & 836.13                      & 834.30          & \textbf{825.78}  & 836.21          \\
+		$\text{E030-04s}^L$ & 793.22                      & 810.25          & \textbf{783.72}  & 793.71          \\
+		$\text{E031-09h}^H$ & 620.82                      & 622.05          & \textbf{618.88}  & 620.84          \\
+		$\text{E033-03n}^L$ & 2670.46                     & 2692.63         & \textbf{2637.56} & 2708.21         \\
+		$\text{E033-04g}^L$ & \textbf{1433.39}            & 1473.65         & 1439.88          & 1462.95         \\
+		$\text{E033-05s}^L$ & 1365.22                     & 1363.88         & \textbf{1340.03} & 1376.08         \\
+		$\text{E036-11h}^H$ & 706.83                      & 706.89          & 702.46           & \textbf{701.98} \\
+		$\text{E041-14h}^H$ & \textbf{876.14}             & 876.51          & 878.52           & 878.19          \\
+		$\text{E045-04f}^L$ & 1223.34                     & 1223.99         & \textbf{1218.35} & 1226.07         \\
+		$\text{E051-05e}^L$ & \textbf{751.99}             & 784.36          & 754.18           & 768.94          \\
+		$\text{E072-04f}^L$ & \textbf{604.46}             & 634.63          & 610.04           & 625.51          \\
+		$\text{E076-07s}^L$ & 1109.37                     & 1138.12         & \textbf{1094.98} & 1125.49         \\
+		$\text{E076-08s}^L$ & 1185.98                     & 1215.95         & \textbf{1168.55} & 1186.72         \\
+		$\text{E076-10e}^L$ & 1158.16                     & 1165.02         & \textbf{1122.21} & 1159.64         \\
+		$\text{E076-14s}^H$ & 1146.78                     & 1164.09         & \textbf{1119.20} & 1147.17         \\
+		$\text{E101-08e}^L$ & 1384.62                     & 1430.72         & \textbf{1378.57} & 1385.29         \\
+		$\text{E101-10c}^L$ & 1670.97                     & 1709.91         & \textbf{1640.33} & 1693.13         \\
+		$\text{E101-14s}^L$ & 1541.34                     & 1596.30         & \textbf{1536.50} & 1570.46         \\
+		\bottomrule
+	\end{tabular}
+	\caption[Average costs for \gendreauDataSetText - comparison over all final runs and variants.]
+	{Average costs for \gendreauDataSetText - comparison over all final runs and variants. Bold text style indicates lowest value.}
+	\label{tab:final_mean_comparison}
+\end{table}
+\clearpage
 \section{\krebsADataSetText computational challenges}
 \label{app:sec:krebs_computationally_challenges}
 
