@@ -7,11 +7,9 @@ In this chapter, the insights obtained from the \gls{ILS} algorithm and its clas
 applying them to instances from the \krebsADataSetText dataset (see Section~\ref{fig:dataset_comparison}). Building on
 the previous findings, two complementary approaches are investigated. The first approach generates training datasets
 directly from the \krebsADataSetText instances, whereas the second employs pretrained classifiers derived from the
-\gendreauDataSetText dataset.
-Out of the 600 published instances, 50 were randomly selected for evaluation (Section~\ref{sec:dataset_selection}).
-The procedures corresponding to each approach are described in Sections~\ref{sec:krebs_data_retrieval} and
-\ref{sec:krebs_data_pretrained_models}. The comparative results are presented in Section~\ref{sec:results_krebs},
-providing insights as to whether the generalization can be considered successful.
+\gendreauDataSetText dataset.Out of the 600 published instances, 50 were randomly selected for evaluation.
+The procedures corresponding to each approach are described in the following two sections.
+Afterwards, the comparative results are presented in Section~\ref{sec:results_krebs}.
 
 
 \section{Dataset Retrieval}
@@ -23,9 +21,9 @@ comparing the cross performance metrics of all datasets, similar to the procedur
 validation dataset is constructed.
 
 \subsubsection{Random retrieval strategy}
-The solvation of an average route, is significantly more challenging, as the number of items and customers is higher than for the
-\gendreauDataSetText (see Section~\ref{fig:dataset_comparison}). Therefore, the following random datasets contain less routes and are presented in
-the next Table~\ref{tab:random_instances_krebs}.
+The feasibility check is more challenging because the number of items and customers per average route is higher than in the
+\gendreauDataSetText~dataset (see Section~\ref{fig:dataset_comparison}). Therefore, the following random datasets include fewer
+routes and are shown in Table~\ref{tab:random_instances_krebs}.
 \begin{table}[ht]
     \centering
     \begin{tabular}{l c c c c c }
@@ -41,12 +39,13 @@ the next Table~\ref{tab:random_instances_krebs}.
     \caption{Random strategy train datsets from \krebsADataSet.}
     \label{tab:random_instances_krebs}
 \end{table}
-More insights about the computational challenges, classifiying the random datasets and an comparison to the \gendreauDataSetText is presented
-in Subsection~\ref{subsec:challenges_krebs_random}. Generally, the balance between feasible and infeasible instances is reversed
-compared to the random datasets shown in Table~\ref{tab:created_instances_xyz_gendreau}, while the relative volume of tours
-is considerably smaller. This effect can be attributed to the small parameter values of the \gls{RRG} algorithm ($\alpha$, $\beta$, $\gamma$),
-which cause the algorithm to terminate more quickly. However, the average number of
-customers per route is approximately doubled (see next Figure~\ref{fig:route_cust_no_krebs_new}).
+
+Further insights into the computational challenges, the classification of the random datasets, and a comparison with the
+\gendreauDataSetText~dataset are presented in Subsection~\ref{subsec:challenges_krebs_random}. In general, the balance between
+feasible and infeasible instances is reversed compared to the random datasets listed in Table~\ref{tab:created_instances_xyz_gendreau},
+while the relative tour volume is significantly smaller. This effect can be attributed to the small parameter values of the \gls{RRG}
+algorithm ($\alpha$, $\beta$, $\gamma$), which cause it to terminate earlier. However, the average number of customers per route
+is approximately twice as high (see Figure~\ref{fig:route_cust_no_krebs_new}).
 
 \begin{figure}[ht]
     \centering
@@ -62,17 +61,18 @@ customers per route is approximately doubled (see next Figure~\ref{fig:route_cus
         \caption{Dataset RD-4-30-30-10}
         \label{fig:ds-b-krebs_luf}
     \end{subfigure}
-    \caption[Comparison of distribution of route length from random datasets of \krebsADataSetText and \gendreauDataSet.]{Comparison of distribution of route length from random datasets of \krebsADataSetText and \gendreauDataSet. The red vertical line represents the average
-        number of customers.}
+    \caption[Comparison of the distributions of route lengths between the random datasets of \krebsADataSetText~and \gendreauDataSetText]
+    {Comparison of the distributions of route lengths between the random datasets of \krebsADataSetText~and \gendreauDataSetText. The red vertical line indicates the average number of customers.}
     \label{fig:route_cust_no_krebs_new}
 \end{figure}
 
 \subsubsection{Save retrieval strategy}
 
-Constructing different save strategy datasets was more complex, due to the prolonged run time for the \gls{CP} solver
-and undefined behavior for \textit{Invalid} and \textit{Unknown} loading status. The Subsection~\ref{subsec:challenges_krebs_save}
-dives deeper in the faced challenges. The results of the modified branch-and-cut results are shown in Table~\ref{tab:bc_results_krebs} and
-the following Table~\ref{tab:saved_instances_krebs} presents the created save strategy.
+Constructing the different save-strategy datasets was more complex due to the longer runtime of the \gls{CP} solver and the undefined
+handling of \textit{Invalid} and \textit{Unknown} loading statuses. Subsection~\ref{subsec:challenges_krebs_save} examines these
+challenges in more detail. The branch-and-cut results are shown in Table~\ref{tab:bc_results_krebs}, while
+Table~\ref{tab:saved_instances_krebs} presents the generated save-strategy datasets.
+
 \begin{table}[ht]
     \centering
     \begin{tabular}{l c c c c c c }
@@ -81,10 +81,10 @@ the following Table~\ref{tab:saved_instances_krebs} presents the created save st
         \midrule
         KS-Complete-WS & \multirow{3}{*}{Yes} & 261989 & 220860         & 92.4/7.6  & 0.18     & 0.20      \\
         KS-Trimmed-WS  &                      & 41337  & 208            & 52.1/47.9 & 0.58     & 0.63      \\
-        KS-Shrinked-WS &                      & 56962  & 15833          & 65.3/34.7 & 0.43     & 0.48      \\        \midrule
+        KS-Shrunken-WS &                      & 56962  & 15833          & 65.3/34.7 & 0.43     & 0.48      \\        \midrule
         KS-Complete    & \multirow{3}{*}{No}  & 256786 & 220860         & 94.3/5.7  & 0.16     & 0.19      \\
         KS-Trimmed     &                      & 36134  & 208            & 59.6/40.4 & 0.54     & 0.61      \\
-        KS-Shrinked    &                      & 51759  & 15833          & 71.8/28.2 & 0.39     & 0.46      \\
+        KS-Shrunken    &                      & 51759  & 15833          & 71.8/28.2 & 0.39     & 0.46      \\
 
         \bottomrule
     \end{tabular}
@@ -92,49 +92,55 @@ the following Table~\ref{tab:saved_instances_krebs} presents the created save st
     \label{tab:saved_instances_krebs}
 \end{table}
 
-The "Complete" datasets are dominated by routes with two cutomers, leading to strongly imbalanced datasets. This leaves only
-the modified datasets, either shrinked or trimmed, left for model training. But the trimmed dataset will not be used further,
-as this datasets can not predict feasible routes with two customers as only infeasible tours for this route length are
-present in the dataset.
+The “Complete” datasets are dominated by routes with two customers, resulting in strongly imbalanced datasets. Consequently,
+only the modified datasets, either shrunken or trimmed, are used for model training. However, the trimmed dataset is excluded
+from further analysis, as it cannot predict feasible routes with two customers, given that only infeasible tours of this route
+length are contained within it.
 
 \subsubsection{Dataset Selection}
 
-To determine the best dataset to be trained, the cross performance metrics of every dataset to all other datasets is compared. However,
-as only one save strategy dataset is considered, no cross consolidation results need to be excluded. For all datasets the drop set
-DS-50-4 is adopted. Because the model performance was foremost worse due to the big noise of different datasets.
-
+To identify the best dataset for training, cross-performance metrics between all datasets are compared. However,
+as only one save-strategy dataset is considered, no cross-consolidation results need to be excluded. For all datasets,
+the drop set DS-50-4 is adopted, since model performance was generally worse due to the high variability (noise) among datasets.
 \parbreak
-
-Insert here plot boxplot and tbale of numerical reuslrs how the classification performed.
-
+[Insert here: boxplot and table showing the classification performance across datasets.]
 \parbreak
-State final selected model!
+Based on these results, the final selected model will be stated and discussed below.
 
 \section{Generalize \gendreauDataSetText models}
 \label{sec:krebs_data_pretrained_models}
 
-Two alternatives emerge for this variant, on the one hand the best model type and corresponding dataset can be selected from the
-computational study of the \gendreauDataSetText (see Section~\ref{sec:comparison_ils_variants}) or on the other the best model type
-and dataset is selected by comparing the performance on all five datasets considered in the previous section.
-As the second alternative blends the approaches of choosing the same model configuration and adapting the model configuration
-to the new dataset, it will only be investigated if the best variant model dataset combinations yield good results for other
-\gls{3L-CVRP} datasets. Therefore these condigurations are chosen for the three variants with classifier utilization (see Table~\ref{tab:model_configuration_krebs}).
+Two alternatives emerge for this variant. On the one hand, the best model type and corresponding dataset can be selected
+from the computational study of the \gendreauDataSetText~(see Section~\ref{sec:comparison_ils_variants}). On the other hand, the
+best model type and dataset can be determined by comparing the performance across all four datasets introduced in the previous section.
+As the second alternative combines the strategies of using the same model configuration and adapting it to new datasets, it is
+only examined if the best variant–model–dataset combinations identified in Section~\ref{sec:comparison_ils_variants} yield good
+results for other \gls{3L-CVRP} datasets. Therefore, these configurations are selected for the three classifier-based variants,
+as summarized in Table~\ref{tab:model_configuration_krebs}.
 
 \begin{table}[ht]
     \centering
     \begin{tabular}{l c c  }
         \toprule
-        Variant & Model Type & Dataset      \\
+        Variant & Model Type & Dataset        \\
         \midrule
-        Filter  & XGB        & RD-4-30-30-6 \\
-        SpeedUp & FFNN       & RD-4-30-30-6 \\
-        Hybrid  & LR         & RD-4-30-30-8 \\
+        Filter  & XGB        & GD-Shrunken    \\
+        SpeedUp & XGB        & RD-4-30-30-6   \\
+        Hybrid  & XGB        & GD-Shrunken-WS \\
 
         \bottomrule
     \end{tabular}
-    \caption{Model configuration for generalization of \gendreauDataSetText results.}
+    \caption{Classifier configuration for generalization of \gendreauDataSetText results.}
     \label{tab:model_configuration_krebs}
 \end{table}
+
+Section~\ref{sec_final_comparison_results} in the appendix presents an analysis of the performance of all classifier variants compared
+in the previous section. \gls{XGB} was chosen as the uniform model type for all variants, as it achieved slightly better results
+regarding rejection rate and number of iterations, and to increase overall comparability.
+Each classifier variant uses a different training dataset. For the Hybrid and SpeedUp variants,
+the datasets were selected to minimize the rejection rate and maximize the number of iterations. For the Filter variant,
+the third dataset type listed in the comparison was chosen.
+
 
 
 \section{Super Cool Results}

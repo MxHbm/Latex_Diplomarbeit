@@ -214,8 +214,8 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 		\midrule
 		\multirow{6}{*}{B\&C}    & GD-Complete    & 0.731          & 0.849          & 0.865          & \textbf{0.949} \\
 		                         & GD-Complete-WS & 0.736          & 0.854          & 0.868          & \textbf{0.949} \\
-		                         & GD-Shrinked    & \textbf{0.737} & \textbf{0.855} & \textbf{0.869} & \textbf{0.949} \\
-		                         & GD-Shrinked-WS & \textbf{0.737} & \textbf{0.857} & \textbf{0.869} & \textbf{0.949} \\
+		                         & GD-Shrunken    & \textbf{0.737} & \textbf{0.855} & \textbf{0.869} & \textbf{0.949} \\
+		                         & GD-Shrunken-WS & \textbf{0.737} & \textbf{0.857} & \textbf{0.869} & \textbf{0.949} \\
 		                         & GD-Trimmed     & 0.730          & 0.854          & 0.865          & 0.947          \\
 		                         & GD-Trimmed-WS  & 0.725          & 0.850          & 0.861          & 0.947          \\
 		\midrule
@@ -255,8 +255,8 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 \begin{figure}[!ht]
 	\centering
 	\includegraphics[width=\textwidth]{pictures/dataset_structure/featureSpace_random_BC.png}
+	\caption{Feature space comparison from datasets GD-Shrunken (BC) and RD-4-30-30-6 (Random).}
 	\label{fig:feature_space}
-	\caption{Feature space comparison from datasets GD-Shrinked (BC) and RD-4-30-30-6 (Random).}
 \end{figure}
 \clearpage
 
@@ -272,11 +272,11 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 	\end{subfigure}%
 	\begin{subfigure}[t]{0.49\textwidth}
 		\centering
-		\caption{Dataset GD-Shrinked.}
+		\caption{Dataset GD-Shrunken.}
 		\includegraphics[width=\textwidth]{pictures/dataset_structure/Distribution_CPStatus_RouteDataset.png}
 	\end{subfigure}
 	\caption{Distribtution of infeasible and feasible feature data space.}
-	\label{Feature space comparison for feasible and infeasible training data points.}
+	\label{fig:distribution_cp_label}
 \end{figure}
 
 
@@ -625,6 +625,7 @@ next to the instance name. In this comparison all published papers were consider
 
 \clearpage
 \section{Additional final results}
+\label{sec_final_comparison_results}
 
 \begin{figure}[!ht]
 	\centering
@@ -675,43 +676,43 @@ next to the instance name. In this comparison all published papers were consider
 	\renewcommand{\arraystretch}{1.1}
 	\begin{tabular}{lllrrr}
 		\toprule
-		\textbf{Variant}          & \textbf{Model Type}   & \textbf{Dataset} & \textbf{}RPD & \textbf{Iterations} & \textbf{RatioRejection} \\
+		\textbf{Variant}          & \textbf{Model Type}   & \textbf{Dataset} & \textbf{RPD} & \textbf{Iterations} & \textbf{RatioRejection} \\
 		\midrule
 		NoClassifier              & -                     & -                & 0.03         & 55.50               & 0.00                    \\\hline
-		\multirow{12}{*}{Filter}  & \multirow{4}{*}{FFNN} & GD-Shrinked      & 3.00         & 105.00              & 0.00                    \\\cline{3-6}
-		                          &                       & GD-Shrinked-WS   & 2.71         & 135.00              & 0.00                    \\\cline{3-6}
+		\multirow{12}{*}{Filter}  & \multirow{4}{*}{FFNN} & GD-Shrunken      & 3.00         & 105.00              & 0.00                    \\\cline{3-6}
+		                          &                       & GD-Shrunken-WS   & 2.71         & 135.00              & 0.00                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-6     & 2.92         & 106.00              & 0.00                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-8     & 2.69         & 109.00              & 0.00                    \\\cline{2-6}
-		                          & \multirow{4}{*}{LR}   & GD-Shrinked      & 3.70         & 126.00              & 0.00                    \\\cline{3-6}
-		                          &                       & GD-Shrinked-WS   & 2.75         & 113.00              & 0.00                    \\\cline{3-6}
+		                          & \multirow{4}{*}{LR}   & GD-Shrunken      & 3.70         & 126.00              & 0.00                    \\\cline{3-6}
+		                          &                       & GD-Shrunken-WS   & 2.75         & 113.00              & 0.00                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-6     & 2.27         & 124.00              & 0.00                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-8     & 2.70         & 104.00              & 0.00                    \\\cline{2-6}
-		                          & \multirow{4}{*}{XGB}  & GD-Shrinked      & 2.45         & 129.00              & 0.00                    \\\cline{3-6}
-		                          &                       & GD-Shrinked-WS   & 2.62         & 134.00              & 0.00                    \\\cline{3-6}
+		                          & \multirow{4}{*}{XGB}  & GD-Shrunken      & 2.45         & 129.00              & 0.00                    \\\cline{3-6}
+		                          &                       & GD-Shrunken-WS   & 2.62         & 134.00              & 0.00                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-6     & 3.04         & 123.00              & 0.00                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-8     & 2.96         & 116.00              & 0.00                    \\\hline
-		\multirow{12}{*}{SpeedUp} & \multirow{4}{*}{FFNN} & GD-Shrinked      & 0.78         & 3140.00             & 0.38                    \\\cline{3-6}
-		                          &                       & GD-Shrinked-WS   & 0.88         & 3836.00             & 0.36                    \\\cline{3-6}
+		\multirow{12}{*}{SpeedUp} & \multirow{4}{*}{FFNN} & GD-Shrunken      & 0.78         & 3140.00             & 0.38                    \\\cline{3-6}
+		                          &                       & GD-Shrunken-WS   & 0.88         & 3836.00             & 0.36                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-6     & 0.63         & 3580.00             & 0.37                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-8     & 0.60         & 2910.00             & 0.42                    \\\cline{2-6}
-		                          & \multirow{4}{*}{LR}   & GD-Shrinked      & 0.96         & 6231.00             & 0.24                    \\\cline{3-6}
-		                          &                       & GD-Shrinked-WS   & 0.82         & 4480.00             & 0.33                    \\\cline{3-6}
+		                          & \multirow{4}{*}{LR}   & GD-Shrunken      & 0.96         & 6231.00             & 0.24                    \\\cline{3-6}
+		                          &                       & GD-Shrunken-WS   & 0.82         & 4480.00             & 0.33                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-6     & 0.66         & 4671.00             & 0.32                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-8     & 0.23         & 3728.00             & 0.42                    \\\cline{2-6}
-		                          & \multirow{4}{*}{XGB}  & GD-Shrinked      & 0.34         & 3101.00             & 0.37                    \\\cline{3-6}
-		                          &                       & GD-Shrinked-WS   & 1.01         & 4395.00             & 0.28                    \\\cline{3-6}
+		                          & \multirow{4}{*}{XGB}  & GD-Shrunken      & 0.34         & 3101.00             & 0.37                    \\\cline{3-6}
+		                          &                       & GD-Shrunken-WS   & 1.01         & 4395.00             & 0.28                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-6     & 0.73         & 4504.00             & 0.30                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-8     & 0.68         & 3960.00             & 0.30                    \\\hline
-		\multirow{12}{*}{Hybrid}  & \multirow{4}{*}{FFNN} & GD-Shrinked      & 2.45         & 152.00              & 0.38                    \\\cline{3-6}
-		                          &                       & GD-Shrinked-WS   & 2.42         & 192.00              & 0.35                    \\\cline{3-6}
+		\multirow{12}{*}{Hybrid}  & \multirow{4}{*}{FFNN} & GD-Shrunken      & 2.45         & 152.00              & 0.38                    \\\cline{3-6}
+		                          &                       & GD-Shrunken-WS   & 2.42         & 192.00              & 0.35                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-6     & 2.01         & 161.00              & 0.34                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-8     & 1.56         & 133.00              & 0.39                    \\\cline{2-6}
-		                          & \multirow{4}{*}{LR}   & GD-Shrinked      & 2.21         & 193.00              & 0.30                    \\\cline{3-6}
-		                          &                       & GD-Shrinked-WS   & 2.15         & 174.00              & 0.34                    \\\cline{3-6}
+		                          & \multirow{4}{*}{LR}   & GD-Shrunken      & 2.21         & 193.00              & 0.30                    \\\cline{3-6}
+		                          &                       & GD-Shrunken-WS   & 2.15         & 174.00              & 0.34                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-6     & 2.10         & 171.00              & 0.37                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-8     & 2.05         & 141.00              & 0.39                    \\\cline{2-6}
-		                          & \multirow{4}{*}{XGB}  & GD-Shrinked      & 2.08         & 178.00              & 0.35                    \\\cline{3-6}
-		                          &                       & GD-Shrinked-WS   & 1.84         & 190.00              & 0.33                    \\\cline{3-6}
+		                          & \multirow{4}{*}{XGB}  & GD-Shrunken      & 2.08         & 178.00              & 0.35                    \\\cline{3-6}
+		                          &                       & GD-Shrunken-WS   & 1.84         & 190.00              & 0.33                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-6     & 2.33         & 162.00              & 0.34                    \\\cline{3-6}
 		                          &                       & RD-4-30-30-8     & 2.27         & 175.00              & 0.35                    \\
 		\bottomrule
@@ -823,7 +824,7 @@ a high time limit, which restricts the B\%C solver in testing many solutions as 
 was chosen and the B\%C was modified to avert some interruptions, but not all. Therefore some runs creating the train datasets are labeled with
 B and C in Table~\ref{tab:bc_results_krebs}. The obtained datasets of the save strategy are shown in Table~\ref{tab:saved_instances_krebs}
 and the most suiting dataframe can already be identified by looking at the datasets characteristics. The number of routes with two customers
-are dominating the total number of routes, if the datasets are not shrinked or trimmed, as can be seen in Figure~\ref{fig:route-dists_save_krebs}. Furthermore, the average relative mass and volume and
+are dominating the total number of routes, if the datasets are not Shrunken or trimmed, as can be seen in Figure~\ref{fig:route-dists_save_krebs}. Furthermore, the average relative mass and volume and
 is very low due to the imbalance of the route length.
 
 \begin{figure}[ht]
@@ -836,8 +837,8 @@ is very low due to the imbalance of the route length.
 	\end{subfigure}%
 	\begin{subfigure}[t]{.5\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_krebs_28880_600_WS_shrinked094.png}
-		\caption{Dataset KS-Shrinked-WS}
+		\includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_krebs_28880_600_WS_Shrinked094.png}
+		\caption{Dataset KS-Shrunken-WS}
 		\label{fig:ds-b-krebs}
 	\end{subfigure}
 	\caption{Distribution of route length for the two adapted save strategy datasets. The red vertical line represents the average
@@ -859,8 +860,8 @@ also the prevailing share of feasible routes with 2 customers.
 	\end{subfigure}%
 	\begin{subfigure}[t]{.5\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_krebs_28880_600_WS_shrinked094.png}
-		\caption{Dataset KS-Shrinked-WS}
+		\includegraphics[width=\linewidth]{pictures/dataset_structure/distribution_plot_krebs_28880_600_WS_Shrinked094.png}
+		\caption{Dataset KS-Shrunken-WS}
 		\label{fig:ds-b-krebs_l}
 	\end{subfigure}
 	\caption{Distribution of balance of feasible and infeasible routes found per \krebsADataSetText instance for two save strategy datasets.}
