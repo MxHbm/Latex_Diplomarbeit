@@ -40,6 +40,7 @@ considered in the predictive positive column and below it, in the predicted nega
 
 \begin{table}[ht]
     \centering
+    \small
     \begin{tabular}{@{}lcc@{}}
         \toprule
                                  & \textbf{Predicted Positive} & \textbf{Predicted Negative} \\
@@ -48,7 +49,7 @@ considered in the predictive positive column and below it, in the predicted nega
         \textbf{Actual Negative} & \Gls{FP}                    & \Gls{TN}                    \\
         \bottomrule
     \end{tabular}
-    \caption{Confusion matrix (binary classification).}
+    \caption{Confusion matrix for binary classification.}
     \label{tab:confusion_matrix}
 \end{table}
 
@@ -90,6 +91,7 @@ evaluation metrics with exception of the \gls{AUROC} are compared.
 
 \begin{table}[ht]
     \centering
+    \small
     \begin{tabular}{@{}P{0.1\textwidth}P{0.42\textwidth}P{0.42\textwidth}@{}}
         \toprule
         Score  & Balanced Dataset A $(n = 100)$                                                           & Imbalanced Dataset B  $(n = 100)$                                                \\
@@ -157,6 +159,7 @@ the final training datasets.
 
 \begin{table}[ht]
     \centering
+    \small
     \begin{tabular}{@{}
             P{0.20\textwidth}
             P{0.20\textwidth} % AllConstraints
@@ -171,8 +174,8 @@ the final training datasets.
                                         & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    \\
         \bottomrule
     \end{tabular}
-    \caption{Construction of training data from branch-and-cut routes. All green cells are labeled as feasible, and all
-        red cells as infeasible data}
+    \caption[Construction of training data from branch-and-cut routes.]{Construction of training data from branch-and-cut routes. All green cells are labeled as feasible, and all
+        red cells as infeasible data.}
     \label{tab:train_data_BC_routes}
 \end{table}
 

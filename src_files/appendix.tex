@@ -161,6 +161,7 @@ the large number of random-to-random predictions.
 The mean performance metrics for the cross-predictions results are shown in the following Table~\ref{tab:featurePerformance_OnlyCrossCorrelation}.
 \begin{table}[ht]
 	\centering
+	\small
 	\begin{tabular}{lrrrrrrr}
 		\toprule
 		DropSet  & DS-0-0 & DS-50-2 & DS-50-3 & DS-50-4       & DS-75-2 & DS-75-3 & DS-75-4 \\
@@ -210,36 +211,36 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 	\small
 	\begin{tabular}{llrrrr}
 		\toprule
-		Strategy                 & Base Dataset   & MCC            & F1-Score       & Accuracy       & AUROC          \\
+		Strategy                    & Base Dataset   & MCC            & F1-Score       & Accuracy       & AUROC          \\
 		\midrule
-		\multirow{6}{*}{B\&C}    & GD-Complete    & 0.731          & 0.849          & 0.865          & \textbf{0.949} \\
-		                         & GD-Complete-WS & 0.736          & 0.854          & 0.868          & \textbf{0.949} \\
-		                         & GD-Shrunken    & \textbf{0.737} & \textbf{0.855} & \textbf{0.869} & \textbf{0.949} \\
-		                         & GD-Shrunken-WS & \textbf{0.737} & \textbf{0.857} & \textbf{0.869} & \textbf{0.949} \\
-		                         & GD-Trimmed     & 0.730          & 0.854          & 0.865          & 0.947          \\
-		                         & GD-Trimmed-WS  & 0.725          & 0.850          & 0.861          & 0.947          \\
+		\multirow[t]{6}{*}{B\&C}    & GD-Complete    & 0.731          & 0.849          & 0.865          & \textbf{0.949} \\
+		                            & GD-Complete-WS & 0.736          & 0.854          & 0.868          & \textbf{0.949} \\
+		                            & GD-Shrunken    & \textbf{0.737} & \textbf{0.855} & \textbf{0.869} & \textbf{0.949} \\
+		                            & GD-Shrunken-WS & \textbf{0.737} & \textbf{0.857} & \textbf{0.869} & \textbf{0.949} \\
+		                            & GD-Trimmed     & 0.730          & 0.854          & 0.865          & 0.947          \\
+		                            & GD-Trimmed-WS  & 0.725          & 0.850          & 0.861          & 0.947          \\
 		\midrule
-		\multirow{21}{*}{Random} & RD-2-30-20-10  & 0.718          & 0.844          & 0.858          & 0.944          \\
-		                         & RD-2-30-20-6   & 0.720          & 0.844          & 0.860          & 0.944          \\
-		                         & RD-2-30-20-8   & 0.721          & 0.846          & 0.860          & 0.944          \\
-		                         & RD-2-30-30-10  & 0.723          & \textbf{0.849} & 0.861          & 0.945          \\
-		                         & RD-2-30-30-6   & 0.720          & 0.844          & 0.860          & 0.945          \\
-		                         & RD-2-30-30-8   & 0.722          & 0.846          & 0.861          & 0.944          \\
-		                         & RD-3-30-20-10  & 0.723          & \textbf{0.849} & 0.861          & 0.944          \\
-		                         & RD-3-30-20-6   & 0.719          & 0.842          & 0.859          & 0.945          \\
-		                         & RD-3-30-20-8   & 0.721          & 0.844          & 0.860          & 0.945          \\
-		                         & RD-3-30-30-10  & 0.722          & 0.848          & 0.861          & 0.945          \\
-		                         & RD-3-30-30-6   & 0.722          & 0.846          & 0.861          & 0.945          \\
-		                         & RD-3-30-30-8   & 0.722          & 0.846          & 0.861          & 0.945          \\
-		                         & RD-4-30-20-10  & 0.720          & 0.845          & 0.859          & 0.944          \\
-		                         & RD-4-30-20-6   & 0.718          & 0.842          & 0.859          & 0.945          \\
-		                         & RD-4-30-20-8   & 0.719          & 0.845          & 0.859          & 0.944          \\
-		                         & RD-4-30-30-10  & 0.722          & 0.848          & 0.861          & 0.945          \\
-		                         & RD-4-30-30-6   & \textbf{0.725} & 0.848          & \textbf{0.863} & \textbf{0.946} \\
-		                         & RD-4-30-30-8   & \textbf{0.725} & 0.848          & \textbf{0.862} & \textbf{0.946} \\
-		                         & RD-5-40-40-10  & 0.723          & 0.848          & 0.861          & 0.945          \\
-		                         & RD-5-40-40-6   & \textbf{0.725} & 0.848          & \textbf{0.862} & \textbf{0.946} \\
-		                         & RD-5-40-40-8   & 0.724          & 0.848          & \textbf{0.862} & \textbf{0.946} \\
+		\multirow[t]{21}{*}{Random} & RD-2-30-20-10  & 0.718          & 0.844          & 0.858          & 0.944          \\
+		                            & RD-2-30-20-6   & 0.720          & 0.844          & 0.860          & 0.944          \\
+		                            & RD-2-30-20-8   & 0.721          & 0.846          & 0.860          & 0.944          \\
+		                            & RD-2-30-30-10  & 0.723          & \textbf{0.849} & 0.861          & 0.945          \\
+		                            & RD-2-30-30-6   & 0.720          & 0.844          & 0.860          & 0.945          \\
+		                            & RD-2-30-30-8   & 0.722          & 0.846          & 0.861          & 0.944          \\
+		                            & RD-3-30-20-10  & 0.723          & \textbf{0.849} & 0.861          & 0.944          \\
+		                            & RD-3-30-20-6   & 0.719          & 0.842          & 0.859          & 0.945          \\
+		                            & RD-3-30-20-8   & 0.721          & 0.844          & 0.860          & 0.945          \\
+		                            & RD-3-30-30-10  & 0.722          & 0.848          & 0.861          & 0.945          \\
+		                            & RD-3-30-30-6   & 0.722          & 0.846          & 0.861          & 0.945          \\
+		                            & RD-3-30-30-8   & 0.722          & 0.846          & 0.861          & 0.945          \\
+		                            & RD-4-30-20-10  & 0.720          & 0.845          & 0.859          & 0.944          \\
+		                            & RD-4-30-20-6   & 0.718          & 0.842          & 0.859          & 0.945          \\
+		                            & RD-4-30-20-8   & 0.719          & 0.845          & 0.859          & 0.944          \\
+		                            & RD-4-30-30-10  & 0.722          & 0.848          & 0.861          & 0.945          \\
+		                            & RD-4-30-30-6   & \textbf{0.725} & 0.848          & \textbf{0.863} & \textbf{0.946} \\
+		                            & RD-4-30-30-8   & \textbf{0.725} & 0.848          & \textbf{0.862} & \textbf{0.946} \\
+		                            & RD-5-40-40-10  & 0.723          & 0.848          & 0.861          & 0.945          \\
+		                            & RD-5-40-40-6   & \textbf{0.725} & 0.848          & \textbf{0.862} & \textbf{0.946} \\
+		                            & RD-5-40-40-8   & 0.724          & 0.848          & \textbf{0.862} & \textbf{0.946} \\
 		\bottomrule
 	\end{tabular}
 	\caption[Average performance metrics on the validation data set.]{Average performance metrics on the validation data set.
@@ -314,50 +315,51 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 	\caption{Parameterstudy for the NoClassifier variant divided in two groups based on the average iterations.}
 \end{figure}
 
+
 \FloatBarrier
 \subsection{Numerical parameter study NoClassifier variant}
 \begin{table}[!ht]
-	\small
+	\scriptsize
 	\centering
 	\renewcommand{\multirowsetup}{\centering}
-	\renewcommand{\arraystretch}{1.15}
-	\begin{tabular}{l|l|l|r|r}
-		\textbf{Parameter}                          & \textbf{Metric}                & \textbf{Level}        & \textbf{Median} & \textbf{IsBest} \\
-		\hline
-		\multirow{8}{*}{\textbf{LimitNoImpr}}       & \multirow{4}{*}{ILSIterations} & 3                     & 20.00           & True            \\\cline{3-5}
-		                                            &                                & 5                     & 19.00           & False           \\\cline{3-5}
-		                                            &                                & 8                     & 19.00           & False           \\\cline{3-5}
-		                                            &                                & 12                    & 18.00           & False           \\\cline{2-5}
-		                                            & \multirow{4}{*}{RPD}           & 3                     & 4.26            & True            \\\cline{3-5}
-		                                            &                                & 5                     & 4.65            & False           \\\cline{3-5}
-		                                            &                                & 8                     & 4.81            & False           \\\cline{3-5}
-		                                            &                                & 12                    & 5.00            & False           \\\hline
-		\multirow{4}{*}{\textbf{LocalSearchTypes}}  & \multirow{2}{*}{ILSIterations} & InterLSFirst          & 21.00           & True            \\\cline{3-5}
-		                                            &                                & IntraLSFirst          & 16.00           & False           \\\cline{2-5}
-		                                            & \multirow{2}{*}{RPD}           & InterLSFirst          & 3.74            & True            \\\cline{3-5}
-		                                            &                                & IntraLSFirst          & 5.52            & False           \\\hline
-		\multirow{8}{*}{\textbf{PerturbationTypes}} & \multirow{4}{*}{ILSIterations} & R-Swaps               & 22.00           & True            \\\cline{3-5}
-		                                            &                                & Both-Insertions-First & 20.00           & False           \\\cline{3-5}
-		                                            &                                & Both-Swap-First       & 18.00           & False           \\\cline{3-5}
-		                                            &                                & R-Insertions          & 17.00           & False           \\\cline{2-5}
-		                                            & \multirow{4}{*}{RPD}           & Both-Insertions-First & 4.38            & True            \\\cline{3-5}
-		                                            &                                & Both-Swap-First       & 4.98            & False           \\\cline{3-5}
-		                                            &                                & R-Insertions          & 4.98            & False           \\\cline{3-5}
-		                                            &                                & R-Swaps               & 4.43            & False           \\\hline
-		\multirow{10}{*}{\textbf{RandomMoves}}      & \multirow{5}{*}{ILSIterations} & 2                     & 42.50           & True            \\\cline{3-5}
-		                                            &                                & 4                     & 31.00           & False           \\\cline{3-5}
-		                                            &                                & 6                     & 20.00           & False           \\\cline{3-5}
-		                                            &                                & 8                     & 15.00           & False           \\\cline{3-5}
-		                                            &                                & 12                    & 11.00           & False           \\\cline{2-5}
-		                                            & \multirow{5}{*}{RPD}           & 2                     & 3.34            & True            \\\cline{3-5}
-		                                            &                                & 4                     & 3.65            & False           \\\cline{3-5}
-		                                            &                                & 6                     & 4.40            & False           \\\cline{3-5}
-		                                            &                                & 8                     & 5.02            & False           \\\cline{3-5}
-		                                            &                                & 12                    & 5.52            & False           \\
+	\begin{tabular}{l l l r r}
+		\toprule
+		\textbf{Parameter}                             & \textbf{Metric}                   & \textbf{Level}        & \textbf{Median} & \textbf{IsBest} \\
+		\midrule
+		\multirow[t]{8}{*}{\textbf{LimitNoImpr}}       & \multirow[t]{4}{*}{ILSIterations} & 3                     & 20.00           & True            \\\cmidrule(lr){3-5}
+		                                               &                                   & 5                     & 19.00           & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & 8                     & 19.00           & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & 12                    & 18.00           & False           \\\cmidrule(lr){2-5}
+		                                               & \multirow[t]{4}{*}{RPD}           & 3                     & 4.26            & True            \\\cmidrule(lr){3-5}
+		                                               &                                   & 5                     & 4.65            & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & 8                     & 4.81            & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & 12                    & 5.00            & False           \\\midrule
+		\multirow[t]{4}{*}{\textbf{LocalSearchTypes}}  & \multirow[t]{2}{*}{ILSIterations} & InterLSFirst          & 21.00           & True            \\\cmidrule(lr){3-5}
+		                                               &                                   & IntraLSFirst          & 16.00           & False           \\\cmidrule(lr){2-5}
+		                                               & \multirow[t]{2}{*}{RPD}           & InterLSFirst          & 3.74            & True            \\\cmidrule(lr){3-5}
+		                                               &                                   & IntraLSFirst          & 5.52            & False           \\\midrule
+		\multirow[t]{8}{*}{\textbf{PerturbationTypes}} & \multirow[t]{4}{*}{ILSIterations} & R-Swaps               & 22.00           & True            \\\cmidrule(lr){3-5}
+		                                               &                                   & Both-Insertions-First & 20.00           & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & Both-Swap-First       & 18.00           & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & R-Insertions          & 17.00           & False           \\\cmidrule(lr){2-5}
+		                                               & \multirow[t]{4}{*}{RPD}           & Both-Insertions-First & 4.38            & True            \\\cmidrule(lr){3-5}
+		                                               &                                   & Both-Swap-First       & 4.98            & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & R-Insertions          & 4.98            & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & R-Swaps               & 4.43            & False           \\\midrule
+		\multirow[t]{10}{*}{\textbf{RandomMoves}}      & \multirow[t]{5}{*}{ILSIterations} & 2                     & 42.50           & True            \\\cmidrule(lr){3-5}
+		                                               &                                   & 4                     & 31.00           & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & 6                     & 20.00           & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & 8                     & 15.00           & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & 12                    & 11.00           & False           \\\cmidrule(lr){2-5}
+		                                               & \multirow[t]{5}{*}{RPD}           & 2                     & 3.34            & True            \\\cmidrule(lr){3-5}
+		                                               &                                   & 4                     & 3.65            & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & 6                     & 4.40            & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & 8                     & 5.02            & False           \\\cmidrule(lr){3-5}
+		                                               &                                   & 12                    & 5.52            & False           \\\bottomrule
 	\end{tabular}
 
 
-	\caption{CMedian ILS iteration counts and RPD across parameters and levels for the NoClassifier variant.}
+	\caption{Median results across parameters and levels for the NoClassifier variant.}
 	\label{tab:numerical_results_paramStudy_NOclassifiers}
 \end{table}
 \clearpage
@@ -416,56 +418,56 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 \clearpage
 \subsection{Numerical parameter study classifier variants}
 \begin{table}[!ht]
-	\footnotesize
+	\tiny
 	\centering
 	\renewcommand{\multirowsetup}{\centering}
-	\renewcommand{\arraystretch}{1.04}
-	\begin{tabular}{@{}l|l|l|l|c|c @{}}
-		\textbf{Variant}                   & \textbf{Parameter}                        & \textbf{Metric}                  & \textbf{Level}       & \textbf{Median} & \textbf{IsBest} \\
-		\hline
-		\multirow{4}{*}{\textbf{Filter}}   & \multirow{4}{*}{UseFilterStartSolution}   & \multirow{2}{*}{ILSIterations}   & False                & 83.00           & True            \\\cline{4-6}
-		                                   &                                           &                                  & True                 & 97.00           & False           \\\cline{3-6}
-		                                   &                                           & \multirow{2}{*}{RPD}             & False                & 2.15            & True            \\\cline{4-6}
-		                                   &                                           &                                  & True                 & 3.35            & False           \\\hline
-		\multirow{24}{*}{\textbf{Hybrid}}  & \multirow{9}{*}{Interval-CP-Check}        & \multirow{3}{*}{ILSIterations}   & 1                    & 282.50          & True            \\\cline{4-6}
-		                                   &                                           &                                  & 3                    & 294.50          & False           \\\cline{4-6}
-		                                   &                                           &                                  & 5                    & 317.00          & False           \\\cline{3-6}
-		                                   &                                           & \multirow{3}{*}{RPD}             & 1                    & 1.88            & True            \\\cline{4-6}
-		                                   &                                           &                                  & 3                    & 3.28            & False           \\\cline{4-6}
-		                                   &                                           &                                  & 5                    & 4.43            & False           \\\cline{3-6}
-		                                   &                                           & \multirow{3}{*}{RatioRejections} & 1                    & 0.49            & True            \\\cline{4-6}
-		                                   &                                           &                                  & 3                    & 0.82            & False           \\\cline{4-6}
-		                                   &                                           &                                  & 5                    & 0.91            & False           \\\cline{2-6}
-		                                   & \multirow{9}{*}{UseClassifierLocalSearch} & \multirow{3}{*}{ILSIterations}   & InterCPSolver        & 105.00          & True            \\\cline{4-6}
-		                                   &                                           &                                  & IntraCPSolver        & 737.00          & False           \\\cline{4-6}
-		                                   &                                           &                                  & PerturbationCPSolver & 237.00          & False           \\\cline{3-6}
-		                                   &                                           & \multirow{3}{*}{RPD}             & IntraCPSolver        & 1.68            & True            \\\cline{4-6}
-		                                   &                                           &                                  & InterCPSolver        & 3.52            & False           \\\cline{4-6}
-		                                   &                                           &                                  & PerturbationCPSolver & 3.28            & False           \\\cline{3-6}
-		                                   &                                           & \multirow{3}{*}{RatioRejections} & InterCPSolver        & 0.57            & True            \\\cline{4-6}
-		                                   &                                           &                                  & IntraCPSolver        & 0.69            & False           \\\cline{4-6}
-		                                   &                                           &                                  & PerturbationCPSolver & 0.89            & False           \\\cline{2-6}
-		                                   & \multirow{6}{*}{UseFilterStartSolution}   & \multirow{2}{*}{ILSIterations}   & False                & 272.00          & True            \\\cline{4-6}
-		                                   &                                           &                                  & True                 & 315.50          & False           \\\cline{3-6}
-		                                   &                                           & \multirow{2}{*}{RPD}             & False                & 2.40            & True            \\\cline{4-6}
-		                                   &                                           &                                  & True                 & 4.00            & False           \\\cline{3-6}
-		                                   &                                           & \multirow{2}{*}{RatioRejections} & False                & 0.70            & True            \\\cline{4-6}
-		                                   &                                           &                                  & True                 & 0.70            & False           \\\hline
-		\multirow{15}{*}{\textbf{SpeedUP}} & \multirow{9}{*}{Interval-CP-Check}        & \multirow{3}{*}{ILSIterations}   & 1                    & 2627.50         & True            \\\cline{4-6}
-		                                   &                                           &                                  & 3                    & 4237.50         & False           \\\cline{4-6}
-		                                   &                                           &                                  & 5                    & 5981.00         & False           \\\cline{3-6}
-		                                   &                                           & \multirow{3}{*}{RPD}             & 1                    & 0.34            & True            \\\cline{4-6}
-		                                   &                                           &                                  & 3                    & 1.03            & False           \\\cline{4-6}
-		                                   &                                           &                                  & 5                    & 1.81            & False           \\\cline{3-6}
-		                                   &                                           & \multirow{3}{*}{RatioRejections} & 1                    & 0.53            & True            \\\cline{4-6}
-		                                   &                                           &                                  & 3                    & 0.89            & False           \\\cline{4-6}
-		                                   &                                           &                                  & 5                    & 0.96            & False           \\\cline{2-6}
-		                                   & \multirow{6}{*}{UseFilterStartSolution}   & \multirow{2}{*}{ILSIterations}   & False                & 4170.00         & True            \\\cline{4-6}
-		                                   &                                           &                                  & True                 & 4353.00         & False           \\\cline{3-6}
-		                                   &                                           & \multirow{2}{*}{RPD}             & False                & 0.65            & True            \\\cline{4-6}
-		                                   &                                           &                                  & True                 & 1.19            & False           \\\cline{3-6}
-		                                   &                                           & \multirow{2}{*}{RatioRejections} & False                & 0.70            & True            \\\cline{4-6}
-		                                   &                                           &                                  & True                 & 0.75            & False           \\
+	\begin{tabular}{@{}l l l l c c @{}}
+		\toprule
+		\textbf{Variant}                      & \textbf{Parameter}                           & \textbf{Metric}                     & \textbf{Level}       & \textbf{Median} & \textbf{IsBest} \\
+		\midrule
+		\multirow[t]{4}{*}{\textbf{Filter}}   & \multirow[t]{4}{*}{UseFilterStartSolution}   & \multirow[t]{2}{*}{ILSIterations}   & False                & 83.00           & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & True                 & 97.00           & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{2}{*}{RPD}             & False                & 2.15            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & True                 & 3.35            & False           \\\midrule
+		\multirow[t]{24}{*}{\textbf{Hybrid}}  & \multirow[t]{9}{*}{Interval-CP-Check}        & \multirow[t]{3}{*}{ILSIterations}   & 1                    & 282.50          & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 3                    & 294.50          & False           \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 5                    & 317.00          & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{3}{*}{RPD}             & 1                    & 1.88            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 3                    & 3.28            & False           \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 5                    & 4.43            & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{3}{*}{RatioRejections} & 1                    & 0.49            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 3                    & 0.82            & False           \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 5                    & 0.91            & False           \\\cmidrule(lr){2-6}
+		                                      & \multirow[t]{9}{*}{UseClassifierLocalSearch} & \multirow[t]{3}{*}{ILSIterations}   & InterCPSolver        & 105.00          & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & IntraCPSolver        & 737.00          & False           \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & PerturbationCPSolver & 237.00          & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{3}{*}{RPD}             & IntraCPSolver        & 1.68            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & InterCPSolver        & 3.52            & False           \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & PerturbationCPSolver & 3.28            & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{3}{*}{RatioRejections} & InterCPSolver        & 0.57            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & IntraCPSolver        & 0.69            & False           \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & PerturbationCPSolver & 0.89            & False           \\\cmidrule(lr){2-6}
+		                                      & \multirow[t]{6}{*}{UseFilterStartSolution}   & \multirow[t]{2}{*}{ILSIterations}   & False                & 272.00          & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & True                 & 315.50          & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{2}{*}{RPD}             & False                & 2.40            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & True                 & 4.00            & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{2}{*}{RatioRejections} & False                & 0.70            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & True                 & 0.70            & False           \\\midrule
+		\multirow[t]{15}{*}{\textbf{SpeedUP}} & \multirow[t]{9}{*}{Interval-CP-Check}        & \multirow[t]{3}{*}{ILSIterations}   & 1                    & 2627.50         & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 3                    & 4237.50         & False           \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 5                    & 5981.00         & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{3}{*}{RPD}             & 1                    & 0.34            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 3                    & 1.03            & False           \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 5                    & 1.81            & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{3}{*}{RatioRejections} & 1                    & 0.53            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 3                    & 0.89            & False           \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 5                    & 0.96            & False           \\\cmidrule(lr){2-6}
+		                                      & \multirow[t]{6}{*}{UseFilterStartSolution}   & \multirow[t]{2}{*}{ILSIterations}   & False                & 4170.00         & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & True                 & 4353.00         & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{2}{*}{RPD}             & False                & 0.65            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & True                 & 1.19            & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{2}{*}{RatioRejections} & False                & 0.70            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & True                 & 0.75            & False           \\
 	\end{tabular}
 
 	\caption{Median ILS iteration counts and RPD across parameters and levels for the classifier variants.}
@@ -480,6 +482,7 @@ from save strategy. The following table explains each column header:
 
 \begin{table}[ht]
 	\centering
+	\small
 	\begin{tabular}{C{0.2\textwidth}C{0.74\textwidth}}
 		\toprule
 		Column Header & Description                                                    \\
@@ -624,7 +627,7 @@ next to the instance name. In this comparison all published papers were consider
 \end{table}
 
 \clearpage
-\section{Additional final results}
+\section{Different configurations for classifier ILS variants}
 \label{sec_final_comparison_results}
 
 \begin{figure}[!ht]
@@ -671,50 +674,49 @@ next to the instance name. In this comparison all published papers were consider
 
 
 \begin{table}[ht]
-	\small
+	\scriptsize
 	\centering
-	\renewcommand{\arraystretch}{1.1}
 	\begin{tabular}{lllrrr}
 		\toprule
-		\textbf{Variant}          & \textbf{Model Type}   & \textbf{Dataset} & \textbf{RPD} & \textbf{Iterations} & \textbf{RatioRejection} \\
+		\textbf{Variant}             & \textbf{Model Type}      & \textbf{Dataset} & \textbf{RPD} & \textbf{Iterations} & \textbf{RatioRejection} \\
 		\midrule
-		NoClassifier              & -                     & -                & 0.03         & 55.50               & 0.00                    \\\hline
-		\multirow{12}{*}{Filter}  & \multirow{4}{*}{FFNN} & GD-Shrunken      & 3.00         & 105.00              & 0.00                    \\\cline{3-6}
-		                          &                       & GD-Shrunken-WS   & 2.71         & 135.00              & 0.00                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-6     & 2.92         & 106.00              & 0.00                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-8     & 2.69         & 109.00              & 0.00                    \\\cline{2-6}
-		                          & \multirow{4}{*}{LR}   & GD-Shrunken      & 3.70         & 126.00              & 0.00                    \\\cline{3-6}
-		                          &                       & GD-Shrunken-WS   & 2.75         & 113.00              & 0.00                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-6     & 2.27         & 124.00              & 0.00                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-8     & 2.70         & 104.00              & 0.00                    \\\cline{2-6}
-		                          & \multirow{4}{*}{XGB}  & GD-Shrunken      & 2.45         & 129.00              & 0.00                    \\\cline{3-6}
-		                          &                       & GD-Shrunken-WS   & 2.62         & 134.00              & 0.00                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-6     & 3.04         & 123.00              & 0.00                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-8     & 2.96         & 116.00              & 0.00                    \\\hline
-		\multirow{12}{*}{SpeedUp} & \multirow{4}{*}{FFNN} & GD-Shrunken      & 0.78         & 3140.00             & 0.38                    \\\cline{3-6}
-		                          &                       & GD-Shrunken-WS   & 0.88         & 3836.00             & 0.36                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-6     & 0.63         & 3580.00             & 0.37                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-8     & 0.60         & 2910.00             & 0.42                    \\\cline{2-6}
-		                          & \multirow{4}{*}{LR}   & GD-Shrunken      & 0.96         & 6231.00             & 0.24                    \\\cline{3-6}
-		                          &                       & GD-Shrunken-WS   & 0.82         & 4480.00             & 0.33                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-6     & 0.66         & 4671.00             & 0.32                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-8     & 0.23         & 3728.00             & 0.42                    \\\cline{2-6}
-		                          & \multirow{4}{*}{XGB}  & GD-Shrunken      & 0.34         & 3101.00             & 0.37                    \\\cline{3-6}
-		                          &                       & GD-Shrunken-WS   & 1.01         & 4395.00             & 0.28                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-6     & 0.73         & 4504.00             & 0.30                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-8     & 0.68         & 3960.00             & 0.30                    \\\hline
-		\multirow{12}{*}{Hybrid}  & \multirow{4}{*}{FFNN} & GD-Shrunken      & 2.45         & 152.00              & 0.38                    \\\cline{3-6}
-		                          &                       & GD-Shrunken-WS   & 2.42         & 192.00              & 0.35                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-6     & 2.01         & 161.00              & 0.34                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-8     & 1.56         & 133.00              & 0.39                    \\\cline{2-6}
-		                          & \multirow{4}{*}{LR}   & GD-Shrunken      & 2.21         & 193.00              & 0.30                    \\\cline{3-6}
-		                          &                       & GD-Shrunken-WS   & 2.15         & 174.00              & 0.34                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-6     & 2.10         & 171.00              & 0.37                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-8     & 2.05         & 141.00              & 0.39                    \\\cline{2-6}
-		                          & \multirow{4}{*}{XGB}  & GD-Shrunken      & 2.08         & 178.00              & 0.35                    \\\cline{3-6}
-		                          &                       & GD-Shrunken-WS   & 1.84         & 190.00              & 0.33                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-6     & 2.33         & 162.00              & 0.34                    \\\cline{3-6}
-		                          &                       & RD-4-30-30-8     & 2.27         & 175.00              & 0.35                    \\
+		NoClassifier                 & -                        & -                & 0.03         & 55.50               & 0.00                    \\\midrule
+		\multirow[t]{12}{*}{Filter}  & \multirow[t]{4}{*}{FFNN} & GD-Shrunken      & 3.00         & 105.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 2.71         & 135.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 2.92         & 106.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 2.69         & 109.00              & 0.00                    \\\cmidrule(lr){2-6}
+		                             & \multirow[t]{4}{*}{LR}   & GD-Shrunken      & 3.70         & 126.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 2.75         & 113.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 2.27         & 124.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 2.70         & 104.00              & 0.00                    \\\cmidrule(lr){2-6}
+		                             & \multirow[t]{4}{*}{XGB}  & GD-Shrunken      & 2.45         & 129.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 2.62         & 134.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 3.04         & 123.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 2.96         & 116.00              & 0.00                    \\\midrule
+		\multirow[t]{12}{*}{SpeedUp} & \multirow[t]{4}{*}{FFNN} & GD-Shrunken      & 0.78         & 3140.00             & 0.38                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 0.88         & 3836.00             & 0.36                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 0.63         & 3580.00             & 0.37                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 0.60         & 2910.00             & 0.42                    \\\cmidrule(lr){2-6}
+		                             & \multirow[t]{4}{*}{LR}   & GD-Shrunken      & 0.96         & 6231.00             & 0.24                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 0.82         & 4480.00             & 0.33                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 0.66         & 4671.00             & 0.32                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 0.23         & 3728.00             & 0.42                    \\\cmidrule(lr){2-6}
+		                             & \multirow[t]{4}{*}{XGB}  & GD-Shrunken      & 0.34         & 3101.00             & 0.37                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 1.01         & 4395.00             & 0.28                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 0.73         & 4504.00             & 0.30                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 0.68         & 3960.00             & 0.30                    \\\midrule
+		\multirow[t]{12}{*}{Hybrid}  & \multirow[t]{4}{*}{FFNN} & GD-Shrunken      & 2.45         & 152.00              & 0.38                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 2.42         & 192.00              & 0.35                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 2.01         & 161.00              & 0.34                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 1.56         & 133.00              & 0.39                    \\\cmidrule(lr){2-6}
+		                             & \multirow[t]{4}{*}{LR}   & GD-Shrunken      & 2.21         & 193.00              & 0.30                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 2.15         & 174.00              & 0.34                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 2.10         & 171.00              & 0.37                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 2.05         & 141.00              & 0.39                    \\\cmidrule(lr){2-6}
+		                             & \multirow[t]{4}{*}{XGB}  & GD-Shrunken      & 2.08         & 178.00              & 0.35                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 1.84         & 190.00              & 0.33                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 2.33         & 162.00              & 0.34                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 2.27         & 175.00              & 0.35                    \\
 		\bottomrule
 	\end{tabular}
 	\caption{Comparison of variant configurations (median values).}
@@ -725,10 +727,11 @@ next to the instance name. In this comparison all published papers were consider
 
 \begin{table}
 	\centering
+	\small
 	\renewcommand{\arraystretch}{1.05}
 	\begin{tabular}{lcccc}
 		\toprule
-		                    & \multicolumn{4}{c}{Variant}                                                        \\\cline{2-5}
+		                    & \multicolumn{4}{c}{Variant}                                                        \\\cmidrule(lr){2-5}
 		Instance            & NoClassifier                & Filter          & SpeedUp          & Hybrid          \\
 		\midrule
 		$\text{E016-03m}^H$ & \textbf{301.78  }           & 302.61          & 302.61           & 302.65          \\

@@ -215,7 +215,7 @@ constructed according to the parameter settings as follows: RD-$\alpha$-$\beta$-
         RD-5-40-40-10 &                    &                     & 1        & 249762 & 23.1/76.9 & 0.76     & 0.66      \\
         \bottomrule
     \end{tabular}
-    \caption{Created instances for different parameter combinations $(\alpha, \beta, \gamma, \delta)$ for \gendreauDataSetText dataset.}
+    \caption{Created instances with RRG for different parameter combinations $(\alpha, \beta, \gamma, \delta)$ for \gendreauDataSetText dataset.}
     \label{tab:created_instances_xyz_gendreau}
 \end{table}
 Parameter $\delta$ has the greatest impact on the route characteristics contained in the datasets, as it results in fewer and more
@@ -461,11 +461,14 @@ its causal relationship with model choice. The complete results for all performa
 with the best values highlighted in bold.
 \begin{table}[ht]
     \centering
+    \small
     \setlength{\tabcolsep}{0.75em}
     \def\arraystretch{1.25}
-    \begin{tabular}{l|ll}
-        Save Strategy   & GD-Shrunken  & GD-Shrunken-WS \\\hline
+    \begin{tabular}{lll}
+        \toprule
+        Save Strategy   & GD-Shrunken  & GD-Shrunken-WS \\\midrule
         Random Strategy & RD-4-30-30-6 & RD-4-30-30-8   \\
+        \bottomrule
     \end{tabular}
     \caption{Chosen datasets for training final classifier.}
     \label{tab:chosen_datasets}
@@ -521,6 +524,7 @@ with the limitation that loading is checked only using the exact \gls{CP} solver
 different parameters were selected in a full grid parameter study.
 \begin{table}[ht]
     \centering
+    \small
     \setlength{\tabcolsep}{2em}
     \def\arraystretch{1.1}
     \begin{tabular}{@{}L{4cm}P{8cm}@{}}
@@ -573,6 +577,7 @@ many versus few iterations.
 
 \begin{table}[ht]
     \centering
+    \small
     \begin{tabular}{@{}cccc@{}}
         \toprule
         AttemptsLimit & RandomMoves        R & Local Search order & Perturbation          \\
@@ -657,6 +662,7 @@ as chosen to differentiate it from the SpeedUp variant. The following Table~\ref
 summarizes the mean performance indicator values for each variant.
 \begin{table}
     \centering
+    \small
     \begin{tabular}{lrrrrrr}
         \toprule
         Variant      & RPD  & Iterations & Improvement & RatioRejection & $t_0$ & $C_0$   \\
@@ -690,9 +696,10 @@ for the \gendreauDataSetText~dataset is indicated by the lowercase letter in the
 all published studies using the same loading constraint set $\mathcal{G}$ were taken into account.
 \begin{table}[ht]
     \centering
+    \small
     \begin{tabular}{L{6cm}lccc}
         \toprule
-                                                                                    &       & \multicolumn{3}{c}{Timelimit [sec]}                                                                                                       \\\cline{3-5}
+                                                                                    &       & \multicolumn{3}{c}{Timelimit [sec]}                                                                                                       \\\cmidrule(lr){3-5}
         Author                                                                      & Label & $N \leq 25$                                                     & $25 < N \leq 50$                   & $50 < N$                           \\
         \midrule
         \cite{tarantilis_hybrid_2009}\footcite[cf.][p.264]{tarantilis_hybrid_2009}  & a     & 1800                                                            & 3600                               & 7200                               \\
@@ -713,7 +720,7 @@ all published studies using the same loading constraint set $\mathcal{G}$ were t
     \renewcommand{\arraystretch}{1.02}
     \begin{tabular}{@{}llcccccccc@{}}
         \toprule
-                            &                             & \multicolumn{2}{c}{NoClassifier} & \multicolumn{2}{c}{Filter} & \multicolumn{2}{c}{SpeedUp} & \multicolumn{2}{c}{Hybrid}                                                                    \\ \cline{3-4}\cline{5-6}\cline{7-8}\cline{9-10}
+                            &                             & \multicolumn{2}{c}{NoClassifier} & \multicolumn{2}{c}{Filter} & \multicolumn{2}{c}{SpeedUp} & \multicolumn{2}{c}{Hybrid}                                                                    \\ \cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}\cmidrule(lr){9-10}
         Instance            & BKS                         & $C^*$                            & $\Delta BKS$               & $C^*$                       & $\Delta BKS$               & $C^*$            & $\Delta BKS$ & $C^*$           & $\Delta BKS$ \\
         \midrule
         $\text{E016-03m}^H$ & $\text{301.74}^b$           & \textbf{301.66}                  & -0.03                      & 301.74                      & 0.00                       & 301.74           & 0.00         & 301.74          & 0.00         \\
@@ -742,7 +749,7 @@ all published studies using the same loading constraint set $\mathcal{G}$ were t
         $\text{E076-14s}^H$ & $\text{\textbf{1092.46}}^d$ & 1142.99                          & 4.63                       & 1134.57                     & 3.86                       & 1105.02          & 1.15         & 1131.63         & 3.59         \\
         $\text{E101-08e}^L$ & $\text{\textbf{1338.35}}^d$ & 1384.10                          & 3.42                       & 1389.00                     & 3.78                       & 1364.01          & 1.92         & 1382.53         & 3.30         \\
         $\text{E101-10c}^L$ & $\text{\textbf{1530.05}}^d$ & 1653.41                          & 8.06                       & 1628.43                     & 6.43                       & 1600.59          & 4.61         & 1652.37         & 7.99         \\
-        $\text{E101-14s}^L$ & $\text{\textbf{1472.11}}^d$ & 1516.77                          & 3.03                       & 1556.54                     & 5.74                       & 1505.07          & 2.24         & 1544.81         & 4.94         \\\hline
+        $\text{E101-14s}^L$ & $\text{\textbf{1472.11}}^d$ & 1516.77                          & 3.03                       & 1556.54                     & 5.74                       & 1505.07          & 2.24         & 1544.81         & 4.94         \\\midrule
         mean                & 922.77                      & 942.02                           & 1.69                       & 945.68                      & 2.02                       & 932.72           & 0.95         & 946.22          & 2.13         \\
         \bottomrule
     \end{tabular}

@@ -7,7 +7,7 @@ In this chapter, the insights obtained from the \gls{ILS} algorithm and its clas
 applying them to instances from the \krebsADataSetText dataset (see Section~\ref{fig:dataset_comparison}). Building on
 the previous findings, two complementary approaches are investigated. The first approach generates training datasets
 directly from the \krebsADataSetText instances, whereas the second employs pretrained classifiers derived from the
-\gendreauDataSetText dataset.Out of the 600 published instances, 50 were randomly selected for evaluation.
+\gendreauDataSetText dataset. 50 of 600 instances were randomly selected for evaluation.
 The procedures corresponding to each approach are described in the following two sections.
 Afterwards, the comparative results are presented in Section~\ref{sec:results_krebs}.
 
@@ -22,10 +22,11 @@ validation dataset is constructed.
 
 \subsubsection{Random retrieval strategy}
 The feasibility check is more challenging because the number of items and customers per average route is higher than in the
-\gendreauDataSetText~dataset (see Section~\ref{fig:dataset_comparison}). Therefore, the following random datasets include fewer
+\gendreauDataSetText dataset (see Section~\ref{fig:dataset_comparison}). Therefore, the following random datasets include fewer
 routes and are shown in Table~\ref{tab:random_instances_krebs}.
 \begin{table}[ht]
     \centering
+    \small
     \begin{tabular}{l c c c c c }
         \toprule
         Name        & Routes & Routes Len = 2 & Balance   & Rel. Vol & Rel. Mass \\
@@ -41,7 +42,7 @@ routes and are shown in Table~\ref{tab:random_instances_krebs}.
 \end{table}
 
 Further insights into the computational challenges, the classification of the random datasets, and a comparison with the
-\gendreauDataSetText~dataset are presented in Subsection~\ref{subsec:challenges_krebs_random}. In general, the balance between
+\gendreauDataSetText dataset are presented in Subsection~\ref{subsec:challenges_krebs_random}. In general, the balance between
 feasible and infeasible instances is reversed compared to the random datasets listed in Table~\ref{tab:created_instances_xyz_gendreau},
 while the relative tour volume is significantly smaller. This effect can be attributed to the small parameter values of the \gls{RRG}
 algorithm ($\alpha$, $\beta$, $\gamma$), which cause it to terminate earlier. However, the average number of customers per route
@@ -61,8 +62,8 @@ is approximately twice as high (see Figure~\ref{fig:route_cust_no_krebs_new}).
         \caption{Dataset RD-4-30-30-10}
         \label{fig:ds-b-krebs_luf}
     \end{subfigure}
-    \caption[Comparison of the distributions of route lengths between the random datasets of \krebsADataSetText~and \gendreauDataSetText]
-    {Comparison of the distributions of route lengths between the random datasets of \krebsADataSetText~and \gendreauDataSetText. The red vertical line indicates the average number of customers.}
+    \caption[Comparison of the distributions of route lengths between the random datasets of \krebsADataSetText and \gendreauDataSet.]
+    {Comparison of the distributions of route lengths between the random datasets of \krebsADataSetText and \gendreauDataSet. The red vertical line indicates the average number of customers.}
     \label{fig:route_cust_no_krebs_new}
 \end{figure}
 
@@ -75,6 +76,7 @@ Table~\ref{tab:saved_instances_krebs} presents the generated save-strategy datas
 
 \begin{table}[ht]
     \centering
+    \small
     \begin{tabular}{l c c c c c c }
         \toprule
         Name           & Sets                 & Routes & Routes Len = 2 & Balance   & Rel. Vol & Rel. Mass \\
@@ -95,7 +97,7 @@ Table~\ref{tab:saved_instances_krebs} presents the generated save-strategy datas
 The “Complete” datasets are dominated by routes with two customers, resulting in strongly imbalanced datasets. Consequently,
 only the modified datasets, either shrunken or trimmed, are used for model training. However, the trimmed dataset is excluded
 from further analysis, as it cannot predict feasible routes with two customers, given that only infeasible tours of this route
-length are contained within it.
+length are contained within it and due to the performance issues descibed in Section~\ref{sec:dataset_selection}.
 
 \subsubsection{Dataset Selection}
 
@@ -112,38 +114,33 @@ Based on these results, the final selected model will be stated and discussed be
 
 Two alternatives emerge for this variant. On the one hand, the best model type and corresponding dataset can be selected
 from the computational study of the \gendreauDataSetText~(see Section~\ref{sec:comparison_ils_variants}). On the other hand, the
-best model type and dataset can be determined by comparing the performance across all four datasets introduced in the previous section.
+best model type and dataset can be determined by comparing the performance across all four \krebsADataSetText training datasets introduced in the previous section.
 As the second alternative combines the strategies of using the same model configuration and adapting it to new datasets, it is
 only examined if the best variant–model–dataset combinations identified in Section~\ref{sec:comparison_ils_variants} yield good
-results for other \gls{3L-CVRP} datasets. Therefore, these configurations are selected for the three classifier-based variants,
-as summarized in Table~\ref{tab:model_configuration_krebs}.
+results for other \gls{3L-CVRP} datasets. To reduce the computational runtime, only the two best performing variants, NoClassifier
+and SpeedUp, are selected (see Table~\ref{tab:final_best_results_gendreau}). The following configurations are chosen based
+on the results of all classifier variants compared in Section~\ref{sec_final_comparison_results}.
 
 \begin{table}[ht]
     \centering
+    \small
     \begin{tabular}{l c c  }
         \toprule
-        Variant & Model Type & Dataset        \\
+        Variant      & Model Type & Dataset        \\
         \midrule
-        Filter  & XGB        & GD-Shrunken    \\
-        SpeedUp & XGB        & RD-4-30-30-6   \\
-        Hybrid  & XGB        & GD-Shrunken-WS \\
-
+        SpeedUp      & XGB        & GD-Shrunken-WS \\
+        NoClassifier & -          & -              \\
         \bottomrule
     \end{tabular}
-    \caption{Classifier configuration for generalization of \gendreauDataSetText results.}
+    \caption{Variant configuration for generalization of \gendreauDataSetText results.}
     \label{tab:model_configuration_krebs}
 \end{table}
 
-Section~\ref{sec_final_comparison_results} in the appendix presents an analysis of the performance of all classifier variants compared
-in the previous section. \gls{XGB} was chosen as the uniform model type for all variants, as it achieved slightly better results
+\gls{XGB} was chosen as model type, as it achieved slightly better results
 regarding rejection rate and number of iterations, and to increase overall comparability.
-Each classifier variant uses a different training dataset. For the Hybrid and SpeedUp variants,
-the datasets were selected to minimize the rejection rate and maximize the number of iterations. For the Filter variant,
-the third dataset type listed in the comparison was chosen.
+The dataset GD-Shrunken-WS minimizes the rejection rate and maximizes the number of iterations for the SpeedUp variant.
 
-
-
-\section{Super Cool Results}
+\section{Results}
 \label{sec:results_krebs}
 As shown in Section~\ref{app:sec:krebs_computationally_challenges}, the computation of \krebsADataSetText instances comprises
 challenges. Therefore, the algorithmic design is changed. As the computation of the start solution takes averagely \textcolor{red}{1000000000000 seconds}
@@ -152,19 +149,27 @@ Every instance is only run once. Furthermore, the time limit for one instance
 is dependent, if the startsolution is given or will be computed during the algorithm. The start solutions are taken from the branch-and-cut
 results (see Section~\ref{tab:bc_results_krebs}). Also it is reevaluated, if the parameter UseFilterStartSolution has a positive effect
 for instances demanding much longer computation time for the constructive.
+
+
+
 \parbreak
 Here are the reuslts for the differnt models and combinations of options, to use or not to use the the filter start solution or the given start solution.
 
 \begin{table}[ht]
     \centering
-    \begin{tabular}{l c c c }
+    \small
+    \begin{tabular}{l c c c c }
         \toprule
-        Approach               & Startsolution Type & UseFilterStartSolution & Time limit \\
+        Approach                        & $T$                  & Startsolution                    & Variant               & UseFilter \\
         \midrule
-        Krebs training dataset & Given              & False                  & 1 h        \\
-        Gendreau model         & ModifiedSavings    & True                   & 2 h        \\
-        Gendreau model         & ModifiedSavings    & False                  & 2 h        \\
+        \multirow{3}{*}{Specialization} & 1 h                  & Given                            & SpeedUp/ NoClassifier & False     \\\cmidrule(lr){2-5}
+                                        & \multirow{2}{*}{2 h} & \multirow{2}{*}{ModifiedSavings} & SpeedUp/ NoClassifier & False     \\
+                                        &                      &                                  & SpeedUp               & True      \\ \midrule
+        \multirow{3}{*}{Generalization} & 1 h                  & Given                            & SpeedUp/ NoClassifier & False     \\\cmidrule(lr){2-5}
+                                        & \multirow{2}{*}{2 h} & \multirow{2}{*}{ModifiedSavings} & SpeedUp/ NoClassifier & False     \\
+                                        &                      &                                  & SpeedUp               & True      \\
         \bottomrule
     \end{tabular}
-    \caption{Example table.}
+    \caption{Final configurations for computation of \krebsADataSetText dataset. $T$ stands for Time limit and UseFilter defines the usage of
+        filter feasibility check in constructive heuristic}
 \end{table}
