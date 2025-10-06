@@ -67,13 +67,13 @@ by removing the routes from the solution with the least volume utilization and s
 decreasing volume demand. Afterwards, the customers are tried to be reinserted at positions with the least
 cost surplus. If no position could be found, the customer is inserted in a random chosen route by removing
 other customers from this route to create free capacity. The second procedure is repeated until the
-number of routes is $K = K_{max}$.\footcite[cf.][p.24]{zhang_evolutionary_2015}
+number of routes is $K = K_{max}$.\footcite[cf.][p. 24]{zhang_evolutionary_2015}
 
 \subsubsection{Neighborhoods}
 \label{sec:neighborhoods}
 
 The respected neighborhoods are divided in \textit{Intra}, changes on the customers within one tour, and \textit{Inter} neighborhoods,
-changes between single tours. The following neighborhoods are implemented for each group:\footcite[cf.][pp. 89-90]{toth_vehicle_2014}
+changes between single tours. The following neighborhoods are implemented for each group:\footcite[cf.][p. 89f]{toth_vehicle_2014}
 
 \begin{table}[ht]
     \centering
@@ -97,10 +97,10 @@ The neighborhoods for the perturbation are built upon the \textit{Inter} neighbo
 this respective neighborhood. They are named \textit{R-Insertions} and \textit{R-Swaps} in the
 following. The perturbation neighborhood consists of inter neighborhoods as the diversification of the solution is
 greater as with intra random moves. Regarding to \cite{lourenco_iterated_2003}, it is important, that perturbation holds the potential
-to escape local optima and lays the foundation for a succesful \gls{LS}.\footcite[cf.][pp. 329f.]{lourenco_iterated_2003} These two perturbation neighborhoods
+to escape local optima and lays the foundation for a succesful \gls{LS}.\footcite[cf.][p. 329f]{lourenco_iterated_2003} These two perturbation neighborhoods
 can be configured in four ways in the algorithm, considering either only one or both of them. For the latter, the order becomes relevant.
 Other perturbation mechanism like FourOpt or BlockInsertion were not considered as the feasibility check of the loading is the limiting factor even though
-the perturbation has an important impact in creating new structural solutions.\footcite[cf.][pp. 329-332]{lourenco_iterated_2003}
+the perturbation has an important impact in creating new structural solutions.\footcite[cf.][pp. 329--332]{lourenco_iterated_2003}
 
 \section{Local Search and Perturbation}
 \label{sec:LSandPerturbation}
@@ -160,7 +160,17 @@ verified with the \gls{CP} solver in a certain pattern to avoid false positive s
 Therefore the following four strategies are introduced, which determine how the loading feasibility can be checked and are
 visualized in Figure~\ref{fig:tikz_four_variants}
 
-\input{tikz/FeasibilityChecks.tex}
+\input{tikz/FeasibilityChecks.tex}ch habe eine Tabelle mit allen Quellen, die ich benutze in der Literaturrecherche, und gebe dort natürlich Autorennamen und so an. Ich muss nicht nochmal extra footcites dann hinzufügen oder? Sonst wäre nämlich auch kein Platz mehr auf der Seite :D
+- Wenn ich die genaue Seitenzahle zitiere - kann ich auch Seite 21 folgende schreiben, also p. 21f. oder dann immer pp. 21--22? und gibt es auch p. 21 ff. für die weiteren Seiten danach?
+- Leerzeichen zwischen p. und Seitenzahl? Also p. 21f --> immer mit oder?
+- Appendix in eigene Kapitel teilen oder alles Sections von A? (Siehe digitale DA)
+- Boxplots nicht ausfüllen für bessere Druckergebnisse, und allgemein alle Plots?
+- Erklärungen zu einzelnen Plots und Diagrammen doppeln? Reicht es einmal einzuführen und dann als gegeben anzunehmen? Bsp. was BKS, $T$ , etc bedeutet?
+- Rename NoClassifier variant in CP variant or Base variant?
+- Write save-strategy and random-strategy instead of save strategy and random strategy?
+- Wie Gendreau und Krebs Datensatz intern benennen? --> Ich benutze konsistent eingeführte Abkürzungen Gendreau (2006) und Krebs(2021a), aber füge keine Fußzitate an.
+- Abkürzungen in Captions, wie:  Overview of solution methods for the CLP. oder lieber  Overview of solution methods for the container loading problem?
+- In der Formatvorlage wird ohne DOI und ISBN zitiert, also mache ich es auch einfach so oder?
 
 The first approach is the \textit{SpeedUp} strategy, where only the classifier is used for feasibility checks during perturbation and
 \gls{LS}. After $\omega$ \gls{ILS} iterations the current solution is verified with the exact \gls{CP} solver and is either rejected or accepted.

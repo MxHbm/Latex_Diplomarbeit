@@ -23,12 +23,14 @@
 		#1%
 	}%
 }
+% needs \usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 
 % Custom glossary styles
 \newglossarystyle{bwlimsuper}{%
 	\renewenvironment{theglossary}%
 	{\tablehead{}\tabletail{}%
-		\begin{supertabular}{@{}lll@{}}}% lp{\glsdescwidth}p{\glspagelistwidth} -> vorherige einstellung
+		\begin{supertabular}{@{}l L{\glsdescwidth} L{\glspagelistwidth}@{}}}% lp{\glsdescwidth}p{\glspagelistwidth} -> vorherige einstellung
 			{\end{supertabular}}%
 	\renewcommand*{\glossaryheader}{}%
 	\renewcommand*{\glsgroupheading}[1]{}%

@@ -148,7 +148,7 @@ As the relative volume is quite constant for all instances, the relative mass di
 As analyzed in \cite{tamke_branch-and-cut_2024}, the complexity of solving an instance increases significantly when the items are
 lightweight and volume, rather than weight, becomes the limiting factor for container loading. The authors further distinguished
 the instances into two groups, heavy items ($\mathcal{H}$) and lightweight items ($\mathcal{L}$), based on the average weight
-utilization ($\overline{\omega}$) of the final routes obtained.\footcite[cf.][pp.23–25]{tamke_branch-and-cut_2024}
+utilization ($\overline{\omega}$) of the final routes obtained.\footcite[cf.][pp. 23--25]{tamke_branch-and-cut_2024}
 Since this classification relies on optimal solutions, this thesis adopts an alternative approach to distinguish
 both \krebsADataSetText and \gendreauDataSetText into heavyweight (H) and lightweight (L) instances. An instance is classified
 as heavyweight if the mean weight per customer exceeds the overall mean across all instances. This definition has the advantage
@@ -215,7 +215,7 @@ constructed according to the parameter settings as follows: RD-$\alpha$-$\beta$-
         RD-5-40-40-10 &                    &                     & 1        & 249762 & 23.1/76.9 & 0.76     & 0.66      \\
         \bottomrule
     \end{tabular}
-    \caption{Created instances with RRG for different parameter combinations $(\alpha, \beta, \gamma, \delta)$ for \gendreauDataSetText dataset.}
+    \caption{Created RRG datasets for various parameter combinations $(\alpha, \beta, \gamma, \delta)$ using the \gendreauDataSetText dataset.}
     \label{tab:created_instances_xyz_gendreau}
 \end{table}
 Parameter $\delta$ has the greatest impact on the route characteristics contained in the datasets, as it results in fewer and more
@@ -337,7 +337,7 @@ names have the following structure: DS-$100\mathcal{B}$-$10\epsilon$. For compar
         Number Features       & 0      & 10      & 18      & 38      & 7       & 18      & 32      \\
         \bottomrule
     \end{tabular}
-    \caption{Presentation of the considered drop sets for the feature selection.}
+    \caption{Considered drop sets for the feature selection.}
     \label{tab:drop_set_presentation_shortened}
 \end{table}
 For each drop set, every dataset was trained with each model type and then used to predict the
@@ -376,8 +376,8 @@ all performance metrics is presented in Table~\ref{tab:featurePerformance_Alldat
         AUROC    & 0.96   & 0.96    & 0.96    & \textbf{0.98} & 0.95    & 0.96    & 0.96    \\
         \bottomrule
     \end{tabular}
-    \caption[Mean performance metrics on various different drop set excluding the predicting between save strategy datasets.]
-    {Mean performance metrics on various different drop set excluding the predicting between save strategy datasets.
+    \caption[Mean performance metrics of different drop sets.]
+    {Mean performance metrics of different drop sets excluding the prediction across save strategy datasets.
         Bold font shows the best results for each performance score.}
     \label{tab:featurePerformance_Alldata}
 \end{table}
@@ -436,7 +436,7 @@ the validation dataset characteristics in the Table~\ref{tab:validation_dataset_
         Validation DS & 427048 & 8605          & 47.0/53.0 & 0.61     & 0.60      \\
         \bottomrule
     \end{tabular}
-    \caption{Validation dataset characteristics constructed from \gendreauDataSetText with ILS algorithm.}
+    \caption{Characteristics of validation dataset constructed from \gendreauDataSetText with ILS algorithm.}
     \label{tab:validation_dataset_gendreau}
 \end{table}
 
@@ -504,7 +504,7 @@ instances from \gendreauDataSetText is used:
 \end{table}
 
 The division followed the following approach, first all instances were omitted, which found
-the optimal solution in a short time (see \cite{tamke_branch-and-cut_2024}\footcite[cf.][p.26]{tamke_branch-and-cut_2024}).
+the optimal solution in a short time (see \cite{tamke_branch-and-cut_2024}\footcite[cf.][p. 26]{tamke_branch-and-cut_2024}).
 Second, similar instances of size and complexity were reduced to only one.
 Every instance is run three times with different seeds and a timelimit of 10 min. It will be investigated
 how different parameter combinations influence the \gls{RPD}, the iteration number, the rejection rate and
@@ -617,7 +617,7 @@ perturbation, for the use of the \gls{CP} solver.
                                  & UseFilterStartSolution   & True, \textbf{False}                                  &                                                          \\
         \bottomrule
     \end{tabular}
-    \caption[Summary of parameter levels for classifier variants and links to visualizations in Appendix.]{Summary of parameter levels for classifier variants and links to visualizations in Appendix. Chosen parameter level is highlighted in bold font.}
+    \caption[Summary of parameter levels for classifier Variants.]{Summary of parameter levels for classifier variants and links to visualizations in appendix. Chosen parameter level is highlighted in bold font.}
     \label{tab:parameters_summary_classifier}
 \end{table}
 
@@ -673,7 +673,7 @@ summarizes the mean performance indicator values for each variant.
         SpeedUp      & 1.07 & 6124.06    & -7.27       & 0.36           & 23.49 & 1014.09 \\
         \bottomrule
     \end{tabular}
-    \caption[Mean results final comparison.]{Mean results final comparison. $t_0$ displays the time for the start solution and $C_0$ is the start solution objective.}
+    \caption[Comparison of mean results between variants.]{Comparison of mean results between variants. $t_0$ displays the time for the start solution and $C_0$ is the start solution objective.}
     \label{tab:mean_final_results}
 \end{table}
 It should be noted that the mean number of iterations is considerably higher than the median. Notably, the difference in \gls{RPD}
@@ -699,18 +699,19 @@ all published studies using the same loading constraint set $\mathcal{G}$ were t
     \small
     \begin{tabular}{L{6cm}lccc}
         \toprule
-                                                                                    &       & \multicolumn{3}{c}{Timelimit [sec]}                                                                                                       \\\cmidrule(lr){3-5}
-        Author                                                                      & Label & $N \leq 25$                                                     & $25 < N \leq 50$                   & $50 < N$                           \\
+                                                                                     &       & \multicolumn{3}{c}{Timelimit [sec]}                                                                                                       \\\cmidrule(lr){3-5}
+        Author                                                                       & Label & $N \leq 25$                                                     & $25 < N \leq 50$                   & $50 < N$                           \\
         \midrule
-        \cite{tarantilis_hybrid_2009}\footcite[cf.][p.264]{tarantilis_hybrid_2009}  & a     & 1800                                                            & 3600                               & 7200                               \\
-        \cite{wang_two_2010} \footcite[cf.][pp.265-266]{wang_two_2010}              & b     & 1800                                                            & 3600                               & 7200                               \\
-        \cite{bortfeldt_hybrid_2012}\footcite[cf.][p.2253]{bortfeldt_hybrid_2012}   & c     & 180\footnote{Start solution time was excluded from time limit.} & 300\footnotemark[\value{footnote}] & 400\footnotemark[\value{footnote}] \\
-        \cite{zhang_evolutionary_2015}\footcite[cf.][p.28]{zhang_evolutionary_2015} & d     & 900                                                             & 1800                               & 3600                               \\
-        This thesis                                                                 & -     & 600                                                             & 600                                & 600                                \\
+        \cite{tarantilis_hybrid_2009}\footcite[cf.][p. 264]{tarantilis_hybrid_2009}  & a     & 1800                                                            & 3600                               & 7200                               \\
+        \cite{wang_two_2010} \footcite[cf.][p. 265f.]{wang_two_2010}                 & b     & 1800                                                            & 3600                               & 7200                               \\
+        \cite{bortfeldt_hybrid_2012}\footcite[cf.][p. 2253]{bortfeldt_hybrid_2012}   & c     & 180\footnote{Start solution time was excluded from time limit.} & 300\footnotemark[\value{footnote}] & 400\footnotemark[\value{footnote}] \\
+        \cite{zhang_evolutionary_2015}\footcite[cf.][p. 28]{zhang_evolutionary_2015} & d     & 900                                                             & 1800                               & 3600                               \\
+        This thesis                                                                  & -     & 600                                                             & 600                                & 600                                \\
 
         \bottomrule
     \end{tabular}
-    \caption{Different time limits for \gendreauDataSetText instances from various authors dependent of customer number $N$.}
+    \caption[Different time limits for \gendreauDataSetText instances from various authors.]
+    {Different time limits for \gendreauDataSetText instances from various authors dependent of customer number $N$.}
     \label{tab:timeLimit_comparison}
 \end{table}
 
@@ -753,8 +754,8 @@ all published studies using the same loading constraint set $\mathcal{G}$ were t
         mean                & 922.77                      & 942.02                           & 1.69                       & 945.68                      & 2.02                       & 932.72           & 0.95         & 946.22          & 2.13         \\
         \bottomrule
     \end{tabular}
-    \caption[Final results all four variants in comparison to best known heuristic solutions for \gendreauDataSet]
-    {Final results all four variants in comparison to best known heuristic solutions for \gendreauDataSet. Bold font indicates the
+    \caption[Results of all four variants in comparison to best known heuristic solutions for \gendreauDataSet.]
+    {Results of all four variants in comparison to best known heuristic solutions for \gendreauDataSet. Bold font indicates the
         minimum costs including the BKS. $\Delta BKS$ is the procentual difference to the BKS}
     \label{tab:final_best_results_gendreau}
 \end{table}
