@@ -2,10 +2,10 @@
 \label{sec:mathematical_formulation}
 
 This two-index vehicle flow formulation for the \gls{3L-CVRP} is taken from \cite{tamke_branch-and-cut_2024}.\footcite[cf.][p. 6f]{tamke_branch-and-cut_2024}
-The advantage is that infeasible tours of the subproblem \gls{CLP} are excluded
-as route candidates for the masterproblem \gls{VRP} and no loading constraints are directly defined in the model, but in the rules
-to exclude routes from the solution process. First, the used sets and prameters are presented and afterwards the constraints with
-explainations.
+The advantage of this approach is that infeasible tours in the subproblem (\gls{CLP}) are automatically excluded as route candidates
+in the master problem (\gls{VRP}), while loading constraints are not explicitly defined in the model but are instead enforced through
+rules that eliminate infeasible routes during the solution process. Additionally, different subproblems can be defined and the model is
+not rigid. Therefore, the used sets and prameters are presented and afterwards the constraints with explainations.
 
 \subsection*{Sets}
 A directed graph $G=(N,A)$ is defined by the set of nodes $N$ including the depot and the set of arcs
@@ -16,7 +16,7 @@ The set $A(S)$ defines a sequence of arcs connecting nodes in a random set of cu
 which is a route in wider sense. For example the set $A(S)=\{(2,1),(1,5),(5,3)\}$ connects nodes
 2 and 3 via node 5. Every set $A(S)$ is defined by the total volume $q(S)$ and total weight $v(S)$
 demanded by all customers $i \in S$, with $S \subseteq C$. The set $A(P)$ includes all infeasible sequences $P$ leading
-to an infeasible route. A sequence has to have the minimum length of two.
+to an infeasible route. A sequence has to have the minimum length of two. All sets are summarized in Table~\ref{tab:set_definitions}.
 
 \begin{table}[ht]
     \centering
@@ -33,22 +33,23 @@ to an infeasible route. A sequence has to have the minimum length of two.
         $A(P)$        & Set of arcs in an infeasible path $P$    & $\in A$                       \\
         \bottomrule
     \end{tabular}
+    \caption{Definitions of sets used in the two-index vehicle flow model formulation.}
+    \label{tab:set_definitions}
 \end{table}
-\vspace{0.2em}
-
+\clearpage
 \subsection*{Parameters}
 The parameters can be divided in two groups, static and set-dependent.
-The costs $c_{ij}$ for travelling from one node $i$ to another node $j$,
-are symmetrically defined, stating $c_{ij} \overset{!}{=} c_{ji}$. Furthermore, the triangle inequality
+The costs $c_{ij}$ for travelling from one node $i$ to another node $j$
+are symmetrically defined. Furthermore, the triangle inequality
 $c_{ij} \leq c_{ih} + c_{hj}$ needs to be fulfilled, stating the travel distance must always be shorter travelling
-directly and not via any intermediate node $h$. Additionally, the number of vehicles
+directly than via any intermediate node $h$. Additionally, the number of vehicles
 available for the fleet planning is given as constant $K$. No solution is allowed to have
 more routes than avalaible vehicles. $r(S)$ defines a \gls{LB} for the numbers of vehicles needed
-to include all customers in $S$. The \gls{LB} is calculated as the ceiling of the maximum
+to include all customers in $S$. All parameters are summarized in Table~\ref{tab:parameter_definitions}.
+The \gls{LB} is calculated as the ceiling of the maximum
 value between the total weight $q(S)$ divided by the weight capacity $Q$, and the
 total volume $v(S)$ divided by the volume capacity $V$:
 \[r(S) = \max\left( \left\lceil \frac{q(S)}{Q} \right\rceil, \left\lceil \frac{v(S)}{V} \right\rceil \right)\]
-
 \begin{table}[ht]
     \centering
     \begin{tabular}{ll}
@@ -65,12 +66,12 @@ total volume $v(S)$ divided by the volume capacity $V$:
         $r(S)$   & Minimum number of vehicles required to cover customers in $S$ \\
         \bottomrule
     \end{tabular}
+    \caption{Parameter definitions for the two-index vehicle flow model formulation.}
+    \label{tab:parameter_definitions}
 \end{table}
 
-\bigskip
-
 \subsection*{Decision Variable}
-For the Two-Index-Flow model only one binary decision variable is necessary indicating, if the arc
+For the model formulation only one binary decision variable is necessary indicating, if the arc
 between nodes $i$ and $j$ is included in the solution.
 \[
     x_{ij} =
@@ -79,8 +80,7 @@ between nodes $i$ and $j$ is included in the solution.
         0 & \text{otherwise}
     \end{cases}
 \]
-
-\bigskip
+\clearpage
 
 \subsection*{Model}
 \textbf{Objective:}
@@ -110,7 +110,7 @@ the volume and weight capacities. For example, if $S=\{1,2,3\}$ with $A(S)=\{(2,
 and $r(S) = 1$, then $2 \leq 3 - 1$ holds, but if the \gls{LB} would be instead 2 then, $2 \not\leq 3 - 2$
 and two tours need to be constructed. The last constraint~\ref{eq:pathelim} excludes all infeasible paths
 $P$ from the solution. Every path $P$ is defined by a subset of arcs $A(P)$ defining it. Infeasible
-paths are labeled as such, when the corresponding \gls{CLP} to a route is not fulfilling the loading
+paths are labeled as such, when the corresponding \gls{CLP} of a route is infeasible due to the loading
 constraints. The constraint determines, that at least one binary variable defining an arc
 from the set of arcs defining the infeasible path $|A(P)|$ has to have the value 0, that the left
 side of this constraint is smaller equal to the right side. The set of infeasible paths is determined by

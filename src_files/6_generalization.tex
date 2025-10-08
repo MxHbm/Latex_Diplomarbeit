@@ -42,35 +42,16 @@ routes and are shown in Table~\ref{tab:random_instances_krebs}.
 \end{table}
 
 Further insights into the computational challenges, the classification of the random datasets, and a comparison with the
-\gendreauDataSetText dataset are presented in Subsection~\ref{subsec:challenges_krebs_random}. In general, the balance between
+\gendreauDataSetText dataset are presented in Section~\ref{sec:challenges_krebs_random}. In general, the balance between
 feasible and infeasible instances is reversed compared to the random datasets listed in Table~\ref{tab:created_instances_xyz_gendreau},
 while the relative tour volume is significantly smaller. This effect can be attributed to the small parameter values of the \gls{RRG}
 algorithm ($\alpha$, $\beta$, $\gamma$), which cause it to terminate earlier. However, the average number of customers per route
 is approximately twice as high (see Figure~\ref{fig:route_cust_no_krebs_new}).
 
-\begin{figure}[ht]
-    \centering
-    \begin{subfigure}[t]{.5\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_1_1_1_10.png}
-        \caption{Dataset RD-1-1-1-10}
-        \label{fig:ds-a-krebs_lop}
-    \end{subfigure}%
-    \begin{subfigure}[t]{.5\textwidth}
-        \centering
-        \includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_4_30_30_10.png}
-        \caption{Dataset RD-4-30-30-10}
-        \label{fig:ds-b-krebs_luf}
-    \end{subfigure}
-    \caption[Comparison of the distributions of route lengths between the random datasets of \krebsADataSetText and \gendreauDataSet.]
-    {Comparison of the distributions of route lengths between the random datasets of \krebsADataSetText and \gendreauDataSet. The red vertical line indicates the average number of customers.}
-    \label{fig:route_cust_no_krebs_new}
-\end{figure}
-
 \subsubsection{Save retrieval strategy}
 
 Constructing the different save-strategy datasets was more complex due to the longer runtime of the \gls{CP} solver and the undefined
-handling of \textit{Invalid} and \textit{Unknown} loading statuses. Subsection~\ref{subsec:challenges_krebs_save} examines these
+handling of \textit{Invalid} and \textit{Unknown} loading statuses. Section~\ref{sec:challenges_krebs_save} examines these
 challenges in more detail. The branch-and-cut results are shown in Table~\ref{tab:bc_results_krebs}, while
 Table~\ref{tab:saved_instances_krebs} presents the generated save-strategy datasets.
 

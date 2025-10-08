@@ -3,9 +3,6 @@
 %\chapter{Mathematischer Anhang}
 %\chapter{Programmcodes}
 \chapter{Appendix}
-
-Write here small introduction to appendix! %TODO
-\clearpage
 \section{Complete Feature List}
 
 The geometrical features have shortened names, but everything in capital letters, refer to the container
@@ -276,7 +273,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 		\caption{Dataset GD-Shrunken.}
 		\includegraphics[width=\textwidth]{pictures/dataset_structure/Distribution_CPStatus_RouteDataset.png}
 	\end{subfigure}
-	\caption{Distribtution of infeasible and feasible feature data space.}
+	\caption{Distribution of infeasible and feasible feature data space.}
 	\label{fig:distribution_cp_label}
 \end{figure}
 
@@ -286,7 +283,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 
 \section{Parameterstudy}
 
-\subsection{NoClassifier Variant}
+\subsubsection{NoClassifier Variant}
 \label{app:subsec:parameterstudy_noclassifier}
 
 
@@ -317,7 +314,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 
 
 \FloatBarrier
-\subsection{Numerical parameter study NoClassifier variant}
+\subsubsection{Numerical parameter study NoClassifier variant}
 \begin{table}[!ht]
 	\scriptsize
 	\centering
@@ -363,7 +360,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 	\label{tab:numerical_results_paramStudy_NOclassifiers}
 \end{table}
 \clearpage
-\subsection{Filter Variant}
+\subsubsection{Filter Variant}
 \label{app:subsec:parameterstudy_Filter}
 
 \begin{figure}[!ht]
@@ -374,7 +371,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 \end{figure}
 
 
-\subsection{SpeedUp Variant}
+\subsubsection{SpeedUp Variant}
 \label{app:subsec:parameterstudy_SpeedUp}
 
 \begin{figure}[!ht]
@@ -393,7 +390,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 \end{figure}
 
 \clearpage
-\subsection{Hybrid Variant}
+\subsubsection{Hybrid Variant}
 \label{app:subsec:parameterstudy_Hybrid}
 
 \begin{figure}[!ht]
@@ -416,7 +413,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 	\caption{Parameter study for Hybrid variant.}
 \end{figure}
 \clearpage
-\subsection{Numerical parameter study classifier variants}
+\subsubsection{Numerical parameter study classifier variants}
 \begin{table}[!ht]
 	\tiny
 	\centering
@@ -768,7 +765,58 @@ next to the instance name. In this comparison all published papers were consider
 	\label{tab:final_mean_comparison}
 \end{table}
 \clearpage
-\section{\krebsADataSetText computational challenges}
+
+\section{Dataset Characteristics}
+\label{sec:visualization}
+
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}{.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_1_1_1_10.png}
+		\caption{Dataset RD-1-1-1-10}
+		\label{fig:ds-a-krebs_lop}
+	\end{subfigure}
+	\begin{subfigure}{.8\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_4_30_30_10.png}
+		\caption{Dataset RD-4-30-30-10}
+		\label{fig:ds-b-krebs_luf}
+	\end{subfigure}
+	\caption[Comparison of the distributions of route lengths between the random datasets of \krebsADataSetText and \gendreauDataSet.]
+	{Comparison of the distributions of route lengths between the random datasets of \krebsADataSetText and \gendreauDataSet. The red vertical line indicates the average number of customers.}
+	\label{fig:route_cust_no_krebs_new}
+\end{figure}
+
+
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}[t]{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_3_30_20_6.png}
+		\caption{RD-3-30-20-6; Threshold $\delta$ = 0.6.}
+		\label{fig:ds-a}
+	\end{subfigure}%
+	\begin{subfigure}[t]{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_3_30_20_8.png}
+		\caption{RD-3-30-20-8; Threshold $\delta$ = 0.8.}
+		\label{fig:ds-b}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{pictures/dataset_structure/no_cust_plot_RandomData_3_30_20_10.png}
+		\caption{RD-3-30-20-10; Threshold $\delta$ = 1.0.}
+		\label{fig:ds-c}
+	\end{subfigure}
+	\caption[Distribution of route lengths for the random strategy with different $\delta$ thresholds.]
+	{Distribution of route lengths for the random strategy with different $\delta$ thresholds. The red vertical line indicates the average number of customers.}
+	\label{fig:route-dists_randomdata}
+\end{figure}
+
+
+\clearpage
+\chapter{\krebsADataSetText computational challenges}
 \label{app:sec:krebs_computationally_challenges}
 
 As shown in Table~\ref{tab:dataset_comparison}, an average route of \krebsADataSetText contains four times more items than
@@ -776,8 +824,8 @@ in the \gendreauDataSetText dataset. This makes it much more computationally cha
 the \gls{CP} solver (random strategy) or by applying the B\&C algorithm (save strategy). This appendix section dives deeper in
 the construction of each retrieval strategy to highlight difficulties.
 
-\subsection{Random strategy}
-\label{subsec:challenges_krebs_random}
+\section{Random strategy}
+\label{sec:challenges_krebs_random}
 
 The two random datasets, RD-1-1-1-10 (Krebs) and RD-2-30-20-10 (Gendreau), are compared, which are the smallest random dataset from each instance group and
 where $\delta = 1.0$. The difference between the computation time for the \gls{CP} solver needed for classifying the random routes is huge. The average
@@ -816,8 +864,8 @@ infeasible labels in the train dataset. So in the end, new long routes which imp
 and the exact computation time with the \gls{CP} solver takes too long to be used in a heuristic. As fewer items are considered in the dataset
 RD-2-30-20-10 the \gls{CP} time increases only minimal, when the maximum number of 25 items is reached.
 
-\subsection{Save strategy}
-\label{subsec:challenges_krebs_save}
+\section{Save strategy}
+\label{sec:challenges_krebs_save}
 
 The results obtained by the B\&C algorithm from \cite{tamke_branch-and-cut_2024} are with an average gap of 3.14\% pretty good. However, some limitations
 of the branch-and-cut algorithm caused issues solving instances from \krebsADataSet. As shown before, the labeling of one route takes approximately
@@ -872,7 +920,7 @@ also the prevailing share of feasible routes with 2 customers.
 \end{figure}
 
 \clearpage
-\section{Implementations in GitHub repositories}
+\chapter{Codebase}
 \label{app:sec:github_implementations}
 
 \subsubsection{Initial data analysis of different datasets}
@@ -881,7 +929,7 @@ All the datasets from different authors presented in Section~\ref{sec:dataset_co
 
 \subsubsection{Classifier based on CP Solver}
 The classifier based on the \gls{CP} Solver from \cite{tamke_repository_2024} is available in
-repository \href{https://github.com/MxHbm/3l-cvrp-classifier-work}{3l-cvrp-classifier-work}. \footcite{tamke_repository_2024}
+repository \href{https://github.com/MxHbm/3l-cvrp-classifier-work}{\textit{3l-cvrp-classifier-work}}. \footcite{tamke_repository_2024}
 The C++ code is controlled by a python script, defining the input files and the output folder, where the results should be stored.
 
 \subsubsection{Forked branch-and-cut algorithm for save strategy}

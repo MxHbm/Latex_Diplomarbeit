@@ -10,9 +10,9 @@ These numbers are only manageable through a strong logistics network, where even
 become very costly and optimization potential is huge. Two major challenges are faced in this domain.
 First, the \gls{VRP}, which is the optimization of the routes driven by the delivery trucks and second,
 the \gls{CLP}, which is the efficient arrangement of items of various shapes and sizes.
-Several subproblems of the \gls{VRP} incorporate the dimensionality of the \gls{CLP}. The most basic form is the Capacitated VRP (CVRP),
+Several subproblems of the \gls{VRP} incorporate the dimensionality of the \gls{CLP}. The baseline formulation is the \gls{CVRP},
 which accounts for one-dimensional weight and volume constraints to prevent vehicle overloading.
-More advanced formulations extend this to two- or three-dimensional packing considerations,
+More advanced formulations extend this to multi-dimensional packing considerations,
 leading to the \gls{2L-CVRP} and \gls{3L-CVRP}, whose complexity increases exponentially with each added dimension.
 When the \gls{VRP} and the \gls{CLP} are solved integrated,
 solutions are on average $7\%$ more cost-efficient, but it is complex to solve
@@ -22,17 +22,17 @@ small instances considering only few practical constaints, as orientation rules,
 Recent research has shown, that \gls{ML} techniques can be used to accelerate the exact solution process
 of the \gls{2L-CVRP}.\footcite[cf.][]{zhang_learning-based_2022}
 This paper aims to provide an overview of the \gls{CLP} and explores how \gls{ML} can be used
-to enhance the solution process of \gls{CLP} algorithms focusing on the \gls{3L-CVRP}.
+to enhance the solution process of a \gls{3L-CVRP} algorithm.
 The paper is structured as follows:
 Chapter~\ref{chap:literature_review} introduces a general mathematical model for
-the \gls{VRP} with CLP and its constraints as a subproblem as well as the as well as classical
+the \gls{VRP} with CLP and its constraints as a subproblem as well as classical
 solution approaches. Promising \gls{ML} approaches are discussed and a complete overview of algorithms
 for \gls{3L-CVRP} algorithms are conducted. Then, Chapter~\ref{chap:classifier} introduces the required
-steps for developing a binary classifier, ranging from data to modeling and the used features
-are presented. Chapter~\ref{chap:algorithm} explains the implemented \gls{3L-CVRP} algorithm and
-the different variants of it leveraging the usage of the binary classifier. The computational results and the
+steps for developing a binary classifier, ranging from data to modeling and the feature construction and selection.
+Chapter~\ref{chap:algorithm} explains the implemented \gls{3L-CVRP} algorithm and
+the different variants of it, leveraging the usage of a binary classifier. The computational results and the
 tuning of the parameters are shown in Chapter~\ref{chap:computational_study}. Additionally, Chapter~\ref{chap:application_krebs}
-generalizes the usage of the presented algorithm and binary classifier by solving instances from a second dataset.
+generalizes the usage of the presented algorithm and binary classifier by solving instances from an additional dataset.
 In Chapter~\ref{chap:critical_discussion} the used methods are critically evaluated and considerations for improvements
 are discussed. This thesis ends with the conclusion
-of the obtained results and outlook for further research in Chapter~\ref{chap:conclusion}.
+of the obtained results and an outlook for further research in Chapter~\ref{chap:conclusion}.

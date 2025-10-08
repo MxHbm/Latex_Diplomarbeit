@@ -32,11 +32,6 @@ other models on specific application problems. \footcite[cf.][pp. 250, 264]{kots
 To compare different models and \gls{ML} approaches performance indicators are needed. Most measures rely
 on the binary output of the confusion matrix, which categorizes predictions by their true and predicted labels.
 The goal is to minimize false predicted values.
-\begin{comment}
-The predicted labels of the \gls{ML} model are
-divided in two groups via a certain threshold, usually 0.5, with all predicted values above it,
-considered in the predictive positive column and below it, in the predicted negative column.
-\end{comment}
 
 \begin{table}[ht]
     \centering
@@ -65,29 +60,26 @@ of predictions. The F1-score emphasis the \gls{TP} labels and is therefore espec
 often used for classification purposes.
 However, these evaluation metrics draw too optimistic a picture of the model performance,
 when the dataset is imbalanced. Imbalance is occurrent,
-when the classes representing each label, feasible and infeasible, have a huge size difference.\footcite[cf.][p. 2f]{chicco_advantages_2020}
+when the classes representing each label, feasible and infeasible, have a huge size difference.
 Two alternative metrics are, firstly, the \gls{MCC}, which is robust against imbalance
 and focuses on \gls{FP} and \gls{FN} values. \gls{MCC} has the advantage to account the majority of the predictions
-relative to class size and is defined from -1 to 1. \footcite[cf.][p. 5]{chicco_advantages_2020}
+relative to class size and is defined from -1 to 1. \footcite[cf.][pp. 2--3, 5]{chicco_advantages_2020}
 \begin{align}
-    \text{MCC}=\frac{TP \cdot TN - FP x\cdot FN}{\sqrt{(TP+FP)\cdot(TP+FN)\cdot(TN+FP)\cdot(TN+FN)}}
+    \text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP+FP)\cdot(TP+FN)\cdot(TN+FP)\cdot(TN+FN)}}
 \end{align}
-Secondly, the \gls{AUROC},where several thresholds are used
-to calculate the \gls{TPR} and the \gls{FPR} for different acceptance steps,
-which indicates how well the classification does in general terms. \footcite[cf.][p. 2f]{chicco_advantages_2020}
-\begin{align}
-    \text{TPR}=\frac{TP}{TP+FN}
-    \qquad
-    \text{FPR}=\frac{TN}{FP+TN}
-\end{align}
+Secondly, the \gls{AUROC}, which evaluates the overall classification performance by using several thresholds to compute the \gls{TPR}
+and \gls{FPR} at different acceptance levels \footcite[cf.][p. 2 f.]{chicco_advantages_2020}. Both the \gls{TPR} and the
+\gls{FPR} represent ratios: the \gls{TPR} measures the proportion of correctly classified positive instances relative to all
+actual positives, while the \gls{FPR} measures the proportion of incorrectly classified positive instances (false positives)
+relative to all actual negatives.
 The following Plot~\ref{fig:AUROC_curve} shows several receiver operating curves and their corresponding \gls{AUROC} values.
-The baseline is the angle bisector, indicating random guessing with an \gls{AUROC} value of 0.5. The fit gets better
+The baseline is the angle bisector, indicating random guessing with a value of 0.5. The fit gets better
 for an increasing area under the curve. The perfect fit is displayed, when the rectangle is covered under the receiver operating curve.
 
 \input{Plots/auroc_plot.tex}
 
 To highlight the differences between an imbalanced and balanced training dataset, two classifications and their respective
-evaluation metrics with exception of the \gls{AUROC} are compared.
+evaluation metrics, with exception of the \gls{AUROC}, are compared in the following Table~\ref{tab:indicator_comparison}.
 
 \begin{table}[ht]
     \centering
@@ -117,14 +109,14 @@ In the first example the positive and negative label classes are equal, and the 
 labels is more or less random, as the sum of the false predicted values is almost equal to
 the true predicted values. The accuracy and the \gls{MCC} indicate this random guessing
 behavior with values close to the center of the respective indicator range.
-The accuracy is slightly positive as the rate of true predicted values of the positive class
+The F1-score is slightly positive as the rate of true predicted values of the positive class
 with $94\%$ is very high. As the dataset is balanced, classic metrics can still grasp
 the poor performance of the classifier. However, when looking at the second example, both
 accuracy and F1-score have very high values indicating very good performance, but this is
-due to the imbalanced class distribution. Only $11\%$ of the negative class with 9 samples
+due to the imbalanced class distribution. Only $11\%$ of the negative class, with 9 samples,
 is correctly classified. This poor performance is valued with a low \gls{MCC} score.
 It should be noted that, the optimization focus defines the choice of the performance metric.
-If only the \gls{TPR} is of interest, the F1-score serves well.\footcite[cf.][p. 8f]{chicco_advantages_2020}
+If the \gls{TPR} is foremost of interest, the F1-score serves well.\footcite[cf.][p. 8f]{chicco_advantages_2020}
 The following section provides a more detailed description of how the routes for the training data are retrieved.
 
 \section{Data Retrieval}
@@ -132,29 +124,29 @@ The following section provides a more detailed description of how the routes for
 
 Collecting the training data is a crucial step in model creation, and two approaches are introduced in this section.
 
-\subsubsection{Saving labeled routes from exact algorithms (Save strategy)}
-The first approach is to save all routes with exact loading labels from an exisiting \gls{3L-CVRP}
+\subsubsection{Saving labeled routes from exact algorithms (Save-strategy)}
+The first approach is to save all routes with exact loading labels from an existing \gls{3L-CVRP}
 algorithm, as \cite{zhang_learning-based_2022} did in their paper.\footcite[cf.][]{zhang_learning-based_2022}
 To follow this approach, the exact branch-and-cut algorithm from \cite{tamke_branch-and-cut_2024} was
 used to save all routes, which are labeled and found in an 8-hour timelimit and with a maximum run time of 10 min for the \gls{CP} solver.
-The routes are saved based on their respective \gls{LST} and \gls{LFL}. The \gls{LST} sorts the routes in the
-label categories feasible, infeasible and unknown and is determined by the exact \gls{CP} solver.
+The routes are saved based on their respective loading status and loading flag. The loading status sorts the routes in the
+label categories feasible, infeasible, unknown and invalid and is determined by the exact \gls{CP} solver.
 If the \gls{CP} solver could not find a deterministic feasible/ infeasible label within the maximum run time, the route
-will be classified as unknown. The \gls{LFL} defines the subset of
-loading constraints used. Three \glspl{LFL} are considered in the original algorithm, which are shown
+will be classified as unknown or as invalid, if a concrete label must be found. The loading flag defines the subset of
+loading constraints used. Three loading flags are considered in the original algorithm, which are shown
 in the following:
 \begin{itemize}
     \item All Constraints: $\mathcal{G}$
     \item No Support Area: $\mathcal{G}\setminus \{\text{SupportArea}\}$
     \item No Sequence: $\mathcal{G}\setminus \{\text{Sequence}\}$
 \end{itemize}
-In the case of \gls{LFL} \textit{NoSequence}, all routes are independent of a specific customer order, and the customers are stored
-without any sequence information. By contrast, routes obtained from the other two \glspl{LFL} are stored as concrete sequences.
-Since every permutation of a \textit{NoSequence} route corresponds to the same \gls{LST}, adding all permutations to the training
+In the case of loading flag \textit{NoSequence}, all routes are independent of a specific customer order, and the customers are stored
+without any sequence information. By contrast, routes obtained from the other two flags are stored as concrete sequences.
+Since every permutation of a \textit{NoSequence} route corresponds to the same loading status, adding all permutations to the training
 dataset would overwhelm the contributions of the other routes. To prevent this imbalance, only two random permutations are
 retained per \textit{NoSequence} route. Based on this decision, two versions of the training datasets are constructed:
 one including the \textit{NoSequence} routes and one excluding them. These are distinguished by the suffix WS (with sets).\footcites[Retrieved from][]{tamke_repository_2024}[cf.][]{tamke_branch-and-cut_2024}
-The following table summarizes all combinations of \gls{LFL} and \gls{LST} and indicates which routes are included in
+The following table summarizes all combinations of loading flag and loading status and indicates which routes are included in
 the final training datasets.
 
 \begin{table}[ht]
@@ -172,6 +164,7 @@ the final training datasets.
         \multirow{3}{*}{Loading Status} & \cellcolor{green!20}Feasible & Feasible                     & Feasible                     \\
                                         & \cellcolor{red!20}Infeasible & \cellcolor{red!20}Infeasible & \cellcolor{red!20}Infeasible \\
                                         & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    \\
+                                        & \cellcolor{red!20}Invalid    & \cellcolor{red!20}Invalid    & \cellcolor{red!20}Invalid    \\
         \bottomrule
     \end{tabular}
     \caption[Construction of training data from branch-and-cut routes.]{Construction of training data from branch-and-cut routes. All green cells are labeled as feasible, and all
@@ -183,49 +176,50 @@ Since the trained classifier is applied within an algorithm that accounts for al
 feasible tours must satisfy all such constraints. Conversely, a tour that is infeasible under a subset of loading constraints
 will also remain infeasible when additional constraints are imposed.\footcite[cf.][p. 7]{tamke_branch-and-cut_2024}
 This distinction is reflected in Table~\ref{tab:train_data_BC_routes}.
-Because the same route may appear in different groups—for example, being infeasible under both \textit{AllConstraints} and
-\textit{NoSupport}—duplicate tours are removed prior to model training. This procedure is referred to as the Save Strategy or
+Because the same route may appear in different groups, for example, being infeasible under both \textit{AllConstraints} and
+\textit{NoSupport}, duplicate tours are removed prior to model training. This procedure is referred to as the save-strategy or
 B\&C data. In \cite{zhang_learning-based_2022}, a dataset generated by the exact algorithm was used to train a classifier for that same
-algorithm. In contrast, the dataset in this thesis is applied to a different algorithm. Chapter~\ref{chap:computational_study}
-will examine whether this constitutes a significant disadvantage.\footcite[cf.][p. 14]{zhang_learning-based_2022}
+algorithm. In contrast, the dataset in this thesis is applied to a different algorithm.\footcite[cf.][p. 14]{zhang_learning-based_2022}
+Chapter~\ref{chap:computational_study} will examine whether this constitutes a significant disadvantage.
 
-\subsubsection{Creating random routes (Random Strategy)}
-An alternative to the first approach is to create random routes based on the \gls{3L-CVRP} instances from \gendreauDataSet.
+\subsubsection{Creating random routes (Random-strategy)}
+An alternative to the first approach is to create random routes based on the \gls{3L-CVRP} instances.
 These routes need to be labeled in feasible and infeasible routes regarding their loading.
 A \gls{CLP} algorithm with high solution quality is needed, to ensure the correct labels. As the heuristic approaches
 presented in Section~\ref{sec:classical_solution_approaches} do not provide an optimal solution,
 the best choice is to use an exact approach to determine if all items fit into the container considering the loading constraints.
 For this purpose, the exact \gls{CP} model was extracted from \cite{tamke_repository_2024} to create
-a standalone \gls{CLP} solver, which can be called for just one route.\footcite[Stolen with permission from][]{tamke_repository_2024}
-The random routes are created with the \gls{RRG} (see Algorithm~\ref{fig:flowchart_randomRouteGeneration}) controlled by four parameters to
-influence the resulting number of random routes and their characteristics. The \gls{RRG} algorithm is presented in detail in Section~\ref{chap:appendix:RRG}.
+a standalone \gls{CLP} solver, which can be called for just one route.\footcite[cf.][]{tamke_repository_2024}
+The random routes are created with the \gls{RRG} algorithm, which is controlled by four parameters to
+influence the resulting number of random routes and their characteristics.\footnote{See Algorithm~\ref{fig:flowchart_randomRouteGeneration}.}
+The \gls{RRG} algorithm is presented in detail in Section~\ref{chap:appendix:RRG}.
 Hence, the parameters and functionalities are summarized in the following:
 \begin{itemize}
     \item 4 Input Parameters
           \begin{itemize}
-              \item Multiplier $\alpha$: Integer determining repetitions ($n\times\alpha$) for each route length $n$
+              \item Multiplier $\alpha$: Integer determining repetitions ($n\cdot\alpha$) for each route length $n$
               \item  Attempts limit $\beta$: Integer determining max failures per repetition
-              \item  Success threshold $\gamma$: Integer determining success threshold per repetition
+              \item  Success threshold $\gamma$: Objective of succesfully generated routes per repetition
               \item  Lower threshold $\delta$: Float determining the range [$\delta$,1] to draw relative volume and weight capacity thresholds for one route
               \item Instance set $\mathcal{I}$: Set of instances routes should be generated from
           \end{itemize}
-    \item Route length is starting with two customers increasing until no routes can be found
-    \item Duplicates are discarded by checking every new route against a route
-    \item Algorithm stops when no random route could be drawn in $n \times \alpha$ rounds
+    \item Route length starts with two customers and increases until algorihtm breaks
+    \item Route duplicates are discarded
+    \item Algorithm stops, when no random route could be generated in $n \cdot \alpha$ rounds
 \end{itemize}
 
-Generally the higher the parameters $\alpha$, $\beta$ and $\gamma$ are set and the more instances
+Generally, the higher the parameters $\alpha$, $\beta$ and $\gamma$ are set and the more instances
 are considered in the instance set $\mathcal{I}$, the more routes will be found. When the threshold $\delta$
 is smaller than 1, then shorter and fewer routes are selected. Different
 random training datasets are presented in the Chapter~\ref{chap:computational_study}.
-This strategy will be called \textit{random strategy}. In the next section three model candidates
+This strategy will be called \textit{random-strategy}. In the next section three model candidates
 are presented more in detail.
 
 \section{Model Selection}
 \label{sec:modelselection}
 Every supervised learning method can predict the feasibility of a single loading, and the comparison
 between different models is a tidious job. Therefore only three different classification
-models will be explained and compared in the computational study.
+models will be introduced.
 Two different types of models will be compared, regression and pure classification models. Regression
 models are based on calculations and output a value between 0 and 1. Afterwards, the returning value is classified with
 an artifical threshold in two distinct categories, as feasible and infeasible loading. Pure classification
@@ -251,10 +245,10 @@ to model a continuous probability distribution with the formula:
     \sigma(z)=\frac{1}{1+\exp^{-z}},\, \text{with } z = \beta_0 + \bm{\beta} \cdot \bm{X}
     \label{eq:logistic_func}
 \end{align}
-The resulting logistic function is bound to the range of 0 and 1, and results can be interpreted
-in two labels using an threshold. An output of 0.5 can be interpreted as random
+The resulting logistic function is bound to the range of 0 and 1, and results can be divided
+in two labels using a threshold. An output of 0.5 can be interpreted as random
 guessing between both labels, as $z=0$. The curve of the logistic function is shown in Figure~\ref{fig:LR_plot}.
-The model is fitted to predict feasible and infeasible loadings best.\footcite[cf.][]{kirasich_random_2018}
+The model is fitted to predict feasible and infeasible labels best.\footcite[cf.][]{kirasich_random_2018}
 
 \input{Plots/logistic_regression_sigmoid.tex}
 
@@ -276,15 +270,15 @@ as well as those tours where the relative weight utilization is above $80\%$, bu
 $NP$-hard problem is to find the optimal binary decision tree and finding the optimal subset and order of
 features.
 When many levels of branches are added, and the decision tree grows in depth, the chance of
-overfitting the decision tree to the training data is more likely. Therefore several control mechanisms
+overfitting the decision tree to the training data is more likely. Therefore, several control mechanisms
 were developed to avoid this. The first one is to control the maximum depth (\textit{max\_depth})
 of the decision tree. Secondly, after the decision tree is created, to prune it by removing leaves from
 the tree and comparing it with an identical descision tree, if the overall performance has decreased.
 The third method is, stopping the fitting algorithm before the data is perfectly fitted to. \footcite[cf.][p. 252]{kotsiantis_supervised_2007}
-One further advantage of decision trees is that the data does not need to to be scaled as every feature is
+One further advantage of decision trees are, that the data does not need to to be scaled as every feature is
 distinguished on feature own thresholds, in comparion of the other presented models. In this thesis the \gls{XGB} model is used,
-which is an advanced \gls{ML} model based on decision trees, where several decision trees are created.In several iterations
-the overall error of the classification is reduced by increasing the importance of previously wrongly predicted labels.
+which is an advanced \gls{ML} model based on decision trees, where several decision trees are created. In several iterations
+the overall error of the classification is reduced by increasing the importance of previously misclassified predicted labels. \footcite[cf.][]{noauthor_introduction_2025}
 
 \subsubsection{Feed Forward Neural Networks}
 
@@ -292,11 +286,11 @@ Neural networks are a collection of single perceptrons/neurons, which are intern
 signals. In the case of \gls{FFNN}, signals are only allowed to go straight from input to output. One neuron
 in the network is either defined as input, output or as hidden unit. One neuron calculates its
 output similar to the \gls{LR} with $X_i$ feature values and $w_i$ weights, the output is defined
-as $\sum_{i \in n} X_i \cdot w_i$ and can be truncated by a threshold forcing all values about above 1
+as $\sum_{i \in n} X_i \cdot w_i$ and can be truncated by a threshold forcing all values above 1
 to be 1 and all negative values to be zero. Every unit signals its calculated output by an individual
 activation function to all units of the next layer of the network. All signals are
-then interpreted at the output layer. For binary classification tasks the presented sigmoid function from \gls{LR} is used.
-An exemplary \gls{FFNN} is shown in Figure~\ref{fig:ffnn}.\footcite[cf.][p. 255]{kotsiantis_supervised_2007}
+then interpreted at the output layer. For binary classification tasks the presented sigmoid function from \gls{LR} is used.\footcite[cf.][p. 255]{kotsiantis_supervised_2007}
+An exemplary \gls{FFNN} is shown in Figure~\ref{fig:ffnn}.
 
 \input{tikz/feed_forward_model.tex}
 
@@ -308,12 +302,12 @@ which also uses nonlinear functions to process signals.
 \parbreak
 \cite{kotsiantis_supervised_2007} states, that no supervised \gls{ML} method is superior to another,
 but each has its own advantages and disadavantages, which need to be considered.
-Therefore all three model types are included and compared in this work
+Therefore, all three model types are included and compared in this work
 to understand the complexity of the underlying classification problem. As \gls{FFNN} normally
 tend to need a large sample size and perform good with continuous data, decision trees can be
-trained on much smaller samples and perform good with mixed datatypes consisting of discrete/binary
+trained on much smaller samples and perform good with mixed datatypes consisting of discrete
 and continuous values.\footcite[cf.][pp. 262--264]{kotsiantis_supervised_2007}
-\gls{LR} is a standard \gls{ML} model and the easiest to implement and to train, but can dominate
+\gls{LR} is a standard \gls{ML} model and the most straightforward to implement and to train, but can dominate
 other approaches due to their simplicity and interoperability. \footcite[cf.][p. 8]{kirasich_random_2018}
 However, the training procedure is identical across models, except that the training data for the \gls{LR} and \gls{FFNN}
 models must be normalized with $\mathcal{N}(0,1)$. The mean and standard deviation used
@@ -339,9 +333,9 @@ The complete feature list spans 48 features, which can be divided in three group
 \end{itemize}
 
 Some additional definitions to Section~\ref{sec:mathematical_formulation}
-are necessary to define the features formally. Following the mathematical definition, every route consists of the customers
-from the subset $S \subseteq C$. Every customer requests items of the set of types $M$ in different quantities.
-Each item type $m_j\in M$ has its own dimensions height $z_j$, length $x_j$, width $y_j$, weight $q_j$ and fragility flag $f_j$.
+are necessary to define the features formally. Following the mathematical formulation, every route consists of the customers
+from the subset $S \subseteq C$. Every customer requests items of the set of item types $M$ in different quantities.
+Each item type $m_j\in M$ has its own dimensions (height $z_j$, length $x_j$, width $y_j$), weight $q_j$ and fragility flag $f_j$.
 The fragility flag contains binary values of either 0 (nonfragile) or 1 (fragile).
 Each customer $i$ demands $d_{ij}$ units of item type $j$.
 The total weight, volume and quantity requested by a customer $i$ or the whole subset $S$ is calculated then by:
@@ -350,7 +344,7 @@ The total weight, volume and quantity requested by a customer $i$ or the whole s
 \[v(i) = \sum_{j \in M} v_j \cdot d_{ij}\;\text{, resp. } v(S) = \sum_{i\in S} v(i)\]
 \[d(i) = \sum_{j \in M} d_{ij}\;\text{, resp. } D(S) = \sum_{i\in S} d(i)\]
 
-Furthermore it is necessary to define the homogeneous fleet of vehicles
+Furthermore, it is necessary to define the homogeneous fleet of vehicles
 further. Every vehicle $k$ has the same dimensions of height $z_k$, length $x_k$ and width $y_k$ resulting in the maximum volume limit per
 vehicle $Q = x_k \cdot y_k\cdot z_k$. As all vehicles are identical, the indices are obsolent, but are kept to distinguish clearer
 from the item properties.
@@ -403,8 +397,8 @@ the route to capture the incremental load added at each step.
 The third and last feature group
 was partly used by \cite{zhang_learning-based_2022} and is expanded for additional geometrical ratios applicable to three-dimensional loading.\footcite[cf.][p. 14]{zhang_learning-based_2022}
 All geometrical ratios express the relation between two geometrical properties of either one item or one item to the vehicle. These ratios
-are calculated for each item demanded from customers $S$ and afterwards the minimum, maximum, mean and standard deviation is calculated
-from the $D(S)$ ratios, which are used as features. These ratios are expressed visually in the following Figure~\ref{fig:geometrical_ratio_features}.
+are calculated for each item demanded from customers $S$ and afterwards, the minimum, maximum, mean and standard deviation is calculated
+from the $D(S)$ ratios, which are used as features. The following Figure~\ref{fig:geometrical_ratio_features} visualizes all nine geometrical ratio features.
 
 
 \begin{figure}[ht]
@@ -428,7 +422,7 @@ from the $D(S)$ ratios, which are used as features. These ratios are expressed v
 \end{figure}
 
 These nine geometrical features grasp the geometrical description of all items and is further outlined in the following example:
-In a route three items are requested, described by their geometrical dimensions \{height, length, width\}:
+In a route the following three items are requested, described by their geometrical dimensions \{height, length, width\}:
 \[
     \mathcal{I} = \{(12,5,10),\,(10,3,6),\,(10,10,10)\}
 \]
@@ -447,8 +441,8 @@ as well as the mean and the standard deviation:
 \]
 
 For every geometrical ratio the four features are calculated with this approach.
-The complete list of the 48 features is shown in the appendix in Table~\ref{tab:complete_features_list}. The next section
-presents methods how to select a subset of features.
+The complete list of 48 features is shown in the appendix in Table~\ref{tab:complete_features_list}. The next section
+presents methods, how to select a subset of features.
 
 \section{Feature Selection}
 \label{sec:feature_engineering}
@@ -456,15 +450,15 @@ presents methods how to select a subset of features.
 The selection of a subset of features helps to simplify the model by increasing the interpretability and the computation time
 for the features. Furthermore, \gls{ML} model types can be negatively affected by non-informative features, which are not correlated
 to the prediction outcome. This applies to all models, where all predicting values are combined in a statistical formula
-and are considered in the output value, as \gls{LR} and \gls{FFNN}. However all tree- and rule-based models, as decision trees, are resistant
+and are considered in the output value, as \gls{LR} and \gls{FFNN}. However, all tree- and rule-based models, as decision trees, are resistant
 to the negative influence of non-informative features as not every feature is used for branching. \footcite[cf.][pp. 487--489]{kuhn_applied_2016}
 The following Figure~\ref{fig:feature-performance} visualizes how a performance metric, as accuracy, develops depending if the model is
 resistant to a high number of non-informative features.
 \input{Plots/feature_seletction.tex}
 
 The feature selection approaches for supervised learning models can be divided in three groups, filter, wrapper and embedded methods.
-Filter methods are ranking techniques, which are used to select a feature subset before the model is trained, by analyzing
-the dependency between the features and the output variables. By defining a threshold or an explicit number of features, the
+Filter methods are ranking techniques, which are used to select a feature subset before the model is trained by analyzing
+the dependency between the features and the output variable. By defining a threshold or an explicit number of features, the
 resulting subset is selected. Mutual correlation between features exists and is not considered by filter methods
 leading to redundany. Furthermore, the datatype of $X$(input data) and $Y$(output data) determines which filter method is applicable. The risk
 of overfitting is reduced as the selection of features is conducted without respecting the model performance.
@@ -476,7 +470,7 @@ Embedded approaches aim to reduce the computation time needed for the wrapper me
 feature selection in the training process. \footcites[cf.][pp. 17--21]{chandrashekar_survey_2014} As this thesis will analyse several
 different datasets and models, the combinations of dataset model tuples for which a perfect feature subset
 has to be selected are numerous. Therefore, the same subset of features will be used for each model and dataset to provide comparability.
-An adapted filter method is therefore used with the goal to find a subset of features strongly dependent
+An adapted filter method is used therefore with the goal to find a subset of features strongly dependent
 to the output label, but with low mutual correlation between the features. The following Figure~\ref{fig:overview_Feature_selection}
 gives an overview over the methods and narrows down the possible applicable methods.
 
@@ -492,7 +486,7 @@ where features are discarded from the feature set based on the accumulated mutua
 the features and the output variables is not respected and this approach could lead to non-informative features. \footcite[cf.][]{haindl_feature_2006}
 To avoid determining the maximum number of features beforehand, which is required for solely applied filter methods,
 a own feature selection Algorithm~\ref{alg:filter_algorithm} is presented, which follows the principle of the two previous approaches.
-The procedure filters all  high mutually correlated features, with a low dependency score, as well as all features features with an
+The procedure filters all high mutually correlated features, with a low dependency score, as well as all features with an
 importance score below a threshold $\epsilon$.
 
 \input{algorithms/feature_filter.tex}
@@ -501,28 +495,16 @@ The dependency/importance between the output and features $\mathcal{R}_{d,\kappa
 \gls{MI} or the \gls{F-Score}. Both scores explain the dependency of numerical feature data to a categorical output value (see Fig.~\ref{fig:overview_Feature_selection}),
 but have different scales. As \gls{MI} is defined in [0,1] and \gls{F-Score} in $\mathbb{R}_0^+$, the scores are standardized by $\mathcal{N}(0,1)$, to
 apply the same thresholds. \gls{MI} is defined as the impact of a feature $f$ to reduce the uncertainty of the output variable $Y$.
-The advantage over classical linear correlation techniques is that also nonlinear relations can be mapped.\footcite[cf.][p. 539f]{battiti_using_1994}
+The advantage over classical linear correlation techniques is, that also nonlinear relations can be mapped.\footcite[cf.][p. 539f]{battiti_using_1994}
 The \gls{F-Score} is based on the \gls{ANOVA} and computes the linear dependency between the features and the output value.\footcite[cf.][p. 2]{gu_generalized_2012}
 Both methods are used to distinguish, if linear or non-linear dependencies exists between $X$ and $Y$. The mutual correlation between the variables
-is computed with the \textit{Pearson} correlation coefficient applicable to pure numerical data and the formula is shown below,
-next to an exemplary heatmap plot visualizing all features, having at least one correlation above 0.9 to another feature. \footcite[cf.][p. 17]{chandrashekar_survey_2014}
-\begin{figure}[ht]
-    \centering
-    \begin{minipage}{.48\linewidth}
-        \begin{gather*}
-            \text{Pearson Correlation Coefficient: } \\\\C(f,f') = \\\\\frac{Covariance(X_f,X_{f'})}{\sqrt{Variance(X_f)\cdot Variance(X_{f'})}}
-        \end{gather*}
-    \end{minipage}%
-    \begin{minipage}{.48\linewidth}
-        \includegraphics[width=\linewidth]{pictures/exemplary_small_correlation_matrix.png}
-    \end{minipage}
-    \caption[Formula for pearson correlation coefficient and exemplary mutual feature correlation heatmap.]
-    {Formula for pearson correlation coefficient and exemplary mutual feature correlation heatmap above correlation threshold of 0.9.}
-    \label{fig:pearson_correlation_example}
-\end{figure}
+is computed with the \textit{pearson} correlation coefficient applicable to pure numerical data and the formula is shown below.\footcite[cf.][p. 17]{chandrashekar_survey_2014}
+\begin{gather*}
+    \text{Pearson Correlation Coefficient: } C(f,f') = \frac{Covariance(X_f,X_{f'})}{\sqrt{Variance(X_f)\cdot Variance(X_{f'})}}
+\end{gather*}
 
 Several different filtered subsets can be obtained for varying the filter method $\kappa$, the correlation thresholds $\Phi$, the barrier $\mathcal{B}$ and
-different quantile thresholds $\epsilon$. By applying this adapted correlation filter (Algorithm~\ref{alg:filter_algorithm}) the number of final
+different quantile thresholds $\epsilon$. By applying the adapted correlation filter\footnote{See Algorithm~\ref{alg:filter_algorithm}.}, the number of final
 features does not need to be defined beforehand, as for usual filter methods, but returns the features, which should be excluded, for
 various parameters. This allows more flexibility, but the performance of all models needs to be analyzed afterwards.
 The following Figure~\ref{fig:normal_distribution} highlights that all features, which have a scaled importance score below $z_{\epsilon}$ are added to the drop candidates, trimming

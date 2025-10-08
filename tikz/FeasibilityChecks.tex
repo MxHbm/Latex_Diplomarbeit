@@ -1,7 +1,7 @@
 \begin{figure}[!ht]
     \centering
     % First row
-    \begin{minipage}[t]{0.45\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \begin{tikzpicture}[node distance=11mm and 16mm,scale=0.75, transform shape]
             \begin{scope}
@@ -22,9 +22,9 @@
         \end{tikzpicture}
         \caption{SpeedUp check.}
         \label{alg:tikz_variant1}
-    \end{minipage}
+    \end{subfigure}
     \hfill
-    \begin{minipage}[t]{0.45\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \begin{tikzpicture}[node distance=7mm and 16mm,scale=0.75, transform shape]
             \begin{scope}
@@ -47,12 +47,12 @@
         \end{tikzpicture}
         \caption{Filter check.}
         \label{alg:tikz_variant2}
-    \end{minipage}
+    \end{subfigure}
 
     \vspace{2em} % space between rows
 
     % Second row
-    \begin{minipage}[t]{0.45\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \begin{tikzpicture}[node distance=11mm and 0mm,scale=0.75, transform shape]
             \begin{scope}
@@ -77,9 +77,9 @@
         \end{tikzpicture}
         \caption{Hybrid check.}
         \label{alg:tikz_variant3}
-    \end{minipage}
+    \end{subfigure}
     \hfill
-    \begin{minipage}[t]{0.45\textwidth}
+    \begin{subfigure}[t]{0.45\textwidth}
         \centering
         \begin{tikzpicture}[node distance=11mm and 16mm,scale=0.75, transform shape]
             \begin{scope}
@@ -100,8 +100,8 @@
         \end{tikzpicture}
         \caption{NoClassifier check.}
         \label{alg:tikz_variant4}
-    \end{minipage}
+    \end{subfigure}
 
-    \caption{Different feasibility check variants of ILS algorithm.}
+    \caption{Different feasibility checks of variants from the iterated local search algorithm.}
     \label{fig:tikz_four_variants}
 \end{figure}

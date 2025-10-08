@@ -11,8 +11,8 @@ in practical and real-world situations items can not be considered as integers o
 and volume to check the loading, but by considering the geometrical shape and characteristics.\footcite[cf.][p. 1]{gendreau_tabu_2008}
 To attain a more realistic profile of routing and loading problems, \cite{iori_exact_2004} and \cite{gendreau_tabu_2008}
 solved the \gls{2L-CVRP} for the first time, considering the area of each item in
-the vehicles planned for delivery.\footcites(cf.)(){iori_exact_2004}{gendreau_tabu_2008}
-This lead consequently to a more complex problem, as every route needed to be checked seperately for
+the delivery vehicles.\footcites(cf.)(){iori_exact_2004}{gendreau_tabu_2008}
+This lead consequently to a more complex problem, as every route needed to be checked separately for
 a feasible loading without violating physical and loading related constraints.
 The applicability in practical scenarios was further increased from \cite{gendreau_tabu_2006} by defining
 the \gls{3L-CVRP}, considering the stacking of items and three-dimensional items and vehicles. The authors
@@ -20,7 +20,7 @@ also conidered a set of practical loading constraints to further enhance the app
 The algorithms to solve the integrated problems could already be taken from existing literature tackling the standalone
 problems, \gls{CLP} and \gls{VRP}.\footcite[cf.][]{pisinger_heuristics_2002} Foremost, the following section defines
 a mathematical model formulation for the \gls{3L-CVRP} and the following literature review will focus
-on the \gls{CLP}, its possible constraints, algorihtms to solve it and the possibility to use solution
+on the \gls{CLP}, its possible constraints, algorithms to solve it and the possibility to use solution
 methods beside the classical approaches. As the \gls{CLP} is considered as a subproblem of the \gls{VRP}
 in this thesis, the literature and examples refer to the \gls{3L-CVRP} and each problem should not be
 considered solely.
@@ -35,27 +35,17 @@ containers, is a well known problem in logistics and operations research, as the
 potential of cost savings and efficiency gains is substantial by reducing the number
 of needed containers or by fulfilling customer needs. The \gls{CLP} covers a broad range of real-world applications,
 such as loading cargo, optimizing warehouse storage and packing of pallets or cardboard boxes.
-Generally it is differentiated in \textit{input minimization},
+Generally, it is differentiated in \textit{input minimization},
 where the number of needed containers is minimized, and \textit{output maximization} problems,
 where the value of the associated items is maximized. The \gls{BPP} is the generalized problem type of the \gls{CLP}
-and belongs to \textit{input minimization} problems, whereas the knapsack problem to \textit{output maximization}. Apart from the expected outcome of the optimization,
+and belongs to \textit{input minimization} problems, whereas the knapsack problem to \textit{output maximization}.
+Apart from the expected outcome of the optimization,
 the characterics of the items and containers is crucial for the problem definition. Items can be either
 homogeneous or heterogeneous in size and shape. Furthermore, they can be classified as weakly or strongly
 homogeneous or heterogeneous, depending on the degree of similarity among them. The container is
-defined as a recangular volume with a fixed size and shape, where the items have to be placed in.
+defined as a rectangular volume with a fixed size and shape, where the items have to be placed in.
 Other, non rectangular, shapes are seldomly considered in the literature, as the practical relevance is
 limited.
-\begin{wrapfigure}{l}{0.5\textwidth}
-    \begin{center}
-        \centering
-        \vspace{-25pt}
-        \includegraphics[width=6.3cm]{pictures/3l_cvrp_example.png}
-        \caption[Visualized 3D packing with loading constraints.]{3D Packing with geometry, orthogonality and support area constraints.\footnotemark}
-        \vspace{-25pt}
-        \footnotetext{CLP Visualizer from \textcite{tamke_branch-and-cut_2024}.}
-        \label{fig:solution-visualization}
-    \end{center}
-\end{wrapfigure}
 Multiple containers of homogeneous or heterogeneous sizes are used when the volume and weight
 of the cargo require it.
 According to \textcite{bischoff_issues_1995}, the mere placement of items in containers is insufficient
@@ -64,19 +54,18 @@ if practical requirements are not fulfilled as it lacks applicability.
 into five categories, which are presented in the following. They also distinguish between hard and soft constraints,
 where hard constraints must be strictly satisfied, while soft constraints may be violated
 to some extent.\footcites(cf.)()[p. 1f]{bortfeldt_constraints_2013}[p. 1f]{bischoff_issues_1995}
-Figure~\ref{fig:solution-visualization} visualizes a possible 3D packing with different constraints applied.
 
 \subsubsection{Container related constraints}
 These constraints summarize all physical barriers of the container. The \textit{load capacity} limits the aggregated
 mass of all items in the container. The distribution of the weight (\textit{load balance})
 plays an important role for safety reasons, as the cargo must not move during the transport and the container
-must not tip over and is defined by the maximum weight difference between the left and right half of the container.
+must not tip over. It is defined by the maximum weight difference between the left and right half of the container.
 When the containers are transported by trucks, uneven \textit{axle weight} distribution can cause severe
 consequences and needs to be avoided for practicability by loading the cargo axle-friendly. \footcite[cf.][p. 849f]{krebs_advanced_2021}
 
 \subsubsection{Item related constraints}
 Item related constraints define the properties of the item, which are relevant
-for the packing. When the container capacity is limited (output maximization),
+for the packing. When the container capacity is limited (\textit{output maximization}),
 the \textit{loading priority} constraint defines the priority among possible
 item candidates. The \textit{orientation} constraint restricts how an item can be rotated.
 There are several types of rotation, each defined by the axis around which the item rotates.
@@ -95,7 +84,7 @@ In contrast to item-related constraints, cargo-related constraints apply to
 the entire cargo or to specific subsets of it. The \textit{complete-shipment} constraint
 requires that all items within a shipment must either be loaded into the same
 container or be left behind entirely. This constraint is important
-when container capacity is limited (output maximization) and items
+when container capacity is limited (\textit{output maximization}) and items
 cannot be split. The \textit{allocation} constraint serves a similar purpose,
 including the \textit{connectivity} constraint, which mandates that
 certain items must be loaded into the same container, and the
@@ -113,7 +102,7 @@ typically based on item characteristics such as size, weight, or
 content (e.g., bulky or hazardous items placed near the container door for accessibility) or
 they may universally apply to all items, as the \textit{geometry} and
 \textit{orthogonality} constraints. These constraints define that items are not allowed to overlap
-and must be placed orhogonally to the container walls respectively.
+and must be placed orthogonally to the container walls respectively.
 Relative positioning requires items to be placed either close together as a \textit{group} or
 \textit{separated} from each other.
 The multi-drop constraint combines absolute and relative positioning requirements for items
@@ -134,7 +123,7 @@ stability, on the other hand, is defined in various ways throughout the
 literature. A common approach to assessing vertical stability is through the concept of the \textit{support
     area}, the portion of an item's base that rests on the surface below. Stability is typically
 considered sufficient when the support area covers $75\%$ to $100\%$ of the item’s base. \footcite[cf.][p. 344]{gendreau_tabu_2006} However,
-this may still result in unstable configurations if the center of gravity falls outside the
+this may still result in unstable configurations, if the center of gravity falls outside the
 support area of the underlying layers, potentially causing the cargo to tilt. To improve practical stability,
 a more reliable definition of vertical stability requires a minimum support area for all items below,
 referred to as \textit{robust stability}.\footcite[cf.][p. 1140]{ceschia_local_2013} This comparison is illustrated in Figure~\ref{fig:vertical_stability_comparison}.
@@ -145,9 +134,9 @@ requirements that are beyond standard packing rules. These include, for example,
 
 \cite{gendreau_tabu_2006} showed, that the considered set of constraints for the \gls{CLP} significantly
 changes the complexity and solution quality for the \gls{3L-CVRP}. On average, the solutions are $15.87\%$ more
-costefficient and the computational time was significantly lower, when no additional constraints are considered.\footcite[cf.][p. 348]{gendreau_tabu_2006}
+cost-efficient and the computational time was significantly lower, when no additional constraints are considered.\footcite[cf.][p. 348]{gendreau_tabu_2006}
 The loading constraints are therefore crucial for pre-determining the computation time as well as the complexity and the applicability
-of the solutions, which is very important for improving realistic scenarios.
+of the solutions, which is essential for improving realistic scenarios.
 The following section highlights classical solution approaches of the \gls{CLP} in \gls{3L-CVRP} scenarios.
 
 
@@ -168,7 +157,7 @@ It is divided in three categories: constructive heuristics, metaheuristics
 and exact methods. Hybrid methods and improvement heuristics are not explicitly shown in the figure,
 as the former combines components from multiple categories, while the latter is subsumed within
 metaheuristics. It needs to be noted, that heuristics can fail to identify a feasible solution
-in comparison to exact algorihtms, but are computationally very lightweight approaches.
+in comparison to exact algorithms, but are computationally very lightweight approaches.
 The depicted solution methods are described next.
 
 \input{tikz/overview_solution_methods.tex}
@@ -186,14 +175,14 @@ For example, \textcite{gehring_genetic_1997} propose the construction of item
 \textit{towers}, in which boxes are stacked on top of other items so that the base of the box is covered completely
 by the box below it. This effectively reduces the dimensions from 3D to a 2D floor space arrangement,
 similar to the \gls{PLP}.\footcite[cf.][pp. 402--406]{gehring_genetic_1997}
-In the integrated approach for solving the subproblem of the \gls{2L-CVRP} respective \gls{3L-CVRP},
-the most common heuristics are variations of the \gls{BLF}
-and the \gls{MTP} algorithm. The \gls{BLF} describes the order, where
-every consecutive item is tried to be placed as close to the bottom left corner of the vehicle. The
+In the integrated approach that combines the \gls{VRP} and the \gls{CLP} to solve the subproblem of the \gls{2L-CVRP}
+or \gls{3L-CVRP}, the most common heuristics are variations of the \gls{BLF} and \gls{MTP} algorithms.
+The \gls{BLF} heuristic determines the order in which each consecutive item is placed as close as possible to the
+bottom-left corner of the vehicle. The
 first priority is the distance to the container wall in the back and the second priority the distance
 to the left container wall. This leads to a placing pattern of filling each row of the container floor
 consecutively.
-When constraints as \gls{LIFO} are considered, \cite{iori_exact_2007} utilized a \textit{contour} line
+When the \gls{LIFO} constraint is considered, \cite{iori_exact_2007} utilized a \textit{contour} line
 to identify the last possible placement of each item on the floor. The \gls{MTP} was introduced by
 \cite{zachariadis_guided_2009} and inserts the next item regarding the perimeter of the item which is connected
 to other items or additionally also to the container wall.\footcite[cf.][p. 732f]{zachariadis_guided_2009}
@@ -201,11 +190,11 @@ For the three-dimensional problem the heuristics were adapted to generate also a
 stacking and multiple layers of items are considered. In \cite{gendreau_tabu_2006}, the \gls{BLF} was
 adapted so that the bottom (first priority) could also represent already placed items. This leads
 to a placing pattern where walls are constructed consecutively from the container back to the rear. The
-\gls{MTP} was adapted from \cite{tarantilis_hybrid_2009} by considering the whole three-dimensional
+\gls{MTP} was adapted from \cite{tarantilis_hybrid_2009} by considering the three-dimensional
 surface of all items (\gls{MTA}). \footcite[cf.][pp. 258--260]{tarantilis_hybrid_2009}
 In the work from \cite{tao_effective_2015} a corner point method
 was introduced, which aims to minimize the waste area (unused loading capacities or blocked space) by
-defining for each item all possible corner points, where the item could be placed in all possible
+defining all possible corner points for each item, where the item could be placed in all possible
 orientations.\footcite[cf.][pp. 130--132]{tao_effective_2015} The \gls{DBLF} algorithm
 is an adaption of the \gls{BLF} algorithm and was initially integrated in the \gls{3L-CVRP} by \cite{wang_two_2010}
 and further used by \cite{krebs_advanced_2021}.
@@ -231,13 +220,13 @@ storing certain moves or complete solutions in a tabu list to forbid back-cyclin
 previous solutions, feasible or infeasible ones. \footcite[cf.][p. 344f]{gendreau_tabu_2006}
 \Gls{SA} has rarely been used as a standalone metaheuristic in the context of \gls{CLP}, but is often
 combined with other approaches to benefit the temperature dependent acceptance criterion of
-solutions. As \gls{SA} mimics the cooling curve from hot metal, at the beginning of the algorithm the probability
-to accept worse solutions is higher as the cooling precedes, shifting from diversification to
+solutions. At the beginning of the algorithm the probability
+to accept worse solutions is higher as the cooling precedes, as \gls{SA} mimics the cooling curve from hot metal shifting from diversification to
 intensification. This helps the algorithm to escape local optima
 early in the search and gradually transition into a more focused phase. \cite{ceschia_local_2013} suggests
 the usage of a one-stage \gls{LS} solver, which is directly improving the order of the items being
 loaded on the vehicles instead of the customers. By combining a \gls{LNS} as
-well as \gls{SA}, the solutions are allowed to be infeasible during the procedure, becoming repaired afterwards.
+well as \gls{SA}, the solutions are allowed to be infeasible during the procedure and becoming repaired afterwards.
 Hence, nine loading heuristics, based on \gls{BLF} and \gls{MTP}, were implemented as selectable options.
 This was the first work to
 solve the loading and routing completely integrated on item level. \footcite[cf.][pp. 1142--1145]{ceschia_local_2013}
@@ -270,7 +259,7 @@ to solve the loading of single tours and were the first authors to introduce an 
 considering many loading constraints. \footcite[cf.][pp. 7--11]{tamke_branch-and-cut_2024}
 A similar approach was conducted by \cite{hokama_branch-and-cut_2016}, which extended their
 branch-and-cut approach, to be able to solve three-dimensional packings as well.
-They also used a \gls{CP} model for feasibility checks, but considered less loading constraints. \footcite[cf.][]{hokama_branch-and-cut_2016}
+They also used a \gls{CP} model for \gls{CLP} feasibility checks, but considered less loading constraints.\footcite[cf.][]{hokama_branch-and-cut_2016}
 
 \parbreak
 
@@ -281,12 +270,13 @@ gap below $5 \%$. Their results can be used to understand the structure
 of optimal solutions to provide lower bounds and guidance for the development of future
 heuristics. Another feasible approach to improve
 the performance of exact algorithms is the use of speed-ups. Depending on the complexity of
-the considered loading constraints, the routing or the loading feasibiltiy check is the computational
-bottleneck in finding the optimal overall solution for the \gls{3L-CVRP}. \textcite{tamke_branch-and-cut_2024} attempted to add
-stronger cuts to the solution, implementing a set partitioning heuristic as well as the
-aforementioned augmented extreme point-based metaheuristic to speed up the feasibility checks of the loading.
-At a total run time of 8 hours, the feasibility
-checks were the slow down effect as for 5 out of 19 instances, these checks made up at least $35\%$ of the total run time. \footcite[cf.][p. 2]{tamke_branch-and-cut_2024}
+the considered loading constraints, the loading feasibiltiy check is the computational
+bottleneck in finding the optimal overall solution for the \gls{3L-CVRP}. \textcite{tamke_branch-and-cut_2024} attempted
+to enhance the solution process by adding stronger cuts and implementing a set partitioning heuristic to identify better routes
+more efficiently. As a result, fewer routes and corresponding CLP feasibility checks needed to be evaluated. In addition,
+they employed the aforementioned augmented extreme point-based metaheuristic to further accelerate the feasibility checking process.
+At a total runtime of 8 hours, the slowdown effect was mainly caused by the feasibility checks, which accounted for at least 35\%
+of the total runtime in 5 out of 19 instances.\footcite[cf.][p. 2]{tamke_branch-and-cut_2024}
 Instead of using algorithmic speed-ups, some modern approaches in the loading and routing field tried
 to instrumentalize pretrained \gls{ML} models for boosting the solving progress.
 These promising models can substitute parts of the algorithm's computation time by predicting solution
@@ -315,9 +305,10 @@ algorithm. The classifier labeled each loading of a respective route in infeasib
 reduced the frequency of calling the exact feasibility checker by $87.22\%$ and reduced the computational time by averagely $54.12\%$.
 The exact \gls{SP} algorithm is then only used when single routes are labeled as infeasible to avoid
 omitting feasible tours or before complete solutions are accepted as new \gls{LB} or \gls{UB} of the
-algorithm procedure to avoid false-positive values. To train the binary classifying model,
-50.000 tours were obtained by saving them, while running the underlying column generation
-algorithm with only the exact feasibility checker. In their paper, the authors have chosen a \gls{FFNN} model, a special type of \gls{ANN} model,
+algorithm procedure to avoid false positive labeled routes. To train the binary classifying model,
+50.000 tours were obtained by running the underlying column generation
+algorithm with only the exact feasibility checker and saving the labeled routes.
+In their paper, the authors have chosen a \gls{FFNN} model, a special type of \gls{ANN} model,
 from the PyTorch Library and compared it with a \gls{LR} model. In this comparison, the \gls{FFNN} model had
 an accuracy of at most $94.1\%$ and the \gls{LR} model had a significantly smaller value.
 The models were trained in many epochs using the mini-batch gradient descent algorithm. The prediction and training
@@ -351,7 +342,7 @@ dimensions \{x,y,z\} and the demand quantity. Compared to the purely heuristic a
 determination achieved a volume utilization improvement of $6.7\%$ and significantly reduced computation time.
 However, the study did not consider additional constraints such as weight limits, stacking rules, or stability.\footcite[cf.][pp. 12--14]{aylak_application_2021}
 
-\subsubsection{Reinforcement Learning for th \gls{3L-CVRP}}
+\subsubsection{Reinforcement Learning for the \gls{3L-CVRP}}
 Another approach was chosen by \cite{schoepf_using_2024}, arguing that single heuristics are too domain- as well as use-case-specific.
 Instead, they propose the usage of a \gls{RL} model for both the routing and loading. \gls{RL} belongs
 to the unsupervised \gls{ML} models, where an agent selects one of several options at every stage, relying on random choices or
@@ -360,7 +351,7 @@ the patterns. This leads to the highest reward respective the lowest loss. Even 
 the best cost results from heuristics solving the gendreau benchmark, they had significantly lower computation times and
 a linear instead of exponential increase in computational effort for bigger instances. This means a radical improvement
 and could open a complete new approach in optimizing logistic problems and is hence the motivation to propose, that \gls{RL}
-models will be able to solve \gls{3L-CVRP} problems of big instances better and easier than currently dominating
+models will be able to solve \gls{3L-CVRP} problems of large instances better and easier than currently dominating
 algorithms. \footcite[cf.][]{schoepf_using_2024}
 
 \parbreak
@@ -369,8 +360,8 @@ These examples demonstrate, that \gls{ML} models can be successfully integrated 
 algorithms to reduce computation time and overall complexity, provided the model is well trained.
 However, training such a model can be often time-consuming, and the practicality of both training and
 integration must be carefully evaluated on a case-by-case basis. The most promising approach to
-accelerate the solving process of existing \gls{3L-CVRP}, is the one from \cite{zhang_learning-based_2022},
-pretraining a binary classifier boosting the loading feasibility check. However in this approach,
+accelerate the solving process of existing routing an loading algorithms, is the one from \cite{zhang_learning-based_2022},
+pretraining a binary classifier boosting the loading feasibility check. However, in this approach,
 the number of loading constraints was relatively small, allowing the classifier
 to be trained with a limited set of features. When more complex constraints, such as
 \gls{LIFO} unloading rules or item fragility, are introduced the construction of numerical features that accurately
@@ -384,21 +375,23 @@ on \gls{3L-CVRP} algorithms presenting both \gls{CLP} and \gls{VRP} solution str
 
 \section{Literature Overview}
 \label{sec:literature_overview}
-The reviewed literature is categorized into three main groups: metaheuristics, exact approaches and blended approaches of heuristics and \gls{ML}.
+The reviewed literature is categorized into three main groups: metaheuristics, exact approaches and blended approaches of heuristics
+and \gls{ML}.
 Since the focus of this thesis is on route-loading feasibility, routing algorithms
 are not discussed in further detail. Notably, papers reporting improvements on the \gendreauDataSetText instances, primarily
 advanced the loading algorithms, whereas the \gls{CLP} constitutes the bottleneck of the problem. To refine the comparison,
 different sets of loading constraints are summarized in Table~\ref{tab:constraint_sets}
-and grouped according to the authors who introduced them first.
-Table~\ref{tab:literature overview} provides an overview of methods used to optimize the master problem, the \gls{VRP}.
-Most heuristic approaches rely on \gls{LS} neighborhoods embedded within a metaheuristic, such as \gls{SA}, \gls{LNS},
+and grouped according to the authors, who introduced them first.
+Table~\ref{tab:literature overview} provides an overview of various approaches solving the integrated routing and loading
+problems, where methods used to optimize the master problem, the \gls{VRP}, are introduced.
+Most heuristics rely on \gls{LS} neighborhoods embedded within a metaheuristic, such as \gls{SA}, \gls{LNS},
 or \gls{TS}.
 Across the three categories, metaheuristic approaches generally consider the largest number of loading constraints. This results
 from the more complex definitions required in exact or \gls{ML}-based methods, as well as their higher computational demands.
 Moreover, when extending from the \gls{2L-CVRP} to the \gls{3L-CVRP}, additional constraints beyond sequence feasibility must
 be addressed, since loading becomes more complex.
-The following chapter builds on these insights and motivates for the training of a binary classifier, incorporating all necessary
-components to establish the foundation for a promising new \gls{3L-CVRP} algorithm with integrated \gls{ML} techniques.
+The following chapter builds on these insights and introduces all components for the training of a binary classifier
+to establish the foundation for a promising new \gls{3L-CVRP} algorithm with integrated \gls{ML} techniques.
 
 \begin{table}[ht]
     \footnotesize

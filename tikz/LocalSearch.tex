@@ -1,7 +1,7 @@
 \begin{figure}[htbp]
     \centering
-    {
-        \begin{tikzpicture}[scale=0.65, transform shape,node distance=11mm and 16mm]
+    \begin{subfigure}[t]{0.49\textwidth}
+        \begin{tikzpicture}[scale=0.65, transform shape,node distance=10mm and 12mm]
             % local defs for THIS picture only
             \begin{scope}
                 % Nodes
@@ -9,8 +9,9 @@
                 \node[block, below=of start] (find) {Find all moves \\ for neighborhood $j$};
                 \node[block, below=of find] (sort) {Sort moves due\\ to savings};
                 \node[decision, below=of sort] (d1) {Iterate\\ over \\ Moves};
-                \node[dot, left=30mm of d1] (leftdot) {};
+                %\node[dot, left=30mm of d1] (leftdot) {};
                 \node[block,  below=of d1] (undo)   {Undo\\ Move};
+                \node[dot, left= of undo] (leftdot) {};
                 \node[block,  right=of d1] (apply){Apply Move};
                 \node[decisionY, below=of apply] (d2){Loading\\ Feasible?};
 
@@ -18,7 +19,7 @@
                 \draw[line] (start) -- (find);
                 \draw[line] (find) -- (sort);
                 \draw[line] (sort) -- (d1);
-                \draw[line] (d1.west) -- node[pos=.45,above,text width=3cm,align=center]{\textbf{Termination}: No Moves left} (leftdot);
+                \draw[line] (d1.west) -| node[pos=.3,above,text width=3cm,align=center]{\textbf{Termination}: No Moves left} (leftdot);
                 \draw[line] (d1) -- (apply);
                 \draw[line] (apply) -- (d2.north);
                 \draw[line] (d2.west) -- node[pos =.45,above,align=center]{\textbf{False}} (undo.east);
@@ -30,7 +31,44 @@
 
             \end{scope}
         \end{tikzpicture}
-    }
-    \caption{Local search procedure.}
-    \label{fig:LocalSearch}
+        \caption{Local search procedure.}
+        \label{fig:LocalSearch}
+    \end{subfigure}%
+    \begin{subfigure}[t]{0.49\textwidth}
+        \raggedleft
+        \begin{tikzpicture}[scale=0.65, transform shape,node distance=10mm and 12mm]
+            % local defs for THIS picture only
+            \begin{scope}
+                % Nodes
+                \node[dot] (start) {};
+                \node[decision, below=of start] (d1) {Found\\ Moves \\ $< R$};
+                \node[dot, left=11mm of d1] (leftdot) {};
+                \node[block,  below=of d1] (gen)   {Generate\\ random Move};
+                \node[block,  right=of gen] (apply){Apply Move};
+                \node[decisionY, below= of apply] (d2){Loading\\ Feasible?};
+                \node[block,  below=of gen, left=14mm of d2] (undo) {Undo Move};
+
+                % Arrows
+                \draw[line] (start) -- (d1);
+                \draw[line] (d1.west) -- node[pos=.45,above, align=center]{\textbf{True}} (leftdot);
+                \draw[line] (d1.south) -- node[pos=.45,right,align=center]{\textbf{False}} (gen.north);
+                \draw[line] (gen) -- (apply);
+                \draw[line] (apply) -- (d2.north);
+                \draw[line] (d2.west) -- node[pos =.45,above,align=center]{\textbf{False}} (undo.east);
+                \draw[line] (undo.north) -- (gen.south);
+                \coordinate (bump) at ($(d2.east)+(12mm,0)$); % how far to go right
+                \draw[line]
+                (d2.east) -- node[pos=0.5,above,align=center]{\textbf{True}}(bump)
+                |- node[pos=.75,above,align=center]{\textbf{Found Moves ++}}
+                (d1.east);
+
+            \end{scope}
+        \end{tikzpicture}
+        \caption{Perturbation procedure.}
+        \label{fig:Perturbartion}
+    \end{subfigure}
+    \caption{Visualization of local search and perturbation functionality.}
+    \label{fig:LS_Perturbaion}
 \end{figure}
+
+
