@@ -1,0 +1,224 @@
+% Symbole die im Symbolverzeichniss erscheinen sollen
+% Mit "F5" kompilieren oder "Tools -> Befehle -> makeglossaries" (F9) starten, um das Symbolverzeichnis zu aktualisieren
+% \newsymb{<sort by>}{<name>}{<symbol>}{<unit>}
+%
+
+%========================
+% Sets & collections
+%========================
+\newsymb{A}{Set of directed arcs}{A}{}
+\newsymb{Cset}{Set of customers}{C}{}
+\newsymb{Fset}{Set of features}{\mathcal{F}}{}
+\newsymb{IS}{Instance set}{\mathcal{IS}}{}
+\newsymb{M}{Set of item types}{M}{}
+\newsymb{N}{Set of nodes}{N}{}
+\newsymb{Dsets}{Considered datasets}{D}{}
+
+%========================
+% Neighborhoods / subsets on graph
+%========================
+\newsymb{AofP}{Set of arcs in an infeasible path P}{A(P)}{}
+\newsymb{AofS}{Set of arcs with both ends in subset S}{A(S)}{}
+\newsymb{deltaMinus}{Set of arcs entering node i}{\delta^-(i)}{}
+\newsymb{deltaPlus}{Set of arcs leaving node i}{\delta^+(i)}{}
+
+%========================
+% Indices (optional but helpful to state once)
+%========================
+\newsymb{indexi}{Customer or node index}{i}{}
+\newsymb{indexj}{Item type index}{j}{}
+\newsymb{indexk}{Vehicle index}{k}{}
+\newsymb{indexf}{Feature index}{f}{}
+
+%========================
+% Item attributes
+%========================
+\newsymb{item_h}{Height of item j}{z_j}{}           % CHANGED from z_j
+\newsymb{item_l}{Length of item j}{x_j}{}        % CHANGED from x_j, use \ell for clarity
+\newsymb{item_w}{Width of item j}{y_j}{}            % CHANGED from y_j
+\newsymb{item_weight}{Weight of item j}{q_j}{}
+\newsymb{item_vol}{Volume of item j}{v_j}{}         % FIXED description (“Height”→“Volume”)
+\newsymb{item_fragility}{Fragility of item j}{f_j}{}
+
+%========================
+% Vehicle attributes / capacities
+%========================
+\newsymb{veh_h}{Height of vehicle k}{z_k}{}         % CHANGED from z_k
+\newsymb{veh_l}{Length of vehicle k}{x_k}{}         % CHANGED from x_k
+\newsymb{veh_w}{Width of vehicle k}{y_k}{}          % CHANGED from y_k
+\newsymb{Q}{Weight limit per vehicle}{Q}{}
+\newsymb{V}{Volume limit per vehicle}{V}{}
+\newsymb{K}{Number of vehicles in the solution}{K}{}
+\newsymb{Kmax}{Maximum available vehicles}{K_{\max}}{}
+
+%========================
+% Customer demands / aggregations
+%========================
+\newsymb{dij}{Items of type j demanded by customer i}{d_{ij}}{}
+\newsymb{di}{Number of items demanded by customer i}{d(i)}{}     % CHANGED from d(i)
+\newsymb{vi}{Volume demanded by customer i}{v(i)}{}              % CHANGED from v(i)
+\newsymb{qi}{Weight demanded by customer i}{q(i)}{}              % CHANGED from q(i)
+\newsymb{vS}{Total volume requested by customers in S}{v(S)}{}
+\newsymb{qS}{Total weight requested by customers in S}{q(S)}{}
+\newsymb{rS}{Minimum vehicles required for customers in S}{r(S)}{}
+
+%========================
+% Costs / distances / savings
+%========================
+\newsymb{cij}{Travel cost from node i to j}{c_{ij}}{}
+
+%========================
+% Objective value
+%========================
+\newsymb{Z}{Total cost of the solution}{Z}{}         % CHANGED from C (avoid clash with set C)
+\newsymb{Zbest}{Best solution cost}{Z^*}{}              % CHANGED from C^*
+\newsymb{Z0}{Initial solution cost}{Z_0}{}           % CHANGED from C_0
+
+%========================
+% Decision / state variables
+%========================
+\newsymb{xii'}{1 if arc (i,i') is used; 0 otherwise}{x_{ii'}}{}
+\newsymb{s0}{Start solution}{s_0}{}
+\newsymb{scur}{Current solution}{s^c}{}
+\newsymb{sbest}{Best solution}{s^*}{}
+\newsymb{spert}{Perturbed solution}{s'}{}
+
+%========================
+% Algorithmic controls / timings
+%========================
+\newsymb{R}{Number of random moves in perturbation}{R}{}
+\newsymb{RR}{Set of random routes}{\mathcal{R}}{}
+\newsymb{areset}{Iterations before algorithm reset}{A_{\max}}{} % CHANGED from a
+\newsymb{rhochk}{Check frequency for exact verification}{\varrho}{}
+\newsymb{TL}{Time limit for the algorithm}{T}{}
+\newsymb{t}{Running time algorithm}{T}{}
+\newsymb{t0}{Running time start solution}{t_0}{}
+
+%========================
+% Loading constraint families (rename to be self-explaining)
+%========================
+\newsymb{Gload}{Loading constraints group G}{\mathcal{G}}{}
+\newsymb{Cload}{Loading constraints group C}{\mathcal{C}}{}
+\newsymb{Kload}{Loading constraints group K}{\mathcal{K}}{}
+\newsymb{Iload}{Loading constraints group I}{\mathcal{I}}{}
+
+%========================
+% Statistics / ML
+%========================
+\newsymb{Xdata}{Input data vector}{X}{}
+\newsymb{Ydata}{Output/target data}{Y}{}
+\newsymb{Xf}{Value of feature f}{X_f}{}
+\newsymb{omega}{Weight of feature f}{\omega_f}{}
+
+\newsymb{corr}{Pearson correlation between features f and f'}{\rho(f,f')}{}
+
+\newsymb{theta_i}{Regression coefficient for feature f}{\theta_f}{}         % CHANGED from \beta_i
+\newsymb{theta0}{Regression intercept}{\theta_0}{}              % CHANGED from \beta_0
+\newsymb{yhat}{Prediction for sample}{\hat{y}}{} % CHANGED from \pi_i
+
+\newsymb{sygmoid}{Sigmoid function}{s(z)}{}   % CHANGED from \sigma(z)
+
+\newsymb{phi}{Correlation threshold}{\phi}{}
+\newsymb{Phi}{Set of correlation thresholds}{\Phi}{}
+\newsymb{kappa}{Chosen importance method}{\kappa}{}
+\newsymb{epsilon}{Lower importance threshold}{\epsilon}{}
+\newsymb{barrier}{Barrier value for dropping features}{\mathcal{B}}{}
+
+%========================
+% Distributions
+%========================
+\newsymb{Unif}{Uniform distribution on [a,b]}{\mathcal{U}(a,b)}{}
+\newsymb{Normal}{Normal distribution}{\mathcal{N}(\mu,\sigma^2)}{}
+
+
+\begin{comment}
+\newsymb{N}{Set of nodes}{N}{}
+\newsymb{C}{Set of customers}{C}{}
+\newsymb{A}{Set of directed arcs}{A}{}
+\newsymb{M}{Set of item types}{M}{}
+
+\newsymb{vehicle_height}{Height of vehicle}{z_k}{}
+\newsymb{vehicle_length}{Length of vehcile}{x_k}{}
+\newsymb{vehicle_width}{Width of vehicle}{y_k}{}
+
+\newsymb{item_height}{Height of item}{z_j}{}
+\newsymb{item_length}{Length of item}{x_j}{}
+\newsymb{item_width}{Width of item}{y_j}{}
+\newsymb{item_weight}{Weight of item}{q_j}{}
+\newsymb{item_volume}{Height of item}{v_j}{}
+\newsymb{item_fragility}{Fragility of item}{f_j}{}
+
+\newsymb{customer_demands}{Number of items from item types j demanded by customer i}{d_{ij}}{}
+\newsymb{customer_volume}{Volume demanded by customer i}{v(i)}{}
+\newsymb{customer_weight}{Weight demanded by customer i}{q(i)}{}
+\newsymb{customer_quantity}{Number of items demanded by customer i}{d(i)}{}
+
+\newsymb{inputdata}{Input data}{X}{}
+\newsymb{outputdata}{Output data}{Y}{}
+
+\newsymb{pearsoncorrelation}{Pearson correlation between two features}{\mathcal{C}(f,f')}{}
+
+\newsymb{deltaPlus}{Set of arcs leaving node }{\delta^+(i)}{}
+\newsymb{deltaMinus}{Set of arcs entering node}{\delta^-(i)}{}
+\newsymb{AofS}{Set of arcs with both ends in subset S}{A(S)}{}
+\newsymb{AofP}{Set of arcs in an infeasible path}{A(P)}{}
+\newsymb{randommoves}{Number of random moves applied in the perturbation}{R}{}
+\newsymb{attempslimit}{Number of iterations before resetting algorithm}{a}{}
+\newsymb{solution_start}{Start solution}{s_0}{}
+\newsymb{solution_best}{Best solution}{s^*}{}
+\newsymb{solution_current}{Current solution}{s^*}{}
+\newsymb{solution_perturbated}{Perturbed solution}{s'}{}
+
+\newsymb{cij}{Cost of traveling from node i to node j}{c_{ij}}{}
+\newsymb{dij}{Distance of traveling from node i to node j}{d_{ij}}{}
+\newsymb{sij}{Savings connecting route i and j}{s_{ij}}{}
+\newsymb{Ctotal}{Total costs of the solution}{C}{}
+\newsymb{Cbest}{Best costs found per instance}{C^*}{}
+\newsymb{C0}{Start solution costs}{C_0}{}
+\newsymb{Kmax}{Number of maximum available vehicles}{K_{max}}{}
+\newsymb{K}{Number of vehicles in the solution}{K}{}
+\newsymb{Q}{Weight limit of vehicle}{Q}{}
+\newsymb{V}{Volume limit of vehicle}{V}{}
+\newsymb{qS}{Total weight requested by customers S}{q(S)}{}
+\newsymb{vS}{Total volume requested by customers S}{v(S)}{}
+\newsymb{rS}{Minimum number of vehicles required to cover customers S}{r(S)}{}
+\newsymb{xij}{Binary variable indicating if arc from node i to node j is used}{x_{ij}}{}
+\newsymb{betai}{Explanatory variables of linear regression}{\beta_i}{}
+\newsymb{beta0}{Y-axis interception of linear regression}{\beta_0}{}
+\newsymb{pi}{Linear regression result}{\pi_i}{}
+\newsymb{sigma}{Sigmoid function}{\sigma(z)}{}
+\newsymb{z}{Regression output}{z}{}
+\newsymb{Xi}{Value of feature i }{X_i}{}
+\newsymb{omega}{Weight of feature i }{\omega_i}{}
+\newsymb{phibig}{Set of thresholds for mutual correlation}{\Phi}{}
+\newsymb{phi}{Thresholds for mutual correlation}{\phi}{}
+\newsymb{datasets}{Considered datasets}{D}{}
+\newsymb{kappa}{Chosen importance method}{\kappa}{}
+\newsymb{epsilon}{Lower importance threshold}{\epsilon}{}
+\newsymb{features}{Set of features}{\mathcal{F}}{}
+\newsymb{barrier}{Barrier value for dropping features}{\mathcal{B}}{}
+\newsymb{rhovar}{Frequency of iterations to exactly verify current solution}{\varrho}{}
+
+
+\newsymb{timelimit}{Time limit for the algorithm}{T}{}
+\newsymb{startsolution_time}{Time needed to obtain start solution}{t_0}{}
+
+
+\newsymb{YA}{Multiplier for route length }{\alpha}{}
+\newsymb{YAB}{Number of customers in route}{n}{}
+\newsymb{YB}{Attempts limit determining maximum failures per repetition}{\beta}{}
+\newsymb{YC}{Objective of succesfully generated routes per repetition}{\gamma}{}
+\newsymb{YD}{Lower threshold for picking uniformly distributed weight and volume limit}{\delta}{}
+\newsymb{YE}{Instance set}{\mathcal{IS}}{}
+
+
+\newsymb{XA}{Loading Constraints: z-Rotation, Fragility, LIFO, Sequence, Support Area}{\mathcal{G}}{}
+\newsymb{XB}{Loading Constraints: -Rotation, Load Bearing Strength, Reachability, MLIFO, Robust Stability}{\mathcal{C}}{}
+\newsymb{XC}{Loading Constraints: z-Rotation, Load Bearing Strength, Reachability, MLIFO, Robust Stability, Axle Weights}{\mathcal{K}}{}
+\newsymb{XD}{Loading Constraints: Sequence, LIFO}{\mathcal{I}}{}
+
+\newsymb{distrA}{Uniform distibution between boundaries a and b}{\mathcal{U}(a,b)}{}
+\newsymb{distrB}{Normal distribution }{\mathcal{N}(\mu,\sigma^2)}{}
+\end{comment}
+
+\glsaddall[types={symbols}] % Alle Symbole werden dem Symbolverzeichnis hinzugefügt

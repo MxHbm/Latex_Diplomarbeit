@@ -23,7 +23,8 @@ abstract=heading,
 
 %################ Abkürzungen #######################
 \makeglossaries % Glossar, Abkürzungsverzeichnis und Symbolverzeichnis erstellen
-\input{src_files/abbrev_acros_symb.tex}
+\input{src_files/abbreviations.tex}
+\input{src_files/symbols.tex}
 
 %################ Bibliographie laden #######################
 \addbibresource{./Diplomarbeit.bib} % Pfad/Name der .bib-Datei
@@ -92,18 +93,19 @@ abstract=heading,
 \addcontentsline{toc}{chapter}{\listtablename}
 
 % Algorithmenverzeichnis (falls nichts benötigt, einfach als Kommentar setzen)
-%\listofalgorithms
-%\addcontentsline{toc}{chapter}{\listalgorithmname}
+\listofalgorithms
+\addcontentsline{toc}{chapter}{\listalgorithmname}
 
 \microtypesetup{protrusion=true}
 
 %Abkürzungsverzeichnis (falls nichts benötigt, einfach als Blockkommentar setzen)
 \printacronyms[style=bwlimsuper]
+
 \addcontentsline{toc}{chapter}{\acronymname}
 
 % Symbolverzeichnis (falls nichts benötigt, einfach als Blockkommentar setzen)
-% \printsymbols[style=symblong, title=\listsymbolname]
-% \addcontentsline{toc}{chapter}{\listsymbolname}
+\printsymbols[style=symblong, title=\listsymbolname]
+\addcontentsline{toc}{chapter}{\listsymbolname}
 
 
 

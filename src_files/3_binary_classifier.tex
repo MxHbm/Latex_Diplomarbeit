@@ -15,7 +15,7 @@ An exemplary train dataset is shown in Table~\ref{tab:classifier_label_data}.
 \input{tables/label_classifier}
 
 A classifier can be trained using various \gls{ML} models such as \gls{LR},
-\gls{ANN}, support vector machines, etc. However, the most crucial aspect of any
+neural network, support vector machines, etc. However, the most crucial aspect of any
 \gls{ML} model is the selection of data, the choice of features and the size of the training set,
 as numerous models can be implemented using available libraries and evaluated in terms of performance.
 The model attempts to learn correlations between the provided features
@@ -40,8 +40,8 @@ The goal is to minimize false predicted values.
         \toprule
                                  & \textbf{Predicted Positive} & \textbf{Predicted Negative} \\
         \midrule
-        \textbf{Actual Positive} & \Gls{TP}                    & \Gls{FN}                    \\
-        \textbf{Actual Negative} & \Gls{FP}                    & \Gls{TN}                    \\
+        \textbf{Actual Positive} & True Positive (TP)          & False Negative (FN)         \\
+        \textbf{Actual Negative} & False Positive (FP)         & True Negative (TN)          \\
         \bottomrule
     \end{tabular}
     \caption{Confusion matrix for binary classification.}
@@ -56,21 +56,21 @@ These are standard performance metrics assessing the model between 0 (worst) and
     \text{F1}=\frac{2\,TP}{2\,TP+FP+FN}
 \end{align}
 The accuracy is the ratio between the true classified classes against the whole population
-of predictions. The F1-score emphasis the \gls{TP} labels and is therefore especially
+of predictions. The F1-score emphasis the true positive labels and is therefore especially
 often used for classification purposes.
 However, these evaluation metrics draw too optimistic a picture of the model performance,
 when the dataset is imbalanced. Imbalance is occurrent,
 when the classes representing each label, feasible and infeasible, have a huge size difference.
 Two alternative metrics are, firstly, the \gls{MCC}, which is robust against imbalance
-and focuses on \gls{FP} and \gls{FN} values. \gls{MCC} has the advantage to account the majority of the predictions
+and focuses on  false positive and negative values. \gls{MCC} has the advantage to account the majority of the predictions
 relative to class size and is defined from -1 to 1. \footcite[cf.][pp. 2--3, 5]{chicco_advantages_2020}
 \begin{align}
     \text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP+FP)\cdot(TP+FN)\cdot(TN+FP)\cdot(TN+FN)}}
 \end{align}
-Secondly, the \gls{AUROC}, which evaluates the overall classification performance by using several thresholds to compute the \gls{TPR}
-and \gls{FPR} at different acceptance levels \footcite[cf.][p. 2 f.]{chicco_advantages_2020}. Both the \gls{TPR} and the
-\gls{FPR} represent ratios: the \gls{TPR} measures the proportion of correctly classified positive instances relative to all
-actual positives, while the \gls{FPR} measures the proportion of incorrectly classified positive instances (false positives)
+Secondly, the \gls{AUROC}, which evaluates the overall classification performance by using several thresholds to compute the true and false
+positive rate  at different acceptance levels \footcite[cf.][p. 2 f.]{chicco_advantages_2020}. Both rates represent ratios:
+the true positive rate measures the proportion of correctly classified positive instances relative to all
+actual positives, while the false positive rate measures the proportion of false positive instances
 relative to all actual negatives.
 The following Plot~\ref{fig:AUROC_curve} shows several receiver operating curves and their corresponding \gls{AUROC} values.
 The baseline is the angle bisector, indicating random guessing with a value of 0.5. The fit gets better
@@ -116,7 +116,7 @@ accuracy and F1-score have very high values indicating very good performance, bu
 due to the imbalanced class distribution. Only $11\%$ of the negative class, with 9 samples,
 is correctly classified. This poor performance is valued with a low \gls{MCC} score.
 It should be noted that, the optimization focus defines the choice of the performance metric.
-If the \gls{TPR} is foremost of interest, the F1-score serves well.\footcite[cf.][p. 8f]{chicco_advantages_2020}
+If the true positive rate is foremost of interest, the F1-score serves well.\footcite[cf.][p. 8f]{chicco_advantages_2020}
 The following section provides a more detailed description of how the routes for the training data are retrieved.
 
 \section{Data Retrieval}
@@ -201,7 +201,7 @@ Hence, the parameters and functionalities are summarized in the following:
               \item  Attempts limit $\beta$: Integer determining max failures per repetition
               \item  Success threshold $\gamma$: Objective of succesfully generated routes per repetition
               \item  Lower threshold $\delta$: Float determining the range [$\delta$,1] to draw relative volume and weight capacity thresholds for one route
-              \item Instance set $\mathcal{I}$: Set of instances routes should be generated from
+              \item Instance set $\mathcal{IS}$: Set of instances routes should be generated from
           \end{itemize}
     \item Route length starts with two customers and increases until algorihtm breaks
     \item Route duplicates are discarded
@@ -212,7 +212,7 @@ Generally, the higher the parameters $\alpha$, $\beta$ and $\gamma$ are set and 
 are considered in the instance set $\mathcal{I}$, the more routes will be found. When the threshold $\delta$
 is smaller than 1, then shorter and fewer routes are selected. Different
 random training datasets are presented in the Chapter~\ref{chap:computational_study}.
-This strategy will be called \textit{random-strategy}. In the next section three model candidates
+This strategy will be called random-strategy. In the next section three model candidates
 are presented more in detail.
 
 \section{Model Selection}
@@ -228,21 +228,21 @@ models predict directly the label. \footcite[cf.][p. 5]{nasteski_overview_2017}
 \subsubsection{Logistic Regression}
 
 The idea for \gls{LR} is based on linear regression, where either one or multiple independent explanatory
-variables $\beta_i$ are multiplied with the feature values $X_i$ to sum up to a continuous scalar $\pi_i$.
-The resulting model is the linear equation of the y-axis interception $\beta_0$
-and the gradient variables $\beta_i$.
+variables $\theta_f$ are multiplied with the feature values $X_f$ to sum up to a continuous scalar $\hat{y}$.
+The resulting model is the linear equation of the y-axis interception $\theta_0$
+and the gradient variables $\theta_f$.
 These explanatory variables are fitted to the population of samples by minimizing the mean squared
 error. Afterwards the model can be used to predict new data points.\footcite[cf.][p. 6f]{nasteski_overview_2017}
 The linear regression formula is depicted in the following, indicating the usage of vectors with bold font.
 \begin{align}
-    \pi_i=\beta_0+\beta_0 \cdot X_i+\dots+\beta_n \cdot X_n = \beta_0 + \bm{\beta} \times \bm{X}
+    \hat{y}=\theta_0+\theta_f \cdot X_f +\dots+\theta_n \cdot X_n = \theta_0 + \bm{\theta} \times \bm{X}
     \label{eq:base_lr}
 \end{align}
 Linear regression is a very simple modeling approach and serves as a benchmark for many problems. As the Formula~\ref{eq:base_lr} is only able to predict continuous
 values, it is not possible to classify binary values. Therefore the output variable $\pi_i$ is transformed via the sigmoid function, a logistic function,
 to model a continuous probability distribution with the formula:
 \begin{align}
-    \sigma(z)=\frac{1}{1+\exp^{-z}},\, \text{with } z = \beta_0 + \bm{\beta} \cdot \bm{X}
+    s(z)=\frac{1}{1+\exp^{-z}},\, \text{with } z = \theta_0 + \bm{\theta} \cdot \bm{X}
     \label{eq:logistic_func}
 \end{align}
 The resulting logistic function is bound to the range of 0 and 1, and results can be divided
@@ -271,7 +271,7 @@ $NP$-hard problem is to find the optimal binary decision tree and finding the op
 features.
 When many levels of branches are added, and the decision tree grows in depth, the chance of
 overfitting the decision tree to the training data is more likely. Therefore, several control mechanisms
-were developed to avoid this. The first one is to control the maximum depth (\textit{max\_depth})
+were developed to avoid this. The first one is to control the maximum depth
 of the decision tree. Secondly, after the decision tree is created, to prune it by removing leaves from
 the tree and comparing it with an identical descision tree, if the overall performance has decreased.
 The third method is, stopping the fitting algorithm before the data is perfectly fitted to. \footcite[cf.][p. 252]{kotsiantis_supervised_2007}
@@ -285,8 +285,8 @@ the overall error of the classification is reduced by increasing the importance 
 Neural networks are a collection of single perceptrons/neurons, which are internally connected by
 signals. In the case of \gls{FFNN}, signals are only allowed to go straight from input to output. One neuron
 in the network is either defined as input, output or as hidden unit. One neuron calculates its
-output similar to the \gls{LR} with $X_i$ feature values and $w_i$ weights, the output is defined
-as $\sum_{i \in n} X_i \cdot w_i$ and can be truncated by a threshold forcing all values above 1
+output similar to the \gls{LR} with $X_f$ feature values and $w_f$ weights, the output is defined
+as $\textstyle\sum_{i \in n} X_f\cdot w_f$ and can be truncated by a threshold forcing all values above 1
 to be 1 and all negative values to be zero. Every unit signals its calculated output by an individual
 activation function to all units of the next layer of the network. All signals are
 then interpreted at the output layer. For binary classification tasks the presented sigmoid function from \gls{LR} is used.\footcite[cf.][p. 255]{kotsiantis_supervised_2007}
@@ -422,9 +422,9 @@ from the $D(S)$ ratios, which are used as features. The following Figure~\ref{fi
 \end{figure}
 
 These nine geometrical features grasp the geometrical description of all items and is further outlined in the following example:
-In a route the following three items are requested, described by their geometrical dimensions \{height, length, width\}:
+In a route, the following three items are requested described by their geometrical dimensions \{height, length, width\}:
 \[
-    \mathcal{I} = \{(12,5,10),\,(10,3,6),\,(10,10,10)\}
+    \{(12,5,10),\,(10,3,6),\,(10,10,10)\}
 \]
 For every item the width length ratio is calculated and the resulting ratio vector is used to calculate the minimum and maximum value,
 as well as the mean and the standard deviation:
@@ -496,11 +496,11 @@ The dependency/importance between the output and features $\mathcal{R}_{d,\kappa
 but have different scales. As \gls{MI} is defined in [0,1] and \gls{F-Score} in $\mathbb{R}_0^+$, the scores are standardized by $\mathcal{N}(0,1)$, to
 apply the same thresholds. \gls{MI} is defined as the impact of a feature $f$ to reduce the uncertainty of the output variable $Y$.
 The advantage over classical linear correlation techniques is, that also nonlinear relations can be mapped.\footcite[cf.][p. 539f]{battiti_using_1994}
-The \gls{F-Score} is based on the \gls{ANOVA} and computes the linear dependency between the features and the output value.\footcite[cf.][p. 2]{gu_generalized_2012}
+The \gls{F-Score} is based on the analysis of variances and computes the linear dependency between the features and the output value.\footcite[cf.][p. 2]{gu_generalized_2012}
 Both methods are used to distinguish, if linear or non-linear dependencies exists between $X$ and $Y$. The mutual correlation between the variables
 is computed with the \textit{pearson} correlation coefficient applicable to pure numerical data and the formula is shown below.\footcite[cf.][p. 17]{chandrashekar_survey_2014}
 \begin{gather*}
-    \text{Pearson Correlation Coefficient: } C(f,f') = \frac{Covariance(X_f,X_{f'})}{\sqrt{Variance(X_f)\cdot Variance(X_{f'})}}
+    \text{Pearson Correlation Coefficient: } \rho(f,f') = \frac{Covariance(X_f,X_{f'})}{\sqrt{Variance(X_f)\cdot Variance(X_{f'})}}
 \end{gather*}
 
 Several different filtered subsets can be obtained for varying the filter method $\kappa$, the correlation thresholds $\Phi$, the barrier $\mathcal{B}$ and

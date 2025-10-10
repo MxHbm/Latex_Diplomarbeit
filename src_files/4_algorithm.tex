@@ -24,7 +24,7 @@ perturbation and \gls{LS} can return to the same solution, ambiguity exists to a
 Notably, the constructive heuristic and the neighborhoods for perturbation and \gls{LS} need to be adapted to
 each use case. The acceptance criterion can have several different implementations. To name a few, the algorithm could always
 generate a random restart after a certain number of iterations without improvement, set back to the actual best solution
-obtained or incorporating a \gls{SA} component accepting also worse solutions in the beginninng. The major challenge is
+obtained or incorporating a simulated annealing component accepting also worse solutions in the beginning. The major challenge is
 to find a fitting perturbation mechanism, which allows to explore new solution space areas, without falling back to previous solutions
 after the \gls{LS}. Therefore it should be guaranteed, that several iterations can be used for diversification and
 intensification before resetting the algorithm. History is referred in the algorithm to some knowledge base,
@@ -41,8 +41,8 @@ the current solution. The acceptance criterion controls the solution process, up
 best solution was found or the limit for iterations without improvement (attempts limit $a$) is reached. Then, the current solution is resetted
 to the best solution found. It needs to be investigated, if the random perturbation is able to leave local optima
 when no improvements can be found or if this acceptance criterion is sufficient. But as the feasibility check of the loading
-is time crucial, the routing algorithm is kept simple. The \gls{ILS} has a dual stop criterion, existing on a maximum time limit for the metaheuristic and a maximum number of
-iterations since the last improvement of the best solution. The second criterion is added
+is time crucial, the routing algorithm is kept simple. The \gls{ILS} has a dual stop criterion, existing on a maximum time limit $T$ for the metaheuristic and a maximum number of
+iterations since the last improvement of the best solution $A_{max}$. The second criterion is added
 to avoid exponential cycling of solutions, after the best solution is found and/or only a limited amount of feasible moves is available.\footnote{Results compared with
     minimal costs due to \cite{tamke_branch-and-cut_2024}}
 
@@ -54,8 +54,7 @@ levels for the attempts limit $a$, the random moves $R$ and the order of the \gl
 \subsubsection{Constructive}
 The initial solution is obtained by using the savings algorithm from \cite{clarke_scheduling_1964}. It is one of
 most applied constructive algorithms for the \gls{VRP}, and is described by the following procedure. In the beginning
-a single tour is created for every customer and the potential savings, when two customers are combined in one tour
-($s_{ij} = d_{ij} - d_{0i} - d_{j0}$) are calculated.
+a single tour is created for every customer and the potential savings, when two customers are combined in one tour are calculated.
 Afterwards the tours are merged until no negative savings are available, and the
 procedure terminates with $K$ tours. \footcite[cf.][]{clarke_scheduling_1964} However, this constructive algorithm needs to be adapted
 as the minimum distance solution can exceed the maximum numbers of vehicles $K_{max}$ allowed per instance.
@@ -159,10 +158,10 @@ visualized in Figure~\ref{fig:tikz_four_variants}
 \input{tikz/FeasibilityChecks.tex}
 
 The first approach is the \textit{SpeedUp} strategy, where only the classifier is used for feasibility checks during perturbation and
-\gls{LS}. The parameter $\omega$ defines the frequency of verifying the actual solution with the exact \gls{CP} solver and
+\gls{LS}. The parameter $\varrho$ defines the frequency of verifying the actual solution with the exact \gls{CP} solver and
 the current solution is either rejected or accepted.
 The amount of false positive labeled routes is crucial, as the probability to reject the solution grows likewise. It needs
-to be studied, which influence the parameter $\omega$ has, as infeasible tours can become feasible
+to be studied, which influence the parameter $\varrho$ has, as infeasible tours can become feasible
 again after several iterations without verification.
 The second strategy is called \textit{Filter}, here classifier and \gls{CP} solver are called sequentially for every
 feasibiliy check. The goal is to filter out infeasible routes before verifying them exactly to save time in the exact check.

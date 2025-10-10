@@ -484,9 +484,9 @@ Second, similar instances of size and complexity were reduced to only one.
 Every instance is run three times with different seeds and a timelimit of 10 min. It will be investigated
 how different parameter combinations influence the \gls{RPD}, the iteration number, the rejection rate and
 the average improvement after finding the constructive solution. The \gls{RPD} is defined between the
-total costs of the best solution $C^*$ and another solution with costs $C$.
+total costs of the best solution $Z^*$ and another solution with costs $Z$.
 \begin{align}
-	RPD = \frac{C - C^*}{C^*} \cdot 100\%
+	RPD = \frac{Z - Z^*}{Z^*} \cdot 100\%
 \end{align}
 The rejection rate is the proportion of iterations rejected as infeasible in the \gls{CP} check, which needs
 to be applied after the SpeedUp and Hybrid  variant. These variants allow the acceptance of
@@ -526,7 +526,7 @@ phases starting from a strongly perturbed solution.
 	\centering
 	\begin{minipage}[t]{0.49\textwidth}
 		\centering
-		\includegraphics[width=\linewidth]{pictures/iterations_per_instance.png}
+		%\input{pictures/iterations_per_instance.pgf}
 		\captionof{figure}{\small Average iterations for each \gendreauDataSetText instance.}
 		\label{fig:average_iterations_noclassifier}
 	\end{minipage}\hfill
@@ -640,15 +640,15 @@ summarizes the mean performance indicator values for each variant.
 	\small
 	\begin{tabular}{lrrrrrr}
 		\toprule
-		Variant      & RPD  & Iterations & Improvement & RatioRejection & $t_0$ & $C_0$   \\
+		Variant      & RPD  & Iterations & Improvement & RatioRejection & $t_0$ & $Z_0$   \\
 		\midrule
-		Filter       & 3.08 & 2944.36    & -6.18       & 0.00           & 12.65 & 1024.53 \\
-		Hybrid       & 2.36 & 3146.44    & -5.51       & 0.31           & 25.70 & 1007.83 \\
-		NoClassifier & 0.84 & 2895.44    & -5.61       & 0.00           & 30.74 & 1010.54 \\
-		SpeedUp      & 1.07 & 6124.06    & -7.27       & 0.36           & 23.49 & 1014.09 \\
+		Filter       & 3.81 & 2944.36    & -6.18       & 0.00           & 12.65 & 1024.53 \\
+		Hybrid       & 3.09 & 3146.44    & -5.51       & 0.31           & 25.70 & 1007.83 \\
+		NoClassifier & 1.93 & 2895.44    & -5.61       & 0.00           & 30.74 & 1010.54 \\
+		SpeedUp      & 1.79 & 6124.06    & -7.27       & 0.36           & 23.49 & 1014.09 \\
 		\bottomrule
 	\end{tabular}
-	\caption[Comparison of mean results between variants.]{Comparison of mean results between variants. $t_0$ displays the time for the start solution and $C_0$ is the start solution objective.}
+	\caption[Comparison of mean results between variants.]{Comparison of mean results between variants. $t_0$ displays the time for the start solution and $Z_0$ is the start solution objective.}
 	\label{tab:mean_final_results}
 \end{table}
 It should be noted that the mean number of iterations is considerably higher than the median. Notably, the difference in \gls{RPD}
@@ -697,7 +697,7 @@ all published studies, using the same loading constraint set $\mathcal{G}$, were
 	\begin{tabular}{@{}llcccccccc@{}}
 		\toprule
 		                    &                             & \multicolumn{2}{c}{NoClassifier} & \multicolumn{2}{c}{Filter} & \multicolumn{2}{c}{SpeedUp} & \multicolumn{2}{c}{Hybrid}                                                                    \\ \cmidrule(lr){3-4}\cmidrule(lr){5-6}\cmidrule(lr){7-8}\cmidrule(lr){9-10}
-		Instance            & BKS                         & $C^*$                            & $\Delta BKS$               & $C^*$                       & $\Delta BKS$               & $C^*$            & $\Delta BKS$ & $C^*$           & $\Delta BKS$ \\
+		Instance            & BKS                         & $Z^*$                            & $\Delta BKS$               & $Z^*$                       & $\Delta BKS$               & $Z^*$            & $\Delta BKS$ & $Z^*$           & $\Delta BKS$ \\
 		\midrule
 		$\text{E016-03m}^H$ & $\text{301.74}^b$           & \textbf{301.66}                  & -0.03                      & 301.74                      & 0.00                       & 301.74           & 0.00         & 301.74          & 0.00         \\
 		$\text{E016-05m}^H$ & $\text{\textbf{334.96}}^a$  & \textbf{334.96}                  & 0.00                       & \textbf{334.96}             & 0.00                       & \textbf{334.96}  & 0.00         & \textbf{334.96} & 0.00         \\

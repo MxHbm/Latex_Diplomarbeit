@@ -85,6 +85,24 @@ length are contained within it and due to the performance issues descibed in Sec
 To identify the best dataset for training, cross-performance metrics between all datasets are compared. However,
 as only one save-strategy dataset is considered, no cross-consolidation results need to be excluded. For all datasets,
 the drop set DS-50-4 is adopted, since model performance was generally worse due to the high variability (noise) among datasets.
+
+\begin{table}[ht]
+    \centering
+    \small
+    \begin{tabular}{lrrrr}
+        \toprule
+        Base Dataset   & MCC            & F1-Score       & Accuracy       & AUROC          \\
+        \midrule
+        KS-Shrunken    & 0.724          & 0.887          & 0.859          & 0.970          \\
+        KS-Shrunken-WS & 0.738          & 0.893          & 0.866          & \textbf{0.972} \\
+        RD-1-1-1-6     & 0.796          & 0.936          & 0.912          & 0.968          \\
+        RD-1-1-1-8     & \textbf{0.799} & 0.939          & 0.915          & 0.969          \\
+        RD-1-1-1-10    & 0.798          & \textbf{0.940} & \textbf{0.916} & 0.969          \\
+        \bottomrule
+    \end{tabular}
+    \caption{Average performance metrics across \krebsADataSetText datasets.}
+    \label{tab:featurePerformance_krebs}
+\end{table}
 \parbreak
 [Insert here: boxplot and table showing the classification performance across datasets.]
 \parbreak
@@ -125,7 +143,7 @@ The dataset GD-Shrunken-WS minimizes the rejection rate and maximizes the number
 \label{sec:results_krebs}
 As shown in Section~\ref{app:sec:krebs_computationally_challenges}, the computation of \krebsADataSetText instances comprises
 challenges. Therefore, the algorithmic design is changed. As the computation of the start solution takes averagely \textcolor{red}{1000000000000 seconds}
-during the B\&C algorithm (20 seconds for the \gendreauDataSetText), much longer running times are needed for the \gls{ILS} algorithm.
+during the B\&C algorithm (20 seconds for the \gendreauDataSet), much longer running times are needed for the \gls{ILS} algorithm.
 Every instance is only run once. Furthermore, the time limit for one instance
 is dependent, if the startsolution is given or will be computed during the algorithm. The start solutions are taken from the branch-and-cut
 results (see Section~\ref{tab:bc_results_krebs}). Also it is reevaluated, if the parameter UseFilterStartSolution has a positive effect

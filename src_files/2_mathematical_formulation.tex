@@ -9,7 +9,7 @@ not rigid. Therefore, the used sets and prameters are presented and afterwards t
 
 \subsection*{Sets}
 A directed graph $G=(N,A)$ is defined by the set of nodes $N$ including the depot and the set of arcs
-$A = \{ (i, j) \mid i, j \in N \}$ between all nodes. The set of customer nodes $C$ is defined without the depot.
+$A = \{ (i, i') \mid i, i' \in N \}$ between all nodes. The set of customer nodes $C$ is defined without the depot.
 The Sets $\delta^+$ and $\delta^-$ define the arcs, which are leaving, respective entering a node.
 For example, for node 3, $\delta^+ = \{(3,5)\}$ and $\delta^-= \{(2,3)\}$.
 The set $A(S)$ defines a sequence of arcs connecting nodes in a random set of customers $C$,
@@ -39,9 +39,9 @@ to an infeasible route. A sequence has to have the minimum length of two. All se
 \clearpage
 \subsection*{Parameters}
 The parameters can be divided in two groups, static and set-dependent.
-The costs $c_{ij}$ for travelling from one node $i$ to another node $j$
+The costs $c_{ii'}$ for travelling from one node $i$ to another node $i'$
 are symmetrically defined. Furthermore, the triangle inequality
-$c_{ij} \leq c_{ih} + c_{hj}$ needs to be fulfilled, stating the travel distance must always be shorter travelling
+$c_{ii'} \leq c_{ih} + c_{hi'}$ needs to be fulfilled, stating the travel distance must always be shorter travelling
 directly than via any intermediate node $h$. Additionally, the number of vehicles
 available for the fleet planning is given as constant $K$. No solution is allowed to have
 more routes than avalaible vehicles. $r(S)$ defines a \gls{LB} for the numbers of vehicles needed
@@ -54,16 +54,16 @@ total volume $v(S)$ divided by the volume capacity $V$:
     \centering
     \begin{tabular}{ll}
         \toprule
-        Symbol   & Description                                                   \\
+        Symbol    & Description                                                   \\
         \midrule
-        $c_{ij}$ & Cost or distance of traveling from node $i$ to node $j$       \\
-        $C$      & Total costs of the solution                                   \\
-        $K$      & Number of available vehicles                                  \\
-        $Q$      & Weight limit of vehicle                                       \\
-        $V$      & Volume limit of vehicle                                       \\
-        $q(S)$   & Total weight requested by customers in $S$                    \\
-        $v(S)$   & Total volume requested by customers in $S$                    \\
-        $r(S)$   & Minimum number of vehicles required to cover customers in $S$ \\
+        $c_{ii'}$ & Cost or distance of traveling from node $i$ to node $i'$      \\
+        $C$       & Total costs of the solution                                   \\
+        $K$       & Number of available vehicles                                  \\
+        $Q$       & Weight limit of vehicle                                       \\
+        $V$       & Volume limit of vehicle                                       \\
+        $q(S)$    & Total weight requested by customers in $S$                    \\
+        $v(S)$    & Total volume requested by customers in $S$                    \\
+        $r(S)$    & Minimum number of vehicles required to cover customers in $S$ \\
         \bottomrule
     \end{tabular}
     \caption{Parameter definitions for the two-index vehicle flow model formulation.}
@@ -72,37 +72,37 @@ total volume $v(S)$ divided by the volume capacity $V$:
 
 \subsection*{Decision Variable}
 For the model formulation only one binary decision variable is necessary indicating, if the arc
-between nodes $i$ and $j$ is included in the solution.
+between nodes $i$ and $i'$ is included in the solution.
 \[
-    x_{ij} =
+    x_{ii'} =
     \begin{cases}
-        1 & \text{if arc } (i,j) \text{ is used in the solution} \\
+        1 & \text{if arc } (i,i') \text{ is used in the solution} \\
         0 & \text{otherwise}
     \end{cases}
 \]
 \clearpage
 
 \subsection*{Model}
-\textbf{Objective:}
+\textbf{Obi'ective:}
 \begin{equation}
-    \label{eq:objective}
-    \min \, C = \sum_{(i,j)\in A} c_{ij}x_{ij}
+    \label{eq:obi'ective}
+    \min \, C = \sum_{(i,i')\in A} c_{ii'}\cdot x_{ii'}
 \end{equation}
 
-\textbf{Subject to:}
+\textbf{Subi'ect to:}
 \begin{align}
-    \sum_{(i,j)\in \delta^+(i)} x_{ij} & = 1                                                                                  &  & \forall i \in C                         \label{eq:flowout}     \\
-    \sum_{(i,j)\in \delta^-(i)} x_{ij} & = 1                                                                                  &  & \forall i \in C                         \label{eq:flowin}      \\
-    \sum_{(i,j)\in \delta^+(0)} x_{ij} & \leq K                                                       \label{eq:vehiclelimit}                                                                     \\
-    \sum_{(i,j)\in A(S)} x_{ij}        & \leq |S| - r(S)                                                                      &  & \forall S \subseteq C, S \neq \emptyset \label{eq:capacitycut} \\
-    \sum_{(i,j)\in A(P)} x_{ij}        & \leq |A(P)| - 1                                                                      &  & \forall \text{ infeasible paths } P     \label{eq:pathelim}
+    \sum_{(i,i')\in \delta^+(i)} x_{ii'} & = 1                                                                                  &  & \forall i \in C                         \label{eq:flowout}     \\
+    \sum_{(i,i')\in \delta^-(i)} x_{ii'} & = 1                                                                                  &  & \forall i \in C                         \label{eq:flowin}      \\
+    \sum_{(i,i')\in \delta^+(0)} x_{ii'} & \leq K                                                       \label{eq:vehiclelimit}                                                                     \\
+    \sum_{(i,i')\in A(S)} x_{ii'}        & \leq |S| - r(S)                                                                      &  & \forall S \subseteq C, S \neq \emptyset \label{eq:capacitycut} \\
+    \sum_{(i,i')\in A(P)} x_{ii'}        & \leq |A(P)| - 1                                                                      &  & \forall \text{ infeasible paths } P     \label{eq:pathelim}
 \end{align}
 
-The objective function minimizes the total costs and the travelled distance. The constraints \ref{eq:flowout} and \ref{eq:flowin}
+The obi'ective function minimizes the total costs and the travelled distance. The constraints \ref{eq:flowout} and \ref{eq:flowin}
 are restricting that every customer can and must only be visited once by defining the number
 of arcs leaving and entering a node $i$ to 1. These two constraints do not apply to the depot,
 which is included in every tour. Constraint~\ref{eq:vehiclelimit} limits the maximum number of
-tours to $K$ by limiting the number of arcs entering the depot ($(i,j)\in \delta^+(0)$).
+tours to $K$ by limiting the number of arcs entering the depot ($(i,i')\in \delta^+(0)$).
 The next constraint~\ref{eq:capacitycut} states, that the number of arcs within the subset $A(S)$
 must be smaller or equal to the number of customers minus the \gls{LB} for vehicles. This constraint
 ensures, that routes are connected to the depot and that each subset $S$ is not violating

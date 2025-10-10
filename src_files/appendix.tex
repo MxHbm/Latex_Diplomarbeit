@@ -424,45 +424,45 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 		\midrule
 		\multirow[t]{4}{*}{\textbf{Filter}}   & \multirow[t]{4}{*}{UseFilterStartSolution}   & \multirow[t]{2}{*}{ILSIterations}   & False                & 83.00           & True            \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & True                 & 97.00           & False           \\\cmidrule(lr){3-6}
-		                                      &                                              & \multirow[t]{2}{*}{RPD}             & False                & 2.15            & True            \\\cmidrule(lr){4-6}
-		                                      &                                              &                                     & True                 & 3.35            & False           \\\midrule
+		                                      &                                              & \multirow[t]{2}{*}{RPD}             & False                & 2.70            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & True                 & 3.77            & False           \\\midrule
 		\multirow[t]{24}{*}{\textbf{Hybrid}}  & \multirow[t]{9}{*}{Interval-CP-Check}        & \multirow[t]{3}{*}{ILSIterations}   & 1                    & 282.50          & True            \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & 3                    & 294.50          & False           \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & 5                    & 317.00          & False           \\\cmidrule(lr){3-6}
-		                                      &                                              & \multirow[t]{3}{*}{RPD}             & 1                    & 1.88            & True            \\\cmidrule(lr){4-6}
-		                                      &                                              &                                     & 3                    & 3.28            & False           \\\cmidrule(lr){4-6}
-		                                      &                                              &                                     & 5                    & 4.43            & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{3}{*}{RPD}             & 1                    & 2.47            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 3                    & 4.07            & False           \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 5                    & 4.71            & False           \\\cmidrule(lr){3-6}
 		                                      &                                              & \multirow[t]{3}{*}{RatioRejections} & 1                    & 0.49            & True            \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & 3                    & 0.82            & False           \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & 5                    & 0.91            & False           \\\cmidrule(lr){2-6}
 		                                      & \multirow[t]{9}{*}{UseClassifierLocalSearch} & \multirow[t]{3}{*}{ILSIterations}   & InterCPSolver        & 105.00          & True            \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & IntraCPSolver        & 737.00          & False           \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & PerturbationCPSolver & 237.00          & False           \\\cmidrule(lr){3-6}
-		                                      &                                              & \multirow[t]{3}{*}{RPD}             & IntraCPSolver        & 1.68            & True            \\\cmidrule(lr){4-6}
-		                                      &                                              &                                     & InterCPSolver        & 3.52            & False           \\\cmidrule(lr){4-6}
-		                                      &                                              &                                     & PerturbationCPSolver & 3.28            & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{3}{*}{RPD}             & IntraCPSolver        & 2.43            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & InterCPSolver        & 4.31            & False           \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & PerturbationCPSolver & 4.42            & False           \\\cmidrule(lr){3-6}
 		                                      &                                              & \multirow[t]{3}{*}{RatioRejections} & InterCPSolver        & 0.57            & True            \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & IntraCPSolver        & 0.69            & False           \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & PerturbationCPSolver & 0.89            & False           \\\cmidrule(lr){2-6}
 		                                      & \multirow[t]{6}{*}{UseFilterStartSolution}   & \multirow[t]{2}{*}{ILSIterations}   & False                & 272.00          & True            \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & True                 & 315.50          & False           \\\cmidrule(lr){3-6}
-		                                      &                                              & \multirow[t]{2}{*}{RPD}             & False                & 2.40            & True            \\\cmidrule(lr){4-6}
-		                                      &                                              &                                     & True                 & 4.00            & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{2}{*}{RPD}             & False                & 3.09            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & True                 & 4.70            & False           \\\cmidrule(lr){3-6}
 		                                      &                                              & \multirow[t]{2}{*}{RatioRejections} & False                & 0.70            & True            \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & True                 & 0.70            & False           \\\midrule
 		\multirow[t]{15}{*}{\textbf{SpeedUP}} & \multirow[t]{9}{*}{Interval-CP-Check}        & \multirow[t]{3}{*}{ILSIterations}   & 1                    & 2627.50         & True            \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & 3                    & 4237.50         & False           \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & 5                    & 5981.00         & False           \\\cmidrule(lr){3-6}
-		                                      &                                              & \multirow[t]{3}{*}{RPD}             & 1                    & 0.34            & True            \\\cmidrule(lr){4-6}
-		                                      &                                              &                                     & 3                    & 1.03            & False           \\\cmidrule(lr){4-6}
-		                                      &                                              &                                     & 5                    & 1.81            & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{3}{*}{RPD}             & 1                    & 1.08            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 3                    & 2.14            & False           \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & 5                    & 2.59            & False           \\\cmidrule(lr){3-6}
 		                                      &                                              & \multirow[t]{3}{*}{RatioRejections} & 1                    & 0.53            & True            \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & 3                    & 0.89            & False           \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & 5                    & 0.96            & False           \\\cmidrule(lr){2-6}
 		                                      & \multirow[t]{6}{*}{UseFilterStartSolution}   & \multirow[t]{2}{*}{ILSIterations}   & False                & 4170.00         & True            \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & True                 & 4353.00         & False           \\\cmidrule(lr){3-6}
-		                                      &                                              & \multirow[t]{2}{*}{RPD}             & False                & 0.65            & True            \\\cmidrule(lr){4-6}
-		                                      &                                              &                                     & True                 & 1.19            & False           \\\cmidrule(lr){3-6}
+		                                      &                                              & \multirow[t]{2}{*}{RPD}             & False                & 1.71            & True            \\\cmidrule(lr){4-6}
+		                                      &                                              &                                     & True                 & 2.25            & False           \\\cmidrule(lr){3-6}
 		                                      &                                              & \multirow[t]{2}{*}{RatioRejections} & False                & 0.70            & True            \\\cmidrule(lr){4-6}
 		                                      &                                              &                                     & True                 & 0.75            & False           \\
 	\end{tabular}
@@ -470,6 +470,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 	\caption{Median number of iterations and RPD across parameters and levels for the classifier variants.}
 	\label{tab:numerical_results_paramStudy_classifiers}
 \end{table}
+
 
 \clearpage
 \section{Branch-and-Cut Results}
@@ -484,12 +485,12 @@ from save strategy. The following table explains each column header:
 		\toprule
 		Column Header & Description                                                    \\
 		\midrule
-		$C^*$         & Best objective (Costs)                                         \\
+		$Z^*$         & Best objective (Costs)                                         \\
 		Gap           & Gap to \gls{LB} in B\&C procedure                              \\
 		$K^*$         & Final number of routes                                         \\
 		$N$           & Number of explored branch-and-bound nodes                      \\
 		$t$           & Runtime of algorithm; TL = Timelimit (28880 sec)               \\
-		$C_0$         & Objective of start solution                                    \\
+		$Z_0$         & Objective of start solution                                    \\
 		$K_0$         & Number of routes start solution                                \\
 		$\Delta BKS$  & Percentage difference of objective to best known solution (\%) \\
 		\bottomrule
@@ -505,10 +506,10 @@ requested by a customer is above (H) or under (L) the average of all instances, 
 As weight is a one dimensional loading constraint factor, the feasbility check is fast. The results can be divided by this weight label
 pretty perfectly in instances being solved optimally (H), or which needed a long run time and/ or and not solved optimally (L).
 The solutions for \krebsADataSetText are categorized in three groups A, B and C classifying the solution process. Each label is shown
-by the best objective $C^*$. The labels have the following meaning:
+by the best objective $Z^*$. The labels have the following meaning:
 \begin{itemize}
 	\item A : The solution process ran without complications.
-	\item B : The final solution could not be created, concrete number of vehicles $K^*$ is unknown, but Gap and $C^*$ could be retrieved from Gurobi logging file.
+	\item B : The final solution could not be created, concrete number of vehicles $K^*$ is unknown, but Gap and $Z^*$ could be retrieved from Gurobi logging file.
 	\item C : Only the start solution was created, leading to missing values for the main branch-and-cut algorithm. No concrete runtime $t$ could be determined.
 \end{itemize}
 
@@ -521,7 +522,7 @@ The objectives cant be compared to initially published results of \cite{krebs_ad
 	\small
 	\begin{tabular}{lrrrrll}
 		\toprule
-		Instance Name       & $C^*$   & Gap  & $K^*$ & $N$     & $t$   & $\Delta BKS$    \\
+		Instance Name       & $Z^*$   & Gap  & $K^*$ & $N$     & $t$   & $\Delta BKS$    \\
 		\midrule
 		$\text{E016-03m}^H$ & 301.66  & 0.00 & 4     & 4290    & 21    & $\text{0.0}^e$  \\
 		$\text{E016-05m}^H$ & 334.96  & 0.00 & 5     & 53      & 1     & $\text{0.0}^a$  \\
@@ -573,7 +574,7 @@ next to the instance name. In this comparison all published papers were consider
 	\centering
 	\begin{tabular}{llrrrlrr}
 		\toprule
-		Instance Name                  & $C^*$              & Gap  & $K^*$ & $N$    & $t$   & $C_0$   & $K_0$ \\
+		Instance Name                  & $Z^*$              & Gap  & $K^*$ & $N$    & $t$   & $Z_0$   & $K_0$ \\
 		\midrule
 		$\text{012-n020-m200-bt100}^L$ & $\text{311.78}^A$  & 0.00 & 2     & 1      & 10753 & 467.39  & 5     \\
 		$\text{038-n020-m200-bt10}^L$  & $\text{347.45}^A$  & 0.00 & 2     & 1      & 8019  & 543.34  & 6     \\
@@ -670,6 +671,7 @@ next to the instance name. In this comparison all published papers were consider
 \end{figure}
 
 
+
 \begin{table}[ht]
 	\scriptsize
 	\centering
@@ -677,47 +679,48 @@ next to the instance name. In this comparison all published papers were consider
 		\toprule
 		\textbf{Variant}             & \textbf{Model Type}      & \textbf{Dataset} & \textbf{RPD} & \textbf{Iterations} & \textbf{RatioRejection} \\
 		\midrule
-		NoClassifier                 & -                        & -                & 0.03         & 55.50               & 0.00                    \\\midrule
-		\multirow[t]{12}{*}{Filter}  & \multirow[t]{4}{*}{FFNN} & GD-Shrunken      & 3.00         & 105.00              & 0.00                    \\\cmidrule(lr){3-6}
-		                             &                          & GD-Shrunken-WS   & 2.71         & 135.00              & 0.00                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-6     & 2.92         & 106.00              & 0.00                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-8     & 2.69         & 109.00              & 0.00                    \\\cmidrule(lr){2-6}
-		                             & \multirow[t]{4}{*}{LR}   & GD-Shrunken      & 3.70         & 126.00              & 0.00                    \\\cmidrule(lr){3-6}
-		                             &                          & GD-Shrunken-WS   & 2.75         & 113.00              & 0.00                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-6     & 2.27         & 124.00              & 0.00                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-8     & 2.70         & 104.00              & 0.00                    \\\cmidrule(lr){2-6}
-		                             & \multirow[t]{4}{*}{XGB}  & GD-Shrunken      & 2.45         & 129.00              & 0.00                    \\\cmidrule(lr){3-6}
-		                             &                          & GD-Shrunken-WS   & 2.62         & 134.00              & 0.00                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-6     & 3.04         & 123.00              & 0.00                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-8     & 2.96         & 116.00              & 0.00                    \\\midrule
-		\multirow[t]{12}{*}{SpeedUp} & \multirow[t]{4}{*}{FFNN} & GD-Shrunken      & 0.78         & 3140.00             & 0.38                    \\\cmidrule(lr){3-6}
-		                             &                          & GD-Shrunken-WS   & 0.88         & 3836.00             & 0.36                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-6     & 0.63         & 3580.00             & 0.37                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-8     & 0.60         & 2910.00             & 0.42                    \\\cmidrule(lr){2-6}
-		                             & \multirow[t]{4}{*}{LR}   & GD-Shrunken      & 0.96         & 6231.00             & 0.24                    \\\cmidrule(lr){3-6}
-		                             &                          & GD-Shrunken-WS   & 0.82         & 4480.00             & 0.33                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-6     & 0.66         & 4671.00             & 0.32                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-8     & 0.23         & 3728.00             & 0.42                    \\\cmidrule(lr){2-6}
-		                             & \multirow[t]{4}{*}{XGB}  & GD-Shrunken      & 0.34         & 3101.00             & 0.37                    \\\cmidrule(lr){3-6}
-		                             &                          & GD-Shrunken-WS   & 1.01         & 4395.00             & 0.28                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-6     & 0.73         & 4504.00             & 0.30                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-8     & 0.68         & 3960.00             & 0.30                    \\\midrule
-		\multirow[t]{12}{*}{Hybrid}  & \multirow[t]{4}{*}{FFNN} & GD-Shrunken      & 2.45         & 152.00              & 0.38                    \\\cmidrule(lr){3-6}
-		                             &                          & GD-Shrunken-WS   & 2.42         & 192.00              & 0.35                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-6     & 2.01         & 161.00              & 0.34                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-8     & 1.56         & 133.00              & 0.39                    \\\cmidrule(lr){2-6}
-		                             & \multirow[t]{4}{*}{LR}   & GD-Shrunken      & 2.21         & 193.00              & 0.30                    \\\cmidrule(lr){3-6}
-		                             &                          & GD-Shrunken-WS   & 2.15         & 174.00              & 0.34                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-6     & 2.10         & 171.00              & 0.37                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-8     & 2.05         & 141.00              & 0.39                    \\\cmidrule(lr){2-6}
-		                             & \multirow[t]{4}{*}{XGB}  & GD-Shrunken      & 2.08         & 178.00              & 0.35                    \\\cmidrule(lr){3-6}
-		                             &                          & GD-Shrunken-WS   & 1.84         & 190.00              & 0.33                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-6     & 2.33         & 162.00              & 0.34                    \\\cmidrule(lr){3-6}
-		                             &                          & RD-4-30-30-8     & 2.27         & 175.00              & 0.35                    \\
+		NoClassifier                 & -                        & -                & 1.65         & 55.50               & 0.00                    \\\midrule
+		\multirow[t]{12}{*}{Filter}  & \multirow[t]{4}{*}{FFNN} & GD-Shrunken      & 3.87         & 105.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 3.94         & 135.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 3.79         & 106.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 3.88         & 109.00              & 0.00                    \\\cmidrule(lr){2-6}
+		                             & \multirow[t]{4}{*}{LR}   & GD-Shrunken      & 4.60         & 126.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 3.33         & 113.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 2.92         & 124.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 3.19         & 104.00              & 0.00                    \\\cmidrule(lr){2-6}
+		                             & \multirow[t]{4}{*}{XGB}  & GD-Shrunken      & 3.33         & 129.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 3.85         & 134.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 4.32         & 123.00              & 0.00                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 4.36         & 116.00              & 0.00                    \\\midrule
+		\multirow[t]{12}{*}{SpeedUp} & \multirow[t]{4}{*}{FFNN} & GD-Shrunken      & 1.97         & 3140.00             & 0.38                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 1.97         & 3836.00             & 0.36                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 1.16         & 3580.00             & 0.37                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 1.50         & 2910.00             & 0.42                    \\\cmidrule(lr){2-6}
+		                             & \multirow[t]{4}{*}{LR}   & GD-Shrunken      & 1.79         & 6231.00             & 0.24                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 1.30         & 4480.00             & 0.33                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 1.20         & 4671.00             & 0.32                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 0.83         & 3728.00             & 0.42                    \\\cmidrule(lr){2-6}
+		                             & \multirow[t]{4}{*}{XGB}  & GD-Shrunken      & 0.88         & 3101.00             & 0.37                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 1.40         & 4395.00             & 0.28                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 1.84         & 4504.00             & 0.30                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 1.23         & 3960.00             & 0.30                    \\\midrule
+		\multirow[t]{12}{*}{Hybrid}  & \multirow[t]{4}{*}{FFNN} & GD-Shrunken      & 3.13         & 152.00              & 0.38                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 3.22         & 192.00              & 0.35                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 2.92         & 161.00              & 0.34                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 2.79         & 133.00              & 0.39                    \\\cmidrule(lr){2-6}
+		                             & \multirow[t]{4}{*}{LR}   & GD-Shrunken      & 2.79         & 193.00              & 0.30                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 2.79         & 174.00              & 0.34                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 2.51         & 171.00              & 0.37                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 2.78         & 141.00              & 0.39                    \\\cmidrule(lr){2-6}
+		                             & \multirow[t]{4}{*}{XGB}  & GD-Shrunken      & 2.82         & 178.00              & 0.35                    \\\cmidrule(lr){3-6}
+		                             &                          & GD-Shrunken-WS   & 2.67         & 190.00              & 0.33                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-6     & 3.32         & 162.00              & 0.34                    \\\cmidrule(lr){3-6}
+		                             &                          & RD-4-30-30-8     & 3.03         & 175.00              & 0.35                    \\
 		\bottomrule
 	\end{tabular}
 	\caption{Comparison of variant configurations (median values).}
 \end{table}
+
 
 \clearpage
 
@@ -757,7 +760,8 @@ next to the instance name. In this comparison all published papers were consider
 		$\text{E076-14s}^H$ & 1146.78                     & 1164.09         & \textbf{1119.20} & 1147.17         \\
 		$\text{E101-08e}^L$ & 1384.62                     & 1430.72         & \textbf{1378.57} & 1385.29         \\
 		$\text{E101-10c}^L$ & 1670.97                     & 1709.91         & \textbf{1640.33} & 1693.13         \\
-		$\text{E101-14s}^L$ & 1541.34                     & 1596.30         & \textbf{1536.50} & 1570.46         \\
+		$\text{E101-14s}^L$ & 1541.34                     & 1596.30         & \textbf{1536.50} & 1570.46         \\\midrule
+		mean                & 951.09                      & 968.68          & \textbf{946.41}  & 961.93          \\
 		\bottomrule
 	\end{tabular}
 	\caption[Average costs for \gendreauDataSetText - comparison over all final runs and variants.]
@@ -813,9 +817,46 @@ next to the instance name. In this comparison all published papers were consider
 	{Distribution of route lengths for the random strategy with different $\delta$ thresholds. The red vertical line indicates the average number of customers.}
 	\label{fig:route-dists_randomdata}
 \end{figure}
-
-
 \clearpage
+
+\section{Krebs Model Results}
+\label{sec:krebs_model_results}
+
+\begin{table}[ht]
+	\centering
+	\small
+	\begin{tabular}{llrrrr}
+		\toprule
+		Model                    & Base Dataset   & MCC            & F1-Score       & Accuracy       & AUROC          \\
+		\midrule
+		\multirow[t]{5}{*}{FFNN} & KS-Shrunken    & 0.740          & 0.893          & 0.866          & 0.981          \\
+		                         & KS-Shrunken-WS & 0.745          & 0.892          & 0.866          & \textbf{0.983} \\
+		                         & RD-1-1-1-10    & \textbf{0.814} & \textbf{0.945} & \textbf{0.922} & 0.974          \\
+		                         & RD-1-1-1-6     & 0.808          & 0.944          & 0.920          & 0.970          \\
+		                         & RD-1-1-1-8     & 0.811          & 0.944          & 0.921          & 0.971          \\\midrule
+		\multirow[t]{5}{*}{LR}   & KS-Shrunken    & 0.671          & 0.863          & 0.830          & 0.953          \\
+		                         & KS-Shrunken-WS & 0.707          & 0.882          & 0.853          & 0.956          \\
+		                         & RD-1-1-1-10    & 0.763          & \textbf{0.929} & 0.900          & 0.960          \\
+		                         & RD-1-1-1-6     & 0.758          & 0.919          & 0.892          & 0.961          \\
+		                         & RD-1-1-1-8     & \textbf{0.769} & 0.927          & \textbf{0.901} & \textbf{0.962} \\\midrule
+		\multirow[t]{5}{*}{XGB}  & KS-Shrunken    & 0.760          & 0.906          & 0.880          & 0.975          \\
+		                         & KS-Shrunken-WS & 0.763          & 0.904          & 0.879          & \textbf{0.977} \\
+		                         & RD-1-1-1-10    & 0.818          & 0.946          & 0.924          & 0.974          \\
+		                         & RD-1-1-1-6     & \textbf{0.822} & \textbf{0.947} & \textbf{0.926} & 0.972          \\
+		                         & RD-1-1-1-8     & 0.815          & 0.945          & 0.923          & 0.973          \\
+		\bottomrule
+	\end{tabular}
+	\caption{Average performance metrics across \krebsADataSetText datasets categorized by model type.}
+	\label{tab:mdoe_performance_krebs_model_type}
+\end{table}
+
+\begin{figure}[!ht]
+	\centering
+	\includegraphics[width = \textwidth]{pictures/krebs_results/krebs_mcc_across_DS.png}
+	\caption{MCC performance across different \krebsADataSetText datasets.}
+	\label{fig:krebs_performance_datasets}
+\end{figure}
+
 \chapter{\krebsADataSetText computational challenges}
 \label{app:sec:krebs_computationally_challenges}
 
@@ -830,7 +871,7 @@ the construction of each retrieval strategy to highlight difficulties.
 The two random datasets, RD-1-1-1-10 (Krebs) and RD-2-30-20-10 (Gendreau), are compared, which are the smallest random dataset from each instance group and
 where $\delta = 1.0$. The difference between the computation time for the \gls{CP} solver needed for classifying the random routes is huge. The average
 \gls{CP} time for the dataset constructed from \krebsADataSetText is 247 seconds, but for \gendreauDataSetText only 0.244 seconds,
-which is 1000 times faster. The following boxplot shows this dispersion of \gls{CP} times for each \gls{LST}.
+which is 1000 times faster. The following boxplot shows this dispersion of \gls{CP} times for each loading status.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{pictures/comparison_krebs_gendreau/boxplot_cp_time.png}
@@ -840,7 +881,7 @@ which is 1000 times faster. The following boxplot shows this dispersion of \gls{
 
 The time average difference is caused by the group of routes labeled with \textit{Unknown} \gls{CP} status, which occurs, when
 feasibility or infeasibility could not be proven in the maximum runtime of 600 seconds. From all routes from RD-1-1-1-10
-33.6\% are classified as \textit{Unknown}. The distribution of \gls{LST} is shown in the following Figure~\ref{fig:comparison_krebs_gendreau_piechart}.
+33.6\% are classified as \textit{Unknown}. The distribution of loading statuses is shown in the following Figure~\ref{fig:comparison_krebs_gendreau_piechart}.
 
 \begin{figure}[ht]
 	\centering
@@ -934,7 +975,7 @@ The C++ code is controlled by a python script, defining the input files and the 
 
 \subsubsection{Forked branch-and-cut algorithm for save strategy}
 The  repository \href{https://github.com/MxHbm/clean-3l-cvrp}{\textit{clean-3l-cvrp}} has the purpose the run the published branch-and-cut algorithm from \cite{tamke_branch-and-cut_2024}. The algorithm
-was modified to save all checked routes dependend from \gls{LST} and \gls{LFL} (see Section~\ref{sec:DataRetrieval}). Furthermore,
+was modified to save all checked routes dependent from loading status and flag (see Section~\ref{sec:DataRetrieval}). Furthermore,
 the branch \texttt{krebs\_branch} was created to cause the algorithm not to break, when \textit{Invalid} or \textit{Unknown}
 status were returned from the \gls{CP} solver to be able to solve \krebsADataSetText instances (see Section~\ref{app:sec:krebs_computationally_challenges}).\footcite[cf.][]{tamke_branch-and-cut_2024}
 
@@ -958,3 +999,52 @@ The developed \gls{ILS} algorithm with the functionality to controll the type of
 of model and the train dataset is published in the repository \href{https://github.com/MxHbm/3l-cvrp-heuristic}{\textit{3l-cvrp-heuristic}}.
 The algorithm is completely coded in C++ and started with different parameter files from a Python script. The architecture of the algorithm is
 adapted from \cite{tamke_repository_2024} and was modified to handle this versatile algorithm.\footcite[cf.][]{tamke_repository_2024}
+
+\clearpage
+\chapter{New Results}
+\begin{landscape}
+	\begin{table}
+		\centering
+		\tiny
+		\begin{tabular}{llllllllllrrr}
+			\toprule
+			ModelType                      & \multicolumn{3}{c}{No Model}     & \multicolumn{6}{c}{Gendreau Model}                                                                                         \\\cmidrule(lr){2-4}\cmidrule(lr){5-10}
+			Variant                        & \multicolumn{3}{c}{NoClassifier} & \multicolumn{3}{c}{SpeedUp}        & \multicolumn{3}{c}{FilterSpeedUP}                                                     \\\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
+			Instance                       & $Z^*$                            & Iter                               & $Z_0$                             & $Z^*$  & Iter  & $Z_0$  & $Z^*$  & Iter  & $Z_0$  \\
+			\midrule
+			$\text{069-n060-m200-bt10}^H$  & 1156.9                           & 3                                  & 1156.9                            & 1143.9 & 10360 & 1164.1 & 1196.3 & 10258 & 1243.7 \\
+			$\text{076-n060-m200-bt3}^L$   & 656.4                            & 2                                  & 656.4                             & 656.4  & 9     & 656.4  & 656.4  & 7     & 656.4  \\
+			$\text{081-n060-m200-bt10}^L$  & 711.2                            & -                                  & 711.2                             & 711.2  & -     & 711.2  & 895.9  & -     & 895.9  \\
+			$\text{086-n060-m200-bt100}^L$ & 598.7                            & -                                  & 598.7                             & 617.0  & -     & 617.0  & 644.4  & -     & 644.4  \\
+			$\text{116-n060-m200-bt100}^L$ & 669.7                            & -                                  & 669.7                             & 669.7  & -     & 669.7  & 651.8  & -     & 651.8  \\
+			$\text{117-n060-m200-bt100}^L$ & 763.7                            & -                                  & 763.7                             & 628.3  & 1     & 628.3  & 819.2  & -     & 819.2  \\
+			$\text{126-n060-m200-bt10}^H$  & 1241.2                           & 13                                 & 1241.2                            & 1223.7 & 9298  & 1241.2 & 1251.4 & 11450 & 1329.2 \\
+			$\text{137-n060-m200-bt3}^L$   & -                                & -                                  & -                                 & 658.4  & -     & 658.4  & 609.1  & -     & 609.1  \\
+			$\text{141-n060-m200-bt10}^L$  & 649.7                            & 1                                  & 649.7                             & 649.7  & 1     & 649.7  & 649.7  & 1     & 649.7  \\
+			$\text{156-n060-m200-bt10}^H$  & 1071.5                           & -                                  & 1071.5                            & 1072.4 & 349   & 1072.4 & 1117.4 & 9660  & 1156.6 \\
+			$\text{161-n060-m200-bt100}^H$ & 1083.2                           & 4                                  & 1083.2                            & -      & -     & -      & 1137.5 & 6041  & 1186.2 \\
+			$\text{204-n100-m200-bt10}^L$  & 769.4                            & -                                  & 769.4                             & 776.8  & -     & 776.8  & 813.1  & -     & 813.1  \\
+			$\text{215-n100-m200-bt3}^H$   & 1254.2                           & 6                                  & 1279.5                            & 1297.3 & 3669  & 1299.0 & 1373.3 & 11593 & 1406.3 \\
+			$\text{227-n100-m200-bt3}^L$   & 726.8                            & 7                                  & 726.8                             & 722.6  & 60    & 726.8  & 722.6  & 75    & 726.8  \\
+			$\text{228-n100-m200-bt3}^L$   & 726.6                            & 11                                 & 726.6                             & 696.8  & 162   & 726.6  & 696.8  & 167   & 726.6  \\
+			$\text{245-n100-m200-bt3}^L$   & 952.4                            & 6                                  & 952.4                             & -      & -     & -      & 1010.3 & 2517  & 1038.4 \\
+			$\text{272-n100-m200-bt3}^L$   & -                                & -                                  & -                                 & -      & -     & -      & 1175.9 & 142   & 1218.8 \\
+			$\text{276-n100-m200-bt10}^H$  & 1207.0                           & 26                                 & 1231.9                            & 1202.0 & 13522 & 1245.2 & 1241.2 & 5385  & 1302.1 \\
+			$\text{294-n100-m200-bt10}^L$  & 937.2                            & -                                  & 937.2                             & 795.5  & -     & 795.5  & 795.5  & -     & 795.5  \\
+			$\text{297-n100-m200-bt100}^L$ & 726.7                            & -                                  & 726.7                             & 1076.0 & -     & 1076.0 & 865.2  & -     & 865.2  \\
+			$\text{299-n100-m200-bt100}^L$ & 801.4                            & -                                  & 801.4                             & 758.5  & 4     & 758.5  & 795.2  & -     & 795.2  \\
+			$\text{373-n060-m400-bt100}^H$ & 1858.1                           & 1                                  & 1858.1                            & 1857.2 & 10088 & 1861.6 & 2139.5 & 11694 & 2256.2 \\
+			$\text{397-n060-m400-bt10}^H$  & 1930.5                           & 2                                  & 1930.5                            & 1923.2 & 12937 & 1934.4 & 2082.1 & 10999 & 2135.7 \\
+			$\text{423-n060-m400-bt3}^H$   & -                                & -                                  & -                                 & -      & -     & -      & 1857.6 & 10455 & 1923.5 \\
+			$\text{459-n060-m400-bt10}^H$  & 2608.0                           & -                                  & 2608.0                            & 2656.6 & -     & 2656.6 & 2462.2 & 10384 & 2557.9 \\
+			$\text{527-n100-m400-bt3}^L$   & 1984.7                           & -                                  & 1984.7                            & 1984.7 & -     & 1984.7 & 2034.6 & -     & 2034.6 \\
+			$\text{529-n100-m400-bt3}^L$   & 942.4                            & 3                                  & 942.4                             & 942.4  & 11    & 942.4  & 942.4  & 16    & 942.4  \\
+			$\text{541-n100-m400-bt3}^H$   & -                                & -                                  & -                                 & -      & -     & -      & 1883.2 & 6428  & 1942.2 \\
+			$\text{542-n100-m400-bt3}^H$   & -                                & -                                  & -                                 & -      & -     & -      & 1972.7 & 10949 & 2020.0 \\
+			$\text{578-n100-m400-bt10}^H$  & -                                & -                                  & -                                 & -      & -     & -      & 1742.6 & 1659  & 1767.6 \\
+			\bottomrule
+		\end{tabular}
+		\caption{Overall results for each instance with working result in timelimit.}
+		\label{tab:overall_krebs_results_model}
+	\end{table}
+\end{landscape}

@@ -29,6 +29,7 @@
 \usepackage{makecell}
 \usepackage{autobreak}
 \usepackage{lscape}
+\usepackage{tabularx}
 %################ BIBLATEX #######################
 
 \usepackage[bibencoding=auto,
@@ -56,3 +57,7 @@
         \RequirePackage[automake,acronym,symbols,nomain,translate=babel]{glossaries}
         \usepackage{settings/GlossariesSetup}
 }
+
+%% Matplotlib used the following preamble
+\def\mathdefault#1{#1}
+\everymath=\expandafter{\the\everymath\displaystyle}
