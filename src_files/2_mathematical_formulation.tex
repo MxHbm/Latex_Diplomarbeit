@@ -1,4 +1,4 @@
-\section{Mathematical formulation}
+\section{Mathematical Formulation}
 \label{sec:mathematical_formulation}
 
 This two-index vehicle flow formulation for the \gls{3L-CVRP} is taken from \cite{tamke_branch-and-cut_2024}.\footcite[cf.][p. 6f]{tamke_branch-and-cut_2024}
@@ -19,22 +19,22 @@ demanded by all customers $i \in S$, with $S \subseteq C$. The set $A(P)$ includ
 to an infeasible route. A sequence has to have the minimum length of two. All sets are summarized in Table~\ref{tab:set_definitions}.
 
 \begin{table}[ht]
-    \centering
-    \begin{tabular}{llc}
-        \toprule
-        Symbol        & Description                              & Range                         \\
-        \midrule
-        $N$           & Set of nodes                             & $\{ 0, \dots, N \}$           \\
-        $C$           & Set of customers                         & $\{ 1, \dots, N \} $          \\
-        $A$           & Set of directed arcs                     & $\{(0,1), \dots, (n-1, n) \}$ \\
-        $\delta^+(i)$ & Set of arcs leaving node $i$             & $\in A$                       \\
-        $\delta^-(i)$ & Set of arcs entering node $i$            & $\in A$                       \\
-        $A(S)$        & Set of arcs with both ends in subset $S$ & $\in A$                       \\
-        $A(P)$        & Set of arcs in an infeasible path $P$    & $\in A$                       \\
-        \bottomrule
-    \end{tabular}
-    \caption{Definitions of sets used in the two-index vehicle flow model formulation.}
-    \label{tab:set_definitions}
+	\centering
+	\begin{tabular}{llc}
+		\toprule
+		Symbol        & Description                              & Range                         \\
+		\midrule
+		$N$           & Set of nodes                             & $\{ 0, \dots, N \}$           \\
+		$C$           & Set of customers                         & $\{ 1, \dots, N \} $          \\
+		$A$           & Set of directed arcs                     & $\{(0,1), \dots, (n-1, n) \}$ \\
+		$\delta^+(i)$ & Set of arcs leaving node $i$             & $\in A$                       \\
+		$\delta^-(i)$ & Set of arcs entering node $i$            & $\in A$                       \\
+		$A(S)$        & Set of arcs with both ends in subset $S$ & $\in A$                       \\
+		$A(P)$        & Set of arcs in an infeasible path $P$    & $\in A$                       \\
+		\bottomrule
+	\end{tabular}
+	\caption{Definitions of sets used in the two-index vehicle flow model formulation.}
+	\label{tab:set_definitions}
 \end{table}
 \clearpage
 \subsection*{Parameters}
@@ -51,54 +51,54 @@ value between the total weight $q(S)$ divided by the weight capacity $Q$, and th
 total volume $v(S)$ divided by the volume capacity $V$:
 \[r(S) = \max\left( \left\lceil \frac{q(S)}{Q} \right\rceil, \left\lceil \frac{v(S)}{V} \right\rceil \right)\]
 \begin{table}[ht]
-    \centering
-    \begin{tabular}{ll}
-        \toprule
-        Symbol    & Description                                                   \\
-        \midrule
-        $c_{ii'}$ & Cost or distance of traveling from node $i$ to node $i'$      \\
-        $C$       & Total costs of the solution                                   \\
-        $K$       & Number of available vehicles                                  \\
-        $Q$       & Weight limit of vehicle                                       \\
-        $V$       & Volume limit of vehicle                                       \\
-        $q(S)$    & Total weight requested by customers in $S$                    \\
-        $v(S)$    & Total volume requested by customers in $S$                    \\
-        $r(S)$    & Minimum number of vehicles required to cover customers in $S$ \\
-        \bottomrule
-    \end{tabular}
-    \caption{Parameter definitions for the two-index vehicle flow model formulation.}
-    \label{tab:parameter_definitions}
+	\centering
+	\begin{tabular}{ll}
+		\toprule
+		Symbol    & Description                                                   \\
+		\midrule
+		$c_{ii'}$ & Cost or distance of traveling from node $i$ to node $i'$      \\
+		$C$       & Total costs of the solution                                   \\
+		$K$       & Number of available vehicles                                  \\
+		$Q$       & Weight limit of vehicle                                       \\
+		$V$       & Volume limit of vehicle                                       \\
+		$q(S)$    & Total weight requested by customers in $S$                    \\
+		$v(S)$    & Total volume requested by customers in $S$                    \\
+		$r(S)$    & Minimum number of vehicles required to cover customers in $S$ \\
+		\bottomrule
+	\end{tabular}
+	\caption{Parameter definitions for the two-index vehicle flow model formulation.}
+	\label{tab:parameter_definitions}
 \end{table}
 
 \subsection*{Decision Variable}
 For the model formulation only one binary decision variable is necessary indicating, if the arc
 between nodes $i$ and $i'$ is included in the solution.
 \[
-    x_{ii'} =
-    \begin{cases}
-        1 & \text{if arc } (i,i') \text{ is used in the solution} \\
-        0 & \text{otherwise}
-    \end{cases}
+	x_{ii'} =
+	\begin{cases}
+		1 & \text{if arc } (i,i') \text{ is used in the solution} \\
+		0 & \text{otherwise}
+	\end{cases}
 \]
 \clearpage
 
 \subsection*{Model}
-\textbf{Obi'ective:}
+\textbf{Objective:}
 \begin{equation}
-    \label{eq:obi'ective}
-    \min \, C = \sum_{(i,i')\in A} c_{ii'}\cdot x_{ii'}
+	\label{eq:objective}
+	\min \, C = \sum_{(i,i')\in A} c_{ii'}\cdot x_{ii'}
 \end{equation}
 
-\textbf{Subi'ect to:}
+\textbf{Subject to:}
 \begin{align}
-    \sum_{(i,i')\in \delta^+(i)} x_{ii'} & = 1                                                                                  &  & \forall i \in C                         \label{eq:flowout}     \\
-    \sum_{(i,i')\in \delta^-(i)} x_{ii'} & = 1                                                                                  &  & \forall i \in C                         \label{eq:flowin}      \\
-    \sum_{(i,i')\in \delta^+(0)} x_{ii'} & \leq K                                                       \label{eq:vehiclelimit}                                                                     \\
-    \sum_{(i,i')\in A(S)} x_{ii'}        & \leq |S| - r(S)                                                                      &  & \forall S \subseteq C, S \neq \emptyset \label{eq:capacitycut} \\
-    \sum_{(i,i')\in A(P)} x_{ii'}        & \leq |A(P)| - 1                                                                      &  & \forall \text{ infeasible paths } P     \label{eq:pathelim}
+	\sum_{(i,i')\in \delta^+(i)} x_{ii'} & = 1                                                                                  &  & \forall i \in C                         \label{eq:flowout}     \\
+	\sum_{(i,i')\in \delta^-(i)} x_{ii'} & = 1                                                                                  &  & \forall i \in C                         \label{eq:flowin}      \\
+	\sum_{(i,i')\in \delta^+(0)} x_{ii'} & \leq K                                                       \label{eq:vehiclelimit}                                                                     \\
+	\sum_{(i,i')\in A(S)} x_{ii'}        & \leq |S| - r(S)                                                                      &  & \forall S \subseteq C, S \neq \emptyset \label{eq:capacitycut} \\
+	\sum_{(i,i')\in A(P)} x_{ii'}        & \leq |A(P)| - 1                                                                      &  & \forall \text{ infeasible paths } P     \label{eq:pathelim}
 \end{align}
 
-The obi'ective function minimizes the total costs and the travelled distance. The constraints \ref{eq:flowout} and \ref{eq:flowin}
+The objective function minimizes the total costs and the travelled distance. The constraints \ref{eq:flowout} and \ref{eq:flowin}
 are restricting that every customer can and must only be visited once by defining the number
 of arcs leaving and entering a node $i$ to 1. These two constraints do not apply to the depot,
 which is included in every tour. Constraint~\ref{eq:vehiclelimit} limits the maximum number of

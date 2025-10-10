@@ -1,15 +1,16 @@
 \chapter{Critical discussion}
 \label{chap:critical_discussion}
 \begin{itemize}
-    \item Threhsolds could be fitted while training the model, for simplicity and comparison reasons not done in this Thesis.
-    \item \cite{zhang_learning-based_2022} did no feature selection most of the geometricla features were dropped here, no
-          explaination how the model works, \gls{LR} pretty good results for short traiining time
-    \item LR model better with random datasetes?
-    \item XGB and FFNN better for save strategy datasets?
-    \item Adapted base parameters for classifeir variants could bring benefits
-    \item Several cuts/ compromises due to limited time and computational capacity
-    \item How does rejection rate is dependent from instance lightweight or heavy? more analysius about instance characteristics!
-    \item Guter tausch 5\% Verbesserung --> KI Modell falsch; nochmal exakt lösen! für gute verbesserung --> Könnte in schnellerer Heuristik bei Ablehnung mit CP Solver überprüft werden!
+	\item Threhsolds could be fitted while training the model, for simplicity and comparison reasons not done in this Thesis.
+	\item \cite{zhang_learning-based_2022} did no feature selection most of the geometricla features were dropped here, no
+	      explaination how the model works, \gls{LR} pretty good results for short traiining time
+	\item LR model better with random datasetes?
+	\item AUROC value for save-strategy datasets higher \ref{tab:featurePerformance_krebs} -> better threshold than 0.5 could have been chosen here!
+	\item XGB and FFNN better for save-strategy datasets?
+	\item Adapted base parameters for classifeir variants could bring benefits
+	\item Several cuts/ compromises due to limited time and computational capacity
+	\item How does rejection rate is dependent from instance lightweight or heavy? more analysius about instance characteristics!
+	\item Guter tausch 5\% Verbesserung --> KI Modell falsch; nochmal exakt lösen! für gute verbesserung --> Könnte in schnellerer Heuristik bei Ablehnung mit CP Solver überprüft werden!
 \end{itemize}
 
 As discussed in Chapter 2.3, the verification of packing feasibility for each individual

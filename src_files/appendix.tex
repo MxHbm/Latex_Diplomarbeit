@@ -78,8 +78,10 @@ For each stacked feature bar above one of the barriers, the feature is respected
 	\caption{Feature dropsets with different parameter combinations of $\epsilon$ and $B$.}
 	\label{tab:feature_dropsets}
 \end{table}
+\clearpage
+\section{Model Hyperparameters}
 
-\begin{table}[ht]
+\begin{table}[!ht]
 	\centering
 	\small
 	\caption{Model hyperparameters for feature selection.}
@@ -107,7 +109,7 @@ For each stacked feature bar above one of the barriers, the feature is respected
 \end{table}
 
 
-\begin{table}[ht]
+\begin{table}[!ht]
 	\centering
 	\small
 	\caption{Model hyperparameters for the ILS algorithm.}
@@ -134,13 +136,12 @@ For each stacked feature bar above one of the barriers, the feature is respected
 	\end{tabular}
 \end{table}
 
-
 \clearpage
 \section{Further Feature Filter Results}
 \label{app:sec:further_feature_filter}
 The experiments conducted on the various drop sets, presented in Table~\ref{tab:drop_set_presentation_shortened}, included all
 random and save-strategy datasets as base datasets, as well as the same set of datasets as test/prediction datasets.
-In addition, all three model types were considered. This appendix section provides a more detailed discussion of the
+In addition, all three model types were considered. This Section provides a more detailed discussion of the
 results and highlights differences in feature filter performance.
 
 As noted in Section~\ref{sec:feature_filter_results}, predictions from save-strategy datasets to other save-strategy datasets
@@ -151,7 +152,7 @@ the large number of random-to-random predictions.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width = .85\textwidth]{pictures/feature_filter/cross_performance_boxplot.png}
-	\caption{Box plots of MCC performance considering only the cross performance from random to save strategy datasets and vice versa.}
+	\caption{Box plots of MCC performance considering only the cross performance from random to save-strategy datasets and vice versa.}
 	\label{fig:mcc_filter_results_cross}
 \end{figure}
 
@@ -169,8 +170,8 @@ The mean performance metrics for the cross-predictions results are shown in the 
 		AUROC    & 0.92   & 0.91    & 0.91    & \textbf{0.97} & 0.90    & 0.91    & 0.91    \\
 		\bottomrule
 	\end{tabular}
-	\caption[Mean performance metrics on various different drop set considering only the cross-predictions from random to save strategy datasets and vice versa.]
-	{Mean performance metrics on various different drop set considering only the cross-predictions from from random to save strategy datasets and vice versa.
+	\caption[Mean performance metrics on various different drop set considering only the cross-predictions from random to save-strategy datasets and vice versa.]
+	{Mean performance metrics on various different drop set considering only the cross-predictions from from random to save-strategy datasets and vice versa.
 		Bold font shows the best results for each performance score.}
 	\label{tab:featurePerformance_OnlyCrossCorrelation}
 \end{table}
@@ -248,7 +249,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 
 \clearpage
 
-\section{Feature space}
+\section{Feature Space}
 \label{app:sec:feature_space}
 \begin{figure}[!ht]
 	\centering
@@ -258,7 +259,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 \end{figure}
 \clearpage
 
-\section{CP status distribution of feature space}
+\section{CP Status Distribution of Feature Space}
 \label{app:sec:feature_space_cpStatus}
 
 \begin{figure}[!ht]
@@ -281,7 +282,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 \clearpage
 
 
-\section{Parameterstudy}
+\section{Parameter Study}
 
 \subsubsection{NoClassifier Variant}
 \label{app:subsec:parameterstudy_noclassifier}
@@ -314,7 +315,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 
 
 \FloatBarrier
-\subsubsection{Numerical parameter study NoClassifier variant}
+\subsubsection{Numerical Parameter Study NoClassifier Variant}
 \begin{table}[!ht]
 	\scriptsize
 	\centering
@@ -413,7 +414,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 	\caption{Parameter study for Hybrid variant.}
 \end{figure}
 \clearpage
-\subsubsection{Numerical parameter study classifier variants}
+\subsubsection{Numerical Parameter Study Classifier Variants}
 \begin{table}[!ht]
 	\tiny
 	\centering
@@ -476,7 +477,7 @@ between \gls{LR}, \gls{XGB} and \gls{FFNN} models, with the latter representing 
 \section{Branch-and-Cut Results}
 
 The following two tables summarize the results of the branch-and-cut algorithm used for the the retrieval of train datasets
-from save strategy. The following table explains each column header:
+from save-strategy. The following table explains each column header:
 
 \begin{table}[ht]
 	\centering
@@ -553,7 +554,7 @@ The objectives cant be compared to initially published results of \cite{krebs_ad
 		$\text{E101-14s}^L$ & 1576.76 & 0.33 & 23    & 135945  & TL    & $\text{7.11}^d$ \\
 		\bottomrule
 	\end{tabular}
-	\caption{B\&C Results for obtaining save strategy dataset from \gendreauDataSet.}
+	\caption{B\&C Results for obtaining save-strategy dataset from \gendreauDataSet.}
 	\label{tab:bc_results_gendreau}
 \end{table}
 
@@ -620,12 +621,12 @@ next to the instance name. In this comparison all published papers were consider
 		$\text{600-n100-m400-bt100}^L$ & $\text{680.66}^B$  & 0.00 & NaN   & 1      & 27553 & 1027.87 & 9     \\
 		\bottomrule
 	\end{tabular}
-	\caption{B\&C Results for obtaining save strategy dataset from \krebsADataSet.}
+	\caption{B\&C Results for obtaining save-strategy dataset from \krebsADataSet.}
 	\label{tab:bc_results_krebs}
 \end{table}
 
 \clearpage
-\section{Different configurations for classifier ILS variants}
+\section{Different ILS Configurations for Classifier Variants}
 \label{sec_final_comparison_results}
 
 \begin{figure}[!ht]
@@ -813,8 +814,8 @@ next to the instance name. In this comparison all published papers were consider
 		\caption{RD-3-30-20-10; Threshold $\delta$ = 1.0.}
 		\label{fig:ds-c}
 	\end{subfigure}
-	\caption[Distribution of route lengths for the random strategy with different $\delta$ thresholds.]
-	{Distribution of route lengths for the random strategy with different $\delta$ thresholds. The red vertical line indicates the average number of customers.}
+	\caption[Distribution of route lengths for the random-strategy with different $\delta$ thresholds.]
+	{Distribution of route lengths for the random-strategy with different $\delta$ thresholds. The red vertical line indicates the average number of customers.}
 	\label{fig:route-dists_randomdata}
 \end{figure}
 \clearpage
@@ -846,7 +847,8 @@ next to the instance name. In this comparison all published papers were consider
 		                         & RD-1-1-1-8     & 0.815          & 0.945          & 0.923          & 0.973          \\
 		\bottomrule
 	\end{tabular}
-	\caption{Average performance metrics across \krebsADataSetText datasets categorized by model type.}
+	\caption[Average performance metrics across \krebsADataSetText datasets categorized by model type.]{Average performance metrics across \krebsADataSetText datasets categorized by model type. Bold values
+		highlight the best metric for each model type.}
 	\label{tab:mdoe_performance_krebs_model_type}
 \end{table}
 
@@ -857,15 +859,15 @@ next to the instance name. In this comparison all published papers were consider
 	\label{fig:krebs_performance_datasets}
 \end{figure}
 
-\chapter{\krebsADataSetText computational challenges}
+\chapter{\krebsADataSetText Computational Challenges}
 \label{app:sec:krebs_computationally_challenges}
 
 As shown in Table~\ref{tab:dataset_comparison}, an average route of \krebsADataSetText contains four times more items than
 in the \gendreauDataSetText dataset. This makes it much more computationally challenging to create a labeled train dataset with either
-the \gls{CP} solver (random strategy) or by applying the B\&C algorithm (save strategy). This appendix section dives deeper in
+the \gls{CP} solver (random-strategy) or by applying the B\&C algorithm (save-strategy). This Section dives deeper in
 the construction of each retrieval strategy to highlight difficulties.
 
-\section{Random strategy}
+\section{Random-Strategy}
 \label{sec:challenges_krebs_random}
 
 The two random datasets, RD-1-1-1-10 (Krebs) and RD-2-30-20-10 (Gendreau), are compared, which are the smallest random dataset from each instance group and
@@ -875,7 +877,7 @@ which is 1000 times faster. The following boxplot shows this dispersion of \gls{
 \begin{figure}[ht]
 	\centering
 	\includegraphics[width=\textwidth]{pictures/comparison_krebs_gendreau/boxplot_cp_time.png}
-	\caption{Boxplot showing the different computation times for \krebsADataSetText and \gendreauDataSet.}
+	\caption{Boxplot showing the different computation times for \krebsADataSetText and \gendreauDataSetText datasets.}
 	\label{fig:comparison_krebs_gendreau_boxplot}
 \end{figure}
 
@@ -905,7 +907,7 @@ infeasible labels in the train dataset. So in the end, new long routes which imp
 and the exact computation time with the \gls{CP} solver takes too long to be used in a heuristic. As fewer items are considered in the dataset
 RD-2-30-20-10 the \gls{CP} time increases only minimal, when the maximum number of 25 items is reached.
 
-\section{Save strategy}
+\section{Save-Strategy}
 \label{sec:challenges_krebs_save}
 
 The results obtained by the B\&C algorithm from \cite{tamke_branch-and-cut_2024} are with an average gap of 3.14\% pretty good. However, some limitations
@@ -914,7 +916,7 @@ of the branch-and-cut algorithm caused issues solving instances from \krebsAData
 must be limited causing a lot of \textit{Unknown} and \textit{Invalid} labeled tours and the interrupting of the B\%C solver or choosing
 a high time limit, which restricts the B\%C solver in testing many solutions as the feasibility check is time intensive. The first option
 was chosen and the B\%C was modified to avert some interruptions, but not all. Therefore some runs creating the train datasets are labeled with
-B and C in Table~\ref{tab:bc_results_krebs}. The obtained datasets of the save strategy are shown in Table~\ref{tab:saved_instances_krebs}
+B and C in Table~\ref{tab:bc_results_krebs}. The obtained datasets of the save-strategy are shown in Table~\ref{tab:saved_instances_krebs}
 and the most suiting dataframe can already be identified by looking at the datasets characteristics. The number of routes with two customers
 are dominating the total number of routes, if the datasets are not Shrunken or trimmed, as can be seen in Figure~\ref{fig:route-dists_save_krebs}. Furthermore, the average relative mass and volume and
 is very low due to the imbalance of the route length.
@@ -933,7 +935,7 @@ is very low due to the imbalance of the route length.
 		\caption{Dataset KS-Shrunken-WS}
 		\label{fig:ds-b-krebs}
 	\end{subfigure}
-	\caption{Distribution of route length for the two adapted save strategy datasets. The red vertical line represents the average
+	\caption{Distribution of route length for the two adapted save-strategy datasets. The red vertical line represents the average
 		number of customers.}
 	\label{fig:route-dists_save_krebs}
 \end{figure}
@@ -956,7 +958,7 @@ also the prevailing share of feasible routes with 2 customers.
 		\caption{Dataset KS-Shrunken-WS}
 		\label{fig:ds-b-krebs_l}
 	\end{subfigure}
-	\caption{Distribution of balance of feasible and infeasible routes found per \krebsADataSetText instance for two save strategy datasets.}
+	\caption{Distribution of balance of feasible and infeasible routes found per \krebsADataSetText instance for two save-strategy datasets.}
 	\label{fig:route-feasibility_save_krebs}
 \end{figure}
 
@@ -973,7 +975,7 @@ The classifier based on the \gls{CP} Solver from \cite{tamke_repository_2024} is
 repository \href{https://github.com/MxHbm/3l-cvrp-classifier-work}{\textit{3l-cvrp-classifier-work}}. \footcite{tamke_repository_2024}
 The C++ code is controlled by a python script, defining the input files and the output folder, where the results should be stored.
 
-\subsubsection{Forked branch-and-cut algorithm for save strategy}
+\subsubsection{Forked branch-and-cut algorithm for save-strategy}
 The  repository \href{https://github.com/MxHbm/clean-3l-cvrp}{\textit{clean-3l-cvrp}} has the purpose the run the published branch-and-cut algorithm from \cite{tamke_branch-and-cut_2024}. The algorithm
 was modified to save all checked routes dependent from loading status and flag (see Section~\ref{sec:DataRetrieval}). Furthermore,
 the branch \texttt{krebs\_branch} was created to cause the algorithm not to break, when \textit{Invalid} or \textit{Unknown}

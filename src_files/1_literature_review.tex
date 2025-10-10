@@ -55,7 +55,7 @@ into five categories, which are presented in the following. They also distinguis
 where hard constraints must be strictly satisfied, while soft constraints may be violated
 to some extent.\footcites(cf.)()[p. 1f]{bortfeldt_constraints_2013}[p. 1f]{bischoff_issues_1995}
 
-\subsubsection{Container related constraints}
+\subsubsection{Container Related Constraints}
 These constraints summarize all physical barriers of the container. The \textit{load capacity} limits the aggregated
 mass of all items in the container. The distribution of the weight (\textit{load balance})
 plays an important role for safety reasons, as the cargo must not move during the transport and the container
@@ -63,7 +63,7 @@ must not tip over. It is defined by the maximum weight difference between the le
 When the containers are transported by trucks, uneven \textit{axle weight} distribution can cause severe
 consequences and needs to be avoided for practicability by loading the cargo axle-friendly. \footcite[cf.][p. 849f]{krebs_advanced_2021}
 
-\subsubsection{Item related constraints}
+\subsubsection{Item Related Constraints}
 Item related constraints define the properties of the item, which are relevant
 for the packing. When the container capacity is limited (\textit{output maximization}),
 the \textit{loading priority} constraint defines the priority among possible
@@ -94,7 +94,7 @@ shipments, comprising multiple packages, should be delivered together
 to enable efficient installation. Conversely, items such as perfume and fresh
 vegetables should be shipped separately due to incompatibility.
 
-\subsubsection{Positioning constraints}
+\subsubsection{Positioning Constraints}
 
 Positioning constraints determine, if items must be placed at
 absolute locations or relative to other items. Absolute positioning is
@@ -121,7 +121,7 @@ Horizontal stability is achieved when items are securely connected to the
 container walls or to other items, preventing lateral movement. Vertical
 stability, on the other hand, is defined in various ways throughout the
 literature. A common approach to assessing vertical stability is through the concept of the \textit{support
-    area}, the portion of an item's base that rests on the surface below. Stability is typically
+	area}, the portion of an item's base that rests on the surface below. Stability is typically
 considered sufficient when the support area covers $75\%$ to $100\%$ of the item’s base. \footcite[cf.][p. 344]{gendreau_tabu_2006} However,
 this may still result in unstable configurations, if the center of gravity falls outside the
 support area of the underlying layers, potentially causing the cargo to tilt. To improve practical stability,
@@ -317,10 +317,10 @@ and spatial characteristics of the packing problem. These include the ratio of t
 to the container floor area, as well as the mean, standard deviation, minimum, and maximum of
 the following four indicators:
 \begin{itemize}
-    \item[1.] The ratio of item width to item height.
-    \item[2.] The ratio of item width to the container width.
-    \item[3.] The ratio of item height to the container height.
-    \item[4.] The ratio of each item’s area to the total container area.
+	\item[1.] The ratio of item width to item height.
+	\item[2.] The ratio of item width to the container width.
+	\item[3.] The ratio of item height to the container height.
+	\item[4.] The ratio of each item’s area to the total container area.
 \end{itemize}
 
 Even though the results are very positive, substantial simplifications regarding the loading were assumed: Stacking
@@ -394,83 +394,83 @@ The following chapter builds on these insights and introduces all components for
 to establish the foundation for a promising new \gls{3L-CVRP} algorithm with integrated \gls{ML} techniques.
 
 \begin{table}[ht]
-    \footnotesize
-    \centering
-    \setlength{\tabcolsep}{3pt}         % tighten intercolumn space (default ~6pt)
-    \renewcommand{\arraystretch}{1.2}   % a touch more row height
-    \begin{tabular}{@{}
-            P{0.25\textwidth} % Author
-            P{0.15\textwidth} % Set Symbol
-            P{0.50\textwidth} % Problem
-            @{}}
-        \toprule
-        \textbf{Author}            & \textbf{Set Symbol} & \textbf{Constraints}                                                                   \\
-        \midrule
-        \cite{gendreau_tabu_2006}  & $\mathcal{G}$       & z-Rotation, Fragility, LIFO, Sequence, Support Area                                    \\
-        \cite{ceschia_local_2013}  & $\mathcal{C}$       & z-Rotation, Load Bearing Strength, Reachability, MLIFO, Robust Stability               \\
-        \cite{krebs_advanced_2021} & $\mathcal{K}$       & z-Rotation, Load Bearing Strength, Reachability, MLIFO, Robust Stability, Axle Weights \\
-        \cite{iori_exact_2007}     & $\mathcal{I}$       & Sequence, \gls{LIFO}                                                                   \\
-        \bottomrule
-    \end{tabular}
+	\footnotesize
+	\centering
+	\setlength{\tabcolsep}{3pt}         % tighten intercolumn space (default ~6pt)
+	\renewcommand{\arraystretch}{1.2}   % a touch more row height
+	\begin{tabular}{@{}
+			P{0.25\textwidth} % Author
+			P{0.15\textwidth} % Set Symbol
+			P{0.50\textwidth} % Problem
+			@{}}
+		\toprule
+		\textbf{Author}            & \textbf{Set Symbol} & \textbf{Constraints}                                                                   \\
+		\midrule
+		\cite{gendreau_tabu_2006}  & $\mathcal{G}$       & z-Rotation, Fragility, LIFO, Sequence, Support Area                                    \\
+		\cite{ceschia_local_2013}  & $\mathcal{C}$       & z-Rotation, Load Bearing Strength, Reachability, MLIFO, Robust Stability               \\
+		\cite{krebs_advanced_2021} & $\mathcal{K}$       & z-Rotation, Load Bearing Strength, Reachability, MLIFO, Robust Stability, Axle Weights \\
+		\cite{iori_exact_2007}     & $\mathcal{I}$       & Sequence, \gls{LIFO}                                                                   \\
+		\bottomrule
+	\end{tabular}
 
-    \caption{Various sets of loading constraints defined by different authors. }
-    \label{tab:constraint_sets}
+	\caption{Various sets of loading constraints defined by different authors. }
+	\label{tab:constraint_sets}
 \end{table}
 
 
 \begin{table}[ht]
-    \scriptsize
-    \centering
-    \setlength{\tabcolsep}{3pt}         % tighten intercolumn space (default ~6pt)
-    \renewcommand{\arraystretch}{1.3}   % a touch more row height
+	\scriptsize
+	\centering
+	\setlength{\tabcolsep}{3pt}         % tighten intercolumn space (default ~6pt)
+	\renewcommand{\arraystretch}{1.3}   % a touch more row height
 
-    \begin{tabular}{@{}
-            P{0.05\textwidth} % Number
-            P{0.08\textwidth} % Year
-            P{0.15\textwidth} % Author
-            P{0.11\textwidth} % Problem
-            P{0.18\textwidth} % Routing Algorithm
-            P{0.20\textwidth} % Loading Algorithm
-            P{0.12\textwidth} % Constraints
-            @{}}
-        \toprule
-        \textbf{No} & \textbf{Year}                          & \textbf{Author}                          & \textbf{Problem} & \textbf{Routing Algorithm}         & \textbf{Loading Algorithm}                    & \textbf{Constraints}            \\
-        \midrule
+	\begin{tabular}{@{}
+			P{0.05\textwidth} % Number
+			P{0.08\textwidth} % Year
+			P{0.15\textwidth} % Author
+			P{0.11\textwidth} % Problem
+			P{0.18\textwidth} % Routing Algorithm
+			P{0.20\textwidth} % Loading Algorithm
+			P{0.12\textwidth} % Constraints
+			@{}}
+		\toprule
+		\textbf{No} & \textbf{Year}                          & \textbf{Author}                          & \textbf{Problem} & \textbf{Routing Algorithm}         & \textbf{Loading Algorithm}                    & \textbf{Constraints}            \\
+		\midrule
 
-        \multicolumn{7}{c}{\textbf{Metaheuristics}}                                                                                                                                                                                               \\
-        \midrule
-        1           & \citeyear{gendreau_tabu_2006}          & \citeauthor{gendreau_tabu_2006}          & 3L--CVRP         & 4-Opt \gls{LS} with Tabu List      & \gls{BLF}                                     & $\mathcal{G}$                   \\
-        2           & \citeyear{gendreau_tabu_2008}          & \citeauthor{gendreau_tabu_2008}          & 2L--CVRP         & Tabu Search                        & \gls{MTP}                                     & $\mathcal{I}$                   \\
-        3           & \citeyear{tarantilis_hybrid_2009}      & \citeauthor{tarantilis_hybrid_2009}      & 3L--CVRP         & Guided Tabu Search                 & 6 Placement Heuristics                        & $\mathcal{G}$                   \\
-        4           & \citeyear{zachariadis_guided_2009}     & \citeauthor{zachariadis_guided_2009}     & 2L--CVRP         & Guided Tabu Search                 & \gls{MTP}                  \& \gls{BLF}       & $\mathcal{I}$                   \\
-        5           & \citeyear{wang_two_2010}               & \citeauthor{wang_two_2010}               & 3L--CVRP         & Tabu Search                        & Deepest \gls{BLF} \& \gls{MTP}                & $\mathcal{G}$                   \\
-        6           & \citeyear{bortfeldt_hybrid_2012}       & \citeauthor{bortfeldt_hybrid_2012}       & 3L--CVRP         & Tabu Search                        & Tree search algorithm                         &                                 \\
-        7           & \citeyear{ceschia_local_2013}          & \citeauthor{ceschia_local_2013}          & 3L--CVRP         & Large Neighborhood Search          & 9 Placement Heuristics                        & $\mathcal{C}$                   \\
-        8           & \citeyear{tao_effective_2015}          & \citeauthor{tao_effective_2015}          & 3L--CVRP         & Tabu Search                        & Least Waste Heuristic                         & $\mathcal{G}$                   \\
-        9           & \citeyear{zhang_evolutionary_2015}     & \citeauthor{zhang_evolutionary_2015}     & 3L--CVRP         & Evolutionary \gls{LS}              & \gls{LS} with Open Space Heuristic            & $\mathcal{G}$                   \\
-        10          & \citeyear{krebs_axle_2021}             & \citeauthor{krebs_axle_2021}             & 3L--CVRP         & Adaptive Large Neighborhood Search & Deepest \gls{BLF}                             & $\mathcal{G}$ + Axle Weights    \\
-        11          & \citeyear{krebs_advanced_2021}         & \citeauthor{krebs_advanced_2021}         & 3L--VRPTW        & Adaptive Large Neighborhood Search & Deepest \gls{BLF}                             & $\mathcal{K}$                   \\
-        \addlinespace[0.5em]
-        \midrule
-        \multicolumn{7}{c}{\textbf{Exact Approaches}}                                                                                                                                                                                             \\
-        \midrule
-        12          & \citeyear{iori_exact_2007}             & \citeauthor{iori_exact_2007}             & 2L--CVRP         & Branch-and-cut                     & Branch-and-bound \& \gls{BLF} Heuristic       & $\mathcal{I}$                   \\
-        13          & \citeyear{junqueira_optimization_2013} & \citeauthor{junqueira_optimization_2013} & 3L--CVRP         & Integer linear programming         & Branch-and-bound \& \gls{BLF} Heuristic       & Multidrop, \gls{LBS}, Fragility \\
-        14          & \citeyear{hokama_branch-and-cut_2016}  & \citeauthor{hokama_branch-and-cut_2016}  & 2L/3L--CVRP      & Branch-and-cut                     & \gls{CP} Solver \& Heuristic                  & $\mathcal{I}$                   \\
-        15          & \citeyear{tamke_branch-and-cut_2024}   & \citeauthor{tamke_branch-and-cut_2024}   & 3L--CVRP         & Branch-and-cut                     & \gls{CP} Solver \& Heuristic                  & $\mathcal{G}$                   \\
-        \addlinespace[0.5em]
-        \midrule
-        \multicolumn{7}{c}{\textbf{Blended Approaches}}                                                                                                                                                                                           \\
-        \midrule
-        16          & \citeyear{kucuk_constraint_2022}       & \citeauthor{kucuk_constraint_2022}       & 3L--VRPTW        & CP-Solver                          & Evolutionary Algorithm                        & Full rotation                   \\
-        17          & \citeyear{zhang_learning-based_2022}   & \citeauthor{zhang_learning-based_2022}   & 2L--VRPTW        & Branch-and-price                   & Binary Classifier \&  Strip Packing Algorithm & $\emptyset$                     \\
-        18          & \citeyear{schoepf_using_2024}          & \citeauthor{schoepf_using_2024}          & 3L--CVRP         & Reinforcement Learning             & Reinforcement Learning                        & $\mathcal{G}$                   \\
+		\multicolumn{7}{c}{\textbf{Metaheuristics}}                                                                                                                                                                                               \\
+		\midrule
+		1           & \citeyear{gendreau_tabu_2006}          & \citeauthor{gendreau_tabu_2006}          & 3L--CVRP         & 4-Opt \gls{LS} with Tabu List      & \gls{BLF}                                     & $\mathcal{G}$                   \\
+		2           & \citeyear{gendreau_tabu_2008}          & \citeauthor{gendreau_tabu_2008}          & 2L--CVRP         & Tabu Search                        & \gls{MTP}                                     & $\mathcal{I}$                   \\
+		3           & \citeyear{tarantilis_hybrid_2009}      & \citeauthor{tarantilis_hybrid_2009}      & 3L--CVRP         & Guided Tabu Search                 & 6 Placement Heuristics                        & $\mathcal{G}$                   \\
+		4           & \citeyear{zachariadis_guided_2009}     & \citeauthor{zachariadis_guided_2009}     & 2L--CVRP         & Guided Tabu Search                 & \gls{MTP}                  \& \gls{BLF}       & $\mathcal{I}$                   \\
+		5           & \citeyear{wang_two_2010}               & \citeauthor{wang_two_2010}               & 3L--CVRP         & Tabu Search                        & Deepest \gls{BLF} \& \gls{MTP}                & $\mathcal{G}$                   \\
+		6           & \citeyear{bortfeldt_hybrid_2012}       & \citeauthor{bortfeldt_hybrid_2012}       & 3L--CVRP         & Tabu Search                        & Tree search algorithm                         &                                 \\
+		7           & \citeyear{ceschia_local_2013}          & \citeauthor{ceschia_local_2013}          & 3L--CVRP         & Large Neighborhood Search          & 9 Placement Heuristics                        & $\mathcal{C}$                   \\
+		8           & \citeyear{tao_effective_2015}          & \citeauthor{tao_effective_2015}          & 3L--CVRP         & Tabu Search                        & Least Waste Heuristic                         & $\mathcal{G}$                   \\
+		9           & \citeyear{zhang_evolutionary_2015}     & \citeauthor{zhang_evolutionary_2015}     & 3L--CVRP         & Evolutionary \gls{LS}              & \gls{LS} with Open Space Heuristic            & $\mathcal{G}$                   \\
+		10          & \citeyear{krebs_axle_2021}             & \citeauthor{krebs_axle_2021}             & 3L--CVRP         & Adaptive Large Neighborhood Search & Deepest \gls{BLF}                             & $\mathcal{G}$ + Axle Weights    \\
+		11          & \citeyear{krebs_advanced_2021}         & \citeauthor{krebs_advanced_2021}         & 3L--VRPTW        & Adaptive Large Neighborhood Search & Deepest \gls{BLF}                             & $\mathcal{K}$                   \\
+		\addlinespace[0.5em]
+		\midrule
+		\multicolumn{7}{c}{\textbf{Exact Approaches}}                                                                                                                                                                                             \\
+		\midrule
+		12          & \citeyear{iori_exact_2007}             & \citeauthor{iori_exact_2007}             & 2L--CVRP         & Branch-and-cut                     & Branch-and-bound \& \gls{BLF} Heuristic       & $\mathcal{I}$                   \\
+		13          & \citeyear{junqueira_optimization_2013} & \citeauthor{junqueira_optimization_2013} & 3L--CVRP         & Integer linear programming         & Branch-and-bound \& \gls{BLF} Heuristic       & Multidrop, \gls{LBS}, Fragility \\
+		14          & \citeyear{hokama_branch-and-cut_2016}  & \citeauthor{hokama_branch-and-cut_2016}  & 2L/3L--CVRP      & Branch-and-cut                     & \gls{CP} Solver \& Heuristic                  & $\mathcal{I}$                   \\
+		15          & \citeyear{tamke_branch-and-cut_2024}   & \citeauthor{tamke_branch-and-cut_2024}   & 3L--CVRP         & Branch-and-cut                     & \gls{CP} Solver \& Heuristic                  & $\mathcal{G}$                   \\
+		\addlinespace[0.5em]
+		\midrule
+		\multicolumn{7}{c}{\textbf{Blended Approaches}}                                                                                                                                                                                           \\
+		\midrule
+		16          & \citeyear{kucuk_constraint_2022}       & \citeauthor{kucuk_constraint_2022}       & 3L--VRPTW        & CP-Solver                          & Evolutionary Algorithm                        & Full rotation                   \\
+		17          & \citeyear{zhang_learning-based_2022}   & \citeauthor{zhang_learning-based_2022}   & 2L--VRPTW        & Branch-and-price                   & Binary Classifier \&  Strip Packing Algorithm & $\emptyset$                     \\
+		18          & \citeyear{schoepf_using_2024}          & \citeauthor{schoepf_using_2024}          & 3L--CVRP         & Reinforcement Learning             & Reinforcement Learning                        & $\mathcal{G}$                   \\
 
 
-        \bottomrule
-    \end{tabular}
+		\bottomrule
+	\end{tabular}
 
-    \caption{Literature overview on different solution methods of the VRP
-        with loading constraints.}
-    \label{tab:literature overview}
+	\caption{Literature overview on different solution methods of the VRP
+		with loading constraints.}
+	\label{tab:literature overview}
 \end{table}

@@ -3,7 +3,7 @@
 
 The \gls{CVRP} minimizes the total driven distance over all tours. In every tour
 a number of customers need to be served with a set of items. When considering multidimensional items
-the NP-hard problem itself,increases in complexity, as every tour is representing a \gls{CLP} itself. \footcite[cf.][p. 1f]{tamke_branch-and-cut_2024}
+the $NP$-hard problem itself,increases in complexity, as every tour is representing a \gls{CLP} itself. \footcite[cf.][p. 1f]{tamke_branch-and-cut_2024}
 The packing of each route is either feasible or infeasible due to the loading constraints,
 creating the possibility to predict the loading status of each tour with a classifier.
 These classifiers are supervised learning models, which are trained on a labeled dataset,
@@ -27,33 +27,33 @@ to accurately predict unseen data. Furthermore, it needs to be noted, that avail
 other models on specific application problems. \footcite[cf.][pp. 250, 264]{kotsiantis_supervised_2007}
 
 
-\section{Evaluation metrics for ML approaches}
+\section{Evaluation Metrics for Classifiers}
 \label{sec:classifier_objectives}
 To compare different models and \gls{ML} approaches performance indicators are needed. Most measures rely
 on the binary output of the confusion matrix, which categorizes predictions by their true and predicted labels.
 The goal is to minimize false predicted values.
 
 \begin{table}[ht]
-    \centering
-    \small
-    \begin{tabular}{@{}lcc@{}}
-        \toprule
-                                 & \textbf{Predicted Positive} & \textbf{Predicted Negative} \\
-        \midrule
-        \textbf{Actual Positive} & True Positive (TP)          & False Negative (FN)         \\
-        \textbf{Actual Negative} & False Positive (FP)         & True Negative (TN)          \\
-        \bottomrule
-    \end{tabular}
-    \caption{Confusion matrix for binary classification.}
-    \label{tab:confusion_matrix}
+	\centering
+	\small
+	\begin{tabular}{@{}lcc@{}}
+		\toprule
+		                         & \textbf{Predicted Positive} & \textbf{Predicted Negative} \\
+		\midrule
+		\textbf{Actual Positive} & True Positive (TP)          & False Negative (FN)         \\
+		\textbf{Actual Negative} & False Positive (FP)         & True Negative (TN)          \\
+		\bottomrule
+	\end{tabular}
+	\caption{Confusion matrix for binary classification.}
+	\label{tab:confusion_matrix}
 \end{table}
 
 The dispersion of the single groups, can be used to calculate the accuracy and the F1-score of the classification.
 These are standard performance metrics assessing the model between 0 (worst) and 1 (best) behavior:
 \begin{align}
-    \text{Accuracy}=\frac{TP+TN}{TP+FN+TN+FP}
-    \qquad
-    \text{F1}=\frac{2\,TP}{2\,TP+FP+FN}
+	\text{Accuracy}=\frac{TP+TN}{TP+FN+TN+FP}
+	\qquad
+	\text{F1}=\frac{2\,TP}{2\,TP+FP+FN}
 \end{align}
 The accuracy is the ratio between the true classified classes against the whole population
 of predictions. The F1-score emphasis the true positive labels and is therefore especially
@@ -65,7 +65,7 @@ Two alternative metrics are, firstly, the \gls{MCC}, which is robust against imb
 and focuses on  false positive and negative values. \gls{MCC} has the advantage to account the majority of the predictions
 relative to class size and is defined from -1 to 1. \footcite[cf.][pp. 2--3, 5]{chicco_advantages_2020}
 \begin{align}
-    \text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP+FP)\cdot(TP+FN)\cdot(TN+FP)\cdot(TN+FN)}}
+	\text{MCC}=\frac{TP \cdot TN - FP \cdot FN}{\sqrt{(TP+FP)\cdot(TP+FN)\cdot(TN+FP)\cdot(TN+FN)}}
 \end{align}
 Secondly, the \gls{AUROC}, which evaluates the overall classification performance by using several thresholds to compute the true and false
 positive rate  at different acceptance levels \footcite[cf.][p. 2 f.]{chicco_advantages_2020}. Both rates represent ratios:
@@ -82,27 +82,27 @@ To highlight the differences between an imbalanced and balanced training dataset
 evaluation metrics, with exception of the \gls{AUROC}, are compared in the following Table~\ref{tab:indicator_comparison}.
 
 \begin{table}[ht]
-    \centering
-    \small
-    \begin{tabular}{@{}P{0.1\textwidth}P{0.42\textwidth}P{0.42\textwidth}@{}}
-        \toprule
-        Score  & Balanced Dataset A $(n = 100)$                                                           & Imbalanced Dataset B  $(n = 100)$                                                \\
-        \midrule
-        Bal.   & Pos = 50; Neg = 50                                                                       & Pos = 91; Neg = 9                                                                \\
-        \midrule
-        Distr. & TP = 47; FN = 3; TN = 5; FP = 45                                                         & TP = 90; FN = 1; TN = 1; FP = 8                                                  \\
-        \midrule
-        Acc    & $\frac{47 + 5}{47 + 3  + 5 + 45} = 0.52$                                                 & $\frac{90 + 1}{90 + 1  + 1 +8} = 0.91$                                           \\
-        \midrule
-        F1     & $\frac{2\cdot 47}{2\cdot47 + 3 + 45} = 0.66$                                             & $\frac{2 \cdot 90}{2 \cdot 90 + 1 +8} = 0.95$                                    \\
-        \midrule
-        MCC    & $\frac{47\cdot5 -3\cdot45\cdot1}{\sqrt{(47+45)\cdot(47+3)\cdot(5+45)\cdot(3+5)}} = 0.07$ & $\frac{90\cdot1 - 8\cdot1}{\sqrt{(90+8)\cdot(90+1)\cdot(1+8)\cdot(1+1)}} = 0.21$ \\
-        \bottomrule
-    \end{tabular}
-    \caption[Comparison of accuracy, F1-score and MCC with an exemplary balanced and unbalanced
-        dataset.]{Comparison of accuracy, F1-score and \gls{MCC} with an exemplary balanced and unbalanced
-        dataset.\footnote{Numbers and examples are inspired on \cite[p. 9]{chicco_advantages_2020}}}
-    \label{tab:indicator_comparison}
+	\centering
+	\small
+	\begin{tabular}{@{}P{0.1\textwidth}P{0.42\textwidth}P{0.42\textwidth}@{}}
+		\toprule
+		Score  & Balanced Dataset A $(n = 100)$                                                                     & Imbalanced Dataset B  $(n = 100)$                                                          \\
+		\midrule
+		Bal.   & Pos = 50; Neg = 50                                                                                 & Pos = 91; Neg = 9                                                                          \\
+		\midrule
+		Distr. & TP = 47; FN = 3; TN = 5; FP = 45                                                                   & TP = 90; FN = 1; TN = 1; FP = 8                                                            \\
+		\midrule
+		Acc    & $\textstyle\frac{47 + 5}{47 + 3  + 5 + 45} = 0.52$                                                 & $\textstyle\frac{90 + 1}{90 + 1  + 1 +8} = 0.91$                                           \\
+		\midrule
+		F1     & $\textstyle\frac{2\cdot 47}{2\cdot47 + 3 + 45} = 0.66$                                             & $\textstyle\frac{2 \cdot 90}{2 \cdot 90 + 1 +8} = 0.95$                                    \\
+		\midrule
+		MCC    & $\textstyle\frac{47\cdot5 -3\cdot45\cdot1}{\sqrt{(47+45)\cdot(47+3)\cdot(5+45)\cdot(3+5)}} = 0.07$ & $\textstyle\frac{90\cdot1 - 8\cdot1}{\sqrt{(90+8)\cdot(90+1)\cdot(1+8)\cdot(1+1)}} = 0.21$ \\
+		\bottomrule
+	\end{tabular}
+	\caption[Comparison of accuracy, F1-score and MCC with an exemplary balanced and unbalanced
+		dataset.]{Comparison of accuracy, F1-score and \gls{MCC} with an exemplary balanced and unbalanced
+		dataset.\footnote{Numbers and examples are inspired on \cite[p. 9]{chicco_advantages_2020}}}
+	\label{tab:indicator_comparison}
 \end{table}
 
 In the first example the positive and negative label classes are equal, and the distribution for the
@@ -124,7 +124,7 @@ The following section provides a more detailed description of how the routes for
 
 Collecting the training data is a crucial step in model creation, and two approaches are introduced in this section.
 
-\subsubsection{Saving labeled routes from exact algorithms (Save-strategy)}
+\subsubsection{Save-Strategy}
 The first approach is to save all routes with exact loading labels from an existing \gls{3L-CVRP}
 algorithm, as \cite{zhang_learning-based_2022} did in their paper.\footcite[cf.][]{zhang_learning-based_2022}
 To follow this approach, the exact branch-and-cut algorithm from \cite{tamke_branch-and-cut_2024} was
@@ -136,9 +136,9 @@ will be classified as unknown or as invalid, if a concrete label must be found. 
 loading constraints used. Three loading flags are considered in the original algorithm, which are shown
 in the following:
 \begin{itemize}
-    \item All Constraints: $\mathcal{G}$
-    \item No Support Area: $\mathcal{G}\setminus \{\text{SupportArea}\}$
-    \item No Sequence: $\mathcal{G}\setminus \{\text{Sequence}\}$
+	\item All Constraints: $\mathcal{G}$
+	\item No Support Area: $\mathcal{G}\setminus \{\text{SupportArea}\}$
+	\item No Sequence: $\mathcal{G}\setminus \{\text{Sequence}\}$
 \end{itemize}
 In the case of loading flag \textit{NoSequence}, all routes are independent of a specific customer order, and the customers are stored
 without any sequence information. By contrast, routes obtained from the other two flags are stored as concrete sequences.
@@ -146,30 +146,30 @@ Since every permutation of a \textit{NoSequence} route corresponds to the same l
 dataset would overwhelm the contributions of the other routes. To prevent this imbalance, only two random permutations are
 retained per \textit{NoSequence} route. Based on this decision, two versions of the training datasets are constructed:
 one including the \textit{NoSequence} routes and one excluding them. These are distinguished by the suffix WS (with sets).\footcites[Retrieved from][]{tamke_repository_2024}[cf.][]{tamke_branch-and-cut_2024}
-The following table summarizes all combinations of loading flag and loading status and indicates which routes are included in
+The following table summarizes all combinations of loading flags and loading statuses and indicates which routes are included in
 the final training datasets.
 
 \begin{table}[ht]
-    \centering
-    \small
-    \begin{tabular}{@{}
-            P{0.20\textwidth}
-            P{0.20\textwidth} % AllConstraints
-            P{0.20\textwidth} % NoSupport
-            P{0.20\textwidth} % NoLIFO
-            @{}}
-        \toprule
-        Loading Flag                    & \textbf{All Constraints}     & \textbf{NoSupport}           & \textbf{NoSequence}          \\
-        \midrule
-        \multirow{3}{*}{Loading Status} & \cellcolor{green!20}Feasible & Feasible                     & Feasible                     \\
-                                        & \cellcolor{red!20}Infeasible & \cellcolor{red!20}Infeasible & \cellcolor{red!20}Infeasible \\
-                                        & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    \\
-                                        & \cellcolor{red!20}Invalid    & \cellcolor{red!20}Invalid    & \cellcolor{red!20}Invalid    \\
-        \bottomrule
-    \end{tabular}
-    \caption[Construction of training data from branch-and-cut routes.]{Construction of training data from branch-and-cut routes. All green cells are labeled as feasible, and all
-        red cells as infeasible data.}
-    \label{tab:train_data_BC_routes}
+	\centering
+	\small
+	\begin{tabular}{@{}
+			P{0.20\textwidth}
+			P{0.20\textwidth} % AllConstraints
+			P{0.20\textwidth} % NoSupport
+			P{0.20\textwidth} % NoLIFO
+			@{}}
+		\toprule
+		Loading Flag                    & \textbf{All Constraints}     & \textbf{NoSupport}           & \textbf{NoSequence}          \\
+		\midrule
+		\multirow{3}{*}{Loading Status} & \cellcolor{green!20}Feasible & Feasible                     & Feasible                     \\
+		                                & \cellcolor{red!20}Infeasible & \cellcolor{red!20}Infeasible & \cellcolor{red!20}Infeasible \\
+		                                & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    & \cellcolor{red!20}Unknown    \\
+		                                & \cellcolor{red!20}Invalid    & \cellcolor{red!20}Invalid    & \cellcolor{red!20}Invalid    \\
+		\bottomrule
+	\end{tabular}
+	\caption[Construction of training data from branch-and-cut routes.]{Construction of training data from branch-and-cut routes. All green cells are labeled as feasible, and all
+		red cells as infeasible data.}
+	\label{tab:train_data_BC_routes}
 \end{table}
 
 Since the trained classifier is applied within an algorithm that accounts for all loading constraints,
@@ -182,7 +182,7 @@ B\&C data. In \cite{zhang_learning-based_2022}, a dataset generated by the exact
 algorithm. In contrast, the dataset in this thesis is applied to a different algorithm.\footcite[cf.][p. 14]{zhang_learning-based_2022}
 Chapter~\ref{chap:computational_study} will examine whether this constitutes a significant disadvantage.
 
-\subsubsection{Creating random routes (Random-strategy)}
+\subsubsection{Random-Strategy}
 An alternative to the first approach is to create random routes based on the \gls{3L-CVRP} instances.
 These routes need to be labeled in feasible and infeasible routes regarding their loading.
 A \gls{CLP} algorithm with high solution quality is needed, to ensure the correct labels. As the heuristic approaches
@@ -195,17 +195,17 @@ influence the resulting number of random routes and their characteristics.\footn
 The \gls{RRG} algorithm is presented in detail in Section~\ref{chap:appendix:RRG}.
 Hence, the parameters and functionalities are summarized in the following:
 \begin{itemize}
-    \item 4 Input Parameters
-          \begin{itemize}
-              \item Multiplier $\alpha$: Integer determining repetitions ($n\cdot\alpha$) for each route length $n$
-              \item  Attempts limit $\beta$: Integer determining max failures per repetition
-              \item  Success threshold $\gamma$: Objective of succesfully generated routes per repetition
-              \item  Lower threshold $\delta$: Float determining the range [$\delta$,1] to draw relative volume and weight capacity thresholds for one route
-              \item Instance set $\mathcal{IS}$: Set of instances routes should be generated from
-          \end{itemize}
-    \item Route length starts with two customers and increases until algorihtm breaks
-    \item Route duplicates are discarded
-    \item Algorithm stops, when no random route could be generated in $n \cdot \alpha$ rounds
+	\item 4 Input Parameters
+	      \begin{itemize}
+		      \item Multiplier $\alpha$: Integer determining repetitions ($n\cdot\alpha$) for each route length $n$
+		      \item  Attempts limit $\beta$: Integer determining max failures per repetition
+		      \item  Success threshold $\gamma$: Objective of succesfully generated routes per repetition
+		      \item  Lower threshold $\delta$: Float determining the range [$\delta$,1] to draw relative volume and weight capacity thresholds for one route
+		      \item Instance set $\mathcal{IS}$: Set of instances routes should be generated from
+	      \end{itemize}
+	\item Route length starts with two customers and increases until algorihtm breaks
+	\item Route duplicates are discarded
+	\item Algorithm stops, when no random route could be generated in $n \cdot \alpha$ rounds
 \end{itemize}
 
 Generally, the higher the parameters $\alpha$, $\beta$ and $\gamma$ are set and the more instances
@@ -235,15 +235,15 @@ These explanatory variables are fitted to the population of samples by minimizin
 error. Afterwards the model can be used to predict new data points.\footcite[cf.][p. 6f]{nasteski_overview_2017}
 The linear regression formula is depicted in the following, indicating the usage of vectors with bold font.
 \begin{align}
-    \hat{y}=\theta_0+\theta_f \cdot X_f +\dots+\theta_n \cdot X_n = \theta_0 + \bm{\theta} \times \bm{X}
-    \label{eq:base_lr}
+	\hat{y}=\theta_0+\theta_f \cdot X_f +\dots+\theta_n \cdot X_n = \theta_0 + \bm{\theta} \times \bm{X}
+	\label{eq:base_lr}
 \end{align}
 Linear regression is a very simple modeling approach and serves as a benchmark for many problems. As the Formula~\ref{eq:base_lr} is only able to predict continuous
 values, it is not possible to classify binary values. Therefore the output variable $\pi_i$ is transformed via the sigmoid function, a logistic function,
 to model a continuous probability distribution with the formula:
 \begin{align}
-    s(z)=\frac{1}{1+\exp^{-z}},\, \text{with } z = \theta_0 + \bm{\theta} \cdot \bm{X}
-    \label{eq:logistic_func}
+	s(z)=\frac{1}{1+\exp^{-z}},\, \text{with } z = \theta_0 + \bm{\theta} \cdot \bm{X}
+	\label{eq:logistic_func}
 \end{align}
 The resulting logistic function is bound to the range of 0 and 1, and results can be divided
 in two labels using a threshold. An output of 0.5 can be interpreted as random
@@ -327,9 +327,9 @@ reduce the complexity without the loss of meaningfulness. In the presented case,
 The complete feature list spans 48 features, which can be divided in three groups to understand the underlying logic.
 
 \begin{itemize}
-    \item 2 General features: General information about each tour
-    \item 10 Loading constraint features: Concepted to depict the loading constraint set $\mathcal{G}$
-    \item 36 Geometrical ratio features: Contain several geometrical ratios of items and container size
+	\item 2 General features: General information about each tour
+	\item 10 Loading constraint features: Concepted to depict the loading constraint set $\mathcal{G}$
+	\item 36 Geometrical ratio features: Contain several geometrical ratios of items and container size
 \end{itemize}
 
 Some additional definitions to Section~\ref{sec:mathematical_formulation}
@@ -369,27 +369,27 @@ in the beginning as further items need to be likely placed upon the first items.
 weight distribution, and volume distribution, combine each customer’s requested volume and weight with that stop’s position on
 the route to capture the incremental load added at each step.
 \begin{table}[!ht]
-    \centering
-    \small
-    \renewcommand{\arraystretch}{2.0}
-    \begin{tabular}{@{}P{0.08\textwidth}P{0.16\textwidth}P{0.26\textwidth}P{0.28\textwidth}@{}P{0.1\textwidth}@{}}
-        \toprule
-        No & Name                                                                                             & Constraint(s)          & Calculation                                                                                           & Range   \\
-        \midrule
-        1  & Relative Volume                                                                                  & Loading Capacity       & $\displaystyle\frac{v(S)}{V}$                                                                         & [0,1]   \\
-        2  & Relative Weight                                                                                  & Loading Capacity       & $\displaystyle\frac{q(S)}{Q}$                                                                         & [0,1]   \\
-        3  & Total Relative Length Items\footcite[Feature is adapted from][p. 21]{sarah_de_wolf_machine_2022} & Stability, Orientation & $\displaystyle\frac{1}{x_k} \cdot \sum_{i \in S}\sum_{j \in M} d_{ij} \cdot x_j$                      & [0,$h$] \\
-        4  & Total Relative Width Items \footnotemark[\value{footnote}]                                       & Stability, Orientation & $\displaystyle\frac{1}{y_k} \cdot \sum_{i \in S}\sum_{j \in M} d_{ij} \cdot y_j$                      & [0,$h$] \\
-        5  & Total Relative Height Items  \footnotemark[\value{footnote}]                                     & Stability, Capacity    & $\displaystyle\frac{1}{z_k} \cdot \sum_{i \in S}\sum_{j \in M} d_{ij} \cdot z_j$                      & [0,$h$] \\
-        6  & Ratio Fragile Items                                                                              & Fragility              & $\displaystyle\frac{1}{D(S)} \cdot \sum_{i \in S}\sum_{j \in M} d_{ij} \cdot f_j$                     & [0,1]   \\
-        7  & Fragile Sequence                                                                                 & Fragility, \gls{LIFO}  & $\displaystyle\sum_{i \in S}p_i \cdot \frac{1}{d(i)}\sum_{j\in M} d_{ij}\cdot f_j $                   & [0,$h$] \\
-        8  & Volume Balance                                                                                   & Capacity, \gls{LIFO}   & $\frac{\displaystyle\sum\nolimits_{i \in S}p_i \cdot v(i)}{\displaystyle\sum\nolimits_{i \in S}v(i)}$ & [0,$h$] \\
-        9  & Volume Distribution                                                                              & Capacity, \gls{LIFO}   & $\displaystyle\frac{1}{V}\cdot\sum_{i \in S}p_i \cdot v(i)$                                           & [0,$h$] \\
-        10 & Weight Distribution                                                                              & Capacity, \gls{LIFO}   & $\displaystyle\frac{1}{Q}\sum_{i \in S}p_i \cdot q(i)$                                                & [0,$h$] \\
-        \bottomrule
-    \end{tabular}
-    \caption{Loading constraint features.}
-    \label{tab:loading_constraints_features}
+	\centering
+	\small
+	\renewcommand{\arraystretch}{2.0}
+	\begin{tabular}{@{}P{0.08\textwidth}P{0.16\textwidth}P{0.26\textwidth}P{0.28\textwidth}@{}P{0.1\textwidth}@{}}
+		\toprule
+		No & Name                                                                                             & Constraint(s)          & Calculation                                                                                           & Range   \\
+		\midrule
+		1  & Relative Volume                                                                                  & Loading Capacity       & $\displaystyle\frac{v(S)}{V}$                                                                         & [0,1]   \\
+		2  & Relative Weight                                                                                  & Loading Capacity       & $\displaystyle\frac{q(S)}{Q}$                                                                         & [0,1]   \\
+		3  & Total Relative Length Items\footcite[Feature is adapted from][p. 21]{sarah_de_wolf_machine_2022} & Stability, Orientation & $\displaystyle\frac{1}{x_k} \cdot \sum_{i \in S}\sum_{j \in M} d_{ij} \cdot x_j$                      & [0,$h$] \\
+		4  & Total Relative Width Items \footnotemark[\value{footnote}]                                       & Stability, Orientation & $\displaystyle\frac{1}{y_k} \cdot \sum_{i \in S}\sum_{j \in M} d_{ij} \cdot y_j$                      & [0,$h$] \\
+		5  & Total Relative Height Items  \footnotemark[\value{footnote}]                                     & Stability, Capacity    & $\displaystyle\frac{1}{z_k} \cdot \sum_{i \in S}\sum_{j \in M} d_{ij} \cdot z_j$                      & [0,$h$] \\
+		6  & Ratio Fragile Items                                                                              & Fragility              & $\displaystyle\frac{1}{D(S)} \cdot \sum_{i \in S}\sum_{j \in M} d_{ij} \cdot f_j$                     & [0,1]   \\
+		7  & Fragile Sequence                                                                                 & Fragility, \gls{LIFO}  & $\displaystyle\sum_{i \in S}p_i \cdot \frac{1}{d(i)}\sum_{j\in M} d_{ij}\cdot f_j $                   & [0,$h$] \\
+		8  & Volume Balance                                                                                   & Capacity, \gls{LIFO}   & $\frac{\displaystyle\sum\nolimits_{i \in S}p_i \cdot v(i)}{\displaystyle\sum\nolimits_{i \in S}v(i)}$ & [0,$h$] \\
+		9  & Volume Distribution                                                                              & Capacity, \gls{LIFO}   & $\displaystyle\frac{1}{V}\cdot\sum_{i \in S}p_i \cdot v(i)$                                           & [0,$h$] \\
+		10 & Weight Distribution                                                                              & Capacity, \gls{LIFO}   & $\displaystyle\frac{1}{Q}\sum_{i \in S}p_i \cdot q(i)$                                                & [0,$h$] \\
+		\bottomrule
+	\end{tabular}
+	\caption{Loading constraint features.}
+	\label{tab:loading_constraints_features}
 \end{table}
 
 
@@ -402,46 +402,46 @@ from the $D(S)$ ratios, which are used as features. The following Figure~\ref{fi
 
 
 \begin{figure}[ht]
-    \centering
+	\centering
 
-    % ---- Row 1: ratios between item dims & against container (L/H, W/H, W/L, L/CL, H/CH) ----
-    \PanelItemDimDim{Width Height \\ \footnotesize{[0,$h$]}}{3}{2}
-    \PanelItemDimDim{Length Height\\ \footnotesize{[0,$h$]}}{1}{2}
-    \PanelItemDimDim{Width Length\footnote{Features adapted from \cite[p.14]{zhang_learning-based_2022}.}\\ \footnotesize{[0,$h$]}}{2}{3}
-    \vspace{25pt}
-    \PanelHeightOverArea{Height Area\\ \footnotesize{[0,1]}}
-    \vspace{25pt}
-    \PanelItemVsCont{Length Container Length\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}{1}
-    \PanelItemVsCont{Height Container Height\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}{2}
-    \PanelItemVsCont{Width Container Width\\ \footnotesize{[0,1]}}{3}
-    \PanelAreaOverContArea{ItemArea ContainerArea\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}
-    \PanelVolumeOverContVolume{ItemVolume ContainerVolume\\ \footnotesize{[0,1]}}
-    \caption[Nine geometric ratio feature icons.]{Nine geometric ratio feature icons. In each panel, the \textcolor{numC}{numerator is green}
-        and the \textcolor{denC}{denominator is red}.
-        \label{fig:geometrical_ratio_features}}
+	% ---- Row 1: ratios between item dims & against container (L/H, W/H, W/L, L/CL, H/CH) ----
+	\PanelItemDimDim{Width Height \\ \footnotesize{[0,$h$]}}{3}{2}
+	\PanelItemDimDim{Length Height\\ \footnotesize{[0,$h$]}}{1}{2}
+	\PanelItemDimDim{Width Length\footnote{Features adapted from \cite[p.14]{zhang_learning-based_2022}.}\\ \footnotesize{[0,$h$]}}{2}{3}
+	\vspace{25pt}
+	\PanelHeightOverArea{Height Area\\ \footnotesize{[0,1]}}
+	\vspace{25pt}
+	\PanelItemVsCont{Length Container Length\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}{1}
+	\PanelItemVsCont{Height Container Height\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}{2}
+	\PanelItemVsCont{Width Container Width\\ \footnotesize{[0,1]}}{3}
+	\PanelAreaOverContArea{ItemArea ContainerArea\footnotemark[\value{footnote}]\\ \footnotesize{[0,1]}}
+	\PanelVolumeOverContVolume{ItemVolume ContainerVolume\\ \footnotesize{[0,1]}}
+	\caption[Nine geometric ratio feature icons.]{Nine geometric ratio feature icons. In each panel, the \textcolor{numC}{numerator is green}
+		and the \textcolor{denC}{denominator is red}.
+		\label{fig:geometrical_ratio_features}}
 \end{figure}
 
 These nine geometrical features grasp the geometrical description of all items and is further outlined in the following example:
 In a route, the following three items are requested described by their geometrical dimensions \{height, length, width\}:
 \[
-    \{(12,5,10),\,(10,3,6),\,(10,10,10)\}
+	\{(12,5,10),\,(10,3,6),\,(10,10,10)\}
 \]
 For every item the width length ratio is calculated and the resulting ratio vector is used to calculate the minimum and maximum value,
 as well as the mean and the standard deviation:
 \[
-    \text{Width--Length Ratios: }
-    \frac{y_j}{x_j} = \left\{\frac{10}{5},\,\frac{6}{3},\,\frac{10}{10}\right\} = \{2,\,2,\,1\}
+	\text{Width--Length Ratios: }
+	\frac{y_j}{x_j} = \left\{\frac{10}{5},\,\frac{6}{3},\,\frac{10}{10}\right\} = \{2,\,2,\,1\}
 \]
 \[
-    \begin{array}{c|c|c|c}
-        \text{Min} & \text{Max} & \text{Mean} & \text{Std. Dev.} \\
-        \hline
-        1          & 2          & 1.67        & 0.471            \\
-    \end{array}
+	\begin{array}{c|c|c|c}
+		\text{Min} & \text{Max} & \text{Mean} & \text{Std. Dev.} \\
+		\hline
+		1          & 2          & 1.67        & 0.471            \\
+	\end{array}
 \]
 
 For every geometrical ratio the four features are calculated with this approach.
-The complete list of 48 features is shown in the appendix in Table~\ref{tab:complete_features_list}. The next section
+The complete list of 48 features is shown in Table~\ref{tab:complete_features_list}. The next section
 presents methods, how to select a subset of features.
 
 \section{Feature Selection}
@@ -500,7 +500,7 @@ The \gls{F-Score} is based on the analysis of variances and computes the linear 
 Both methods are used to distinguish, if linear or non-linear dependencies exists between $X$ and $Y$. The mutual correlation between the variables
 is computed with the \textit{pearson} correlation coefficient applicable to pure numerical data and the formula is shown below.\footcite[cf.][p. 17]{chandrashekar_survey_2014}
 \begin{gather*}
-    \text{Pearson Correlation Coefficient: } \rho(f,f') = \frac{Covariance(X_f,X_{f'})}{\sqrt{Variance(X_f)\cdot Variance(X_{f'})}}
+	\text{Pearson Correlation Coefficient: } \rho(f,f') = \frac{Covariance(X_f,X_{f'})}{\sqrt{Variance(X_f)\cdot Variance(X_{f'})}}
 \end{gather*}
 
 Several different filtered subsets can be obtained for varying the filter method $\kappa$, the correlation thresholds $\Phi$, the barrier $\mathcal{B}$ and
